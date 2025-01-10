@@ -5,266 +5,175 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>2024-2025 Fall - New Media Graduation Project I - Jury Evaluation Form</title>
     <style>
-	
-	/* Base styles */
-@media screen {
+	/* First, remove all existing styles and replace with this organized structure */
+/* Base styles */
+:root {
+    --primary-color: #4a90e2;
+    --border-color: #ddd;
+}
+
+/* Global styles */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    padding: 1rem;
+    margin: 0 auto;
+    background: white;
+}
+
+/* Form styles */
+form {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Header styles */
+.header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.header h2 {
+    font-size: 1.75rem;
+    margin-bottom: 0.5rem;
+}
+
+.header h3 {
+    font-size: 1.25rem;
+}
+
+/* Table styles */
+.table-container {
+    margin-bottom: 1.5rem;
+    width: 100%;
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1rem;
+    background: white;
+}
+
+th, td {
+    border: 1px solid var(--border-color);
+    padding: 0.75rem;
+    text-align: left;
+}
+
+.section-header {
+    background-color: white;
+    color: black;
+    font-weight: bold;
+    font-size: 1rem;
+    border-bottom: 2px solid var(--border-color);
+}
+
+.score-cell {
+    width: 80px;
+    text-align: center;
+}
+
+/* Input styles */
+.score-input {
+    width: 50px;
+    text-align: center;
+    padding: 0.5rem;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+}
+
+textarea {
+    width: 100%;
+    min-height: 100px;
+    padding: 0.5rem;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+}
+
+/* Media queries for responsiveness */
+@media screen and (max-width: 1024px) {
     body {
-        width: 100%;
-        max-width: 21cm;
-        margin: 0 auto;
-        padding: 1rem;
-        font-family: Arial, sans-serif;
+        padding: 0.75rem;
     }
-
-    /* Form layout */
-    form {
-        width: 100%;
-        max-width: 21cm;
-        margin: 0 auto;
-    }
-
-    /* Header styling */
-    .header {
-        text-align: center;
-        margin-bottom: 2rem;
-    }
-
+    
     .header h2 {
         font-size: 1.5rem;
-        margin-bottom: 0.5rem;
     }
-
+    
     .header h3 {
-        font-size: 1.25rem;
-        margin-top: 0;
+        font-size: 1.1rem;
     }
-
-    /* Table styling - preserve structure */
+    
     table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-bottom: 1rem;
-        table-layout: fixed;
-    }
-
-    th, td {
-        border: 1px solid #ddd;
-        padding: 0.75rem;
-        text-align: left;
-        vertical-align: top;
-    }
-
-    /* Column widths */
-    td:first-child {
-        width: 25%;
-    }
-
-    td:nth-child(2) {
-        width: 55%;
-    }
-
-    .score-cell {
-        width: 20%;
-    }
-
-    /* Input styling */
-    .score-input {
-        width: 50px;
-        text-align: center;
-        padding: 0.25rem;
-    }
-
-    input[type="text"] {
-        width: 100%;
-        padding: 0.5rem;
-        box-sizing: border-box;
-    }
-
-    /* Section headers */
-    .section-header {
-        background-color: #4a90e2;
-        color: white;
-        font-weight: bold;
+        font-size: 0.9rem;
     }
 }
 
-/* Tablet and smaller screens */
 @media screen and (max-width: 768px) {
     body {
         padding: 0.5rem;
     }
-
-    table {
-        font-size: 0.9rem;
-    }
-
-    th, td {
-        padding: 0.5rem;
-    }
-
-    /* Adjust column widths for smaller screens */
-    td:first-child {
-        width: 30%;
-    }
-
-    td:nth-child(2) {
-        width: 50%;
-    }
-
-    .score-cell {
-        width: 20%;
-    }
-}
-
-/* Mobile screens */
-@media screen and (max-width: 576px) {
-    /* Keep table structure but make it scrollable */
-    .table-container {
-        width: 100%;
-        overflow-x: auto;
-    }
-
-    table {
-        min-width: 500px; /* Ensure minimum width for readability */
-    }
-
-    th, td {
-        padding: 0.4rem;
-        font-size: 0.85rem;
-    }
-
+    
     .header h2 {
-        font-size: 1.2rem;
+        font-size: 1.25rem;
     }
-
+    
     .header h3 {
         font-size: 1rem;
     }
-
-    /* Adjust input sizes */
+    
+    th, td {
+        padding: 0.5rem;
+    }
+    
+    table {
+        font-size: 0.85rem;
+        min-width: 650px; /* Ensures readability on mobile */
+    }
+    
     .score-input {
         width: 40px;
+        padding: 0.25rem;
     }
 }
 
 /* Print styles */
 @media print {
+    @page {
+        size: A4;
+        margin: 2cm;
+    }
+    
     body {
         width: 21cm;
-        padding: 2cm;
+        padding: 0;
     }
-
+    
+    .table-container {
+        overflow-x: visible;
+    }
+    
     table {
         page-break-inside: avoid;
     }
 }
-
-        /* Page layout settings for A4 format */
-        @page {
-            size: A4;
-            margin: 2cm;
-        }
-        
-        body {
-            width: 21cm;
-            min-height: 29.7cm;
-            padding: 2cm;
-            margin: 0 auto;
-            background: white;
-            font-family: Arial, sans-serif;
-            font-size: 11pt;
-        }
-        
-        /* Form and table styling */
-        form {
-            max-width: 21cm;
-            margin: 0 auto;
-        }
-        
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 10px 0;
-        }
-        
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
-            font-size: 10pt;
-        }
-        
-        th {
-            background-color: #f5f5f5;
-            font-weight: bold;
-        }
-        
-        /* Header and section styling */
-        .section-header {
-            background-color: white;
-            color: black;
-            font-weight: bold;
-            font-size: 11pt;
-        }
-        
-        .score-cell {
-            width: 80px;
-        }
-        
-        .score-input {
-            width: 50px;
-            text-align: center;
-            padding: 4px;
-        }
-        
-        .total-row {
-            background-color: #f0f0f0;
-            font-weight: bold;
-        }
-        
-        /* Additional UI elements styling */
-        .scoring-guide {
-            margin-top: 15px;
-            padding: 8px;
-            background-color: #f9f9f9;
-            border: 1px solid #ddd;
-            font-size: 9pt;
-        }
-        
-        .header {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        
-        .submit-button {
-            background-color: #4a90e2;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 14px;
-            margin-top: 20px;
-        }
-        
-        .submit-button:hover {
-            background-color: #357abd;
-        }
-        
-        .required {
-            color: red;
-        }
-        
-        /* Remove number input spinners for cleaner look */
-        input[type="number"] {
-            -moz-appearance: textfield;
-        }
-        
-        input[type="number"]::-webkit-outer-spin-button,
-        input[type="number"]::-webkit-inner-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
-        }
+	
     </style>
 </head>
 <body>
