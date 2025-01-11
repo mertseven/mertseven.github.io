@@ -3,502 +3,557 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2024-2025 Fall - New Media Graduation Project I - Jury Evaluation Form</title>
+    <title>New Media Graduation Project - Jury Evaluation Form</title>
+    <!-- Using normalize.css for consistent styling across browsers -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" rel="stylesheet">
     <style>
-	/* First, remove all existing styles and replace with this organized structure */
-/* Base styles */
-:root {
-    --primary-color: #4a90e2;
-    --border-color: #ddd;
-}
+        /* CSS Variables for consistent theming */
+        :root {
+            --primary-color: #1a73e8;
+            --primary-hover: #1557b0;
+            --border-color: #dadce0;
+            --background-light: #f8f9fa;
+            --text-primary: #202124;
+            --text-secondary: #5f6368;
+            --error-color: #d93025;
+            --success-color: #188038;
+            --transition-speed: 0.3s;
+        }
 
-/* Global styles */
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
+        /* Base styles for resetting defaults */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-body {
-    font-family: Arial, sans-serif;
-    line-height: 1.6;
-    padding: 1rem;
-    margin: 0 auto;
-    background: white;
-}
+        body {
+            font-family: 'Roboto', Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background-color: var(--background-light);
+            padding: 2rem 1rem;
+        }
 
-/* Form styles */
-form {
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-}
+        /* Container for centering content */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
 
-/* Header styles */
-.header {
-    text-align: center;
-    margin-bottom: 2rem;
-}
+        /* Form header styling */
+        .form-header {
+            background-color: white;
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--border-color);
+            text-align: center;
+        }
 
-.header h2 {
-    font-size: 1.75rem;
-    margin-bottom: 0.5rem;
-}
+        .form-header h1 {
+            color: var(--text-primary);
+            font-size: 1.75rem;
+            margin-bottom: 0.5rem;
+        }
 
-.header h3 {
-    font-size: 1.25rem;
-}
+        /* Form section styling */
+        .form-section {
+            background-color: white;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+        }
 
-/* Table styles */
-.table-container {
-    margin-bottom: 1.5rem;
-    width: 100%;
-    overflow-x: auto;
-}
+        .section-header {
+            padding: 1rem;
+            background-color: white;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
 
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 1rem;
-    background: white;
-}
+        .section-header:hover {
+            background-color: var(--background-light);
+        }
 
-th, td {
-    border: 1px solid var(--border-color);
-    padding: 0.75rem;
-    text-align: left;
-}
+        .section-header h2 {
+            font-size: 1.25rem;
+            margin: 0;
+        }
 
-.section-header {
-    background-color: white;
-    color: black;
-    font-weight: bold;
-    font-size: 1rem;
-    border-bottom: 2px solid var(--border-color);
-}
+        .section-content {
+            padding: 0 1rem;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out, padding 0.3s ease;
+        }
 
-.score-cell {
-    width: 80px;
-    text-align: center;
-}
+        .section-content.active {
+            max-height: 2000px;
+            padding: 1rem;
+            border-top: 1px solid var(--border-color);
+        }
 
-/* Input styles */
-.score-input {
-    width: 50px;
-    text-align: center;
-    padding: 0.5rem;
-    border: 1px solid var(--border-color);
-    border-radius: 4px;
-}
+        /* Input field styling */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
 
-input[type="text"] {
-    width: 100%;
-    padding: 0.5rem;
-    border: 1px solid var(--border-color);
-    border-radius: 4px;
-}
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
 
-textarea {
-    width: 100%;
-    min-height: 100px;
-    padding: 0.5rem;
-    border: 1px solid var(--border-color);
-    border-radius: 4px;
-}
+        input[type="text"],
+        input[type="number"],
+        textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
 
-/* Media queries for responsiveness */
-@media screen and (max-width: 1024px) {
-    body {
-        padding: 0.75rem;
-    }
-    
-    .header h2 {
-        font-size: 1.5rem;
-    }
-    
-    .header h3 {
-        font-size: 1.1rem;
-    }
-    
-    table {
-        font-size: 0.9rem;
-    }
-}
+        input:focus,
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
 
-@media screen and (max-width: 768px) {
-    body {
-        padding: 0.5rem;
-    }
-    
-    .header h2 {
-        font-size: 1.25rem;
-    }
-    
-    .header h3 {
-        font-size: 1rem;
-    }
-    
-    th, td {
-        padding: 0.5rem;
-    }
-    
-    table {
-        font-size: 0.85rem;
-        min-width: 650px; /* Ensures readability on mobile */
-    }
-    
-    .score-input {
-        width: 40px;
-        padding: 0.25rem;
-    }
-}
+        /* Criteria row layout */
+        .criteria-row {
+            display: grid;
+            grid-template-columns: 2fr 6fr 1fr;
+            gap: 1rem;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding: 0.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
 
-/* Print styles */
-@media print {
-    @page {
-        size: A4;
-        margin: 2cm;
-    }
-    
-    body {
-        width: 21cm;
-        padding: 0;
-    }
-    
-    .table-container {
-        overflow-x: visible;
-    }
-    
-    table {
-        page-break-inside: avoid;
-    }
-}
-	
+        .score-input {
+            width: 60px;
+            text-align: center;
+        }
+
+        /* Scoring guide styling */
+        .scoring-guide-table {
+            background-color: var(--background-light);
+            border-radius: 4px;
+            padding: 1rem;
+            margin-top: 1rem;
+        }
+
+        .guide-row {
+            display: grid;
+            grid-template-columns: 100px auto 1fr;
+            gap: 1rem;
+            padding: 0.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .guide-row:last-child {
+            border-bottom: none;
+        }
+
+        /* Total score display */
+        .total-score {
+            position: fixed;
+            bottom: 2rem;
+            left: 2rem;
+            background-color: white;
+            padding: 1rem 2rem;
+            border-radius: 4px;
+            box-shadow: 0 2px 6px rgba(60, 64, 67, 0.15);
+            font-size: 1.2rem;
+            z-index: 1000;
+        }
+
+        #totalScoreDisplay {
+            font-weight: bold;
+            font-size: 1.4rem;
+            transition: color 0.3s ease;
+        }
+
+        .score-warning {
+            color: var(--error-color);
+        }
+
+        .score-good {
+            color: var(--success-color);
+        }
+
+        /* Submit button styling */
+        .floating-submit {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            box-shadow: 0 2px 6px rgba(60, 64, 67, 0.15);
+            transition: background-color 0.3s ease;
+        }
+
+        .floating-submit:hover {
+            background-color: var(--primary-hover);
+        }
+
+        /* Responsive design adjustments */
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+
+            .criteria-row {
+                grid-template-columns: 1fr;
+                gap: 0.5rem;
+            }
+
+            .guide-row {
+                grid-template-columns: 1fr;
+                gap: 0.25rem;
+            }
+
+            .total-score,
+            .floating-submit {
+                position: static;
+                width: 100%;
+                margin-top: 1rem;
+                text-align: center;
+            }
+
+            .container {
+                padding: 0;
+            }
+        }
     </style>
 </head>
 <body>
-    <form id="juryEvaluationForm" onsubmit="return validateAndSubmit(event)">
-        <div class="header">
-            <h2>New Media Graduation Project</h2>
-            <h3>Jury Evaluation Form</h3>
-        </div>
+    <div class="container">
+        <form id="evaluationForm">
+            <!-- Form content will be dynamically generated -->
+        </form>
+    </div>
+	
+	<script>
+    // Define the structure of the form with all sections and their criteria
+    const formSections = [
+        {
+            id: 'jury-info',
+            title: 'Jury Information',
+            fields: [
+                { type: 'text', name: 'juryName', label: 'Jury Member Name', required: true }
+            ]
+        },
+        {
+            id: 'student-info',
+            title: 'Student Information',
+            fields: [
+                { type: 'text', name: 'studentName', label: 'Student Name', required: true },
+                { type: 'text', name: 'projectTitle', label: 'Project Title', required: true }
+            ]
+        },
+        {
+            id: 'problem-research',
+            title: '1. Problem Statement & Research (20 points)',
+            type: 'evaluation',
+            criteria: [
+                { name: 'problemDefinition', label: 'Problem Definition', maxScore: 7, description: 'Clear articulation of the social cause, its significance, and depth of understanding' },
+                { name: 'researchQuality', label: 'Research Quality', maxScore: 7, description: 'Comprehensive research methodology, credible sources, thorough data analysis' },
+                { name: 'analysis', label: 'Analysis', maxScore: 6, description: 'Critical interpretation of findings, clear connections to project goals' }
+            ]
+        },
+        {
+            id: 'strategic-communication',
+            title: '2. Strategic Communication (20 points)',
+            type: 'evaluation',
+            criteria: [
+                { name: 'communicationGoals', label: 'Communication Goals', maxScore: 7, description: 'Clear, measurable objectives aligned with project purpose' },
+                { name: 'targetAudience', label: 'Target Audience', maxScore: 7, description: 'Clear understanding and effective segmentation of audience' },
+                { name: 'messageStrategy', label: 'Message Strategy', maxScore: 6, description: 'Effectiveness of key messages and narrative approach' }
+            ]
+        },
+        {
+            id: 'visual-identity',
+            title: '3. Visual Identity (20 points)',
+            type: 'evaluation',
+            criteria: [
+                { name: 'brandCohesion', label: 'Brand Cohesion', maxScore: 7, description: 'Consistency in visual elements, professional execution' },
+                { name: 'designQuality', label: 'Design Quality', maxScore: 7, description: 'Aesthetic appeal, technical execution, attention to detail' },
+                { name: 'visualStorytelling', label: 'Visual Storytelling', maxScore: 6, description: 'Integration of visuals with narrative, message effectiveness' }
+            ]
+        },
+        {
+            id: 'website-prototype',
+            title: '4. Website Prototype (20 points)',
+            type: 'evaluation',
+            criteria: [
+                { name: 'userExperience', label: 'User Experience', maxScore: 7, description: 'Navigation design, accessibility, overall usability' },
+                { name: 'contentQuality', label: 'Content Quality', maxScore: 7, description: 'Clarity and engagement of content, information architecture' },
+                { name: 'technicalExecution', label: 'Technical Execution', maxScore: 6, description: 'Functionality, responsiveness, and implementation quality' }
+            ]
+        },
+        {
+            id: 'presentation-impact',
+            title: '5. Presentation & Impact (20 points)',
+            type: 'evaluation',
+            criteria: [
+                { name: 'presentationSkills', label: 'Presentation Skills', maxScore: 7, description: 'Clear delivery, time management, professional Q&A handling' },
+                { name: 'innovationFeasibility', label: 'Innovation & Feasibility', maxScore: 7, description: 'Creative approach, practicality of implementation' },
+                { name: 'socialImpact', label: 'Social Impact', maxScore: 6, description: 'Potential effectiveness in addressing the chosen social cause' }
+            ]
+        },
+        {
+            id: 'scoring-guide',
+            title: 'Scoring Guide per Category',
+            type: 'guide',
+            content: [
+                { points: 7, label: 'Outstanding', description: 'Exceptional quality, innovative approach' },
+                { points: 6, label: 'Excellent', description: 'Exceeds expectations in most aspects' },
+                { points: 5, label: 'Very Good', description: 'Meets all expectations effectively' },
+                { points: 4, label: 'Good', description: 'Meets basic expectations' },
+                { points: 3, label: 'Fair', description: 'Needs improvement in several areas' },
+                { points: 2, label: 'Poor', description: 'Significant improvements needed' },
+                { points: 1, label: 'Unsatisfactory', description: 'Does not meet basic requirements' }
+            ]
+        },
+        {
+            id: 'comments',
+            title: 'Additional Comments',
+            fields: [
+                { type: 'textarea', name: 'comments', label: 'Comments', required: false }
+            ]
+        }
+    ];
 
-        <!-- Jury Member Information -->
-		<div class="table-container">
-        <table>
-            <tr>
-                <th colspan="3" class="section-header">Jury Information</th>
-            </tr>
-            <tr>
-                <td>Jury Member Name: <span class="required">*</span></td>
-                <td colspan="2"><input type="text" name="juryName" required></td>
-            </tr>
-        </table>
-</div>
-        <!-- Student Information -->
-        <table>
-            <tr>
-                <th colspan="3" class="section-header">Student Information</th>
-            </tr>
-            <tr>
-                <td>Student Name: <span class="required">*</span></td>
-                <td colspan="2"><input type="text" name="studentName" required></td>
-            </tr>
-            <tr>
-                <td>Project Title: <span class="required">*</span></td>
-                <td colspan="2"><input type="text" name="projectTitle" required></td>
-            </tr>
-        </table>
-		
-		<!-- Section 1: Problem Statement & Research -->
-<div class="table-container">
-<table>
-    <tr>
-        <th colspan="3" class="section-header">1. Problem Statement & Research (20 points)</th>
-    </tr>
-    <tr>
-        <td>Problem Definition (7)</td>
-        <td>Clear articulation of the social cause, its significance, and depth of understanding</td>
-        <td class="score-cell">
-            <input type="number" name="score_1_1" class="score-input" min="0" max="7" required>
-        </td>
-    </tr>
-    <tr>
-        <td>Research Quality (7)</td>
-        <td>Comprehensive research methodology, credible sources, thorough data analysis</td>
-        <td class="score-cell">
-            <input type="number" name="score_1_2" class="score-input" min="0" max="7" required>
-        </td>
-    </tr>
-    <tr>
-        <td>Analysis (6)</td>
-        <td>Critical interpretation of findings, clear connections to project goals</td>
-        <td class="score-cell">
-            <input type="number" name="score_1_3" class="score-input" min="0" max="6" required>
-        </td>
-    </tr>
-</table>
-</div>
-<!-- Section 2: Strategic Communication -->
-<div class="table-container">
-<table>
-    <tr>
-        <th colspan="3" class="section-header">2. Strategic Communication (20 points)</th>
-    </tr>
-    <tr>
-        <td>Communication Goals (7)</td>
-        <td>Clear, measurable objectives aligned with project purpose</td>
-        <td class="score-cell">
-            <input type="number" name="score_2_1" class="score-input" min="0" max="7" required>
-        </td>
-    </tr>
-    <tr>
-        <td>Target Audience (7)</td>
-        <td>Clear understanding and effective segmentation of audience</td>
-        <td class="score-cell">
-            <input type="number" name="score_2_2" class="score-input" min="0" max="7" required>
-        </td>
-    </tr>
-    <tr>
-        <td>Message Strategy (6)</td>
-        <td>Effectiveness of key messages and narrative approach</td>
-        <td class="score-cell">
-            <input type="number" name="score_2_3" class="score-input" min="0" max="6" required>
-        </td>
-    </tr>
-</table>
-</div>
-<!-- Section 3: Visual Identity -->
-<div class="table-container">
-<table>
-    <tr>
-        <th colspan="3" class="section-header">3. Visual Identity (20 points)</th>
-    </tr>
-    <tr>
-        <td>Brand Cohesion (7)</td>
-        <td>Consistency in visual elements, professional execution</td>
-        <td class="score-cell">
-            <input type="number" name="score_3_1" class="score-input" min="0" max="7" required>
-        </td>
-    </tr>
-    <tr>
-        <td>Design Quality (7)</td>
-        <td>Aesthetic appeal, technical execution, attention to detail</td>
-        <td class="score-cell">
-            <input type="number" name="score_3_2" class="score-input" min="0" max="7" required>
-        </td>
-    </tr>
-    <tr>
-        <td>Visual Storytelling (6)</td>
-        <td>Integration of visuals with narrative, message effectiveness</td>
-        <td class="score-cell">
-            <input type="number" name="score_3_3" class="score-input" min="0" max="6" required>
-        </td>
-    </tr>
-</table>
-</div>
-<!-- Section 4: Website Prototype -->
-<div class="table-container">
-<table>
-    <tr>
-        <th colspan="3" class="section-header">4. Website Prototype (20 points)</th>
-    </tr>
-    <tr>
-        <td>User Experience (7)</td>
-        <td>Navigation design, accessibility, overall usability</td>
-        <td class="score-cell">
-            <input type="number" name="score_4_1" class="score-input" min="0" max="7" required>
-        </td>
-    </tr>
-    <tr>
-        <td>Content Quality (7)</td>
-        <td>Clarity and engagement of content, information architecture</td>
-        <td class="score-cell">
-            <input type="number" name="score_4_2" class="score-input" min="0" max="7" required>
-        </td>
-    </tr>
-    <tr>
-        <td>Technical Execution (6)</td>
-        <td>Functionality, responsiveness, and implementation quality</td>
-        <td class="score-cell">
-            <input type="number" name="score_4_3" class="score-input" min="0" max="6" required>
-        </td>
-    </tr>
-</table>
-</div>
-<!-- Section 5: Presentation & Impact -->
-<div class="table-container">
-<table>
-    <tr>
-        <th colspan="3" class="section-header">5. Presentation & Impact (20 points)</th>
-    </tr>
-    <tr>
-        <td>Presentation Skills (7)</td>
-        <td>Clear delivery, time management, professional Q&A handling</td>
-        <td class="score-cell">
-            <input type="number" name="score_4_1" class="score-input" min="0" max="7" required>
-        </td>
-    </tr>
-    <tr>
-        <td>Innovation & Feasibility (7)</td>
-        <td>Creative approach, practicality of implementation</td>
-        <td class="score-cell">
-            <input type="number" name="score_4_2" class="score-input" min="0" max="7" required>
-        </td>
-    </tr>
-    <tr>
-        <td>Social Impact (6)</td>
-        <td>Potential effectiveness in addressing the chosen social cause</td>
-        <td class="score-cell">
-            <input type="number" name="score_4_3" class="score-input" min="0" max="6" required>
-        </td>
-    </tr>
-</table>
-</div>
-<!-- Total Score -->
-<div class="table-container">
-<table>
-    <tr class="total-row">
-        <td colspan="2">Total Score:</td>
-        <td class="score-cell" id="totalScore">0/100</td>
-    </tr>
-</table>
-</div>
-<!-- Scoring Guide Section -->
-<div class="scoring-guide">
-    <strong>Scoring Guide (for 7-point criteria):</strong><br>
-    7 points: Outstanding - Exceptional quality, innovative approach<br>
-    6 points: Excellent - Exceeds expectations in most aspects<br>
-    5 points: Very Good - Meets all expectations effectively<br>
-    4 points: Good - Meets basic expectations<br>
-    3 points: Fair - Needs improvement in several areas<br>
-    2 points: Poor - Significant improvements needed<br>
-    1 point: Unsatisfactory - Does not meet basic requirements<br>
-    <br>
-    <strong>Scoring Guide (for 6-point criteria):</strong><br>
-    6 points: Outstanding - Exceptional quality<br>
-    5 points: Excellent - Exceeds expectations<br>
-    4 points: Good - Meets expectations<br>
-    3 points: Fair - Needs some improvement<br>
-    2 points: Poor - Needs significant improvement<br>
-    1 point: Unsatisfactory - Does not meet requirements
-</div>
-
-<!-- Comments Section -->
-<div style="margin-top: 15px;">
-    <strong>Additional Comments:</strong><br>
-    <textarea name="comments" style="width: 100%; height: 80px; margin-top: 8px;"></textarea>
-</div>
-
-<!-- Submit Button -->
-<div style="text-align: center;">
-    <button type="submit" class="submit-button">Submit Evaluation</button>
-</div>
-</form>
-
-<script>
-    // Wait for the DOM to be fully loaded before setting up event handlers
+    // Initialize form when DOM is fully loaded
     document.addEventListener('DOMContentLoaded', function() {
-        // Add event listeners to all score inputs
-        const scoreInputs = document.querySelectorAll('.score-input');
-        scoreInputs.forEach(input => {
-            // Listen for both input and change events to catch all updates
+        initializeForm();
+        setupEventListeners();
+        updateTotalScore();
+    });
+
+    // Core form initialization function
+    function initializeForm() {
+        const form = document.getElementById('evaluationForm');
+        
+        // Create and add form header
+        const header = document.createElement('div');
+        header.className = 'form-header';
+        header.innerHTML = `
+            <h1>New Media Graduation Project I</h1>
+            <p>Jury Evaluation Form</p>
+        `;
+        form.appendChild(header);
+        
+        // Generate all form sections dynamically
+        formSections.forEach(section => {
+            const sectionElement = createSection(section);
+            form.appendChild(sectionElement);
+        });
+        
+        // Add total score display
+        const totalScoreDiv = document.createElement('div');
+        totalScoreDiv.className = 'total-score';
+        totalScoreDiv.innerHTML = `
+            <strong>Total Score:</strong> <span id="totalScoreDisplay">0</span>/100
+        `;
+        form.appendChild(totalScoreDiv);
+        
+        // Add submit button
+        const submitButton = document.createElement('button');
+        submitButton.type = 'submit';
+        submitButton.className = 'floating-submit';
+        submitButton.textContent = 'Submit Evaluation';
+        form.appendChild(submitButton);
+    }
+
+    // Function to create individual form sections
+    function createSection(sectionData) {
+        const section = document.createElement('div');
+        section.className = 'form-section';
+        
+        // Create section header with toggle functionality
+        const header = document.createElement('div');
+        header.className = 'section-header';
+        header.innerHTML = `
+            <h2>${sectionData.title}</h2>
+            <span class="toggle-icon">▼</span>
+        `;
+        
+        // Create section content container
+        const content = document.createElement('div');
+        content.className = 'section-content active';
+        
+        // Handle different section types
+        if (sectionData.type === 'evaluation') {
+            // Create evaluation criteria rows
+            sectionData.criteria.forEach(criterion => {
+                const criteriaRow = document.createElement('div');
+                criteriaRow.className = 'criteria-row';
+                criteriaRow.innerHTML = `
+                    <div class="criteria-label">${criterion.label}</div>
+                    <div class="criteria-description">${criterion.description}</div>
+                    <div class="criteria-score">
+                        <input type="number" 
+                               name="${criterion.name}" 
+                               class="score-input"
+                               min="0" 
+                               max="${criterion.maxScore}" 
+                               required
+                               aria-label="${criterion.label} score">
+                    </div>
+                `;
+                content.appendChild(criteriaRow);
+            });
+        } else if (sectionData.type === 'guide') {
+            // Create scoring guide table
+            const guideTable = document.createElement('div');
+            guideTable.className = 'scoring-guide-table';
+            
+            sectionData.content.forEach(item => {
+                const row = document.createElement('div');
+                row.className = 'guide-row';
+                row.innerHTML = `
+                    <div class="guide-points">${item.points} points:</div>
+                    <div class="guide-label">${item.label}</div>
+                    <div class="guide-description">- ${item.description}</div>
+                `;
+                guideTable.appendChild(row);
+            });
+            
+            content.appendChild(guideTable);
+        } else {
+            // Create regular form fields
+            sectionData.fields.forEach(field => {
+                const formGroup = document.createElement('div');
+                formGroup.className = 'form-group';
+                
+                if (field.type === 'textarea') {
+                    formGroup.innerHTML = `
+                        <label for="${field.name}">${field.label}</label>
+                        <textarea id="${field.name}" 
+                                  name="${field.name}" 
+                                  ${field.required ? 'required' : ''}></textarea>
+                    `;
+                } else {
+                    formGroup.innerHTML = `
+                        <label for="${field.name}">${field.label}</label>
+                        <input type="${field.type}" 
+                               id="${field.name}" 
+                               name="${field.name}" 
+                               ${field.required ? 'required' : ''}>
+                    `;
+                }
+                content.appendChild(formGroup);
+            });
+        }
+        
+        section.appendChild(header);
+        section.appendChild(content);
+        return section;
+    }
+
+    // Set up event listeners for form interactivity
+    function setupEventListeners() {
+        // Add click handlers for section expansion
+        document.querySelectorAll('.section-header').forEach(header => {
+            header.addEventListener('click', toggleSection);
+        });
+
+        // Add input handlers for score calculation
+        document.querySelectorAll('.score-input').forEach(input => {
             input.addEventListener('input', handleScoreInput);
             input.addEventListener('change', handleScoreInput);
         });
 
-        // Calculate initial total when page loads
-        calculateTotal();
-    });
+        // Add form submission handler
+        document.getElementById('evaluationForm').addEventListener('submit', handleFormSubmit);
+    }
 
-    // Handler function for score input changes
+    // Toggle section expansion/collapse
+    function toggleSection(event) {
+        const header = event.currentTarget;
+        const content = header.nextElementSibling;
+        const icon = header.querySelector('.toggle-icon');
+        
+        content.classList.toggle('active');
+        
+        if (content.classList.contains('active')) {
+            icon.textContent = '▼';
+            content.style.maxHeight = content.scrollHeight + 'px';
+        } else {
+            icon.textContent = '▶';
+            content.style.maxHeight = '0';
+        }
+    }
+
+    // Handle score input changes
     function handleScoreInput(event) {
         const input = event.target;
+        const value = parseFloat(input.value);
         const max = parseInt(input.getAttribute('max'));
-        const value = parseFloat(input.value) || 0;
-        
-        // Enforce maximum value constraint
-        if (value > max) {
+
+        if (isNaN(value)) {
+            input.value = '';
+        } else if (value > max) {
             input.value = max;
-        }
-        // Ensure non-negative values
-        else if (value < 0) {
+        } else if (value < 0) {
             input.value = 0;
         }
-        
-        calculateTotal();
+
+        updateTotalScore();
     }
 
-    // Function to calculate and display total score
-    function calculateTotal() {
-        const scores = document.querySelectorAll('.score-input');
+    // Update total score calculation
+    function updateTotalScore() {
+        const scoreInputs = document.querySelectorAll('.score-input');
         let total = 0;
-        
-        // Sum up all valid scores
-        scores.forEach(score => {
-            const value = parseFloat(score.value) || 0;
-            total += value;
-        });
-        
-        // Update the total score display
-        document.getElementById('totalScore').textContent = `${total}/100`;
-        return total;
-    }
 
-    // Handle form submission and email generation
-    function validateAndSubmit(event) {
-        event.preventDefault();
-        
-        const form = document.getElementById('juryEvaluationForm');
-        const formData = new FormData(form);
-        const total = calculateTotal();
-        
-        // Construct detailed email body with all evaluation data
-        let emailBody = `Jury Evaluation Form Submission\n\n`;
-        emailBody += `Jury Member: ${formData.get('juryName')}\n`;
-        emailBody += `Student: ${formData.get('studentName')}\n`;
-        emailBody += `Project: ${formData.get('projectTitle')}\n\n`;
-        
-        // Add formatted section scores
-        emailBody += constructScoreSection(formData);
-        
-        // Add total score and comments
-        emailBody += `\nTotal Score: ${total}/100\n\n`;
-        emailBody += `Additional Comments:\n${formData.get('comments')}`;
-        
-        // Create and trigger mailto link
-        const mailtoLink = `mailto:mert.seven@yasar.edu.tr?subject=Jury Evaluation - ${formData.get('studentName')}&body=${encodeURIComponent(emailBody)}`;
-        window.location.href = mailtoLink;
-        
-        return false;
-    }
-
-    // Helper function to format scores for email
-    function constructScoreSection(formData) {
-        let scoreText = '';
-        
-        // Add each section's scores in a structured format
-        ['1', '2', '3', '4', '5'].forEach((section, index) => {
-            const sectionNames = [
-                'Problem Statement & Research',
-                'Strategic Communication',
-                'Visual Identity',
-                'Website Prototype',
-                'Presentation & Impact'
-            ];
-            
-            scoreText += `${section}. ${sectionNames[index]}\n`;
-            
-            // Add individual criteria scores
-            for (let i = 1; i <= 3; i++) {
-                const scoreKey = `score_${section}_${i}`;
-                const maxPoints = i === 3 ? 6 : 7; // Third criteria in each section is worth 6 points
-                scoreText += `${formData.get(scoreKey)}/${maxPoints}\n`;
+        scoreInputs.forEach(input => {
+            const value = parseFloat(input.value);
+            if (!isNaN(value)) {
+                total += value;
             }
-            scoreText += '\n';
         });
+
+        const totalScoreDisplay = document.getElementById('totalScoreDisplay');
+        if (totalScoreDisplay) {
+            totalScoreDisplay.textContent = total.toFixed(1);
+            
+            totalScoreDisplay.classList.remove('score-warning', 'score-good');
+            if (total > 100) {
+                totalScoreDisplay.classList.add('score-warning');
+            } else if (total === 100) {
+                totalScoreDisplay.classList.add('score-good');
+            }
+        }
+    }
+
+    // Handle form submission
+    function handleFormSubmit(event) {
+        event.preventDefault();
+        const total = parseFloat(document.getElementById('totalScoreDisplay').textContent);
         
-        return scoreText;
+        if (total > 100) {
+            alert('Total score cannot exceed 100 points. Please review your scoring.');
+            return;
+        }
+        
+        // Form submission logic here - you can add your own handling code
+        console.log('Form submitted with total score:', total);
     }
 </script>
 </body>
