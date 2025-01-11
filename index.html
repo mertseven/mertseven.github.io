@@ -74,6 +74,22 @@
             overflow-x: auto;
             font-size: 0.9em;
         }
+ul li a {
+    color: #000;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+ul li a:hover {
+    background-color: #000;
+    color: #fff;
+}
+
+/* Add an icon to indicate downloadable files */
+ul li a[download]::after {
+    content: " ↓";
+    font-weight: bold;
+}
         @media (max-width: 600px) {
             body {
                 padding: 10px;
@@ -106,12 +122,11 @@
     <main>
         <section id="-">
             <h2>JURY EVALUATION FORM</h2>
-            <p>This is an online jury evaluation form that can be filled for each project and sent automatically. It is prepared for New Media Graduation Project I final jury, in 24-25 Fall Semester. You can download the PDF format to fill out physically, or edit the HTML file for your own juries.</p>
+            <p>This is an online jury evaluation form that can be filled for each project. It automatically calculates scores and sends a mail containing all the information in a structured way. It is prepared for New Media Graduation Project I final jury, in 24-25 Fall Semester. You can download the PDF format to fill out physically, or edit the HTML file for your own juries.</p>
             <ul>
-                <li>HTML/CSS/JavaScript</li>
-                <li>Web Design Principles</li>
-                <li>Interactive Storytelling</li>
-                <li>Modern Web Frameworks</li>
+                <li><a href="files/juryform.html" download>Download HTML file</a></li>
+                <li><a href="files/juryform.pdf" download>PDF file (for the aforementioned course)</a></li>
+                <li><a href="files/juryform.docx" download>Docx format (for altering the content)</a></li>
             </ul>
             <a href="/juryform.html" class="button">ONLINE FORM</a>
         </section>
