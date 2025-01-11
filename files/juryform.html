@@ -4,23 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>New Media Graduation Project - Jury Evaluation Form</title>
-    <!-- Using normalize.css for consistent styling across browsers -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" rel="stylesheet">
+    <link href='https://fonts.googleapis.com/css?family=IBM Plex Sans Condensed' rel='stylesheet'>
     <style>
-        /* CSS Variables for consistent theming */
-        :root {
-            --primary-color: #1a73e8;
-            --primary-hover: #1557b0;
-            --border-color: #dadce0;
-            --background-light: #f8f9fa;
-            --text-primary: #202124;
-            --text-secondary: #5f6368;
-            --error-color: #d93025;
-            --success-color: #188038;
-            --transition-speed: 0.3s;
-        }
-
-        /* Base styles for resetting defaults */
+        /* Reset and base styles */
         * {
             box-sizing: border-box;
             margin: 0;
@@ -28,125 +14,142 @@
         }
 
         body {
-            font-family: 'Roboto', Arial, sans-serif;
-            line-height: 1.6;
-            color: var(--text-primary);
-            background-color: var(--background-light);
-            padding: 2rem 1rem;
+            font-family: monospace;
+            background-color: #fff;
+            color: #000;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.4;
         }
 
-        /* Container for centering content */
+        /* Header styles matching main site */
+        h1, h2 {
+            font-family: 'IBM Plex Sans Condensed';
+            text-transform: uppercase;
+        }
+
+        h1 {
+            font-size: 4em;
+            margin: 0;
+            border-bottom: 8px solid #000;
+            padding-bottom: 10px;
+        }
+
+        /* Form container */
         .container {
             max-width: 800px;
             margin: 0 auto;
         }
 
-        /* Form header styling */
-        .form-header {
-            background-color: white;
-            border-radius: 8px;
-            padding: 2rem;
-            margin-bottom: 1.5rem;
-            border: 1px solid var(--border-color);
-            text-align: center;
-        }
-
-        .form-header h1 {
-            color: var(--text-primary);
-            font-size: 1.75rem;
-            margin-bottom: 0.5rem;
-        }
-
-        /* Form section styling */
+        /* Form sections */
         .form-section {
-            background-color: white;
-            border-radius: 8px;
-            margin-bottom: 1rem;
-            border: 1px solid var(--border-color);
+            margin-bottom: 20px;
+            border-left: 4px solid #000;
+            padding-left: 20px;
             overflow: hidden;
         }
 
         .section-header {
-            padding: 1rem;
-            background-color: white;
+            padding: 10px 0;
             cursor: pointer;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            background-color: #fff;
+            position: relative;
+            z-index: 2;
         }
 
         .section-header:hover {
-            background-color: var(--background-light);
-        }
-
-        .section-header h2 {
-            font-size: 1.25rem;
-            margin: 0;
+            background-color: #f8f8f8;
         }
 
         .section-content {
-            padding: 0 1rem;
             max-height: 0;
             overflow: hidden;
-            transition: max-height 0.3s ease-out, padding 0.3s ease;
+            transition: max-height 0.3s ease-out;
+            position: relative;
+            z-index: 1;
         }
 
         .section-content.active {
-            max-height: 2000px;
-            padding: 1rem;
-            border-top: 1px solid var(--border-color);
+            max-height: none;
         }
 
-        /* Input field styling */
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 0.5rem;
-            color: var(--text-secondary);
-            font-size: 0.875rem;
-        }
-
+        /* Form inputs */
         input[type="text"],
         input[type="number"],
         textarea {
             width: 100%;
-            padding: 0.75rem;
-            border: 1px solid var(--border-color);
-            border-radius: 4px;
-            font-size: 1rem;
-            transition: border-color 0.3s ease;
+            padding: 10px;
+            border: 2px solid #000;
+            font-family: monospace;
+            font-size: 1em;
+            margin: 5px 0;
         }
 
-        input:focus,
+        input[type="text"]:focus,
+        input[type="number"]:focus,
         textarea:focus {
             outline: none;
-            border-color: var(--primary-color);
+            border-color: #333;
         }
 
-        /* Criteria row layout */
+        /* Criteria rows */
         .criteria-row {
             display: grid;
             grid-template-columns: 2fr 6fr 1fr;
             gap: 1rem;
-            align-items: center;
+            align-items: start;
             margin-bottom: 1rem;
-            padding: 0.5rem;
-            border-bottom: 1px solid var(--border-color);
+            padding: 10px 0;
+            border-bottom: 1px solid #000;
         }
 
         .score-input {
             width: 60px;
             text-align: center;
+            padding: 5px;
+            border: 2px solid #000;
+            font-family: monospace;
         }
 
-        /* Scoring guide styling */
-        .scoring-guide-table {
-            background-color: var(--background-light);
-            border-radius: 4px;
+        /* Total score display */
+        .total-score {
+            position: fixed;
+            bottom: 2rem;
+            left: 2rem;
+            background-color: #fff;
             padding: 1rem;
+            border: 4px solid #000;
+            font-family: monospace;
+            font-size: 1.2rem;
+            z-index: 3;
+        }
+
+        /* Submit button matching main site style */
+        .floating-submit {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background-color: #000;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            font-family: monospace;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 3;
+        }
+
+        .floating-submit:hover {
+            background-color: #333;
+        }
+
+        /* Guide styling */
+        .scoring-guide-table {
+            border-left: 4px solid #000;
+            padding-left: 20px;
             margin-top: 1rem;
         }
 
@@ -155,75 +158,31 @@
             grid-template-columns: 100px auto 1fr;
             gap: 1rem;
             padding: 0.5rem;
-            border-bottom: 1px solid var(--border-color);
+            border-bottom: 1px solid #000;
         }
 
-        .guide-row:last-child {
-            border-bottom: none;
-        }
-
-        /* Total score display */
-        .total-score {
-            position: fixed;
-            bottom: 2rem;
-            left: 2rem;
-            background-color: white;
-            padding: 1rem 2rem;
-            border-radius: 4px;
-            box-shadow: 0 2px 6px rgba(60, 64, 67, 0.15);
-            font-size: 1.2rem;
-            z-index: 1000;
-        }
-
-        #totalScoreDisplay {
-            font-weight: bold;
-            font-size: 1.4rem;
-            transition: color 0.3s ease;
-        }
-
+        /* Score status styles */
         .score-warning {
-            color: var(--error-color);
+            color: #d93025;
         }
 
         .score-good {
-            color: var(--success-color);
+            color: #188038;
         }
 
-        /* Submit button styling */
-        .floating-submit {
-            position: fixed;
-            bottom: 2rem;
-            right: 2rem;
-            background-color: var(--primary-color);
-            color: white;
-            padding: 1rem 2rem;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 1rem;
-            font-weight: 500;
-            box-shadow: 0 2px 6px rgba(60, 64, 67, 0.15);
-            transition: background-color 0.3s ease;
-        }
-
-        .floating-submit:hover {
-            background-color: var(--primary-hover);
-        }
-
-        /* Responsive design adjustments */
-        @media (max-width: 768px) {
+        /* Responsive design */
+        @media (max-width: 600px) {
             body {
-                padding: 1rem;
+                padding: 10px;
+            }
+            
+            h1 {
+                font-size: 2.5em;
             }
 
             .criteria-row {
                 grid-template-columns: 1fr;
                 gap: 0.5rem;
-            }
-
-            .guide-row {
-                grid-template-columns: 1fr;
-                gap: 0.25rem;
             }
 
             .total-score,
@@ -234,8 +193,8 @@
                 text-align: center;
             }
 
-            .container {
-                padding: 0;
+            .guide-row {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -246,8 +205,8 @@
             <!-- Form content will be dynamically generated -->
         </form>
     </div>
-	
-	<script>
+    
+    <script>
     // Define the structure of the form with all sections and their criteria
     const formSections = [
         {
@@ -460,8 +419,8 @@
                 content.appendChild(formGroup);
             });
         }
-        
-        section.appendChild(header);
+		
+		section.appendChild(header);
         section.appendChild(content);
         return section;
     }
@@ -488,15 +447,18 @@
         const header = event.currentTarget;
         const content = header.nextElementSibling;
         const icon = header.querySelector('.toggle-icon');
-        
-        content.classList.toggle('active');
+        const section = header.parentElement;
         
         if (content.classList.contains('active')) {
-            icon.textContent = '▼';
-            content.style.maxHeight = content.scrollHeight + 'px';
-        } else {
-            icon.textContent = '▶';
+            // Closing the section
             content.style.maxHeight = '0';
+            icon.textContent = '▶';
+            content.classList.remove('active');
+        } else {
+            // Opening the section
+            content.classList.add('active');
+            content.style.maxHeight = content.scrollHeight + 'px';
+            icon.textContent = '▼';
         }
     }
 
@@ -543,8 +505,7 @@
     }
 
     // Handle form submission
-    // Replace the existing handleFormSubmit function with this:
-function handleFormSubmit(event) {
+    function handleFormSubmit(event) {
     event.preventDefault();
     const form = document.getElementById('evaluationForm');
     const formData = new FormData(form);
@@ -561,28 +522,35 @@ function handleFormSubmit(event) {
     emailBody += `Student: ${formData.get('studentName')}\n`;
     emailBody += `Project: ${formData.get('projectTitle')}\n\n`;
 
-    // Add scores from each section
-    const sections = [
-        { id: 'problem-research', title: '1. Problem Statement & Research' },
-        { id: 'strategic-communication', title: '2. Strategic Communication' },
-        { id: 'visual-identity', title: '3. Visual Identity' },
-        { id: 'website-prototype', title: '4. Website Prototype' },
-        { id: 'presentation-impact', title: '5. Presentation & Impact' }
-    ];
+    // Detailed section scores
+    emailBody += "1. Problem Statement & Research (20 points)\n";
+    emailBody += `Problem Definition: ${document.querySelector('[name="problemDefinition"]').value || 0}/7\n`;
+    emailBody += `Research Quality: ${document.querySelector('[name="researchQuality"]').value || 0}/7\n`;
+    emailBody += `Analysis: ${document.querySelector('[name="analysis"]').value || 0}/6\n\n`;
 
-    sections.forEach(section => {
-        emailBody += `${section.title}\n`;
-        // Get all input values from the section
-        const sectionInputs = form.querySelectorAll(`#${section.id} .score-input`);
-        sectionInputs.forEach(input => {
-            emailBody += `${input.name}: ${input.value || 0}\n`;
-        });
-        emailBody += '\n';
-    });
+    emailBody += "2. Strategic Communication (20 points)\n";
+    emailBody += `Communication Goals: ${document.querySelector('[name="communicationGoals"]').value || 0}/7\n`;
+    emailBody += `Target Audience: ${document.querySelector('[name="targetAudience"]').value || 0}/7\n`;
+    emailBody += `Message Strategy: ${document.querySelector('[name="messageStrategy"]').value || 0}/6\n\n`;
+
+    emailBody += "3. Visual Identity (20 points)\n";
+    emailBody += `Brand Cohesion: ${document.querySelector('[name="brandCohesion"]').value || 0}/7\n`;
+    emailBody += `Design Quality: ${document.querySelector('[name="designQuality"]').value || 0}/7\n`;
+    emailBody += `Visual Storytelling: ${document.querySelector('[name="visualStorytelling"]').value || 0}/6\n\n`;
+
+    emailBody += "4. Website Prototype (20 points)\n";
+    emailBody += `User Experience: ${document.querySelector('[name="userExperience"]').value || 0}/7\n`;
+    emailBody += `Content Quality: ${document.querySelector('[name="contentQuality"]').value || 0}/7\n`;
+    emailBody += `Technical Execution: ${document.querySelector('[name="technicalExecution"]').value || 0}/6\n\n`;
+
+    emailBody += "5. Presentation & Impact (20 points)\n";
+    emailBody += `Presentation Skills: ${document.querySelector('[name="presentationSkills"]').value || 0}/7\n`;
+    emailBody += `Innovation & Feasibility: ${document.querySelector('[name="innovationFeasibility"]').value || 0}/7\n`;
+    emailBody += `Social Impact: ${document.querySelector('[name="socialImpact"]').value || 0}/6\n\n`;
 
     // Add total score and comments
-    emailBody += `\nTotal Score: ${total}/100\n\n`;
-    emailBody += `Additional Comments:\n${formData.get('comments') || 'No comments provided.'}\n`;
+    emailBody += `Total Score: ${total}/100\n\n`;
+    emailBody += `Additional Comments:\n${formData.get('comments') || 'No comments provided.'}`;
 
     // Create and trigger mailto link
     const mailtoLink = `mailto:mert.seven@yasar.edu.tr?subject=Jury Evaluation - ${formData.get('studentName')}&body=${encodeURIComponent(emailBody)}`;
