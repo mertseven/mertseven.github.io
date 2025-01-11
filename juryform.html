@@ -506,49 +506,56 @@
 
     // Handle form submission
     function handleFormSubmit(event) {
-        event.preventDefault();
-        const form = document.getElementById('evaluationForm');
-        const formData = new FormData(form);
-        const total = parseFloat(document.getElementById('totalScoreDisplay').textContent);
-        
-        if (total > 100) {
-            alert('Total score cannot exceed 100 points. Please review your scoring.');
-            return;
-        }
-
-        // Construct email body
-        let emailBody = `Jury Evaluation Form Submission\n\n`;
-        emailBody += `Jury Member: ${formData.get('juryName')}\n`;
-        emailBody += `Student: ${formData.get('studentName')}\n`;
-        emailBody += `Project: ${formData.get('projectTitle')}\n\n`;
-
-        // Add scores from each section
-        const sections = [
-            { id: 'problem-research', title: '1. Problem Statement & Research' },
-            { id: 'strategic-communication', title: '2. Strategic Communication' },
-            { id: 'visual-identity', title: '3. Visual Identity' },
-            { id: 'website-prototype', title: '4. Website Prototype' },
-            { id: 'presentation-impact', title: '5. Presentation & Impact' }
-        ];
-
-        sections.forEach(section => {
-            emailBody += `${section.title}\n`;
-            // Get all input values from the section
-            const sectionInputs = form.querySelectorAll(`#${section.id} .score-input`);
-            sectionInputs.forEach(input => {
-                emailBody += `${input.name}: ${input.value || 0}\n`;
-            });
-            emailBody += '\n';
-        });
-
-        // Add total score and comments
-        emailBody += `\nTotal Score: ${total}/100\n\n`;
-        emailBody += `Additional Comments:\n${formData.get('comments') || 'No comments provided.'}\n`;
-
-        // Create and trigger mailto link
-        const mailtoLink = `mailto:mert.seven@yasar.edu.tr?subject=Jury Evaluation - ${formData.get('studentName')}&body=${encodeURIComponent(emailBody)}`;
-        window.location.href = mailtoLink;
+    event.preventDefault();
+    const form = document.getElementById('evaluationForm');
+    const formData = new FormData(form);
+    const total = parseFloat(document.getElementById('totalScoreDisplay').textContent);
+    
+    if (total > 100) {
+        alert('Total score cannot exceed 100 points. Please review your scoring.');
+        return;
     }
+
+    // Construct email body
+    let emailBody = `Jury Evaluation Form Submission\n\n`;
+    emailBody += `Jury Member: ${formData.get('juryName')}\n`;
+    emailBody += `Student: ${formData.get('studentName')}\n`;
+    emailBody += `Project: ${formData.get('projectTitle')}\n\n`;
+
+    // Detailed section scores
+    emailBody += "1. Problem Statement & Research (20 points)\n";
+    emailBody += `Problem Definition: ${document.querySelector('[name="problemDefinition"]').value || 0}/7\n`;
+    emailBody += `Research Quality: ${document.querySelector('[name="researchQuality"]').value || 0}/7\n`;
+    emailBody += `Analysis: ${document.querySelector('[name="analysis"]').value || 0}/6\n\n`;
+
+    emailBody += "2. Strategic Communication (20 points)\n";
+    emailBody += `Communication Goals: ${document.querySelector('[name="communicationGoals"]').value || 0}/7\n`;
+    emailBody += `Target Audience: ${document.querySelector('[name="targetAudience"]').value || 0}/7\n`;
+    emailBody += `Message Strategy: ${document.querySelector('[name="messageStrategy"]').value || 0}/6\n\n`;
+
+    emailBody += "3. Visual Identity (20 points)\n";
+    emailBody += `Brand Cohesion: ${document.querySelector('[name="brandCohesion"]').value || 0}/7\n`;
+    emailBody += `Design Quality: ${document.querySelector('[name="designQuality"]').value || 0}/7\n`;
+    emailBody += `Visual Storytelling: ${document.querySelector('[name="visualStorytelling"]').value || 0}/6\n\n`;
+
+    emailBody += "4. Website Prototype (20 points)\n";
+    emailBody += `User Experience: ${document.querySelector('[name="userExperience"]').value || 0}/7\n`;
+    emailBody += `Content Quality: ${document.querySelector('[name="contentQuality"]').value || 0}/7\n`;
+    emailBody += `Technical Execution: ${document.querySelector('[name="technicalExecution"]').value || 0}/6\n\n`;
+
+    emailBody += "5. Presentation & Impact (20 points)\n";
+    emailBody += `Presentation Skills: ${document.querySelector('[name="presentationSkills"]').value || 0}/7\n`;
+    emailBody += `Innovation & Feasibility: ${document.querySelector('[name="innovationFeasibility"]').value || 0}/7\n`;
+    emailBody += `Social Impact: ${document.querySelector('[name="socialImpact"]').value || 0}/6\n\n`;
+
+    // Add total score and comments
+    emailBody += `Total Score: ${total}/100\n\n`;
+    emailBody += `Additional Comments:\n${formData.get('comments') || 'No comments provided.'}`;
+
+    // Create and trigger mailto link
+    const mailtoLink = `mailto:mert.seven@yasar.edu.tr?subject=Jury Evaluation - ${formData.get('studentName')}&body=${encodeURIComponent(emailBody)}`;
+    window.location.href = mailtoLink;
+}
 </script>
 </body>
 </html>
