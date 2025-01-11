@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Media Graduation Project - Jury Evaluation Form</title>
+    <!-- Using normalize.css for consistent styling across browsers -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" rel="stylesheet">
+    <style>
+        /* CSS Variables for consistent theming */
+        :root {
+            --primary-color: #1a73e8;
+            --primary-hover: #1557b0;
+            --border-color: #dadce0;
+            --background-light: #f8f9fa;
+            --text-primary: #202124;
+            --text-secondary: #5f6368;
+            --error-color: #d93025;
+            --success-color: #188038;
+            --transition-speed: 0.3s;
+        }
+
+        /* Base styles for resetting defaults */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Roboto', Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background-color: var(--background-light);
+            padding: 2rem 1rem;
+        }
+
+        /* Container for centering content */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Form header styling */
+        .form-header {
+            background-color: white;
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--border-color);
+            text-align: center;
+        }
+
+        .form-header h1 {
+            color: var(--text-primary);
+            font-size: 1.75rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Form section styling */
+        .form-section {
+            background-color: white;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+        }
+
+        .section-header {
+            padding: 1rem;
+            background-color: white;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .section-header:hover {
+            background-color: var(--background-light);
+        }
+
+        .section-header h2 {
+            font-size: 1.25rem;
+            margin: 0;
+        }
+
+        .section-content {
+            padding: 0 1rem;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out, padding 0.3s ease;
+        }
+
+        .section-content.active {
+            max-height: 2000px;
+            padding: 1rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        /* Input field styling */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        input:focus,
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        /* Criteria row layout */
+        .criteria-row {
+            display: grid;
+            grid-template-columns: 2fr 6fr 1fr;
+            gap: 1rem;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding: 0.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .score-input {
+            width: 60px;
+            text-align: center;
+        }
+
+        /* Scoring guide styling */
+        .scoring-guide-table {
+            background-color: var(--background-light);
+            border-radius: 4px;
+            padding: 1rem;
+            margin-top: 1rem;
+        }
+
+        .guide-row {
+            display: grid;
+            grid-template-columns: 100px auto 1fr;
+            gap: 1rem;
+            padding: 0.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .guide-row:last-child {
+            border-bottom: none;
+        }
+
+        /* Total score display */
+        .total-score {
+            position: fixed;
+            bottom: 2rem;
+            left: 2rem;
+            background-color: white;
+            padding: 1rem 2rem;
+            border-radius: 4px;
+            box-shadow: 0 2px 6px rgba(60, 64, 67, 0.15);
+            font-size: 1.2rem;
+            z-index: 1000;
+        }
+
+        #totalScoreDisplay {
+            font-weight: bold;
+            font-size: 1.4rem;
+            transition: color 0.3s ease;
+        }
+
+        .score-warning {
+            color: var(--error-color);
+        }
+
+        .score-good {
+            color: var(--success-color);
+        }
+
+        /* Submit button styling */
+        .floating-submit {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            box-shadow: 0 2px 6px rgba(60, 64, 67, 0.15);
+            transition: background-color 0.3s ease;
+        }
+
+        .floating-submit:hover {
+            background-color: var(--primary-hover);
+        }
+
+        /* Responsive design adjustments */
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+
+            .criteria-row {
+                grid-template-columns: 1fr;
+                gap: 0.5rem;
+            }
+
+            .guide-row {
+                grid-template-columns: 1fr;
+                gap: 0.25rem;
+            }
+
+            .total-score,
+            .floating-submit {
+                position: static;
+                width: 100%;
+                margin-top: 1rem;
+                text-align: center;
+            }
+
+            .container {
+                padding: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <form id="evaluationForm">
+            <!-- Form content will be dynamically generated -->
+        </form>
+    </div>
+	
+	<script>
+    // Define the structure of the form with all sections and their criteria
+    const formSections = [
+        {
+            id: 'jury-info',
+            title: 'Jury Information',
+            fields: [
+                { type: 'text', name: 'juryName', label: 'Jury Member Name', required: true }
+            ]
+        },
+        {
+            id: 'student-info',
+            title: 'Student Information',
+            fields: [
+                { type: 'text', name: 'studentName', label: 'Student Name', required: true },
+                { type: 'text', name: 'projectTitle', label: 'Project Title', required: true }
+            ]
+        },
+        {
+            id: 'problem-research',
+            title: '1. Problem Statement & Research (20 points)',
+            type: 'evaluation',
+            criteria: [
+                { name: 'problemDefinition', label: 'Problem Definition', maxScore: 7, description: 'Clear articulation of the social cause, its significance, and depth of understanding' },
+                { name: 'researchQuality', label: 'Research Quality', maxScore: 7, description: 'Comprehensive research methodology, credible sources, thorough data analysis' },
+                { name: 'analysis', label: 'Analysis', maxScore: 6, description: 'Critical interpretation of findings, clear connections to project goals' }
+            ]
+        },
+        {
+            id: 'strategic-communication',
+            title: '2. Strategic Communication (20 points)',
+            type: 'evaluation',
+            criteria: [
+                { name: 'communicationGoals', label: 'Communication Goals', maxScore: 7, description: 'Clear, measurable objectives aligned with project purpose' },
+                { name: 'targetAudience', label: 'Target Audience', maxScore: 7, description: 'Clear understanding and effective segmentation of audience' },
+                { name: 'messageStrategy', label: 'Message Strategy', maxScore: 6, description: 'Effectiveness of key messages and narrative approach' }
+            ]
+        },
+        {
+            id: 'visual-identity',
+            title: '3. Visual Identity (20 points)',
+            type: 'evaluation',
+            criteria: [
+                { name: 'brandCohesion', label: 'Brand Cohesion', maxScore: 7, description: 'Consistency in visual elements, professional execution' },
+                { name: 'designQuality', label: 'Design Quality', maxScore: 7, description: 'Aesthetic appeal, technical execution, attention to detail' },
+                { name: 'visualStorytelling', label: 'Visual Storytelling', maxScore: 6, description: 'Integration of visuals with narrative, message effectiveness' }
+            ]
+        },
+        {
+            id: 'website-prototype',
+            title: '4. Website Prototype (20 points)',
+            type: 'evaluation',
+            criteria: [
+                { name: 'userExperience', label: 'User Experience', maxScore: 7, description: 'Navigation design, accessibility, overall usability' },
+                { name: 'contentQuality', label: 'Content Quality', maxScore: 7, description: 'Clarity and engagement of content, information architecture' },
+                { name: 'technicalExecution', label: 'Technical Execution', maxScore: 6, description: 'Functionality, responsiveness, and implementation quality' }
+            ]
+        },
+        {
+            id: 'presentation-impact',
+            title: '5. Presentation & Impact (20 points)',
+            type: 'evaluation',
+            criteria: [
+                { name: 'presentationSkills', label: 'Presentation Skills', maxScore: 7, description: 'Clear delivery, time management, professional Q&A handling' },
+                { name: 'innovationFeasibility', label: 'Innovation & Feasibility', maxScore: 7, description: 'Creative approach, practicality of implementation' },
+                { name: 'socialImpact', label: 'Social Impact', maxScore: 6, description: 'Potential effectiveness in addressing the chosen social cause' }
+            ]
+        },
+        {
+            id: 'scoring-guide',
+            title: 'Scoring Guide per Category',
+            type: 'guide',
+            content: [
+                { points: 7, label: 'Outstanding', description: 'Exceptional quality, innovative approach' },
+                { points: 6, label: 'Excellent', description: 'Exceeds expectations in most aspects' },
+                { points: 5, label: 'Very Good', description: 'Meets all expectations effectively' },
+                { points: 4, label: 'Good', description: 'Meets basic expectations' },
+                { points: 3, label: 'Fair', description: 'Needs improvement in several areas' },
+                { points: 2, label: 'Poor', description: 'Significant improvements needed' },
+                { points: 1, label: 'Unsatisfactory', description: 'Does not meet basic requirements' }
+            ]
+        },
+        {
+            id: 'comments',
+            title: 'Additional Comments',
+            fields: [
+                { type: 'textarea', name: 'comments', label: 'Comments', required: false }
+            ]
+        }
+    ];
+
+    // Initialize form when DOM is fully loaded
+    document.addEventListener('DOMContentLoaded', function() {
+        initializeForm();
+        setupEventListeners();
+        updateTotalScore();
+    });
+
+    // Core form initialization function
+    function initializeForm() {
+        const form = document.getElementById('evaluationForm');
+        
+        // Create and add form header
+        const header = document.createElement('div');
+        header.className = 'form-header';
+        header.innerHTML = `
+            <h1>New Media Graduation Project I</h1>
+            <p>Jury Evaluation Form</p>
+        `;
+        form.appendChild(header);
+        
+        // Generate all form sections dynamically
+        formSections.forEach(section => {
+            const sectionElement = createSection(section);
+            form.appendChild(sectionElement);
+        });
+        
+        // Add total score display
+        const totalScoreDiv = document.createElement('div');
+        totalScoreDiv.className = 'total-score';
+        totalScoreDiv.innerHTML = `
+            <strong>Total Score:</strong> <span id="totalScoreDisplay">0</span>/100
+        `;
+        form.appendChild(totalScoreDiv);
+        
+        // Add submit button
+        const submitButton = document.createElement('button');
+        submitButton.type = 'submit';
+        submitButton.className = 'floating-submit';
+        submitButton.textContent = 'Submit Evaluation';
+        form.appendChild(submitButton);
+    }
+
+    // Function to create individual form sections
+    function createSection(sectionData) {
+        const section = document.createElement('div');
+        section.className = 'form-section';
+        
+        // Create section header with toggle functionality
+        const header = document.createElement('div');
+        header.className = 'section-header';
+        header.innerHTML = `
+            <h2>${sectionData.title}</h2>
+            <span class="toggle-icon">▼</span>
+        `;
+        
+        // Create section content container
+        const content = document.createElement('div');
+        content.className = 'section-content active';
+        
+        // Handle different section types
+        if (sectionData.type === 'evaluation') {
+            // Create evaluation criteria rows
+            sectionData.criteria.forEach(criterion => {
+                const criteriaRow = document.createElement('div');
+                criteriaRow.className = 'criteria-row';
+                criteriaRow.innerHTML = `
+                    <div class="criteria-label">${criterion.label}</div>
+                    <div class="criteria-description">${criterion.description}</div>
+                    <div class="criteria-score">
+                        <input type="number" 
+                               name="${criterion.name}" 
+                               class="score-input"
+                               min="0" 
+                               max="${criterion.maxScore}" 
+                               required
+                               aria-label="${criterion.label} score">
+                    </div>
+                `;
+                content.appendChild(criteriaRow);
+            });
+        } else if (sectionData.type === 'guide') {
+            // Create scoring guide table
+            const guideTable = document.createElement('div');
+            guideTable.className = 'scoring-guide-table';
+            
+            sectionData.content.forEach(item => {
+                const row = document.createElement('div');
+                row.className = 'guide-row';
+                row.innerHTML = `
+                    <div class="guide-points">${item.points} points:</div>
+                    <div class="guide-label">${item.label}</div>
+                    <div class="guide-description">- ${item.description}</div>
+                `;
+                guideTable.appendChild(row);
+            });
+            
+            content.appendChild(guideTable);
+        } else {
+            // Create regular form fields
+            sectionData.fields.forEach(field => {
+                const formGroup = document.createElement('div');
+                formGroup.className = 'form-group';
+                
+                if (field.type === 'textarea') {
+                    formGroup.innerHTML = `
+                        <label for="${field.name}">${field.label}</label>
+                        <textarea id="${field.name}" 
+                                  name="${field.name}" 
+                                  ${field.required ? 'required' : ''}></textarea>
+                    `;
+                } else {
+                    formGroup.innerHTML = `
+                        <label for="${field.name}">${field.label}</label>
+                        <input type="${field.type}" 
+                               id="${field.name}" 
+                               name="${field.name}" 
+                               ${field.required ? 'required' : ''}>
+                    `;
+                }
+                content.appendChild(formGroup);
+            });
+        }
+        
+        section.appendChild(header);
+        section.appendChild(content);
+        return section;
+    }
+
+    // Set up event listeners for form interactivity
+    function setupEventListeners() {
+        // Add click handlers for section expansion
+        document.querySelectorAll('.section-header').forEach(header => {
+            header.addEventListener('click', toggleSection);
+        });
+
+        // Add input handlers for score calculation
+        document.querySelectorAll('.score-input').forEach(input => {
+            input.addEventListener('input', handleScoreInput);
+            input.addEventListener('change', handleScoreInput);
+        });
+
+        // Add form submission handler
+        document.getElementById('evaluationForm').addEventListener('submit', handleFormSubmit);
+    }
+
+    // Toggle section expansion/collapse
+    function toggleSection(event) {
+        const header = event.currentTarget;
+        const content = header.nextElementSibling;
+        const icon = header.querySelector('.toggle-icon');
+        
+        content.classList.toggle('active');
+        
+        if (content.classList.contains('active')) {
+            icon.textContent = '▼';
+            content.style.maxHeight = content.scrollHeight + 'px';
+        } else {
+            icon.textContent = '▶';
+            content.style.maxHeight = '0';
+        }
+    }
+
+    // Handle score input changes
+    function handleScoreInput(event) {
+        const input = event.target;
+        const value = parseFloat(input.value);
+        const max = parseInt(input.getAttribute('max'));
+
+        if (isNaN(value)) {
+            input.value = '';
+        } else if (value > max) {
+            input.value = max;
+        } else if (value < 0) {
+            input.value = 0;
+        }
+
+        updateTotalScore();
+    }
+
+    // Update total score calculation
+    function updateTotalScore() {
+        const scoreInputs = document.querySelectorAll('.score-input');
+        let total = 0;
+
+        scoreInputs.forEach(input => {
+            const value = parseFloat(input.value);
+            if (!isNaN(value)) {
+                total += value;
+            }
+        });
+
+        const totalScoreDisplay = document.getElementById('totalScoreDisplay');
+        if (totalScoreDisplay) {
+            totalScoreDisplay.textContent = total.toFixed(1);
+            
+            totalScoreDisplay.classList.remove('score-warning', 'score-good');
+            if (total > 100) {
+                totalScoreDisplay.classList.add('score-warning');
+            } else if (total === 100) {
+                totalScoreDisplay.classList.add('score-good');
+            }
+        }
+    }
+
+    // Handle form submission
+    // Replace the existing handleFormSubmit function with this:
+function handleFormSubmit(event) {
+    event.preventDefault();
+    const form = document.getElementById('evaluationForm');
+    const formData = new FormData(form);
+    const total = parseFloat(document.getElementById('totalScoreDisplay').textContent);
+    
+    if (total > 100) {
+        alert('Total score cannot exceed 100 points. Please review your scoring.');
+        return;
+    }
+
+    // Construct email body
+    let emailBody = `Jury Evaluation Form Submission\n\n`;
+    emailBody += `Jury Member: ${formData.get('juryName')}\n`;
+    emailBody += `Student: ${formData.get('studentName')}\n`;
+    emailBody += `Project: ${formData.get('projectTitle')}\n\n`;
+
+    // Add scores from each section
+    const sections = [
+        { id: 'problem-research', title: '1. Problem Statement & Research' },
+        { id: 'strategic-communication', title: '2. Strategic Communication' },
+        { id: 'visual-identity', title: '3. Visual Identity' },
+        { id: 'website-prototype', title: '4. Website Prototype' },
+        { id: 'presentation-impact', title: '5. Presentation & Impact' }
+    ];
+
+    sections.forEach(section => {
+        emailBody += `${section.title}\n`;
+        // Get all input values from the section
+        const sectionInputs = form.querySelectorAll(`#${section.id} .score-input`);
+        sectionInputs.forEach(input => {
+            emailBody += `${input.name}: ${input.value || 0}\n`;
+        });
+        emailBody += '\n';
+    });
+
+    // Add total score and comments
+    emailBody += `\nTotal Score: ${total}/100\n\n`;
+    emailBody += `Additional Comments:\n${formData.get('comments') || 'No comments provided.'}\n`;
+
+    // Create and trigger mailto link
+    const mailtoLink = `mailto:mert.seven@yasar.edu.tr?subject=Jury Evaluation - ${formData.get('studentName')}&body=${encodeURIComponent(emailBody)}`;
+    window.location.href = mailtoLink;
+}
+</script>
+</body>
+</html>
