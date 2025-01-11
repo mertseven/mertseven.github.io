@@ -543,18 +543,51 @@
     }
 
     // Handle form submission
-    function handleFormSubmit(event) {
-        event.preventDefault();
-        const total = parseFloat(document.getElementById('totalScoreDisplay').textContent);
-        
-        if (total > 100) {
-            alert('Total score cannot exceed 100 points. Please review your scoring.');
-            return;
-        }
-        
-        // Form submission logic here - you can add your own handling code
-        console.log('Form submitted with total score:', total);
+    // Replace the existing handleFormSubmit function with this:
+function handleFormSubmit(event) {
+    event.preventDefault();
+    const form = document.getElementById('evaluationForm');
+    const formData = new FormData(form);
+    const total = parseFloat(document.getElementById('totalScoreDisplay').textContent);
+    
+    if (total > 100) {
+        alert('Total score cannot exceed 100 points. Please review your scoring.');
+        return;
     }
+
+    // Construct email body
+    let emailBody = `Jury Evaluation Form Submission\n\n`;
+    emailBody += `Jury Member: ${formData.get('juryName')}\n`;
+    emailBody += `Student: ${formData.get('studentName')}\n`;
+    emailBody += `Project: ${formData.get('projectTitle')}\n\n`;
+
+    // Add scores from each section
+    const sections = [
+        { id: 'problem-research', title: '1. Problem Statement & Research' },
+        { id: 'strategic-communication', title: '2. Strategic Communication' },
+        { id: 'visual-identity', title: '3. Visual Identity' },
+        { id: 'website-prototype', title: '4. Website Prototype' },
+        { id: 'presentation-impact', title: '5. Presentation & Impact' }
+    ];
+
+    sections.forEach(section => {
+        emailBody += `${section.title}\n`;
+        // Get all input values from the section
+        const sectionInputs = form.querySelectorAll(`#${section.id} .score-input`);
+        sectionInputs.forEach(input => {
+            emailBody += `${input.name}: ${input.value || 0}\n`;
+        });
+        emailBody += '\n';
+    });
+
+    // Add total score and comments
+    emailBody += `\nTotal Score: ${total}/100\n\n`;
+    emailBody += `Additional Comments:\n${formData.get('comments') || 'No comments provided.'}\n`;
+
+    // Create and trigger mailto link
+    const mailtoLink = `mailto:mert.seven@yasar.edu.tr?subject=Jury Evaluation - ${formData.get('studentName')}&body=${encodeURIComponent(emailBody)}`;
+    window.location.href = mailtoLink;
+}
 </script>
 </body>
 </html>
