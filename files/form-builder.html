@@ -163,9 +163,41 @@
                 page-break-inside: avoid;
             }
         }
+		
+		.home-button {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            background-color: #000;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            font-family: monospace;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 1000;
+            text-decoration: none;
+            text-transform: uppercase;
+        }
+
+        .home-button:hover {
+            background-color: #333;
+        }
+
+        /* Adjust media query to handle home button responsively */
+        @media (max-width: 600px) {
+            .home-button {
+                position: static;
+                display: block;
+                width: 100%;
+                margin-bottom: 1rem;
+                text-align: center;
+            }
+        }
     </style>
 </head>
 <body>
+<a href="https://mertseven.com" class="home-button">Home</a>
     <div class="container">
         <div class="builder-section">
             <h1>Jury Form Builder</h1>
