@@ -68,28 +68,183 @@
         .button:hover {
             background-color: #333;
         }
+        /* Add monospace font imports */
+        @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&family=Fira+Mono:wght@400;500;700&display=swap');
+
+        /* Scrolling text styles */
+        .scroll-container {
+            width: 100%;
+            overflow: hidden;
+            white-space: nowrap;
+            border-bottom: 4px solid #000;
+            padding: 10px 0;
+            margin-bottom: 20px;
+        }
+
+        .scrolling-text {
+            display: inline-block;
+            animation: scroll-left 30s linear infinite;
+            margin: 0;
+            padding-left: 100%;
+            font-size: 1em;
+        }
+
+        .text-variant {
+            margin-right: 0.5em;
+        }
+
+        .font-1 { font-family: 'Roboto Mono', monospace; }
+        .font-2 { font-family: 'Space Mono', monospace; }
+        .font-3 { font-family: 'JetBrains Mono', monospace; }
+        .font-4 { font-family: 'IBM Plex Mono', monospace; }
+        .font-5 { font-family: 'Fira Mono', monospace; }
+        .font-6 { font-family: 'Courier New', monospace; }
+        .font-7 { font-family: 'Consolas', monospace; }
+        .font-8 { font-family: 'Monaco', monospace; }
+        .font-9 { font-family: 'Lucida Console', monospace; }
+        .font-10 { font-family: 'Source Code Pro', monospace; }
+
+        @keyframes scroll-left {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+
         pre {
             background-color: #eee;
             padding: 10px;
             overflow-x: auto;
             font-size: 0.9em;
         }
-ul li a {
-    color: #000;
-    text-decoration: none;
-    font-weight: bold;
-}
+        ul li a {
+            color: #000;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        ul li a:hover {
+            background-color: #000;
+            color: #fff;
+        }
+        ul li a[download]::after {
+            content: " ↓";
+            font-weight: bold;
+        }
 
-ul li a:hover {
-    background-color: #000;
-    color: #fff;
-}
+        /* X-Ray Viewer Styles */
+        .xray-viewer {
+            position: fixed;
+            width: 400px;
+            height: 300px;
+            background: #fff;
+            color: #000;
+            padding: 15px;
+            border: 4px solid #000;
+            font-family: monospace;
+            pointer-events: auto;
+            z-index: 10000;
+            overflow: auto;
+            transition: all 0.3s ease;
+            box-shadow: 5px 5px 0 rgba(0,0,0,0.2);
+        }
+        
+        .xray-viewer.locked {
+            border-color: #666;
+        }
 
-/* Add an icon to indicate downloadable files */
-ul li a[download]::after {
-    content: " ↓";
-    font-weight: bold;
-}
+        .xray-lock-indicator {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 12px;
+            color: #666;
+            background: #f5f5f5;
+            padding: 4px 8px;
+            border: 1px solid #000;
+        }
+
+        .xray-viewer.locked .xray-lock-indicator {
+            background: #000;
+            color: #fff;
+        }
+
+        .xray-viewer.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .xray-viewer pre {
+            margin: 0;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-size: 12px;
+            background: #f5f5f5;
+            color: #000;
+            padding: 10px;
+            border-left: 4px solid #000;
+            max-height: 200px;
+            overflow: auto;
+        }
+
+        .xray-info {
+            border-bottom: 2px solid #000;
+            padding-bottom: 10px;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        .xray-tag {
+            color: #000;
+            font-weight: bold;
+        }
+
+        .xray-attr {
+            color: #666;
+            margin: 5px 0;
+        }
+
+        .xray-details {
+            font-size: 12px;
+            margin-bottom: 10px;
+            padding: 5px 0;
+        }
+
+        .xray-detail-item {
+            margin: 2px 0;
+        }
+
+        .xray-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 8px 16px;
+            background: #000;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            z-index: 10001;
+            font-family: monospace;
+            font-weight: bold;
+        }
+
+        .xray-toggle:hover {
+            background: #333;
+        }
+
+        .xray-placeholder {
+            color: #666;
+            text-align: center;
+            padding: 40px 20px;
+            border: 2px dashed #ccc;
+        }
+
+        .xray-highlight {
+            outline: 2px solid #000;
+            outline-offset: 1px;
+        }
+
         @media (max-width: 600px) {
             body {
                 padding: 10px;
@@ -100,13 +255,144 @@ ul li a[download]::after {
             nav ul {
                 flex-direction: column;
             }
+            .xray-viewer {
+                width: 90%;
+                height: 50vh;
+                left: 5% !important;
+                bottom: 20px !important;
+                top: auto !important;
+                right: auto !important;
+                box-sizing: border-box;
+            }
+            .xray-viewer.locked {
+                height: 70vh;
+            }
+            .xray-toggle {
+                top: 10px;
+                right: 10px;
+                padding: 6px 12px;
+                font-size: 14px;
+            }
         }
+		
+		.terminal-container {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 300px;
+    background: #000;
+    color: #fff;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 14px;
+    transform: translateY(100%);
+    transition: transform 0.3s ease;
+    z-index: 9999;
+}
+
+.terminal-container.show {
+    transform: translateY(0);
+}
+
+.terminal-header {
+    padding: 8px;
+    background: #333;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #444;
+}
+
+.terminal-title {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.terminal-toggle {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 8px 16px;
+    background: #000;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    font-family: monospace;
+    font-weight: bold;
+    z-index: 10000;
+}
+
+.terminal-content {
+    height: calc(100% - 35px);
+    padding: 10px;
+    overflow-y: auto;
+    font-size: 14px;
+    line-height: 1.4;
+    scroll-behavior: smooth;
+    display: flex;
+    flex-direction: column;
+}
+
+.terminal-content > *:last-child {
+    margin-top: auto;
+    padding-top: 10px;
+}
+
+.terminal-line {
+    margin: 0;
+    padding: 2px 0;
+}
+
+.terminal-prompt {
+    color: #0f0;
+}
+
+.terminal-input {
+    background: transparent;
+    border: none;
+    color: #fff;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 14px;
+    width: calc(100% - 120px);
+    padding: 0;
+    margin-left: 8px;
+	margin-bottom: 12px;
+}
+
+.terminal-input:focus {
+    outline: none;
+}
+
+.terminal-output {
+    color: #ccc;
+}
+
+.terminal-error {
+    color: #f44;
+}
     </style>
 </head>
 <body>
     <header>
         <h1>MOONBASE I</h1>
-        <p><strong>a monospace mono space</strong></p>
+        <div class="scroll-container">
+            <p class="scrolling-text">
+                <span class="text-variant font-1" style="font-weight: 700;">A MONOSPACE MONO SPACE</span>
+                <span class="text-variant font-2" style="font-style: italic; font-weight: 400;">a monospace mono space</span>
+                <span class="text-variant font-3" style="font-weight: 500;">A Monospace Mono Space</span>
+                <span class="text-variant font-4" style="font-style: italic; font-weight: 700;">a monospace mono space</span>
+                <span class="text-variant font-5" style="font-weight: 500;">A MONOSPACE MONO SPACE</span>
+                <span class="text-variant font-6" style="font-weight: 400;">a monospace mono space</span>
+                <span class="text-variant font-7" style="font-style: italic; font-weight: 500;">A Monospace Mono Space</span>
+                <span class="text-variant font-8" style="font-weight: 700;">a monospace mono space</span>
+                <span class="text-variant font-9" style="font-style: italic; font-weight: 400;">A MONOSPACE MONO SPACE</span>
+                <span class="text-variant font-10" style="font-weight: 500;">a monospace mono space</span>
+                <span class="text-variant font-1" style="font-weight: 700;">A MONOSPACE MONO SPACE</span>
+                <span class="text-variant font-2" style="font-style: italic; font-weight: 400;">a monospace mono space</span>
+                <span class="text-variant font-3" style="font-weight: 500;">A Monospace Mono Space</span>
+            </p>
+        </div>
     </header>
 
     <nav>
@@ -132,8 +418,7 @@ ul li a[download]::after {
             <ul>
                 <li>Build and save your own evaluation form below.</li>
             </ul>
-             <a href="files/form-builder.html" class="button">FORM EDITOR</a>
-                
+            <a href="files/form-builder.html" class="button">FORM EDITOR</a>
         </section>
 
         <section id="contact">
@@ -143,5 +428,357 @@ ul li a[download]::after {
             office: b206, Yaşar University</p>
         </section>
     </main>
+
+    <!-- X-Ray Viewer Elements -->
+    <div id="xray-viewer" class="xray-viewer">
+        <div class="xray-placeholder">Hover over elements to see their code</div>
+    </div>
+    <button id="xray-toggle" class="xray-toggle">Hide X-Ray</button>
+<button id="terminal-toggle" class="terminal-toggle">Show Terminal</button>
+    <script>
+        class XRayViewer {
+            constructor() {
+                this.viewer = document.getElementById('xray-viewer');
+                this.toggleBtn = document.getElementById('xray-toggle');
+                this.isVisible = false;  // Set initial state to hidden
+                this.isLocked = false;
+                this.lastInspectedElement = null;
+                this.init();
+                
+                // Hide the viewer initially
+                this.viewer.classList.add('hidden');
+                this.toggleBtn.textContent = 'Show X-Ray';
+            }
+
+            init() {
+                this.handleMouseMove = this.handleMouseMove.bind(this);
+                this.toggleViewer = this.toggleViewer.bind(this);
+                this.handleViewerMouseEnter = this.handleViewerMouseEnter.bind(this);
+                this.handleDocumentClick = this.handleDocumentClick.bind(this);
+
+                document.addEventListener('mousemove', this.handleMouseMove);
+                this.toggleBtn.addEventListener('click', this.toggleViewer);
+                this.viewer.addEventListener('mouseenter', this.handleViewerMouseEnter);
+                document.addEventListener('click', this.handleDocumentClick);
+
+                const lockIndicator = document.createElement('div');
+                lockIndicator.className = 'xray-lock-indicator';
+                lockIndicator.textContent = 'Unlocked';
+                this.viewer.appendChild(lockIndicator);
+            }
+
+            handleViewerMouseEnter() {
+                if (!this.isLocked && this.lastInspectedElement) {
+                    this.isLocked = true;
+                    this.viewer.classList.add('locked');
+                    this.updateLockIndicator();
+                    this.lockedPosition = {
+                        left: this.viewer.style.left,
+                        top: this.viewer.style.top
+                    };
+                }
+            }
+
+            handleDocumentClick(e) {
+                if (!this.viewer.contains(e.target) && e.target !== this.toggleBtn) {
+                    this.isLocked = false;
+                    this.viewer.classList.remove('locked');
+                    this.updateLockIndicator();
+                    this.lockedPosition = null;
+                }
+            }
+
+            updateLockIndicator() {
+                const indicator = this.viewer.querySelector('.xray-lock-indicator');
+                if (indicator) {
+                    indicator.textContent = this.isLocked ? 'Locked' : 'Unlocked';
+                }
+            }
+
+            handleMouseMove(e) {
+                if (!this.isVisible) return;
+
+                if (this.isLocked) return;
+
+                const viewerWidth = window.innerWidth <= 600 ? window.innerWidth * 0.9 : 400;
+                const viewerHeight = window.innerWidth <= 600 ? window.innerHeight * 0.5 : 300;
+                const padding = 20;
+
+                let left = e.clientX + 20;
+                let top = e.clientY + 20;
+
+                if (window.innerWidth <= 600) {
+                    left = window.innerWidth * 0.05;
+                    top = window.innerHeight - viewerHeight - padding;
+                } else {
+                    if (left + viewerWidth > window.innerWidth - padding) {
+                        left = e.clientX - viewerWidth - 20;
+                    }
+                    if (top + viewerHeight > window.innerHeight - padding) {
+                        top = window.innerHeight - viewerHeight - padding;
+                    }
+                    left = Math.max(padding, left);
+                }
+
+                this.viewer.style.left = left + 'px';
+                this.viewer.style.top = top + 'px';
+
+                const elements = document.elementsFromPoint(e.clientX, e.clientY);
+                const targetElement = elements.find(el => 
+                    el !== this.viewer && 
+                    el !== this.toggleBtn && 
+                    !this.viewer.contains(el)
+                );
+
+                if (this.lastInspectedElement && this.lastInspectedElement !== targetElement) {
+                    this.lastInspectedElement.classList.remove('xray-highlight');
+                }
+
+                if (targetElement) {
+                    this.showElementCode(targetElement);
+                }
+            }
+
+            showElementCode(element) {
+                this.lastInspectedElement = element;
+                element.classList.add('xray-highlight');
+
+                const html = element.outerHTML
+                    .replace(/>/g, '>\n')
+                    .replace(/</g, '\n<')
+                    .split('\n')
+                    .filter(line => line.trim())
+                    .map(line => line.trim())
+                    .join('\n');
+
+                const styles = window.getComputedStyle(element);
+                const rect = element.getBoundingClientRect();
+                const highlightedCode = this.highlightCode(html);
+
+                this.viewer.innerHTML = `
+                    <div class="xray-info">
+                        <div class="xray-tag">Element: &lt;${element.tagName.toLowerCase()}&gt;</div>
+                        ${element.className ? `<div class="xray-attr">Class: ${element.className}</div>` : ''}
+                    </div>
+                    <div class="xray-details">
+                        <div class="xray-detail-item">Size: ${Math.round(rect.width)} × ${Math.round(rect.height)}px</div>
+                        <div class="xray-detail-item">Position: ${Math.round(rect.left)}, ${Math.round(rect.top)}</div>
+                        <div class="xray-detail-item">Font: ${styles.fontFamily} (${styles.fontSize})</div>
+                        <div class="xray-detail-item">Colors: ${styles.color}, bg: ${styles.backgroundColor}</div>
+                    </div>
+                    <pre>${highlightedCode}</pre>
+                `;
+            }
+
+            highlightCode(code) {
+                return code
+                    .replace(/&/g, '&amp;')
+                    .replace(/</g, '&lt;')
+                    .replace(/>/g, '&gt;')
+                    .replace(/"/g, '&quot;')
+                    .replace(/'/g, '&#039;');
+            }
+
+            toggleViewer() {
+                this.isVisible = !this.isVisible;
+                this.viewer.classList.toggle('hidden');
+                this.toggleBtn.textContent = this.isVisible ? 'Hide X-Ray' : 'Show X-Ray';
+                
+                // Remove highlight from last inspected element when hiding
+                if (!this.isVisible && this.lastInspectedElement) {
+                    this.lastInspectedElement.classList.remove('xray-highlight');
+                    this.lastInspectedElement = null;
+                }
+            }
+        }
+
+        // Initialize the X-Ray viewer when the page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            new XRayViewer();
+        });
+		
+		class TerminalEmulator {
+    constructor() {
+        this.terminal = document.getElementById('terminal');
+        this.content = document.getElementById('terminal-content');
+        this.input = document.getElementById('terminal-input');
+        this.toggleBtn = document.getElementById('terminal-toggle');
+        this.isVisible = false;
+        this.commandHistory = [];
+        this.historyIndex = -1;
+
+        this.commands = {
+            help: () => this.showHelp(),
+            ls: () => this.listSections(),
+            cat: (args) => this.showContent(args),
+            clear: () => this.clearTerminal(),
+            about: () => this.showAbout(),
+            pwd: () => this.showCurrentPath(),
+            echo: (args) => this.echo(args),
+            date: () => this.showDate()
+        };
+
+        this.init();
+    }
+
+    init() {
+        this.toggleBtn.addEventListener('click', () => this.toggleTerminal());
+        this.input.addEventListener('keydown', (e) => this.handleInput(e));
+        document.getElementById('terminal-minimize').addEventListener('click', () => this.toggleTerminal());
+    }
+
+    toggleTerminal() {
+        this.isVisible = !this.isVisible;
+        this.terminal.classList.toggle('show');
+        this.toggleBtn.textContent = this.isVisible ? 'Hide Terminal' : 'Show Terminal';
+        if (this.isVisible) {
+            this.input.focus();
+        }
+    }
+
+    handleInput(e) {
+        if (e.key === 'Enter') {
+            const command = this.input.value.trim();
+            if (command) {
+                this.executeCommand(command);
+                this.commandHistory.push(command);
+                this.historyIndex = this.commandHistory.length;
+            }
+            this.input.value = '';
+        } else if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            if (this.historyIndex > 0) {
+                this.historyIndex--;
+                this.input.value = this.commandHistory[this.historyIndex];
+            }
+        } else if (e.key === 'ArrowDown') {
+            e.preventDefault();
+            if (this.historyIndex < this.commandHistory.length - 1) {
+                this.historyIndex++;
+                this.input.value = this.commandHistory[this.historyIndex];
+            } else {
+                this.historyIndex = this.commandHistory.length;
+                this.input.value = '';
+            }
+        }
+    }
+
+    executeCommand(commandStr) {
+        const [cmd, ...args] = commandStr.split(' ');
+        this.addToTerminal(`<span class="terminal-prompt">moonbase:~$</span> ${commandStr}`);
+
+        if (this.commands[cmd]) {
+            this.commands[cmd](args);
+        } else {
+            this.addToTerminal(`Command not found: ${cmd}`, 'error');
+        }
+    }
+
+    addToTerminal(text, type = 'output') {
+    const line = document.createElement('p');
+    line.className = `terminal-line terminal-${type}`;
+    line.innerHTML = text;
+    
+    // Insert before the input line
+    this.content.insertBefore(line, this.content.lastElementChild);
+    
+    // Ensure the input line is visible
+    requestAnimationFrame(() => {
+        const inputLine = this.content.lastElementChild;
+        const inputBottom = inputLine.offsetTop + inputLine.offsetHeight;
+        const containerHeight = this.content.clientHeight;
+        const currentScroll = this.content.scrollTop;
+        
+        if (inputBottom > currentScroll + containerHeight) {
+            this.content.scrollTop = inputBottom - containerHeight;
+        }
+    });
+}
+
+    showHelp() {
+        const help = `
+            Available commands:
+            - help: Show this help message
+            - ls: List all sections
+            - cat <section>: Show content of a section
+            - clear: Clear terminal
+            - about: Show information about this site
+            - pwd: Show current path
+            - echo <text>: Display text
+            - date: Show current date and time
+        `;
+        this.addToTerminal(help);
+    }
+
+    listSections() {
+        const sections = Array.from(document.querySelectorAll('section'))
+            .map(section => section.id || 'unnamed-section');
+        this.addToTerminal('Available sections:');
+        sections.forEach(section => {
+            this.addToTerminal(`- ${section}`);
+        });
+    }
+
+    showContent(args) {
+        if (!args.length) {
+            this.addToTerminal('Usage: cat <section-name>', 'error');
+            return;
+        }
+        const sectionId = args[0];
+        const section = document.getElementById(sectionId);
+        if (section) {
+            this.addToTerminal(`Content of ${sectionId}:`);
+            this.addToTerminal(section.textContent.trim());
+        } else {
+            this.addToTerminal(`Section not found: ${sectionId}`, 'error');
+        }
+    }
+
+    clearTerminal() {
+        const children = Array.from(this.content.children);
+        children.slice(0, -1).forEach(child => child.remove());
+    }
+
+    showAbout() {
+        this.addToTerminal('MOONBASE - A monospace mono space');
+        this.addToTerminal('Created by Mert Seven');
+    }
+
+    showCurrentPath() {
+        this.addToTerminal('/moonbase' + (location.hash || '/home'));
+    }
+
+    echo(args) {
+        if (args.length) {
+            this.addToTerminal(args.join(' '));
+        }
+    }
+
+    showDate() {
+        this.addToTerminal(new Date().toLocaleString());
+    }
+}
+
+// Initialize the terminal when the page loads
+document.addEventListener('DOMContentLoaded', () => {
+    new TerminalEmulator();
+});
+    </script>
+	<div class="terminal-container" id="terminal">
+    <div class="terminal-header">
+        <div class="terminal-title">MOONBASE TERMINAL</div>
+        <div class="terminal-controls">
+            <span id="terminal-minimize">_</span>
+        </div>
+    </div>
+    <div class="terminal-content" id="terminal-content">
+        <p class="terminal-line terminal-output">Welcome to MOONBASE Terminal v1.0.0</p>
+        <p class="terminal-line terminal-output">Type 'help' for available commands</p>
+        <p class="terminal-line">
+            <span class="terminal-prompt">moonbase:~$</span>
+            <input type="text" class="terminal-input" id="terminal-input" spellcheck="false" autocomplete="off">
+        </p>
+    </div>
+</div>
 </body>
 </html>
