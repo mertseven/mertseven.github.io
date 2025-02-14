@@ -1,0 +1,173 @@
+/* Override default section styles */
+section#writings {
+    border-left: none;
+    padding-left: 0;
+    margin-bottom: 40px;
+}
+
+/* Filter Section */
+.filter-section {
+    margin: 20px 0;
+    padding: 20px 0;
+    border-bottom: 0px solid #000;
+}
+
+.filter-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-left: 5px;
+}
+
+.filter-btn {
+    background: #fff;
+    border: 2px solid #000;
+    padding: 8px 16px;
+    font-family: 'IBM Plex Mono', monospace;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.filter-btn:hover {
+    background: #000;
+    color: #fff;
+}
+
+.filter-btn.active {
+    background: #000;
+    color: #fff;
+}
+
+/* Writings Grid */
+.writings-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    padding: 20px 0;
+}
+
+/* Writing Card */
+.writing-card {
+    position: relative;
+    background: #fff;
+    border: 4px solid #000;
+    padding: 20px;
+    font-family: 'IBM Plex Mono', monospace;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+}
+
+.writing-card:hover {
+    box-shadow: 5px 5px 0 rgba(0,0,0,0.2);
+    transform: translate(-2px, -2px);
+}
+
+.writing-meta {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    display: flex;
+    gap: 10px;
+}
+
+.writing-tag {
+    background: #000;
+    color: #fff;
+    padding: 4px 8px;
+    font-size: 12px;
+}
+
+.writing-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 0 0 10px 0;
+    padding-right: 100px;
+}
+
+.writing-excerpt {
+    font-size: 14px;
+    color: #666;
+    margin: 0;
+    flex-grow: 1;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    line-clamp: 4;
+    -webkit-box-orient: vertical;
+}
+
+.writing-date {
+    font-size: 12px;
+    color: #999;
+    margin-top: 15px;
+}
+
+/* Modal */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.8);
+    z-index: 1000;
+}
+
+.modal-content {
+    position: relative;
+    background: #fff;
+    margin: 50px auto;
+    padding: 30px;
+    width: 80%;
+    max-width: 800px;
+    max-height: 80vh;
+    overflow-y: auto;
+    border: 4px solid #000;
+}
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.modal-header {
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #000;
+}
+
+.modal-header h2 {
+    margin: 0 0 10px 0;
+    font-family: 'IBM Plex Mono', monospace;
+}
+
+#modal-meta {
+    display: flex;
+    gap: 10px;
+}
+
+#modal-text {
+    font-family: 'IBM Plex Mono', monospace;
+    line-height: 1.6;
+    white-space: pre-wrap;
+}
+
+/* Media Queries */
+@media (max-width: 600px) {
+    .writings-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .modal-content {
+        width: 90%;
+        margin: 20px auto;
+        padding: 15px;
+    }
+}

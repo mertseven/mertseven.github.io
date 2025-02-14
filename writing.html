@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Literary Works - Moonbase I</title>
+    
+    <!-- Google Fonts -->
+    <link href='https://fonts.googleapis.com/css?family=IBM+Plex+Sans+Condensed' rel='stylesheet'>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/terminal.css">
+    <link rel="stylesheet" href="css/xray.css">
+    <link rel="stylesheet" href="css/writings.css">
+</head>
+<body>
+    <header>
+        <h1>MOONBASE I</h1>
+        <div class="scroll-container">
+            <p class="scrolling-text">
+                <span class="text-variant font-1">THOUGHTS IN MONOSPACE</span>
+                <span class="text-variant font-2">thoughts in monospace</span>
+                <span class="text-variant font-3">THOUGHTS IN MONOSPACE</span>
+                <span class="text-variant font-4">thoughts in monospace</span>
+            </p>
+        </div>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="#filter">Filter</a></li>
+            <li><a href="#writings">Writings</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <section id="filter" class="filter-section">
+            <div class="filter-container">
+                <button class="filter-btn active" data-lang="all">All</button>
+                <button class="filter-btn" data-lang="tr">Turkish</button>
+                <button class="filter-btn" data-lang="en">English</button>
+                <button class="filter-btn" data-type="poetry">Poetry</button>
+                <button class="filter-btn" data-type="prose">Prose</button>
+            </div>
+        </section>
+
+        <section id="writings" class="writings-grid">
+            <!-- Writing cards will be dynamically inserted here -->
+        </section>
+    </main>
+
+    <!-- Modal for full text -->
+    <div id="writing-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <div class="modal-header">
+                <h2 id="modal-title"></h2>
+                <div id="modal-meta"></div>
+            </div>
+            <div id="modal-text"></div>
+        </div>
+    </div>
+
+    <!-- X-Ray Viewer Elements -->
+    <div id="xray-viewer" class="xray-viewer">
+        <div class="xray-placeholder">Hover over elements to see their code</div>
+    </div>
+    <button id="xray-toggle" class="xray-toggle">Hide X-Ray</button>
+
+    <!-- Terminal Elements -->
+    <button id="terminal-toggle" class="terminal-toggle">Show Terminal</button>
+    <div class="terminal-container" id="terminal">
+        <div class="terminal-header">
+            <div class="terminal-title">MOONBASE TERMINAL</div>
+            <div class="terminal-controls">
+                <span id="terminal-minimize">_</span>
+            </div>
+        </div>
+        <div class="terminal-content" id="terminal-content">
+            <p class="terminal-line terminal-output">Welcome to MOONBASE Terminal v1.0.0</p>
+            <p class="terminal-line terminal-output">Type 'help' for available commands</p>
+            <p class="terminal-line">
+                <span class="terminal-prompt">moonbase:~$</span>
+                <input type="text" class="terminal-input" id="terminal-input" spellcheck="false" autocomplete="off">
+            </p>
+        </div>
+    </div>
+
+    <!-- JavaScript Files -->
+    <script src="js/xray.js"></script>
+    <script src="js/terminal.js"></script>
+    <script src="js/writings.js"></script>
+</body>
+</html>

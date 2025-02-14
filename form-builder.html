@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jury Form Builder</title>
+    <link href='https://fonts.googleapis.com/css?family=IBM Plex Sans Condensed' rel='stylesheet'>
+    <link rel="preload" href="https://fonts.googleapis.com/css?family=IBM Plex Sans Condensed" as="style">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: monospace;
+            background-color: #fff;
+            color: #000;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.4;
+        }
+
+        h1, h2 {
+            font-family: 'IBM Plex Sans Condensed';
+            text-transform: uppercase;
+        }
+
+        h1 {
+            font-size: 4em;
+            margin: 0;
+            border-bottom: 8px solid #000;
+            padding-bottom: 10px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .builder-section {
+            margin-bottom: 20px;
+            border-left: 4px solid #000;
+            padding-left: 20px;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #000;
+            font-family: monospace;
+            font-size: 1em;
+            margin: 5px 0;
+        }
+
+        .criteria-container {
+            margin-top: 10px;
+        }
+
+        .criteria-row {
+            display: grid;
+            grid-template-columns: 2fr 6fr 1fr auto;
+            gap: 1rem;
+            align-items: start;
+            margin-bottom: 1rem;
+            padding: 10px 0;
+            border-bottom: 1px solid #000;
+        }
+
+        button {
+            background-color: #000;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            font-family: monospace;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #333;
+        }
+
+        .button-outline {
+            background-color: #fff;
+            color: #000;
+            border: 2px solid #000;
+        }
+
+        .button-outline:hover {
+            background-color: #f0f0f0;
+        }
+
+        .export-buttons {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            display: flex;
+            gap: 1rem;
+            z-index: 1000;
+        }
+
+        .delete-btn {
+            background: none;
+            border: none;
+            color: #d93025;
+            padding: 5px;
+            cursor: pointer;
+            font-size: 1.5em;
+        }
+
+        .delete-btn:hover {
+            color: #b31412;
+        }
+
+        .label-small {
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 2px;
+        }
+
+        .toggle-icon {
+            font-family: monospace;
+            font-size: 1.2em;
+            transition: transform 0.3s ease;
+            user-select: none;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+            
+            h1 {
+                font-size: 2.5em;
+            }
+
+            .criteria-row {
+                grid-template-columns: 1fr;
+                gap: 0.5rem;
+            }
+
+            .export-buttons {
+                position: static;
+                margin-top: 2rem;
+                flex-direction: column;
+            }
+        }
+
+        @media print {
+            .export-buttons {
+                display: none;
+            }
+            body {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            .builder-section {
+                page-break-inside: avoid;
+            }
+        }
+		
+		.home-button {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            background-color: #000;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            font-family: monospace;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 1000;
+            text-decoration: none;
+            text-transform: uppercase;
+        }
+
+        .home-button:hover {
+            background-color: #333;
+        }
+
+        /* Adjust media query to handle home button responsively */
+        @media (max-width: 600px) {
+            .home-button {
+                position: static;
+                display: block;
+                width: 100%;
+                margin-bottom: 1rem;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+<a href="index.html" class="home-button">Home</a>
+    <div class="container">
+        <div class="builder-section">
+            <h1>Jury Form Builder</h1>
+            <p>Create your own customized jury evaluation form</p>
+        </div>
+
+        <div class="builder-section">
+            <h2>Form Settings</h2>
+            <input type="text" id="formTitle" placeholder="Form Title" value="Jury Evaluation Form">
+            <input type="text" id="formSubtitle" placeholder="Form Subtitle" value="Project Evaluation">
+            <div style="margin-top: 10px;">
+                <input type="number" id="totalScore" placeholder="Total Maximum Score" value="100">
+                <div class="label-small">Maximum total score possible</div>
+            </div>
+        </div>
+
+        <div id="sectionsContainer">
+            <!-- Sections will be added here -->
+        </div>
+
+        <button onclick="addSection()" class="button-outline" style="width: 100%; margin-top: 20px;">
+            + Add Section
+        </button>
+
+        <div class="export-buttons">
+            <button onclick="previewForm()">Preview & Download</button>
+        </div>
+    </div>
+    
+    <!-- Main script -->
+    <script src="js/form-builder.js"></script>
+</body>
+</html>

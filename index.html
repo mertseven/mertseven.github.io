@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mert Seven</title>
+    
+    <!-- Google Fonts -->
+    <link href='https://fonts.googleapis.com/css?family=IBM+Plex+Sans+Condensed' rel='stylesheet'>
+    
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/terminal.css">
+    <link rel="stylesheet" href="css/xray.css">
+</head>
+<body>
+    <header>
+        <h1>Mert Seven</h1>
+        <div class="scroll-container">
+            <p class="scrolling-text">
+                <span class="text-variant font-1" style="font-weight: 700;">A MONOSPACE MONO SPACE</span>
+                <span class="text-variant font-2" style="font-style: italic; font-weight: 400;">a monospace mono space</span>
+                <span class="text-variant font-3" style="font-weight: 500;">A Monospace Mono Space</span>
+                <span class="text-variant font-4" style="font-style: italic; font-weight: 700;">a monospace mono space</span>
+                <span class="text-variant font-5" style="font-weight: 500;">A MONOSPACE MONO SPACE</span>
+                <span class="text-variant font-6" style="font-weight: 400;">a monospace mono space</span>
+                <span class="text-variant font-7" style="font-style: italic; font-weight: 500;">A Monospace Mono Space</span>
+                <span class="text-variant font-8" style="font-weight: 700;">a monospace mono space</span>
+                <span class="text-variant font-9" style="font-style: italic; font-weight: 400;">A MONOSPACE MONO SPACE</span>
+                <span class="text-variant font-10" style="font-weight: 500;">a monospace mono space</span>
+            </p>
+        </div>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="publications.html">Publications</a></li>
+            <li><a href="tools.html">Tools</a></li>
+            <li><a href="contact.html">Contact</a></li>        
+        </ul>
+    </nav>
+
+    <main>
+        <section id="about-me">
+            <div class="concept-box border-l-4 border-black pl-4 mb-8">
+                <h3>ABOUT ME</h3>
+                <p>I'm a sociologist who loves exploring new technologies, design, and ideas of the time. 
+                    My work sits at the intersection of digital culture and human behavior, where I investigate 
+                    how technology shapes our ways of knowing and being. With a foundation 
+                    in sociology and a passion for new media, I approach technology not just as tools to use, 
+                    but as phenomena that transform how we think, connect, and create meaning in the digital age.</p>
+            </div>
+        
+            <p>This website functions as a digital playground, continuously evolving and integrating new aspects of web design and interaction. It draws inspiration from Hegel's philosophical concept of "becoming" - a fundamental idea about how things exist and change.</p>
+
+<div class="concept-box border-l-4 border-black pl-4 mb-8">
+    <h3>ON BECOMING</h3>
+    <p>Hegel proposed that nothing simply "is" in a fixed state. Instead, everything exists in a process of becoming something else. Think of how a seed becomes a plant - it's neither just a seed nor just a plant, but rather exists in a continuous process of development. Similarly, this website isn't a finished product but a space in constant transformation, where new features emerge and existing ones evolve.</p>
+</div>
+
+<div class="feature-box border-l-4 border-black pl-4 mb-8">
+    <h3>X-RAY VIEWER</h3>
+    <p>Hover over any element while X-Ray is active to inspect its structure. This tool reveals the underlying HTML architecture. Think of it as a transparent layer that lets you peek behind the curtain of web design.</p>
+</div>
+
+<div class="feature-box border-l-4 border-black pl-4">
+    <h3>MOONBASE TERMINAL</h3>
+    <p>An interactive command-line interface that provides another way to navigate and interact with the site. Type 'help' to discover available commands. This feature reimagines website navigation through a more technical, hands-on approach.</p>
+</div>
+
+<p>Each visit might reveal something new, as features are added and refined. The site exists not as a finished product but as an ongoing experiment in web development and design, always in the process of becoming something new.</p>
+    </main>
+
+    <!-- X-Ray Viewer Elements -->
+    <div id="xray-viewer" class="xray-viewer">
+        <div class="xray-placeholder">Hover over elements to see their code</div>
+    </div>
+    <button id="xray-toggle" class="xray-toggle">Hide X-Ray</button>
+
+    <!-- Terminal Elements -->
+    <button id="terminal-toggle" class="terminal-toggle">Show Terminal</button>
+    <div class="terminal-container" id="terminal">
+        <div class="terminal-header">
+            <div class="terminal-title">MOONBASE TERMINAL</div>
+            <div class="terminal-controls">
+                <span id="terminal-minimize">_</span>
+            </div>
+        </div>
+        <div class="terminal-content" id="terminal-content">
+            <p class="terminal-line terminal-output">Welcome to MOONBASE Terminal v1.0.0</p>
+            <p class="terminal-line terminal-output">Type 'help' for available commands</p>
+            <p class="terminal-line">
+                <span class="terminal-prompt">moonbase:~$</span>
+                <input type="text" class="terminal-input" id="terminal-input" spellcheck="false" autocomplete="off">
+            </p>
+        </div>
+    </div>
+
+    <!-- JavaScript Files -->
+    <script src="js/xray.js"></script>
+    <script src="js/terminal.js"></script>
+</body>
+</html>

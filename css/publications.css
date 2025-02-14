@@ -1,0 +1,266 @@
+/* Override default section styles */
+section#publications {
+    border-left: none;
+    padding-left: 0;
+}
+
+/* Publications Grid */
+.publications-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    padding: 20px 0;
+}
+
+/* Publication Card */
+.publication-card {
+    position: relative;
+    background: #fff;
+    border: 4px solid #000;
+    padding: 15px;
+    font-family: 'IBM Plex Mono', monospace;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    /* Add these properties */
+    display: flex;
+    flex-direction: column;
+    min-height: 250px; /* Set a minimum height for consistency */
+}
+.publication-card:hover {
+    box-shadow: 5px 5px 0 rgba(0,0,0,0.2);
+    transform: translate(-2px, -2px);
+    background-color: #0000FF;
+    color: white; /* Change all text to white */
+    cursor: pointer;
+}
+/* Update all text elements within the card on hover */
+.publication-card:hover .publication-title,
+.publication-card:hover .publication-authors,
+.publication-card:hover .publication-abstract,
+.publication-card:hover .keyword {
+    color: white;
+}
+.publication-card:hover .publication-year {
+    background: white;
+    color: #0000FF;
+}
+
+.publication-card:hover .keyword {
+    background: white;  /* White background */
+    color: #0000FF;    /* Blue text to match the card background */
+}
+/* Year Tag */
+.publication-year {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: #000;
+    color: #fff;
+    padding: 4px 8px;
+    font-size: 12px;
+}
+.publication-card:hover .publication-title {
+    text-decoration: underline; /* Add underline to title on hover */
+}
+/* Title */
+.publication-title {
+    font-size: 16px;
+    font-weight: bold;
+    margin: 0 0 10px 0;
+    padding-right: 60px;
+}
+
+/* Authors */
+.publication-authors {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 10px;
+}
+
+/* Abstract */
+.publication-abstract {
+    font-size: 14px;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+    margin: 0;
+}
+
+.publication-actions {
+    /* Add these properties */
+    margin-top: auto;
+    padding-top: 15px;
+}
+
+.publication-card:hover .publication-abstract {
+    max-height: 200px;
+    margin: 10px 0;
+}
+
+/* Keywords */
+.publication-keywords {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin: 10px 0;
+}
+
+.keyword {
+    background: #f5f5f5;
+    border-style: dashed;
+    border-width: 1px;
+    padding: 4px 8px;
+    font-size: 12px;
+}
+
+/* Links */
+.publication-link {
+    display: inline-block;
+    padding: 8px 16px;
+    background: #000;
+    color: #fff;
+    text-decoration: none;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+    border: none;
+    font-family: 'IBM Plex Mono', monospace;
+    cursor: pointer;
+}
+
+.publication-link:hover {
+    background: #333;
+}
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 1000;
+}
+
+.modal-content {
+    position: relative;
+    background: #fff;
+    margin: 50px auto;
+    padding: 30px;
+    width: 80%;
+    max-width: 800px;
+    max-height: 80vh;
+    overflow-y: auto;
+    border: 4px solid #000;
+}
+
+.close-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.modal-header {
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #000;
+}
+
+.modal-meta {
+    display: flex;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+.modal-section {
+    margin-bottom: 20px;
+}
+
+.modal-section h3 {
+    margin: 0 0 10px 0;
+    font-family: 'IBM Plex Mono', monospace;
+}
+
+/* Download Section Styles */
+.download-section {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 2px solid #000;
+}
+
+.download-btn {
+    display: inline-flex;
+    align-items: center;
+    padding: 10px 20px;
+    background: #000;
+    color: #fff;
+    text-decoration: none;
+    font-family: 'IBM Plex Mono', monospace;
+    margin-right: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.download-btn:hover {
+    background: #333;
+}
+
+.download-icon {
+    margin-right: 8px;
+}
+
+.citation-box {
+    margin-top: 20px;
+    padding: 15px;
+    background: #f5f5f5;
+    border-left: 4px solid #000;
+}
+
+.citation-box h4 {
+    margin: 0 0 10px 0;
+    font-family: 'IBM Plex Mono', monospace;
+}
+
+.citation-box p {
+    margin: 0 0 10px 0;
+    font-size: 14px;
+}
+
+.copy-citation {
+    background: none;
+    border: 2px solid #000;
+    padding: 5px 10px;
+    font-family: 'IBM Plex Mono', monospace;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.copy-citation:hover {
+    background: #000;
+    color: #fff;
+}
+
+/* Media Queries */
+@media (max-width: 600px) {
+    .publications-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .modal-content {
+        width: 90%;
+        margin: 20px auto;
+        padding: 15px;
+    }
+}
+
+.publication-card {
+    text-align: left;  /* Override the justified alignment */
+}
+
+.publication-title,
+.publication-authors,
+.publication-abstract {
+    text-align: left;  /* Ensure all text content in cards is left-aligned */
+}

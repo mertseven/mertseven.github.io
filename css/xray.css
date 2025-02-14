@@ -1,0 +1,140 @@
+/* X-Ray Viewer Container */
+.xray-viewer {
+    position: fixed;
+    width: 400px;
+    height: 300px;
+    background: #fff;
+    color: #000;
+    padding: 15px;
+    border: 4px solid #000;
+    font-family: monospace;
+    pointer-events: auto;
+    z-index: 10000;
+    overflow: auto;
+    transition: all 0.3s ease;
+    box-shadow: 5px 5px 0 rgba(0,0,0,0.2);
+}
+
+.xray-viewer.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Lock State */
+.xray-viewer.locked {
+    border-color: #666;
+}
+
+.xray-lock-indicator {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 12px;
+    color: #666;
+    background: #f5f5f5;
+    padding: 4px 8px;
+    border: 1px solid #000;
+}
+
+.xray-viewer.locked .xray-lock-indicator {
+    background: #000;
+    color: #fff;
+}
+
+/* Content Styles */
+.xray-info {
+    border-bottom: 2px solid #000;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+.xray-tag {
+    color: #000;
+    font-weight: bold;
+}
+
+.xray-attr {
+    color: #666;
+    margin: 5px 0;
+}
+
+.xray-details {
+    font-size: 12px;
+    margin-bottom: 10px;
+    padding: 5px 0;
+}
+
+.xray-detail-item {
+    margin: 2px 0;
+}
+
+/* Toggle Button */
+.xray-toggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 8px 16px;
+    background: #000;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    z-index: 10001;
+    font-family: monospace;
+    font-weight: bold;
+}
+
+.xray-toggle:hover {
+    background: #333;
+}
+
+/* Placeholder and Highlight */
+.xray-placeholder {
+    color: #666;
+    text-align: center;
+    padding: 40px 20px;
+    border: 2px dashed #ccc;
+}
+
+.xray-highlight {
+    outline: 2px solid #000;
+    outline-offset: 1px;
+}
+
+/* Code Display */
+.xray-viewer pre {
+    margin: 0;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    font-size: 12px;
+    background: #f5f5f5;
+    color: #000;
+    padding: 10px;
+    border-left: 4px solid #000;
+    max-height: 200px;
+    overflow: auto;
+}
+
+/* Media Queries */
+@media (max-width: 600px) {
+    .xray-viewer {
+        width: 90%;
+        height: 50vh;
+        left: 5% !important;
+        bottom: 20px !important;
+        top: auto !important;
+        right: auto !important;
+        box-sizing: border-box;
+    }
+    
+    .xray-viewer.locked {
+        height: 70vh;
+    }
+    
+    .xray-toggle {
+        top: 10px;
+        right: 10px;
+        padding: 6px 12px;
+        font-size: 14px;
+    }
+}

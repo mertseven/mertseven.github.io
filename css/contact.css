@@ -1,0 +1,172 @@
+/* Contact Page Styles */
+.contact-container {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+    font-family: 'IBM Plex Mono', monospace;
+}
+
+/* Typewriter effect for h2 */
+.typewriter {
+    overflow: hidden;
+    border-right: 4px solid #000;
+    white-space: nowrap;
+    margin: 0;
+    animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
+}
+
+@keyframes typing {
+    from { width: 0 }
+    to { width: 100% }
+}
+
+@keyframes blink-caret {
+    from, to { border-color: transparent }
+    50% { border-color: #000 }
+}
+
+/* Form Styles */
+.contact-form {
+    border: 0px solid #000;
+    padding: 30px;
+    margin-top: 30px;
+    background: #fff;
+}
+
+.form-field {
+    margin-bottom: 25px;
+    position: relative;
+}
+
+.form-field label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.form-field input,
+.form-field textarea {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #000;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 16px;
+    background: transparent;
+    transition: all 0.3s ease;
+}
+
+.form-field textarea {
+    min-height: 150px;
+    resize: vertical;
+}
+
+.form-field input:focus,
+.form-field textarea:focus {
+    outline: none;
+    background: #000;
+    color: #fff;
+}
+
+/* Terminal-style validation messages */
+.terminal-validation {
+    position: absolute;
+    bottom: -20px;
+    left: 0;
+    font-size: 14px;
+    color: #f00;
+    font-family: 'IBM Plex Mono', monospace;
+}
+
+.terminal-validation::before {
+    content: '> ';
+    color: #000;
+}
+
+/* Submit Button */
+.submit-btn {
+    background: #000;
+    color: #fff;
+    border: none;
+    padding: 15px 30px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: bold;
+}
+
+.submit-btn:hover {
+    background: #333;
+}
+
+/* Info Box */
+.info-box {
+    border-left: 4px solid #000;
+    padding-left: 20px;
+    margin: 20px 0;
+}
+
+/* Transmission Status */
+.transmission-status {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.transmission-status.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+.status-content {
+    background: #000;
+    color: #fff;
+    padding: 30px;
+    border: 4px solid #fff;
+    text-align: center;
+}
+
+.status-text {
+    margin: 0;
+    font-size: 18px;
+}
+
+.status-animation {
+    width: 20px;
+    height: 20px;
+    border: 3px solid #fff;
+    border-top: 3px solid transparent;
+    border-radius: 50%;
+    margin: 20px auto 0;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    .contact-container {
+        padding: 0 10px;
+    }
+    
+    .contact-form {
+        padding: 20px;
+    }
+    
+    .submit-btn {
+        width: 100%;
+    }
+}

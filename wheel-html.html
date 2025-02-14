@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fortune Wheel - Moonbase I</title>
+
+<!-- Google Fonts -->
+<link href='https://fonts.googleapis.com/css?family=IBM+Plex+Sans+Condensed' rel='stylesheet'>
+<link href='https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap' rel='stylesheet'>
+
+<!-- CSS Files -->
+<link rel="stylesheet" href="css/styles.css">
+<link rel="stylesheet" href="css/fortune-wheel.css">
+</head>
+<body>
+    <a href="index.html" class="home-button">Home</a>
+<header>
+    <h1>FORTUNE WHEEL</h1>
+</header>
+
+<main>
+    <section id="wheel-controls">
+        <div class="input-section">
+            <h2>ADD STUDENTS</h2>
+            <div class="input-tabs">
+                <div class="tab-buttons">
+                    <button class="tab-btn active" data-tab="single">Single Input</button>
+                    <button class="tab-btn" data-tab="bulk">Bulk Input</button>
+                    <button class="tab-btn" data-tab="file">File Upload</button>
+                </div>
+                
+                <!-- Single Input -->
+                <div class="input-group active" id="single-tab">
+                    <input type="text" id="single-input" placeholder="Enter student name">
+                    <button id="add-student">ADD</button>
+                </div>
+                
+                <!-- Bulk Input -->
+                <div class="input-group" id="bulk-tab">
+                    <textarea id="bulk-input" placeholder="Paste multiple names (one per line)"></textarea>
+                    <button id="add-bulk">ADD LIST</button>
+                </div>
+                
+                <!-- File Upload -->
+                <div class="input-group" id="file-tab">
+                    <p class="file-info">Upload .txt or .csv file with one name per line</p>
+                    <input type="file" id="file-input" accept=".txt,.csv">
+                    <button id="upload-file">UPLOAD</button>
+                </div>
+            </div>
+            
+            <div class="control-group">
+                <button id="reset-wheel">RESET</button>
+            </div>
+        </div>
+    </section>
+
+    <section id="wheel-section">
+        <div class="wheel-container">
+            <div class="wheel-wrapper">
+                <canvas id="wheel-canvas"></canvas>
+                <div class="selector-triangle"></div>
+            </div>
+            <div class="wheel-controls">
+                <button id="spin-wheel">SPIN</button>
+                <button id="enter-fullscreen">FULLSCREEN</button>
+                <div id="names-counter" class="names-counter">0/0 names remaining</div>
+            </div>
+            <p class="keyboard-info">Press SPACE to spin the wheel</p>
+        </div>
+        
+        <div class="results-container">
+            <div class="selected-display">
+                <h3>SELECTED</h3>
+                <div id="selected-name">Spin the wheel!</div>
+            </div>
+            
+            <div class="history-display">
+                <h3>HISTORY</h3>
+                <ol id="selection-history"></ol>
+            </div>
+        </div>
+    </section>
+</main>
+
+<!-- Fullscreen Mode -->
+<!-- Fullscreen Mode -->
+<div id="fullscreen-mode" class="hidden">
+    <div class="fullscreen-container">
+        <div class="fullscreen-controls">
+            <button id="exit-fullscreen">EXIT</button>
+            <button id="fullscreen-spin">SPIN</button>
+            <div id="fullscreen-counter" class="names-counter">0/0 names remaining</div>
+            <div class="speed-control">
+                <label for="spin-speed">SPEED:</label>
+                <input type="range" id="spin-speed" min="1" max="10" value="5">
+            </div>
+        </div>
+        <div class="fullscreen-content">
+            <div class="fullscreen-wheel-wrapper">
+                <canvas id="fullscreen-canvas"></canvas>
+                <div class="selector-triangle fullscreen-selector"></div>
+            </div>
+        </div>
+        
+        <div id="fullscreen-popup" class="popup hidden">
+            <div class="popup-content">
+                <h2 id="popup-name"></h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- JavaScript Files -->
+<script src="js/fortune-wheel.js"></script>
+</body>
+</html>
