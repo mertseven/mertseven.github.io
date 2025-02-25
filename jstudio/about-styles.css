@@ -1,0 +1,110 @@
+.about-main {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.about-header {
+    margin-bottom: 60px;
+    padding-bottom: 40px;
+    border-bottom: 2px solid var(--color-black);
+}
+
+.about-header h1 {
+    font-family: "Space Grotesk", sans-serif;
+    font-size: 3rem;
+    line-height: 1.1;
+    margin-bottom: 24px;
+    font-weight: 700;
+    color: var(--color-black);
+    letter-spacing: -0.02em;
+}
+
+.lead-text {
+    font-family: "IBM Plex Serif", serif;
+    font-size: 1.5rem;
+    line-height: 1.4;
+    color: var(--color-gray);
+    font-weight: 400;
+    max-width: 900px;
+}
+
+.about-section {
+    margin-bottom: 60px;
+}
+
+.about-section h2 {
+    font-family: "Space Grotesk", sans-serif;
+    font-size: 2rem;
+    margin-bottom: 24px;
+    font-weight: 700;
+    color: var(--color-black);
+}
+
+.about-section p {
+    font-family: "IBM Plex Serif", serif;
+    font-size: 1.2rem;
+    line-height: 1.8;
+    color: var(--color-black);
+    margin-bottom: 20px;
+}
+
+.location-section {
+    background: var(--color-lighter-gray);
+    padding: 40px;
+    margin: 60px 0px;
+}
+
+.location-map {
+    height: 400px;
+    width: 100%;
+    border: 2px solid var(--color-black);
+    margin-bottom: 30px;
+    filter: grayscale(0%) contrast(1.1);
+    
+}
+
+.contact-info {
+    padding: 30px;
+    background: var(--color-white);
+    border: 1px solid var(--color-black);
+}
+
+.contact-info h3 {
+    font-family: "Space Grotesk", sans-serif;
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    font-weight: 600;
+    color: var(--color-black);
+}
+
+.contact-info p {
+    font-family: "IBM Plex Serif", serif;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: var(--color-black);
+    margin-bottom: 20px;
+}
+
+@media (max-width: 768px) {
+    .about-header h1 {
+        font-size: 2.5rem;
+    }
+
+    .lead-text {
+        font-size: 1.3rem;
+    }
+
+    .location-section {
+        margin: 40px -20px;
+        padding: 20px;
+    }
+
+    .location-map {
+        height: 300px;
+    }
+
+    .contact-info {
+        padding: 20px;
+    }
+}

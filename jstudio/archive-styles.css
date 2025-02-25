@@ -1,0 +1,189 @@
+/* Archive Page Styles */
+.archive-main {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Archive Header */
+.archive-header {
+    margin-bottom: 60px;
+    border-bottom: 2px solid var(--color-black);
+    padding-bottom: 40px;
+}
+
+.archive-header h1 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+    font-weight: 700;
+    color: var(--color-black);
+}
+
+/* Archive Controls */
+.archive-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+}
+
+.filter-controls {
+    display: flex;
+    gap: 16px;
+}
+
+.filter-controls select {
+    padding: 8px 16px;
+    border: 1px solid var(--color-black);
+    font-family: "Space Grotesk", sans-serif;
+    font-size: 1rem;
+    background: var(--color-white);
+    cursor: pointer;
+}
+
+.view-controls {
+    display: flex;
+    gap: 8px;
+}
+
+.view-toggle {
+    background: none;
+    border: 1px solid var(--color-black);
+    padding: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.view-toggle.active {
+    background: var(--color-black);
+    color: var(--color-white);
+}
+
+/* Archive Grid */
+.archive-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+/* Archive Card */
+.archive-card {
+    border: 1px solid var(--color-black);
+    background: var(--color-white);
+    transition: transform 0.3s ease;
+}
+
+.archive-card:hover {
+    transform: translateY(-2px);
+}
+
+.archive-card-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.archive-card-image {
+    position: relative;
+    padding-top: 66.67%; /* 3:2 aspect ratio */
+    overflow: hidden;
+    border-bottom: 1px solid var(--color-black);
+}
+
+.archive-card-image img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(100%);
+}
+
+.archive-card-content {
+    padding: 20px;
+}
+
+.archive-card-category {
+    display: inline-block;
+    background: var(--color-black);
+    color: var(--color-white);
+    padding: 4px 12px;
+    font-family: "Space Grotesk", sans-serif;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+}
+
+.archive-card-title {
+    font-family: "Space Grotesk", sans-serif;
+    font-size: 1.5rem;
+    margin-bottom: 12px;
+    line-height: 1.3;
+    color: var(--color-black);
+}
+
+.archive-card-meta {
+    display: flex;
+    gap: 16px;
+    font-size: 0.9rem;
+    color: var(--color-medium-gray);
+    margin-bottom: 12px;
+}
+
+.archive-card-excerpt {
+    font-family: "IBM Plex Serif", serif;
+    font-size: 1rem;
+    color: var(--color-gray);
+    line-height: 1.5;
+}
+
+/* List View Styles */
+.archive-content.list-view-active .archive-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.archive-content.list-view-active .archive-card {
+    display: flex;
+    height: 200px;
+}
+
+.archive-content.list-view-active .archive-card-image {
+    width: 300px;
+    padding-top: 0;
+    border-bottom: none;
+    border-right: 1px solid var(--color-black);
+}
+
+.archive-content.list-view-active .archive-card-content {
+    flex: 1;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .archive-controls {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .filter-controls {
+        flex-direction: column;
+    }
+
+    .archive-content.list-view-active .archive-card {
+        flex-direction: column;
+        height: auto;
+    }
+
+    .archive-content.list-view-active .archive-card-image {
+        width: 100%;
+        padding-top: 66.67%;
+        border-right: none;
+        border-bottom: 1px solid var(--color-black);
+    }
+}
+

@@ -1,0 +1,190 @@
+.students-main {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.page-header {
+    margin-bottom: 60px;
+    padding-bottom: 40px;
+    border-bottom: 2px solid var(--color-black);
+}
+
+.page-header h1 {
+    font-family: "Space Grotesk", sans-serif;
+    font-size: 3rem;
+    line-height: 1.1;
+    margin-bottom: 24px;
+    font-weight: 700;
+    color: var(--color-black);
+    letter-spacing: -0.02em;
+}
+
+.lead-text {
+    font-family: "IBM Plex Serif", serif;
+    font-size: 1.5rem;
+    line-height: 1.4;
+    color: var(--color-gray);
+    font-weight: 400;
+    max-width: 900px;
+}
+
+/* Faculty Section */
+.faculty-section {
+    margin-bottom: 80px;
+}
+
+.faculty-section h2,
+.students-section h2 {
+    font-family: "Space Grotesk", sans-serif;
+    font-size: 2rem;
+    margin-bottom: 40px;
+    font-weight: 700;
+    color: var(--color-black);
+    border-bottom: 2px solid var(--color-black);
+    padding-bottom: 10px;
+}
+
+.faculty-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px;
+    margin-bottom: 60px;
+}
+
+.faculty-card {
+    border: 1px solid var(--color-black);
+    background: var(--color-white);
+    transition: transform 0.3s ease;
+}
+
+.faculty-card:hover {
+    transform: translateY(-5px);
+}
+
+.profile-image {
+    width: 100%;
+    aspect-ratio: 1;
+    overflow: hidden;
+    border-bottom: 1px solid var(--color-black);
+}
+
+.profile-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(100%);
+    transition: filter 0.3s ease;
+}
+
+.faculty-card:hover .profile-image img {
+    filter: grayscale(80%);
+}
+
+.profile-content {
+    padding: 24px;
+}
+
+.profile-content h3 {
+    font-family: "Space Grotesk", sans-serif;
+    font-size: 1.5rem;
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+.profile-content .title {
+    font-family: "IBM Plex Serif", serif;
+    font-size: 1.1rem;
+    color: var(--color-medium-gray);
+    margin-bottom: 16px;
+    font-style: italic;
+}
+
+.profile-content .bio {
+    font-family: "IBM Plex Serif", serif;
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    color: var(--color-black);
+}
+
+.contact-links {
+    display: flex;
+    gap: 16px;
+}
+
+.contact-links a {
+    color: var(--color-black);
+    text-decoration: none;
+    font-family: "Space Grotesk", sans-serif;
+    font-size: 0.9rem;
+    font-weight: 500;
+    padding: 6px 12px;
+    border: 1px solid var(--color-black);
+    transition: all 0.3s ease;
+}
+
+.contact-links a:hover {
+    background: var(--color-black);
+    color: var(--color-white);
+}
+
+/* Students Section */
+.students-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 30px;
+}
+
+.student-card {
+    border: 1px solid var(--color-black);
+    background: var(--color-white);
+    transition: transform 0.3s ease;
+}
+
+.student-card:hover {
+    transform: translateY(-5px);
+}
+
+.student-card .profile-content {
+    padding: 20px;
+}
+
+.student-card h3 {
+    font-size: 1.2rem;
+    margin-bottom: 8px;
+}
+
+.student-card .project-title {
+    font-family: "IBM Plex Serif", serif;
+    font-size: 0.9rem;
+    color: var(--color-medium-gray);
+    margin-bottom: 12px;
+    font-style: italic;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .faculty-grid {
+        gap: 30px;
+    }
+}
+
+@media (max-width: 768px) {
+    .page-header h1 {
+        font-size: 2.5rem;
+    }
+
+    .lead-text {
+        font-size: 1.3rem;
+    }
+
+    .faculty-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .students-grid {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 20px;
+    }
+}

@@ -1,0 +1,177 @@
+.create-article-main {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+.article-form {
+    background: var(--color-white);
+    padding: 30px;
+    border: 1px solid var(--color-black);
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-family: "Space Grotesk", sans-serif;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid var(--color-medium-gray);
+    font-family: "IBM Plex Serif", serif;
+    font-size: 1rem;
+}
+
+.form-group textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+.form-actions {
+    margin-top: 30px;
+}
+
+.btn-primary {
+    background: var(--color-black);
+    color: var(--color-white);
+    padding: 12px 24px;
+    border: none;
+    font-family: "Space Grotesk", sans-serif;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+}
+
+.btn-primary:hover {
+    opacity: 0.9;
+}
+
+.output-section {
+    margin-top: 40px;
+    padding: 20px;
+    background: var(--color-lighter-gray);
+    border: 1px solid var(--color-black);
+}
+
+.output-section pre {
+    background: var(--color-white);
+    padding: 20px;
+    overflow-x: auto;
+    margin: 20px 0;
+}
+
+.btn-secondary {
+    background: var(--color-white);
+    color: var(--color-black);
+    border: 1px solid var(--color-black);
+    padding: 8px 16px;
+    font-family: "Space Grotesk", sans-serif;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-secondary:hover {
+    background: var(--color-black);
+    color: var(--color-white);
+}
+
+.editor-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+.content-toolbar {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+    padding: 15px;
+    background: var(--color-lighter-gray);
+    border: 1px solid var(--color-medium-gray);
+}
+
+.content-toolbar button {
+    padding: 8px 16px;
+    background: var(--color-white);
+    border: 1px solid var(--color-black);
+    font-family: "Space Grotesk", sans-serif;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.content-toolbar button:hover {
+    background: var(--color-black);
+    color: var(--color-white);
+}
+
+.content-blocks-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.content-block {
+    position: relative;
+    padding: 15px;
+    border: 1px solid var(--color-medium-gray);
+    background: var(--color-white);
+}
+
+.block-controls {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    display: flex;
+    gap: 5px;
+}
+
+.block-controls button {
+    padding: 4px 8px;
+    background: var(--color-white);
+    border: 1px solid var(--color-black);
+    cursor: pointer;
+    font-size: 0.8rem;
+}
+
+.preview-section {
+    background: var(--color-white);
+    border: 1px solid var(--color-black);
+    padding: 20px;
+    max-height: calc(100vh - 200px);
+    overflow-y: auto;
+}
+
+.preview-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* Block-specific styles */
+.block-quote {
+    padding-left: 20px;
+    border-left: 4px solid var(--color-black);
+    font-style: italic;
+}
+
+.block-image-preview,
+.block-video-preview {
+    max-width: 100%;
+    margin: 10px 0;
+}
+
+.block-subheading {
+    font-family: "Space Grotesk", sans-serif;
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 20px 0 10px;
+}

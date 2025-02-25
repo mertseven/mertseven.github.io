@@ -1,0 +1,64 @@
+<!-- create-article.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Article - Journalism Studio</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="article-styles.css">
+    <link rel="stylesheet" href="create-article.css">
+</head>
+<body>
+    <div class="page-wrapper">
+        <!-- Header remains the same -->
+        
+        <div class="container">
+            <main class="create-article-main">
+                <h2>Create New Article</h2>
+                <div class="editor-container">
+                    <div class="form-section">
+                        <form id="articleForm" class="article-form">
+                            <!-- Previous form fields remain -->
+                            
+                            <div class="content-blocks">
+                                <h3>Article Content</h3>
+                                <div class="content-toolbar">
+                                    <button type="button" data-block="paragraph">Add Paragraph</button>
+                                    <button type="button" data-block="image">Add Image</button>
+                                    <button type="button" data-block="video">Add Video</button>
+                                    <button type="button" data-block="iframe">Add Iframe</button>
+                                    <button type="button" data-block="quote">Add Quote</button>
+                                    <button type="button" data-block="subheading">Add Subheading</button>
+                                </div>
+                                
+                                <div id="contentBlocks" class="content-blocks-container">
+                                    <!-- Content blocks will be added here -->
+                                </div>
+                            </div>
+
+                            <div class="form-actions">
+                                <button type="button" id="previewButton" class="btn-secondary">Toggle Preview</button>
+                                <button type="submit" class="btn-primary">Generate Article</button>
+                            </div>
+                        </form>
+                    </div>
+                    
+                    <div id="previewPane" class="preview-section">
+                        <div class="preview-container">
+                            <!-- Live preview will be rendered here -->
+                        </div>
+                    </div>
+                </div>
+
+                <div id="output" class="output-section" style="display: none">
+                    <h3>Generated Article HTML</h3>
+                    <pre><code id="generatedHtml"></code></pre>
+                    <button id="copyButton" class="btn-secondary">Copy to Clipboard</button>
+                </div>
+            </main>
+        </div>
+    </div>
+    <script src="create-article.js"></script>
+</body>
+</html>

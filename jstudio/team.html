@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Students and Faculty - Journalism Studio at Yaşar University">
+    <title>Students & Faculty - Journalism Studio News</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=IBM+Plex+Serif:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+    <link rel="stylesheet" href="jstudio/styles.css">
+    <link rel="stylesheet" href="jstudio/students-styles.css">
+</head>
+<body>
+    <div class="page-wrapper">
+        <header class="main-header">
+            <div class="header-content">
+                <a href="jstudio/index.html" class="logo-link">
+                    <img src="jstudio/logo.png" alt="Journalism Studio" class="header-logo">
+                <nav class="main-nav">
+                    <ul>
+                        <li><a href="jstudio/index.html">Home</a></li>
+                        <li><a href="jstudio/archive.html">Archive</a></li>
+                        <li><a href="jstudio/team.html" class="active">Team</a></li>
+                        <li><a href="jstudio/resources.html">Resources</a></li>
+                        <li><a href="jstudio/js_obsidian/index.html">Documents</a></li>
+                        <li><a href="jstudio/about.html">About</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </header>
+
+        <div class="container">
+            <main class="students-main">
+                <header class="page-header">
+                    <h1>Our Team</h1>
+                    <p class="lead-text">Meet the faculty and students behind Journalism Studio's innovative projects.</p>
+                </header>
+
+                <section class="faculty-section">
+                    <h2>Faculty</h2>
+                    <div class="faculty-grid">
+                        <article class="faculty-card">
+                            <div class="profile-image">
+                                <img src="/api/placeholder/300/300" alt="Faculty member 1">
+                            </div>
+                            <div class="profile-content">
+                                <h3>Dr. Sarah Anderson</h3>
+                                <p class="title">Course Coordinator</p>
+                                <p class="bio">Specializing in digital journalism and new media technologies with over 15 years of experience in journalism education.</p>
+                                <div class="contact-links">
+                                    <a href="mailto:sarah.anderson@yasar.edu.tr">Email</a>
+                                    <a href="#">Profile</a>
+                                </div>
+                            </div>
+                        </article>
+
+                        <article class="faculty-card">
+                            <div class="profile-image">
+                                <img src="/api/placeholder/300/300" alt="Faculty member 2">
+                            </div>
+                            <div class="profile-content">
+                                <h3>Prof. James Chen</h3>
+                                <p class="title">Course Instructor</p>
+                                <p class="bio">Expert in investigative journalism and data storytelling, with extensive experience in international news coverage.</p>
+                                <div class="contact-links">
+                                    <a href="mailto:james.chen@yasar.edu.tr">Email</a>
+                                    <a href="#">Profile</a>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                </section>
+
+                <section class="students-section">
+                    <h2>Students</h2>
+                    <div class="students-grid" id="studentsGrid">
+                        <!-- Students will be dynamically inserted here -->
+                    </div>
+                </section>
+            </main>
+        </div>
+
+        <footer class="main-footer">
+            <div class="footer-content">
+                <p>&copy; 2025 Journalism Studio. All rights reserved.</p>
+            </div>
+        </footer>
+    </div>
+    <script src="jstudio/students-script.js"></script>
+</body>
+</html>

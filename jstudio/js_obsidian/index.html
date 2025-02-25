@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JournalismStudio</title>
+    <link rel="stylesheet" href="css/obsidian-export.css">
+    <style>
+        .homepage-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background-color: var(--background-secondary);
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .role-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .role-card {
+            background-color: var(--background-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 1.5rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .role-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .role-card h3 {
+            margin-top: 0;
+            color: var(--text-accent);
+        }
+        
+        .logo {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .logo h1 {
+            font-size: 2.5em;
+            margin: 0;
+            border: none;
+        }
+    </style>
+</head>
+<body class="theme-dark">
+    <div class="homepage-container">
+        <div class="logo">
+            <h1>Journalism Studio</h1>
+            <p>Student journalism projects at Yaşar University</p>
+        </div>
+        
+        <h2>Role Templates</h2>
+        <p>Explore different roles in our journalism studio. Each template provides guidelines, examples, and resources for students taking on specific roles in the newsroom.</p>
+        
+        <div class="role-cards">
+            <a href="researcher.html" class="role-card">
+                <h3>Researcher</h3>
+                <p>Learn how to collect, verify, and analyze data for journalistic projects. Includes interview templates, data collection methods, and verification checklists.</p>
+            </a>
+            
+            <a href="content-writer.html" class="role-card">
+                <h3>Content Writer</h3>
+                <p>Develop your skills in crafting compelling stories across different formats. Includes article templates, style guides, and editorial checklists.</p>
+            </a>
+            
+            <a href="multimedia-editor.html" class="role-card">
+                <h3>Multimedia Editor</h3>
+                <p>Create engaging visual and audio content for digital journalism. Includes templates for photo essays, audio stories, and video production.</p>
+            </a>
+            
+            <a href="strategist-social-media-editor.html" class="role-card">
+                <h3>Strategist/Social Media Editor</h3>
+                <p>Plan and execute effective distribution strategies. Includes templates for content calendars, analytics tracking, and audience engagement.</p>
+            </a>
+            
+            <a href="deliverables.html" class="role-card">
+                <h3>Deliverables</h3>
+                <p>Overview of the expected project outcomes and submission guidelines for all team members.</p>
+            </a>
+            
+            <a href="learning-outcomes.html" class="role-card">
+                <h3>Learning Outcomes</h3>
+                <p>Educational goals and assessment criteria for the Journalism Studio course.</p>
+            </a>
+        </div>
+    </div>
+    
+    <script src="js/obsidian-export.js"></script>
+</body>
+</html>
