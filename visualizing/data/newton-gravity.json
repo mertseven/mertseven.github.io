@@ -1,0 +1,99 @@
+{
+  "id": "newton-gravity",
+  "title": "Newton's Theory of Gravity",
+  "description": "Newton's law of universal gravitation states that every particle attracts every other particle in the universe with a force directly proportional to the product of their masses and inversely proportional to the square of the distance between them.",
+  "url": "https://plato.stanford.edu/entries/newton-gravity/",
+  "connections": [
+    {
+      "id": "universal-law",
+      "title": "Universal Law",
+      "category": "theory",
+      "description": "Newton's concept of a universal law governing celestial and terrestrial motion",
+      "relatedNodes": ["inverse-square", "action-distance"]
+    },
+    {
+      "id": "inverse-square",
+      "title": "Inverse Square Law",
+      "category": "theory",
+      "description": "The mathematical formulation showing force decreases with the square of distance",
+      "relatedNodes": ["universal-law", "mathematical-principles"]
+    },
+    {
+      "id": "action-distance",
+      "title": "Action at a Distance",
+      "category": "method",
+      "description": "Newton's controversial concept that gravity acts across space without a medium",
+      "relatedNodes": ["universal-law", "critique-leibniz"]
+    },
+    {
+      "id": "absolute-space",
+      "title": "Absolute Space",
+      "category": "substance",
+      "description": "Newton's conception of space as an absolute, immovable frame of reference",
+      "relatedNodes": ["absolute-time", "critique-leibniz"]
+    },
+    {
+      "id": "absolute-time",
+      "title": "Absolute Time",
+      "category": "substance",
+      "description": "Newton's conception of time as flowing uniformly without relation to external objects",
+      "relatedNodes": ["absolute-space", "mathematical-principles"]
+    },
+    {
+      "id": "mathematical-principles",
+      "title": "Mathematical Principles",
+      "category": "method",
+      "description": "Newton's mathematical approach to physical problems in the Principia",
+      "relatedNodes": ["inverse-square", "absolute-time"]
+    },
+    {
+      "id": "kepler-laws",
+      "title": "Kepler's Laws",
+      "category": "influence",
+      "description": "Kepler's laws of planetary motion that Newton was able to derive from his theory",
+      "relatedNodes": ["universal-law", "celestial-mechanics"]
+    },
+    {
+      "id": "celestial-mechanics",
+      "title": "Celestial Mechanics",
+      "category": "dynamical",
+      "description": "Newton's application of gravitational theory to the motion of celestial bodies",
+      "relatedNodes": ["kepler-laws", "tidal-effects"]
+    },
+    {
+      "id": "tidal-effects",
+      "title": "Tidal Effects",
+      "category": "dynamical",
+      "description": "Newton's explanation of tides as resulting from lunar and solar gravitational forces",
+      "relatedNodes": ["celestial-mechanics", "universal-law"]
+    },
+    {
+      "id": "critique-leibniz",
+      "title": "Critique by Leibniz",
+      "category": "influence",
+      "description": "Leibniz's criticisms of Newton's concepts of absolute space and action at a distance",
+      "relatedNodes": ["action-distance", "absolute-space"]
+    },
+    {
+      "id": "experimental-evidence",
+      "title": "Experimental Evidence",
+      "category": "method",
+      "description": "Newton's use of experimental evidence to support his gravitational theory",
+      "relatedNodes": ["universal-law", "pendulum-experiments"]
+    },
+    {
+      "id": "pendulum-experiments",
+      "title": "Pendulum Experiments",
+      "category": "dynamical",
+      "description": "Experiments with pendulums that supported Newton's theory of gravity",
+      "relatedNodes": ["experimental-evidence", "inverse-square"]
+    }
+  ],
+  "categories": {
+    "dynamical": "Dynamical Phenomena",
+    "substance": "Substantive Concepts",
+    "method": "Methodological Principles",
+    "influence": "Historical Context",
+    "theory": "Theoretical Framework"
+  }
+}

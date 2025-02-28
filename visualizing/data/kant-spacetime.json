@@ -1,0 +1,99 @@
+{
+  "id": "kant-space-time",
+  "title": "Kant on Space and Time",
+  "description": "Kant's transcendental idealism posits that space and time are not objective features of things in themselves, but rather subjective features of our minds—forms of sensibility that structure our experience of the world.",
+  "url": "https://plato.stanford.edu/entries/kant-spacetime/",
+  "connections": [
+    {
+      "id": "transcendental-aesthetic",
+      "title": "Transcendental Aesthetic",
+      "category": "method",
+      "description": "Kant's investigation of the a priori conditions of human sensibility in the Critique of Pure Reason",
+      "relatedNodes": ["a-priori-intuition", "forms-of-sensibility"]
+    },
+    {
+      "id": "a-priori-intuition",
+      "title": "A Priori Intuition",
+      "category": "method",
+      "description": "Kant's view that space and time are known through a priori intuition rather than concepts",
+      "relatedNodes": ["transcendental-aesthetic", "synthetic-a-priori"]
+    },
+    {
+      "id": "forms-of-sensibility",
+      "title": "Forms of Sensibility",
+      "category": "substance",
+      "description": "Kant's thesis that space and time are forms of sensibility that structure our experience",
+      "relatedNodes": ["transcendental-aesthetic", "ideality-space-time"]
+    },
+    {
+      "id": "ideality-space-time",
+      "title": "Ideality of Space and Time",
+      "category": "theory",
+      "description": "Kant's view that space and time are ideal (mind-dependent) rather than real properties of things in themselves",
+      "relatedNodes": ["forms-of-sensibility", "things-in-themselves"]
+    },
+    {
+      "id": "things-in-themselves",
+      "title": "Things in Themselves",
+      "category": "substance",
+      "description": "Kant's concept of noumena or objects as they are independent of our perception",
+      "relatedNodes": ["ideality-space-time", "transcendental-realism"]
+    },
+    {
+      "id": "transcendental-realism",
+      "title": "Transcendental Realism",
+      "category": "theory",
+      "description": "The position Kant rejects that treats space and time as features of things in themselves",
+      "relatedNodes": ["things-in-themselves", "newtonian-absolute"]
+    },
+    {
+      "id": "newtonian-absolute",
+      "title": "Newtonian Absolute Framework",
+      "category": "influence",
+      "description": "Newton's conception of absolute space and time that influenced Kant's thinking",
+      "relatedNodes": ["transcendental-realism", "leibnizian-relational"]
+    },
+    {
+      "id": "leibnizian-relational",
+      "title": "Leibnizian Relational View",
+      "category": "influence",
+      "description": "Leibniz's relational conception of space and time that Kant sought to overcome",
+      "relatedNodes": ["newtonian-absolute", "synthetic-a-priori"]
+    },
+    {
+      "id": "synthetic-a-priori",
+      "title": "Synthetic A Priori Knowledge",
+      "category": "method",
+      "description": "Kant's notion that knowledge of space and time is synthetic a priori",
+      "relatedNodes": ["a-priori-intuition", "euclidean-geometry"]
+    },
+    {
+      "id": "euclidean-geometry",
+      "title": "Euclidean Geometry",
+      "category": "dynamical",
+      "description": "Kant's view that Euclidean geometry is synthetically true a priori because of the nature of spatial intuition",
+      "relatedNodes": ["synthetic-a-priori", "mathematical-cognition"]
+    },
+    {
+      "id": "mathematical-cognition",
+      "title": "Mathematical Cognition",
+      "category": "method",
+      "description": "Kant's account of how mathematics is possible through pure intuition of space and time",
+      "relatedNodes": ["euclidean-geometry", "schematism"]
+    },
+    {
+      "id": "schematism",
+      "title": "Schematism",
+      "category": "theory",
+      "description": "Kant's theory of how concepts are applied to intuitions through temporal schemas",
+      "relatedNodes": ["mathematical-cognition", "forms-of-sensibility"]
+    }
+  ],
+  "categories": {
+    "dynamical": "Applications",
+    "substance": "Metaphysical Elements",
+    "method": "Epistemological Approach",
+    "influence": "Historical Context",
+    "theory": "Theoretical Framework"
+  }
+}
