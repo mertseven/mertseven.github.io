@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visualizing SEP - Stanford Encyclopedia of Philosophy</title>
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Load D3.js -->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="12" cy="12" r="10" stroke="#4ECDC4" stroke-width="2"/>
+                <circle cx="12" cy="12" r="5" fill="#4ECDC4"/>
+            </svg>
+            <h1>Visualizing SEP</h1>
+        </div>
+        
+        <div class="nav-controls">
+            <div class="dropdown">
+                <button class="dropdown-btn">Search Articles</button>
+                <div class="dropdown-content">
+                    <input type="text" placeholder="Search articles...">
+                    <ul class="search-results">
+                        <!-- Search results will be populated here -->
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="dropdown">
+                <button class="dropdown-btn">Select Domain</button>
+                <div class="dropdown-content">
+                    <ul>
+                        <li data-domain="metaphysics">Metaphysics</li>
+                        <li data-domain="epistemology">Epistemology</li>
+                        <li data-domain="philosophy-of-science">Philosophy of Science</li>
+                        <li data-domain="ethics">Ethics</li>
+                        <li data-domain="logic">Logic</li>
+                        <li data-domain="philosophy-of-mind">Philosophy of Mind</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <button class="btn randomize">Randomize</button>
+        </div>
+        
+        <div class="nav-links">
+            <a href="#about">About</a>
+            <a href="#contact">Contact</a>
+        </div>
+    </header>
+    
+    <main>
+        <aside class="left-sidebar">
+            <div class="article-details">
+                <h3>Article Details</h3>
+                <div class="article-content">
+                    <h4 id="article-title">Leibniz's Philosophy of Physics</h4>
+                    <p id="article-description">Leibniz made numerous contributions to physics, having developed a naturalistic account of the physical world that provided an alternative to Newtonian physics.</p>
+                    <div class="details-categories">
+                        <h5>Categories</h5>
+                        <ul id="categories-list">
+                            <li class="cat-dynamical">Dynamical Concepts</li>
+                            <li class="cat-substance">Substance Theory</li>
+                            <li class="cat-method">Methodological Principles</li>
+                            <li class="cat-influence">Historical Influences</li>
+                            <li class="cat-theory">Theoretical Frameworks</li>
+                        </ul>
+                    </div>
+                    <a href="#" class="article-link">View Article</a>
+                </div>
+            </div>
+        </aside>
+        
+        <div id="visualization-container" class="visualization-container">
+            <!-- D3 visualization will be rendered here -->
+        </div>
+        
+        <aside class="right-sidebar">
+            <div class="linked-articles">
+                <h3>Linked Articles</h3>
+                <ul id="linked-articles-list">
+                    <!-- Linked articles will be populated here -->
+                    <li>
+                        <a href="#">Leibniz</a>
+                        <span class="article-relevance high"></span>
+                    </li>
+                    <li>
+                        <a href="#">Force in Physics</a>
+                        <span class="article-relevance medium"></span>
+                    </li>
+                    <li>
+                        <a href="#">Newton</a>
+                        <span class="article-relevance medium"></span>
+                    </li>
+                    <li>
+                        <a href="#">Descartes</a>
+                        <span class="article-relevance low"></span>
+                    </li>
+                    <li>
+                        <a href="#">Theories of Time</a>
+                        <span class="article-relevance low"></span>
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="link-directions">
+                <h3>Link Directions</h3>
+                <ul>
+                    <li>
+                        <input type="checkbox" id="incoming-links" checked>
+                        <label for="incoming-links">Incoming Links 
+                            <span class="count">(5)</span>
+                        </label>
+                    </li>
+                    <li>
+                        <input type="checkbox" id="outgoing-links" checked>
+                        <label for="outgoing-links">Outgoing Links 
+                            <span class="count">(7)</span>
+                        </label>
+                    </li>
+                </ul>
+            </div>
+        </aside>
+    </main>
+    
+    <div id="node-tooltip" class="tooltip">
+        <!-- Tooltip content will be dynamically populated -->
+    </div>
+    
+    <!-- Load JavaScript files -->
+    <script src="js/data-loader.js"></script>
+    <script src="js/graph.js"></script>
+    <script src="js/navigation.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,99 @@
+{
+  "id": "leibniz-physics",
+  "title": "Leibniz's Philosophy of Physics",
+  "description": "Leibniz made numerous contributions to physics, having developed a naturalistic account of the physical world that provided an alternative to Newtonian physics.",
+  "url": "https://plato.stanford.edu/entries/leibniz-physics/",
+  "connections": [
+    {
+      "id": "dynamical-models",
+      "title": "Dynamical Models",
+      "category": "dynamical",
+      "description": "Leibniz's approach to physical systems through dynamic modeling",
+      "relatedNodes": ["force-distance", "substance-models"]
+    },
+    {
+      "id": "force-distance",
+      "title": "Force Distance",
+      "category": "dynamical",
+      "description": "Leibniz's conception of force acting at a distance",
+      "relatedNodes": ["dynamical-models", "absolute-relative-motion"]
+    },
+    {
+      "id": "substance-models",
+      "title": "Substance Models",
+      "category": "substance",
+      "description": "Leibniz's models of substance in physics",
+      "relatedNodes": ["dynamical-models", "monadology"]
+    },
+    {
+      "id": "absolute-relative-motion",
+      "title": "Absolute and Relative Motion",
+      "category": "method",
+      "description": "Leibniz's views on absolute versus relative motion",
+      "relatedNodes": ["force-distance", "space-time-framework"]
+    },
+    {
+      "id": "conserved-quantities",
+      "title": "Conserved Quantities",
+      "category": "theory",
+      "description": "Leibniz's work on conservation laws in physics",
+      "relatedNodes": ["vis-viva", "force-distance"]
+    },
+    {
+      "id": "vis-viva",
+      "title": "Vis Viva",
+      "category": "theory",
+      "description": "Leibniz's concept of 'living force'",
+      "relatedNodes": ["conserved-quantities", "dynamical-models"]
+    },
+    {
+      "id": "cartesian-influence",
+      "title": "Cartesian Influence",
+      "category": "influence",
+      "description": "Descartes' influence on Leibniz's physics",
+      "relatedNodes": ["mechanistic-principles", "substance-models"]
+    },
+    {
+      "id": "mechanistic-principles",
+      "title": "Mechanistic Principles",
+      "category": "method",
+      "description": "Leibniz's mechanistic approach to natural phenomena",
+      "relatedNodes": ["cartesian-influence", "vis-viva"]
+    },
+    {
+      "id": "monadology",
+      "title": "Monadology",
+      "category": "substance",
+      "description": "Connection between Leibniz's physics and his monadology",
+      "relatedNodes": ["substance-models", "metaphysics-physics"]
+    },
+    {
+      "id": "metaphysics-physics",
+      "title": "Metaphysics and Physics",
+      "category": "method",
+      "description": "Relationship between Leibniz's metaphysics and physics",
+      "relatedNodes": ["monadology", "sufficient-reason"]
+    },
+    {
+      "id": "sufficient-reason",
+      "title": "Principle of Sufficient Reason",
+      "category": "method",
+      "description": "Application of sufficient reason in Leibniz's physics",
+      "relatedNodes": ["metaphysics-physics", "space-time-framework"]
+    },
+    {
+      "id": "space-time-framework",
+      "title": "Space-Time Framework",
+      "category": "theory",
+      "description": "Leibniz's conception of space and time",
+      "relatedNodes": ["sufficient-reason", "absolute-relative-motion"]
+    }
+  ],
+  "categories": {
+    "dynamical": "Dynamical Concepts",
+    "substance": "Substance Theory",
+    "method": "Methodological Principles",
+    "influence": "Historical Influences",
+    "theory": "Theoretical Frameworks"
+  }
+}

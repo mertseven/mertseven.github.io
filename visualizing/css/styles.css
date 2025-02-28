@@ -1,0 +1,370 @@
+/* Base styling and reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    /* Color variables */
+    --background-color: #0f0f1a;
+    --sidebar-color: #1a1a2e;
+    --text-color: #e6e6e6;
+    --heading-color: #ffffff;
+    --link-color: #4ECDC4;
+    --border-color: #2d2d42;
+    
+    /* Category colors */
+    --dynamical-color: #4ECDC4;
+    --substance-color: #1A535C;
+    --method-color: #3D348B;
+    --influence-color: #F7FFF7;
+    --theory-color: #FF6B6B;
+    
+    /* Sizing */
+    --header-height: 60px;
+    --sidebar-width: 280px;
+}
+
+body {
+    font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    line-height: 1.6;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+a {
+    color: var(--link-color);
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+ul {
+    list-style-type: none;
+}
+
+button {
+    background: none;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    color: var(--text-color);
+    padding: 6px 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+button:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Header styling */
+header {
+    height: var(--header-height);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    border-bottom: 1px solid var(--border-color);
+    background-color: var(--sidebar-color);
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+.logo h1 {
+    font-size: 1.3rem;
+    margin-left: 10px;
+    color: var(--heading-color);
+}
+
+.nav-controls {
+    display: flex;
+    gap: 10px;
+}
+
+.nav-links {
+    display: flex;
+    gap: 20px;
+}
+
+/* Dropdown styling */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-btn {
+    min-width: 140px;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: var(--sidebar-color);
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+    min-width: 220px;
+    z-index: 100;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown-content input {
+    width: 100%;
+    padding: 8px;
+    border: none;
+    border-bottom: 1px solid var(--border-color);
+    background-color: var(--sidebar-color);
+    color: var(--text-color);
+}
+
+.dropdown-content ul {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.dropdown-content li {
+    padding: 8px 12px;
+    cursor: pointer;
+}
+
+.dropdown-content li:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Main layout */
+main {
+    display: flex;
+    flex-grow: 1;
+    overflow: hidden;
+}
+
+aside {
+    width: var(--sidebar-width);
+    background-color: var(--sidebar-color);
+    overflow-y: auto;
+    padding: 15px;
+    border-right: 1px solid var(--border-color);
+}
+
+.right-sidebar {
+    border-right: none;
+    border-left: 1px solid var(--border-color);
+}
+
+.visualization-container {
+    flex-grow: 1;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Article details styling */
+.article-details h3, 
+.linked-articles h3,
+.link-directions h3 {
+    font-size: 1.1rem;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 8px;
+    margin-bottom: 12px;
+    color: var(--heading-color);
+}
+
+.article-content h4 {
+    font-size: 1.1rem;
+    margin-bottom: 8px;
+    color: var(--heading-color);
+}
+
+.article-content p {
+    font-size: 0.9rem;
+    margin-bottom: 12px;
+}
+
+.details-categories {
+    margin: 15px 0;
+}
+
+.details-categories h5 {
+    font-size: 0.9rem;
+    margin-bottom: 6px;
+    color: var(--heading-color);
+}
+
+.details-categories ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.details-categories li {
+    font-size: 0.8rem;
+    padding: 3px 8px;
+    border-radius: 3px;
+}
+
+/* Category styling */
+.cat-dynamical {
+    background-color: var(--dynamical-color);
+    color: #000;
+}
+
+.cat-substance {
+    background-color: var(--substance-color);
+    color: #fff;
+}
+
+.cat-method {
+    background-color: var(--method-color);
+    color: #fff;
+}
+
+.cat-influence {
+    background-color: var(--influence-color);
+    color: #000;
+}
+
+.cat-theory {
+    background-color: var(--theory-color);
+    color: #000;
+}
+
+.article-link {
+    display: inline-block;
+    margin-top: 10px;
+    font-size: 0.9rem;
+}
+
+/* Linked articles styling */
+#linked-articles-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.article-relevance {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.article-relevance.high {
+    background-color: #4caf50;
+}
+
+.article-relevance.medium {
+    background-color: #ff9800;
+}
+
+.article-relevance.low {
+    background-color: #f44336;
+}
+
+/* Link directions styling */
+.link-directions ul {
+    margin-top: 10px;
+}
+
+.link-directions li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.link-directions input[type="checkbox"] {
+    margin-right: 8px;
+}
+
+.count {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.8rem;
+}
+
+/* Tooltip styling */
+.tooltip {
+    position: absolute;
+    background-color: var(--sidebar-color);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    padding: 10px;
+    pointer-events: none;
+    opacity: 0;
+    max-width: 250px;
+    z-index: 200;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: opacity 0.2s ease;
+}
+
+/* Visualization styling */
+.visualization {
+    width: 100%;
+    height: 100%;
+}
+
+.central-node circle {
+    fill: var(--sidebar-color);
+    stroke: var(--border-color);
+    stroke-width: 2;
+}
+
+.central-node text {
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.node text {
+    font-size: 12px;
+    pointer-events: none;
+}
+
+.node circle:hover {
+    stroke: white;
+    stroke-width: 2;
+}
+
+/* Responsive styling */
+@media (max-width: 1200px) {
+    :root {
+        --sidebar-width: 240px;
+    }
+}
+
+@media (max-width: 768px) {
+    body {
+        overflow-y: auto;
+    }
+    
+    main {
+        flex-direction: column;
+        overflow-y: auto;
+    }
+    
+    aside {
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid var(--border-color);
+    }
+    
+    .visualization-container {
+        height: 500px;
+    }
+    
+    .right-sidebar {
+        border-top: 1px solid var(--border-color);
+        border-left: none;
+    }
+}
