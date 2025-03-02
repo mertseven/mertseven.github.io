@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Critical Theory Hierarchical Edge Bundling</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Critical Theory</h1>
+            <div class="subtitle">This is part of series "Teaching Can Something"</div>
+        </div>
+        <div class="visualization" id="visualization"></div>
+    </div>
+    
+    <div class="controls">
+        <button id="resetBtn" class="btn">Reset View</button>
+        <button id="showAllBtn" class="btn">Show All Connections</button>
+    </div>
+    
+    <div class="legend">
+        <h3>Legend</h3>
+        <div class="legend-item">
+            <div class="legend-color" style="background-color: #1f77b4;"></div>
+            <span>Generations</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background-color: #ff7f0e;"></div>
+            <span>Influences</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background-color: #2ca02c;"></div>
+            <span>Methods</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background-color: #d62728;"></div>
+            <span>Concepts</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background-color: #9467bd;"></div>
+            <span>Contemporary Focuses</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background-color: #8c564b;"></div>
+            <span>Key Theorists</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background-color: #e377c2;"></div>
+            <span>Special Concepts</span>
+        </div>
+    </div>
+    
+    <div id="popup" class="popup">
+        <button class="close-popup" id="closePopup">×</button>
+        <div class="popup-title" id="popupTitle">Title</div>
+        <span class="popup-category" id="popupCategory">Category</span>
+        <div class="popup-content" id="popupContent">Content</div>
+        <div class="popup-connections">
+            <strong>Connections:</strong>
+            <ul id="popupConnections"></ul>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
