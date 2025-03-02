@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Journalism Workflow, Tools & Examples</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Digital Journalism Workflow, Tools & Examples</h1>
+        <h2>Click on each circle to discover digital tools & examples</h2>
+    </header>
+    
+    <div class="container">
+        <div class="workflow-container" id="workflow">
+            <!-- Circles will be added here by JavaScript -->
+        </div>
+    </div>
+    
+    <div class="overlay" id="overlay"></div>
+    
+    <div class="popup" id="popup">
+        <div class="popup-header">
+            <div class="popup-title" id="popupTitle">Tools</div>
+            <button class="close-btn" id="closeBtn">X</button>
+        </div>
+        <div class="popup-content">
+            <div class="examples-section" id="examplesSection">
+                <h3 class="examples-title">EXEMPLARY PRACTICES</h3>
+                <div class="example" id="exampleContent"></div>
+            </div>
+            <div class="tools-section">
+                <h3 class="tools-title">DIGITAL TOOLS</h3>
+                <div class="tool-grid" id="toolsList"></div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="step-indicator" id="stepIndicator"></div>
+    <!-- Add this to your index.html file, after the step-indicator div -->
+<!-- Complete Examples Panel HTML -->
+
+<div class="examples-panel" id="examplesPanel">
+    <div class="examples-panel-header">
+        <h2>JOURNALISM PROJECTS</h2>
+        <button class="close-btn" id="closeExamplesBtn">X</button>
+    </div>
+    <div class="examples-panel-tabs">
+        <button class="tab-btn active" data-category="maps">Maps</button>
+        <button class="tab-btn" data-category="storytelling">Storytelling</button>
+        <button class="tab-btn" data-category="immersive">Immersive</button>
+        <button class="tab-btn" data-category="interactives">Interactives</button>
+        <button class="tab-btn" data-category="visualizations">Visualizations</button>
+        <button class="tab-btn" data-category="investigations">Investigations</button>
+        <button class="tab-btn" data-category="drone">Drone/Satellite</button>
+        <button class="tab-btn" data-category="portfolios">Portfolios</button>
+    </div>
+    <div class="examples-panel-content">
+        <div class="category-content active" id="maps-content">
+            <div class="examples-list">
+                <a href="http://projects.aljazeera.com/2013/syrias-refugees/" target="_blank" class="example-link">Aljazeera: Where would 10.8 million displaced Syrians fit?</a>
+                <a href="http://interaktiv.morgenpost.de/europakarte/" target="_blank" class="example-link">Berliner Morgenpost: Europakarte</a>
+                <a href="https://www.buzzfeed.com/peteraldhous/spies-in-the-skies" target="_blank" class="example-link">Buzzfeed: Spies in the skies</a>
+                <a href="https://www.theguardian.com/politics/ng-interactive/2016/jun/23/eu-referendum-live-results-and-analysis" target="_blank" class="example-link">The Guardian: Brexit full results and analysis</a>
+                <a href="https://www.theguardian.com/society/ng-interactive/2015/sep/02/unaffordable-country-where-can-you-afford-to-buy-a-house" target="_blank" class="example-link">The Guardian: Where can you afford to buy a house</a>
+                <a href="http://shipmap.org/" target="_blank" class="example-link">Kiln: Shipmap</a>
+                <a href="http://graphics.latimes.com/kobe-every-shot-ever/" target="_blank" class="example-link">LA Times: Every Kobe Shot Ever</a>
+                <a href="http://www.latimes.com/projects/la-na-pol-sanders-donors/" target="_blank" class="example-link">LA Times: Who gives money to Bernie Sanders?</a>
+                <a href="http://news.nationalgeographic.com/2016/11/us-commutes-reveal-new-economic-megaregions-map/" target="_blank" class="example-link">National Geographic: Four Million Commutes Reveal new U.S. 'Megaregions'</a>
+                <a href="http://www.nytimes.com/interactive/2015/05/03/upshot/the-best-and-worst-places-to-grow-up-how-your-area-compares.html" target="_blank" class="example-link">New York Times: The Best and Worst places to grow up</a>
+                <a href="http://www.nytimes.com/interactive/2016/11/08/us/elections/north-carolina-presidential-election-precinct-maps.html" target="_blank" class="example-link">New York Times: How North Carolina Voted</a>
+                <a href="http://www.nytimes.com/interactive/2016/11/08/us/elections/how-trump-pushed-the-election-map-to-the-right.html" target="_blank" class="example-link">New York Times: How Trump Reshaped the Election Map</a>
+                <a href="http://www.nytimes.com/interactive/2015/07/08/us/census-race-map.html" target="_blank" class="example-link">New York Times: Mapping Segregation</a>
+                <a href="http://www.nytimes.com/interactive/2015/11/21/world/middleeast/inside-raqqa-capital-of-isis.html" target="_blank" class="example-link">New York Times: Inside Raqqa</a>
+                <a href="https://politibot.es/interactivo/caida-pse-pais-vasco-25s/" target="_blank" class="example-link">Politibot: Así se ha desplomado el PSE</a>
+                <a href="https://pudding.cool/2017/01/shape-of-slavery/" target="_blank" class="example-link">Pudding: The shape of slavery</a>
+                <a href="https://www.splcenter.org/hate-map" target="_blank" class="example-link">SPLC: Hate Map</a>
+                <a href="https://www.washingtonpost.com/graphics/politics/2016-election/election-results-from-coast-to-coast/" target="_blank" class="example-link">Washington Post: How Trump Redrew the Electoral Map</a>
+                <a href="http://www.zeit.de/feature/mauerfall-das-geteilte-land" target="_blank" class="example-link">Zeit Online: A nation divided</a>
+            </div>
+        </div>
+        <div class="category-content" id="storytelling-content">
+            <div class="examples-list">
+                <a href="http://journal.adamwestbrook.co.uk/thedivorce/" target="_blank" class="example-link">Adam Westbrook: The Divorce</a>
+                <a href="http://interaktiv.morgenpost.de/m29/" target="_blank" class="example-link">Berliner Morgenpost: M29</a>
+                <a href="http://www.bloomberg.com/graphics/2015-whats-warming-the-world/" target="_blank" class="example-link">Bloomberg: What's causing global warming</a>
+                <a href="http://geon.github.io/programming/2016/03/03/dsxyliea" target="_blank" class="example-link">Dyslexia</a>
+                <a href="http://fivethirtyeight.com/features/gun-deaths/" target="_blank" class="example-link">FiveThirtyEight: Gun Deaths</a>
+                <a href="http://highline.huffingtonpost.com/articles/en/poor-millennials/" target="_blank" class="example-link">Poor Millennials</a>
+                <a href="https://www.lucasinfografia.com/MUAC" target="_blank" class="example-link">National Geographic: MUAC</a>
+                <a href="http://www.nytimes.com/interactive/2016/08/09/sports/olympics/2016-08-09-olympics-phelps-vs-phelps.html" target="_blank" class="example-link">New York Times: Michael Phelps vs. Himself</a>
+                <a href="http://www.nytimes.com/projects/2012/snow-fall/" target="_blank" class="example-link">New York Times: Snowfall</a>
+                <a href="http://drones.pitchinteractive.com/" target="_blank" class="example-link">Pitch Interactive: Out of Sight, out of Mind</a>
+                <a href="https://www.theguardian.com/sport/ng-interactive/2016/aug/20/how-usain-bolt-secured-the-triple-treble-with-jamaica-in-the-4x100m" target="_blank" class="example-link">The Guardian: Usain Bolt Replay</a>
+                <a href="https://www.theguardian.com/us-news/ng-interactive/2017/jan/20/donald-trump-first-100-days-president-daily-updates" target="_blank" class="example-link">The Guardian: Donald Trump's first 100 days</a>
+                <a href="https://www.theguardian.com/world/interactive/2013/nov/01/snowden-nsa-files-surveillance-revelations-decoded" target="_blank" class="example-link">The Guardian: NSA files: Decoded</a>
+                <a href="http://graphics.wsj.com/blue-feed-red-feed/" target="_blank" class="example-link">Wall Street Journal: Blue Feed, Red Feed</a>
+                <a href="https://www.washingtonpost.com/graphics/world/border-barriers/global-illegal-immigration-prevention/" target="_blank" class="example-link">Washington Post: Raising Barriers</a>
+                <a href="http://qz.com/se/map-of-the-internet/" target="_blank" class="example-link">Quartz: Map of the internet</a>
+            </div>
+        </div>
+        <div class="category-content" id="immersive-content">
+            <div class="examples-list">
+                <a href="http://www.nationalgeographic.com/new-york-city-skyline-tallest-midtown-manhattan/" target="_blank" class="example-link">National Geographic: The New New York Skyline</a>
+                <a href="http://www.nytimes.com/interactive/2015/03/19/upshot/3d-yield-curve-economic-growth.html" target="_blank" class="example-link">New York Times: 3D Yield Curve</a>
+                <a href="http://www.nytimes.com/interactive/2015/12/29/arts/design/sound-architecture.html" target="_blank" class="example-link">New York Times: Dear Architects: Sound Matters</a>
+                <a href="http://www.nytimes.com/newsgraphics/2013/08/18/reshaping-new-york/" target="_blank" class="example-link">New York Times: Reshaping New York</a>
+                <a href="http://www.nytimes.com/interactive/2015/01/09/sports/the-dawn-wall-el-capitan.html" target="_blank" class="example-link">New York Times: The Dawn Wall</a>
+                <a href="http://www.nytimes.com/marketing/nytvr/" target="_blank" class="example-link">New York Times VR App</a>
+                <a href="https://www.theguardian.com/us-news/ng-interactive/2015/oct/19/homan-square-chicago-police-detainees" target="_blank" class="example-link">The Guardian: Homan Square</a>
+                <a href="https://www.theguardian.com/world/ng-interactive/2016/apr/27/6x9-a-virtual-experience-of-solitary-confinement" target="_blank" class="example-link">The Guardian: Solitary Confinement</a>
+                <a href="https://www.theguardian.com/artanddesign/2015/dec/11/city-of-london-skyline-of-tomorrow-interactive" target="_blank" class="example-link">The Guardian: The London Skyline of Tomorrow</a>
+                <a href="http://graphics.wsj.com/3d-nasdaq/" target="_blank" class="example-link">Wall Street Journal: Is the Nasdaq in another Bubble?</a>
+            </div>
+        </div>
+        <div class="category-content" id="interactives-content">
+            <div class="examples-list">
+                <a href="http://www.bloomberg.com/graphics/2015-paul-ford-what-is-code/" target="_blank" class="example-link">Bloomberg: What is Code?</a>
+                <a href="http://projects.fivethirtyeight.com/reddit-ngram/" target="_blank" class="example-link">FiveThirtyEight: How the Internet talks</a>
+                <a href="http://trump.kimalbrecht.com/network/" target="_blank" class="example-link">Kim Albrecht: Trump Connections</a>
+                <a href="http://www.nytimes.com/interactive/2016/08/13/sports/olympics/can-you-beat-usain-bolt-out-of-the-blocks.html" target="_blank" class="example-link">New York Times: Can you beat Usain Bolt out of the Blocks?</a>
+                <a href="http://projects.nytimes.com/interactive/sports/worldcup/spot-the-ball/2014/06/17" target="_blank" class="example-link">New York Times: Spot the Ball</a>
+                <a href="http://www.nytimes.com/interactive/2015/05/28/upshot/you-draw-it-how-family-income-affects-childrens-college-chances.html" target="_blank" class="example-link">New York Times: You Draw It</a>
+                <a href="http://www.fallen.io/ww2/" target="_blank" class="example-link">The Fallen of World War II</a>
+                <a href="https://www.theguardian.com/us-news/ng-interactive/2014/nov/06/-sp-congress-diversity-women-race-lgbt-are-you-represented" target="_blank" class="example-link">The Guardian: Are you reflected in the new congress?</a>
+                <a href="https://www.theguardian.com/us-news/ng-interactive/2016/oct/11/voter-turnout-presidential-election-states-2012-2016" target="_blank" class="example-link">The Guardian: Can you guess the voter turnout in your state?</a>
+                <a href="https://www.theguardian.com/world/ng-interactive/2015/dec/02/how-well-do-you-really-know-your-country-take-our-quiz" target="_blank" class="example-link">The Guardian: How well do you know your country?</a>
+                <a href="http://riorun.theguardian.com" target="_blank" class="example-link">The Guardian: Rio Run</a>
+                <a href="https://www.theguardian.com/uk-news/ng-interactive/2015/aug/28/words-migrant-refugee-immigration" target="_blank" class="example-link">The Guardian: What do you call a person who moves to another country in search of a better life?</a>
+                <a href="http://graphics.wsj.com/are-you-good-enough-to-be-a-tennis-line-judge/" target="_blank" class="example-link">Wall Street Journal: Are you good enough to be a Tennis Line Judge?</a>
+                <a href="https://www.washingtonpost.com/graphics/politics/2016-election/dnc-emoji-reactions/" target="_blank" class="example-link">Washington Post: DNC Emoji Reactions</a>
+            </div>
+        </div>
+        <div class="category-content" id="visualizations-content">
+            <div class="examples-list">
+                <a href="http://www.bloomberg.com/billionaires/2016-09-27/cya" target="_blank" class="example-link">Bloomberg: Billionaires</a>
+                <a href="http://www.bloomberg.com/graphics/2015-red-meat-cancer/" target="_blank" class="example-link">Bloomberg: How Red Meat Joined the 478 Other Things That Might Give You Cancer</a>
+                <a href="http://www.dear-data.com/" target="_blank" class="example-link">Dear Data</a>
+                <a href="https://ig.ft.com/sites/visual-history-of-womens-tennis/" target="_blank" class="example-link">Financial Times: A visual history of women's Tennis</a>
+                <a href="https://ig.ft.com/sites/urban-cycling/" target="_blank" class="example-link">Financial Times: Is urban cycling worth the risk?</a>
+                <a href="http://histography.io/" target="_blank" class="example-link">Histography</a>
+                <a href="http://www.nationalgeographic.com/magazine/2016/06/shark-species-family-tree-ocean-ecosystem-predator/" target="_blank" class="example-link">National Geographic: Sizing up Sharks</a>
+                <a href="http://www.nytimes.com/interactive/2016/08/20/sports/olympics/gold-medal-racing-speeds-on-the-same-scale.html" target="_blank" class="example-link">New York Times: All Races on the same scale</a>
+                <a href="http://www.nytimes.com/interactive/2016/07/22/us/politics/trump-immigration-ban-how-could-it-work.html" target="_blank" class="example-link">New York Times: How could Trumps immigration Ban work?</a>
+                <a href="http://www.nytimes.com/interactive/2015/09/14/world/middleeast/syria-war-deaths.html" target="_blank" class="example-link">New York Times: How Syrians are dying</a>
+                <a href="http://www.nytimes.com/interactive/2015/10/03/us/how-mass-shooters-got-their-guns.html" target="_blank" class="example-link">New York Times: How they got their guns</a>
+                <a href="http://www.nytimes.com/interactive/2016/01/28/upshot/donald-trump-twitter-insults.html" target="_blank" class="example-link">New York Times: The 273 People, Places and Things Donald Trump Has Insulted on Twitter: A Complete List</a>
+                <a href="http://www.nytimes.com/interactive/2016/08/08/sports/olympics/history-olympic-dominance-charts.html" target="_blank" class="example-link">New York Times: Visual History of Summer Olympics</a>
+                <a href="http://polygraph.cool/kickstarter/" target="_blank" class="example-link">Polygraph: The entire history of Kickstarter</a>
+                <a href="http://www.r2d3.us/visual-intro-to-machine-learning-part-1/" target="_blank" class="example-link">R2D3: A visual intro to machine learning</a>
+                <a href="http://www.lucasinfografia.com/Front-pages-analysis" target="_blank" class="example-link">South China Morning Post: Front Pages Analysis</a>
+                <a href="https://www.theguardian.com/news/datablog/ng-interactive/2015/jul/17/interactive-whats-the-world-scared-of" target="_blank" class="example-link">The Guardian: What's the world scared of?</a>
+                <a href="https://www.washingtonpost.com/graphics/politics/trump-products/" target="_blank" class="example-link">Washington Post: A decade of Trumps imports</a>
+                <a href="https://www.washingtonpost.com/graphics/politics/2016-election/trump-charts/" target="_blank" class="example-link">Washington Post: Most of Trump's charts skew the data</a>
+                <a href="https://www.washingtonpost.com/graphics/sports/olympics/scale-of-the-olympics/" target="_blank" class="example-link">Washington Post: Sizing up the Olympics</a>
+                <a href="http://apps.washingtonpost.com/g/page/world/the-depth-of-the-problem/931/" target="_blank" class="example-link">Washington Post: The Depth of the Problem</a>
+                <a href="http://qz.com/296941/interactive-graphic-every-active-satellite-orbiting-earth/" target="_blank" class="example-link">Quartz: Every active satellite orbiting earth</a>
+            </div>
+        </div>
+        <div class="category-content" id="investigations-content">
+            <div class="examples-list">
+                <a href="http://www.airbnbvsberlin.de/" target="_blank" class="example-link">Airbnb vs Berlin</a>
+                <a href="https://www.buzzfeed.com/heidiblake/the-tennis-racket" target="_blank" class="example-link">Buzzfeed: The Tennis Racket</a>
+                <a href="http://fivethirtyeight.com/features/a-plagiarism-scandal-is-unfolding-in-the-crossword-world/" target="_blank" class="example-link">FiveThirtyEight: A Plagiarism Scandal is unfolding in the Crossword world</a>
+                <a href="https://www.themarshallproject.org/next-to-die" target="_blank" class="example-link">Marshall Project: The Next to die</a>
+                <a href="http://www.nytimes.com/interactive/2016/07/29/us/elections/trump-clinton-pence-kaine-speeches.html" target="_blank" class="example-link">New York Times: How the nominees' convention speeches compare</a>
+                <a href="https://www.propublica.org/article/machine-bias-risk-assessments-in-criminal-sentencing" target="_blank" class="example-link">ProPublica: Machine Bias</a>
+                <a href="https://www.propublica.org/article/breaking-the-black-box-what-facebook-knows-about-you" target="_blank" class="example-link">ProPublica: What Facebook knows about you</a>
+                <a href="http://panamapapers.sueddeutsche.de/" target="_blank" class="example-link">SZ: The Panama Papers</a>
+                <a href="https://www.theguardian.com/us-news/ng-interactive/2015/jun/01/the-counted-police-killings-us-database" target="_blank" class="example-link">The Guardian: The Counted</a>
+                <a href="https://theintercept.com/2016/04/22/googles-remarkably-close-relationship-with-the-obama-white-house-in-two-charts/" target="_blank" class="example-link">The Intercept: The Android Administration</a>
+                <a href="https://www.washingtonpost.com/graphics/politics/donald-trump-vs-hillary-clinton-in-media/" target="_blank" class="example-link">Washington Post: A visual history of Donald Trump dominating the news cycle</a>
+                <a href="https://www.washingtonpost.com/graphics/national/police-shootings-2016/" target="_blank" class="example-link">Washington Post: Fatal Force</a>
+            </div>
+        </div>
+        <div class="category-content" id="drone-content">
+            <div class="examples-list">
+                <a href="http://interaktiv.morgenpost.de/gruenste-staedte-deutschlands/" target="_blank" class="example-link">Berliner Morgenpost: Das sind Deutschlands grünste Großstädte</a>
+                <a href="http://www.nytimes.com/interactive/2015/10/27/world/greenland-is-melting-away.html" target="_blank" class="example-link">New York Times: Greenland is melting away</a>
+                <a href="http://www.nytimes.com/interactive/2016/10/24/world/asia/living-in-chinas-expanding-deserts.html" target="_blank" class="example-link">New York Times: Living in China's Expanding Deserts</a>
+                <a href="http://www.nytimes.com/interactive/2015/07/30/world/asia/what-china-has-been-building-in-the-south-china-sea-2016.html" target="_blank" class="example-link">New York Times: What China has been building in the South China Sea</a>
+                <a href="https://projects.propublica.org/las-vegas-growth-map/" target="_blank" class="example-link">ProPublica: Las Vegas Growth Map</a>
+                <a href="https://projects.propublica.org/louisiana/" target="_blank" class="example-link">ProPublica: Losing Ground</a>
+                <a href="http://www.srf.ch/news/schweiz/gotthard/tauchen-sie-ein-in-den-neuen-tunnel" target="_blank" class="example-link">SRF: Gotthard Tunnel 360</a>
+                <a href="https://www.theguardian.com/world/ng-interactive/2015/sep/17/south-china-sea-images-reveal-impact-on-coral-of-beijings-military-bases" target="_blank" class="example-link">The Guardian: Corals, South China Sea</a>
+                <a href="https://theintercept.com/2016/10/18/best-of-luck-with-the-wall/" target="_blank" class="example-link">The Intercept: Visualising the U.S.-Mexico Border</a>
+            </div>
+        </div>
+        <div class="category-content" id="portfolios-content">
+            <div class="examples-list">
+                <a href="https://twitter.com/AP_Interactive" target="_blank" class="example-link">AP Interactive</a>
+                <a href="http://www.morgenpost.de/interaktiv/" target="_blank" class="example-link">Berliner Morgenpost</a>
+                <a href="https://www.bloomberg.com/graphics/infographics/" target="_blank" class="example-link">Bloomberg</a>
+                <a href="https://github.com/BuzzFeedNews/everything" target="_blank" class="example-link">BuzzFeedNews</a>
+                <a href="http://www.datasketch.es/" target="_blank" class="example-link">Datasketch.es</a>
+                <a href="https://twitter.com/FiveThirtyEight" target="_blank" class="example-link">FiveThirtyEight</a>
+                <a href="https://twitter.com/GuardianVisuals" target="_blank" class="example-link">Guardian Visuals</a>
+                <a href="https://twitter.com/archietse/lists/graphics-departments" target="_blank" class="example-link">Graphics Departments Twitter List (collection)</a>
+                <a href="https://twitter.com/IXT" target="_blank" class="example-link">Interactive Things</a>
+                <a href="https://twitter.com/k_i_l_n" target="_blank" class="example-link">Kiln</a>
+                <a href="https://twitter.com/LATdatadesk" target="_blank" class="example-link">LA Times Data Desk</a>
+                <a href="http://www.nytimes.com/newsgraphics/2013/12/30/year-in-interactive-storytelling/" target="_blank" class="example-link">New York Times interactive Projects 2013</a>
+                <a href="http://www.nytimes.com/interactive/2014/12/29/us/year-in-interactive-storytelling.html" target="_blank" class="example-link">New York Times interactive Projects 2014</a>
+                <a href="http://www.nytimes.com/interactive/2015/us/year-in-interactive-storytelling.html" target="_blank" class="example-link">New York Times interactive Projects 2015</a>
+                <a href="https://twitter.com/NZZStorytelling" target="_blank" class="example-link">NZZ Storytelling</a>
+                <a href="http://polygraph.cool/" target="_blank" class="example-link">Polygraph</a>
+                <a href="https://www.propublica.org/data/" target="_blank" class="example-link">ProPublica</a>
+                <a href="http://www.srf.ch/data" target="_blank" class="example-link">SRF Data</a>
+                <a href="http://tulpinteractive.com/" target="_blank" class="example-link">Tulp Interactive</a>
+                <a href="https://twitter.com/PostGraphics" target="_blank" class="example-link">Washington Post Graphics</a>
+                <a href="http://webkid.io/" target="_blank" class="example-link">Webkid</a>
+                <a href="http://zeit.de/datenjournalismus" target="_blank" class="example-link">Zeit Online</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="examples-toggle-btn" id="examplesToggleBtn">
+    <span>EXPLORE EXAMPLES</span>
+</div>
+    <script src="workflow-data.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>
