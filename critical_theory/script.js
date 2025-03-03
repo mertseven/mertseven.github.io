@@ -622,3 +622,55 @@ function addEnhancedStyles() {
     
     document.head.appendChild(style);
 }
+
+// Add this JavaScript code to handle the info button and modal
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Get the modal
+    var modal = document.getElementById("infoModal");
+    
+    // Get the button that opens the modal
+    var btn = document.getElementById("infoButton");
+    
+    // Get the <span> element that closes the modal
+    var span = document.querySelector(".close-modal");
+    
+    // When the user clicks the button, open the modal 
+    btn.onclick = function() {
+        modal.style.display = "block";
+        // Use setTimeout to allow CSS transition to work
+        setTimeout(() => {
+            modal.classList.add("show");
+        }, 10);
+        document.body.style.overflow = "hidden"; // Prevent scrolling
+    }
+    
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function() {
+        closeModal();
+    }
+    
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            closeModal();
+        }
+    }
+    
+    function closeModal() {
+        modal.classList.remove("show");
+        setTimeout(() => {
+            modal.style.display = "none";
+            document.body.style.overflow = ""; // Restore scrolling
+        }, 300); // Wait for transition to complete
+    }
+    
+    // Start the visualization right away - don't wait for the button
+    createVisualization();
+    
+    // Add enhancement features
+    setTimeout(() => {
+        addEnhancedStyles();
+        enhanceVisualization();
+    }, 100);
+});
