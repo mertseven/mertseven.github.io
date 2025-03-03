@@ -622,3 +622,66 @@ function addEnhancedStyles() {
     
     document.head.appendChild(style);
 }
+
+// Add this code to your JavaScript file
+
+// Wait for the DOM to be fully loaded
+document.addEventListener('DOMContentLoaded', function() {
+    // Set up the intro popup
+    const introPopup = document.getElementById('intro-popup');
+    const introCloseBtn = document.getElementById('intro-close');
+    
+    // Check if user has seen the intro before
+    const hasSeenIntro = localStorage.getItem('hasSeenCriticalTheoryIntro');
+    
+    // Only show the intro if the user hasn't seen it before
+    if (!hasSeenIntro) {
+        // Show the intro popup
+        introPopup.classList.remove('hidden');
+        
+        // Prevent scrolling on the body when the popup is open
+        document.body.style.overflow = 'hidden';
+    } else {
+        // Hide the intro popup if they've seen it before
+        introPopup.classList.add('hidden');
+    }
+    
+    // Close intro popup when the close button is clicked
+    introCloseBtn.addEventListener('click', function() {
+        introPopup.classList.add('hidden');
+        document.body.style.overflow = '';
+        
+        // Remember that the user has seen the intro
+        localStorage.setItem('hasSeenCriticalTheoryIntro', 'true');
+        
+        // Create the visualization after closing the intro
+        createVisualization();
+    });
+    
+    // If the user has seen the intro before, create the visualization right away
+    if (hasSeenIntro) {
+        createVisualization();
+    }
+});
+
+// Modify your existing code so the createVisualization function isn't automatically called
+// This requires modifying your existing DOMContentLoaded event listener
+
+// Instead of:
+/*
+document.addEventListener('DOMContentLoaded', function() {
+    createVisualization();
+    
+    // Add enhancement features
+    setTimeout(() => {
+        addEnhancedStyles();
+        enhanceVisualization();
+    }, 100);
+});
+*/
+
+// Modify to:
+/*
+// This is now handled by the intro popup code above
+// The original event listener should be removed or commented out
+*/
