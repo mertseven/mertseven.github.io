@@ -1,28 +1,276 @@
-// Define the hierarchical data structure
-// Wait for the DOM to be fully loaded
+.text(imp)
+                    .style("cursor", "pointer")
+                    .on("click", function() {
+                        // Find the node with this name and simulate a click
+                        const targetNode = node.filter(n => n.data.name === imp);
+                        if (!targetNode.empty()) {
+                            // Close current popup
+                            popup.classed("visible", false);
+                            // Simulate click on target node
+                            setTimeout(() => {
+                                targetNode.dispatch("click");
+                            }, 100);
+                        }
+                    });
+            });
+        }
+        
+        // Find incoming connections
+        const incoming = links.filter(l => l.target === d).map(l => l.source.data.name);
+        if (incoming.length > 0) {
+            incoming.forEach(imp => {
+                if (!d.data.imports || !d.data.imports.includes(imp)) {
+                    popupConnections.append("li")
+                        .text(imp + " (incoming)")
+                        .style("cursor", "pointer")
+                        .style("color", "#666")
+                        .on("click", function() {
+                            // Find the node with this name and simulate a click
+                            const targetNode = node.filter(n => n.data.name === imp);
+                            if (!targetNode.empty()) {
+                                // Close current popup
+                                popup.classed("visible", false);
+                                // Simulate click on target node
+                                setTimeout(() => {
+                                    targetNode.dispatch("click");
+                                }, 100);
+                            }
+                        });
+                }
+            });
+        }
+        
+        if ((!d.data.imports || d.data.imports.length === 0) && incoming.length === 0) {
+            popupConnections.append("li")
+                .text("No direct connections");
+        }
+        
+        popup.classed("visible", true);
+        
+        // Keep connections visible while popup is open
+        link.filter(l => l.source === d || l.target === d)
+            .style("stroke-opacity", 0.8)
+            .style("stroke-width", 1.5);
+            
+        // Keep related nodes highlighted
+        node.filter(n => links.some(l => (l.source === d && l.target === n) || (l.target === d && l.source === n)))
+            .select("circle")
+            .attr("class", "node node--target");
+            
+        // Keep labels visible
+        node.filter(n => links.some(l => (l.source === d && l.target === n) || (l.target === d && l.source === n)))
+            .select("text")
+            .style("font-weight", "bold");
+    });
+    
+    // Click outside to close popup
+    d3.select("body").on("click", function() {
+        popup.classed("visible", false);
+        
+        // Reset visualization
+        link
+            .style("mix-blend-mode", "multiply")
+            .attr("class", "link")
+            .style("stroke-opacity", 0.35)
+            .style("stroke-width", 0.8);
+        
+        node
+            .select("circle")
+            .attr("class", "node");
+            
+        node
+            .select("text")
+            .style("font-weight", "normal");
+    });
+    
+    // Prevent popup from closing when clicking inside it
+    popup.on("click", function(event) {
+        event.stopPropagation();
+    });
+    
+    // Reset button
+    d3.select("#resetBtn").on("click", createVisualization);
+    
+    // Show all connections button
+    d3.select("#showAllBtn").on("click", function() {
+        // Highlight all links with animation
+        link.transition()
+            .duration(300)
+            .style("stroke-opacity", 0.8)
+            .style("stroke-width", 1.2)
+            .transition()
+            .delay(2000)
+            .duration(500)
+            .style("stroke-opacity", 0.35)
+            .style("stroke-width", 0.8);
+    });
+    
+    // Allow zooming and panning
+    const zoomBehavior = d3.zoom()
+        .scaleExtent([0.5, 5])
+        .on("zoom", (event) => {
+            g.attr("transform", event.transform);
+        });
+    
+    svg.call(zoomBehavior);
+}
+
+// Helper function to enhance visualization with additional features
+function enhanceVisualization() {
+    // Add search functionality
+    const searchInput = document.createElement('input');
+    searchInput.type = 'text';
+    searchInput.placeholder = 'Search concepts or theorists...';
+    searchInput.classList.add('search-input');
+    
+    const searchContainer = document.createElement('div');
+    searchContainer.classList.add('search-container');
+    searchContainer.appendChild(searchInput);
+    
+    document.querySelector('.controls').prepend(searchContainer);
+    
+    searchInput.addEventListener('input', function() {
+        const searchText = this.value.toLowerCase();
+        
+        if (searchText.length < 2) {
+            // Reset all nodes and connections if search is cleared
+            d3.selectAll('.node')
+                .style('opacity', 1)
+                .each(function(d) {
+                    const originalR = d.data.size ? Math.sqrt(d.data.size) * 1.2 : 3;
+                    d3.select(this).attr('r', originalR);
+                });
+                
+            d3.selectAll('.link')
+                .style('opacity', 0.35)
+                .style('stroke-width', 0.8);
+                
+            d3.selectAll('.node-label')
+                .style('opacity', 1)
+                .style('font-weight', 'normal');
+                
+            return;
+        }
+        
+        // Find matching nodes
+        const matchingNodes = [];
+        const allNodes = d3.selectAll('.node').data();
+        
+        allNodes.forEach(node => {
+            if (node.data.name.toLowerCase().includes(searchText)) {
+                matchingNodes.push(node);
+            }
+        });
+        
+        // Highlight matching nodes
+        d3.selectAll('.node')
+            .style('opacity', d => {
+                return matchingNodes.includes(d) ? 1 : 0.3;
+            })
+            .attr('r', d => {
+                return matchingNodes.includes(d) ? Math.sqrt(d.data.size) * 2 : Math.sqrt(d.data.size) * 1.2;
+            });
+            
+        d3.selectAll('.node-label')
+            .style('opacity', d => {
+                return matchingNodes.includes(d) ? 1 : 0.3;
+            })
+            .style('font-weight', d => {
+                return matchingNodes.includes(d) ? 'bold' : 'normal';
+            });
+            
+        // Highlight connections between matching nodes
+        d3.selectAll('.link')
+            .style('opacity', link => {
+                const sourceInMatch = matchingNodes.includes(link.source);
+                const targetInMatch = matchingNodes.includes(link.target);
+                return (sourceInMatch || targetInMatch) ? 0.8 : 0.1;
+            })
+            .style('stroke-width', link => {
+                const sourceInMatch = matchingNodes.includes(link.source);
+                const targetInMatch = matchingNodes.includes(link.target);
+                return (sourceInMatch || targetInMatch) ? 1.5 : 0.5;
+            });
+    });
+}
+
+// Add enhanced CSS styles
+function addEnhancedStyles() {
+    const style = document.createElement('style');
+    style.textContent = `
+        .search-container {
+            margin-bottom: 15px;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.85rem;
+            margin-bottom: 5px;
+        }
+        
+        .search-input:focus {
+            outline: none;
+            border-color: #999;
+        }
+                
+        .popup {
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-left: 4px solid #333;
+        }
+    `;
+    
+    document.head.appendChild(style);
+}// Wait for the DOM to be fully loaded
 document.addEventListener('DOMContentLoaded', function() {
     // Set up the intro popup
     const introPopup = document.getElementById('intro-popup');
     const introCloseBtn = document.getElementById('intro-close');
+    
+    if (!introPopup || !introCloseBtn) {
+        console.error("Intro popup elements not found, initializing visualization directly");
+        createVisualization();
+        
+        // Add enhancement features
+        setTimeout(() => {
+            addEnhancedStyles();
+            enhanceVisualization();
+        }, 100);
+        return;
+    }
     
     // Check if user has seen the intro before
     const hasSeenIntro = localStorage.getItem('hasSeenCriticalTheoryIntro');
     
     // Only show the intro if the user hasn't seen it before
     if (!hasSeenIntro) {
-        // Show the intro popup
-        introPopup.classList.remove('hidden');
+        // Show the intro popup (make sure it's not hidden by default in HTML)
+        introPopup.style.display = 'flex';
         
         // Prevent scrolling on the body when the popup is open
         document.body.style.overflow = 'hidden';
     } else {
         // Hide the intro popup if they've seen it before
-        introPopup.classList.add('hidden');
+        introPopup.style.display = 'none';
+        
+        // Create the visualization immediately if they've seen the intro
+        createVisualization();
+        
+        // Add enhancement features
+        setTimeout(() => {
+            addEnhancedStyles();
+            enhanceVisualization();
+        }, 100);
     }
     
     // Close intro popup when the close button is clicked
     introCloseBtn.addEventListener('click', function() {
-        introPopup.classList.add('hidden');
+        // Hide the popup
+        introPopup.style.display = 'none';
+        
+        // Allow scrolling again
         document.body.style.overflow = '';
         
         // Remember that the user has seen the intro
@@ -30,15 +278,16 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Create the visualization after closing the intro
         createVisualization();
+        
+        // Add enhancement features
+        setTimeout(() => {
+            addEnhancedStyles();
+            enhanceVisualization();
+        }, 100);
     });
-    
-    // If the user has seen the intro before, create the visualization right away
-    if (hasSeenIntro) {
-        createVisualization();
-    }
 });
 
-
+// Define the hierarchical data structure
 const data = {
     name: "Critical Theory",
     children: [
@@ -170,17 +419,6 @@ const nodeDescriptions = {
     "Negative Dialectics": "Adorno's approach that takes from Hegelian dialectics the emphasis on difference and mediation but abandons the attempt to overcome difference through unifying synthesis.",
     "System/Lifeworld": "Habermas's distinction between domains governed by instrumental rationality (system) and those organized through communicative action (lifeworld)."
 };
-
-// Create the visualization
-document.addEventListener('DOMContentLoaded', function() {
-    createVisualization();
-    
-    // Add enhancement features
-    setTimeout(() => {
-        addEnhancedStyles();
-        enhanceVisualization();
-    }, 100);
-});
 
 // Function to create the visualization
 function createVisualization() {
@@ -437,253 +675,4 @@ function createVisualization() {
             d.data.imports.forEach(imp => {
                 popupConnections.append("li")
                     .text(imp)
-                    .style("cursor", "pointer")
-                    .on("click", function() {
-                        // Find the node with this name and simulate a click
-                        const targetNode = node.filter(n => n.data.name === imp);
-                        if (!targetNode.empty()) {
-                            // Close current popup
-                            popup.classed("visible", false);
-                            // Simulate click on target node
-                            setTimeout(() => {
-                                targetNode.dispatch("click");
-                            }, 100);
-                        }
-                    });
-            });
-        }
-        
-        // Find incoming connections
-        const incoming = links.filter(l => l.target === d).map(l => l.source.data.name);
-        if (incoming.length > 0) {
-            incoming.forEach(imp => {
-                if (!d.data.imports || !d.data.imports.includes(imp)) {
-                    popupConnections.append("li")
-                        .text(imp + " (incoming)")
-                        .style("cursor", "pointer")
-                        .style("color", "#666")
-                        .on("click", function() {
-                            // Find the node with this name and simulate a click
-                            const targetNode = node.filter(n => n.data.name === imp);
-                            if (!targetNode.empty()) {
-                                // Close current popup
-                                popup.classed("visible", false);
-                                // Simulate click on target node
-                                setTimeout(() => {
-                                    targetNode.dispatch("click");
-                                }, 100);
-                            }
-                        });
-                }
-            });
-        }
-        
-        if ((!d.data.imports || d.data.imports.length === 0) && incoming.length === 0) {
-            popupConnections.append("li")
-                .text("No direct connections");
-        }
-        
-        popup.classed("visible", true);
-        
-        // Keep connections visible while popup is open
-        link.filter(l => l.source === d || l.target === d)
-            .style("stroke-opacity", 0.8)
-            .style("stroke-width", 1.5);
-            
-        // Keep related nodes highlighted
-        node.filter(n => links.some(l => (l.source === d && l.target === n) || (l.target === d && l.source === n)))
-            .select("circle")
-            .attr("class", "node node--target");
-            
-        // Keep labels visible
-        node.filter(n => links.some(l => (l.source === d && l.target === n) || (l.target === d && l.source === n)))
-            .select("text")
-            .style("font-weight", "bold");
-    });
-    
-    // Click outside to close popup
-    d3.select("body").on("click", function() {
-        popup.classed("visible", false);
-        
-        // Reset visualization
-        link
-            .style("mix-blend-mode", "multiply")
-            .attr("class", "link")
-            .style("stroke-opacity", 0.35)
-            .style("stroke-width", 0.8);
-        
-        node
-            .select("circle")
-            .attr("class", "node");
-            
-        node
-            .select("text")
-            .style("font-weight", "normal");
-    });
-    
-    // Prevent popup from closing when clicking inside it
-    popup.on("click", function(event) {
-        event.stopPropagation();
-    });
-    
-    // Reset button
-    d3.select("#resetBtn").on("click", createVisualization);
-    
-    // Show all connections button
-    d3.select("#showAllBtn").on("click", function() {
-        // Highlight all links with animation
-        link.transition()
-            .duration(300)
-            .style("stroke-opacity", 0.8)
-            .style("stroke-width", 1.2)
-            .transition()
-            .delay(2000)
-            .duration(500)
-            .style("stroke-opacity", 0.35)
-            .style("stroke-width", 0.8);
-    });
-    
-    // Allow zooming and panning
-    const zoomBehavior = d3.zoom()
-        .scaleExtent([0.5, 5])
-        .on("zoom", (event) => {
-            g.attr("transform", event.transform);
-        });
-    
-    svg.call(zoomBehavior);
-}
-
-// Helper function to enhance visualization with additional features
-function enhanceVisualization() {
-    // Add search functionality
-    const searchInput = document.createElement('input');
-    searchInput.type = 'text';
-    searchInput.placeholder = 'Search concepts...';
-    searchInput.classList.add('search-input');
-    
-    const searchContainer = document.createElement('div');
-    searchContainer.classList.add('search-container');
-    searchContainer.appendChild(searchInput);
-    
-    document.querySelector('.controls').prepend(searchContainer);
-    
-    searchInput.addEventListener('input', function() {
-        const searchText = this.value.toLowerCase();
-        
-        if (searchText.length < 2) {
-            // Reset all nodes and connections if search is cleared
-            d3.selectAll('.node')
-                .style('opacity', 1)
-                .each(function(d) {
-                    const originalR = d.data.size ? Math.sqrt(d.data.size) * 1.2 : 3;
-                    d3.select(this).attr('r', originalR);
-                });
-                
-            d3.selectAll('.link')
-                .style('opacity', 0.35)
-                .style('stroke-width', 0.8);
-                
-            d3.selectAll('.node-label')
-                .style('opacity', 1)
-                .style('font-weight', 'normal');
-                
-            return;
-        }
-        
-        // Find matching nodes
-        const matchingNodes = [];
-        const allNodes = d3.selectAll('.node').data();
-        
-        allNodes.forEach(node => {
-            if (node.data.name.toLowerCase().includes(searchText)) {
-                matchingNodes.push(node);
-            }
-        });
-        
-        // Highlight matching nodes
-        d3.selectAll('.node')
-            .style('opacity', d => {
-                return matchingNodes.includes(d) ? 1 : 0.3;
-            })
-            .attr('r', d => {
-                return matchingNodes.includes(d) ? Math.sqrt(d.data.size) * 2 : Math.sqrt(d.data.size) * 1.2;
-            });
-            
-        d3.selectAll('.node-label')
-            .style('opacity', d => {
-                return matchingNodes.includes(d) ? 1 : 0.3;
-            })
-            .style('font-weight', d => {
-                return matchingNodes.includes(d) ? 'bold' : 'normal';
-            });
-            
-        // Highlight connections between matching nodes
-        d3.selectAll('.link')
-            .style('opacity', link => {
-                const sourceInMatch = matchingNodes.includes(link.source);
-                const targetInMatch = matchingNodes.includes(link.target);
-                return (sourceInMatch || targetInMatch) ? 0.8 : 0.1;
-            })
-            .style('stroke-width', link => {
-                const sourceInMatch = matchingNodes.includes(link.source);
-                const targetInMatch = matchingNodes.includes(link.target);
-                return (sourceInMatch || targetInMatch) ? 1.5 : 0.5;
-            });
-    });
-}
-
-// Add enhanced CSS styles
-function addEnhancedStyles() {
-    const style = document.createElement('style');
-    style.textContent = `
-        .search-container {
-            margin-bottom: 15px;
-        }
-        
-        .search-input {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid #ddd;
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 0.85rem;
-            margin-bottom: 5px;
-        }
-        
-        .search-input:focus {
-            outline: none;
-            border-color: #999;
-        }
-                
-        .popup {
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            border-left: 4px solid #333;
-        }
-    `;
-    
-    document.head.appendChild(style);
-}
-
-// Add this code to your JavaScript file
-
-
-// Modify your existing code so the createVisualization function isn't automatically called
-// This requires modifying your existing DOMContentLoaded event listener
-
-// Instead of:
-/*
-document.addEventListener('DOMContentLoaded', function() {
-    createVisualization();
-    
-    // Add enhancement features
-    setTimeout(() => {
-        addEnhancedStyles();
-        enhanceVisualization();
-    }, 100);
-});
-*/
-
-// Modify to:
-/*
-// This is now handled by the intro popup code above
-// The original event listener should be removed or commented out
-*/
+                    .style
