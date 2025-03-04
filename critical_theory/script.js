@@ -518,7 +518,7 @@ function enhanceVisualization() {
     // Add search functionality
     const searchInput = document.createElement('input');
     searchInput.type = 'text';
-    searchInput.placeholder = 'Search concepts or theorists...';
+    searchInput.placeholder = 'Search concepts...';
     searchInput.classList.add('search-input');
     
     const searchContainer = document.createElement('div');
