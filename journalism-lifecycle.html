@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Traditional vs Digital Journalism</title>
+    <style>
+        /* Brutalist Design Style */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Courier New', monospace;
+        }
+        
+        body {
+            background-color: #f0f0f0;
+            color: #000;
+            overflow-x: hidden;
+            min-height: 100vh;
+            cursor: default;
+        }
+        
+        header {
+            background-color: #000;
+            color: #fff;
+            padding: 2rem;
+            text-align: left;
+            border-bottom: 8px solid #0066ff;
+        }
+        
+        h1 {
+            font-size: 3rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: -1px;
+            margin-bottom: 1rem;
+        }
+        
+        h2 {
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+            position: relative;
+        }
+        
+        .lifecycle-container {
+            position: relative;
+            overflow: visible;
+            height: 600px;
+            margin-top: 2rem;
+        }
+        
+        .circle {
+            position: absolute;
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 8px 8px 0px rgba(0,0,0,0.8);
+            border: 3px solid #000;
+            z-index: 5;
+        }
+        
+        .circle:hover {
+            transform: translateY(-5px) translateX(-5px);
+            box-shadow: 15px 15px 0px rgba(0,0,0,0.8);
+        }
+        
+        .circle:active {
+            transform: translateY(0px) translateX(0px);
+            box-shadow: 4px 4px 0px rgba(0,0,0,0.8);
+        }
+        
+        .circle .stage {
+            font-size: 2rem;
+            margin-bottom: 0.2rem;
+        }
+        
+        .circle .name {
+            font-size: 1.3rem;
+            text-transform: uppercase;
+            font-weight: bold;
+            text-align: center;
+        }
+        
+        /* Popup Styles */
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            max-width: 1000px;
+            max-height: 85vh;
+            background-color: #fff;
+            border: 5px solid #000;
+            z-index: 100;
+            overflow-y: auto;
+            box-shadow: 15px 15px 0 rgba(0,0,0,0.8);
+        }
+        
+        .popup-header {
+            background-color: #0066ff;
+            color: #fff;
+            padding: 1.5rem;
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 5px solid #000;
+        }
+        
+        .popup-title {
+            font-size: 2rem;
+            text-transform: uppercase;
+            font-weight: bold;
+            letter-spacing: -1px;
+        }
+        
+        .close-btn {
+            background: #000;
+            color: #fff;
+            border: none;
+            font-size: 1.5rem;
+            font-weight: bold;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .close-btn:hover {
+            background-color: #333;
+        }
+        
+        .popup-content {
+            padding: 2rem;
+        }
+        
+        .comparison-section {
+            margin-bottom: 2rem;
+            border: 3px solid #000;
+            background-color: #f0f0f0;
+            box-shadow: 5px 5px 0 rgba(0,0,0,0.8);
+        }
+        
+        .comparison-title, .examples-title, .research-title {
+            background-color: #000;
+            color: #fff;
+            padding: 0.8rem;
+            font-size: 1.2rem;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .comparison-table th {
+            background-color: #333;
+            color: white;
+            padding: 1rem;
+            text-align: left;
+            text-transform: uppercase;
+            font-size: 1.1rem;
+        }
+        
+        .comparison-table td {
+            padding: 1rem;
+            border-bottom: 1px solid #ddd;
+            vertical-align: top;
+        }
+        
+        .comparison-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .traditional {
+            background-color: #f9f9f9;
+        }
+        
+        .digital {
+            background-color: #e6f3ff;
+        }
+        
+        .factor {
+            font-weight: bold;
+            width: 20%;
+        }
+        
+        .research-section {
+            margin: 2rem 0;
+            border: 3px solid #000;
+            background-color: #f0f0f0;
+            box-shadow: 5px 5px 0 rgba(0,0,0,0.8);
+        }
+        
+        .research-content {
+            padding: 1.5rem;
+        }
+        
+        .research-item {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 2px dashed #000;
+        }
+        
+        .research-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .research-title-text {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+        
+        .research-citation {
+            font-style: italic;
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .examples-section {
+            margin-top: 2rem;
+            border: 3px solid #000;
+            background-color: #f0f0f0;
+            box-shadow: 5px 5px 0 rgba(0,0,0,0.8);
+        }
+        
+        .example {
+            padding: 1.5rem;
+        }
+        
+        .example-item {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 2px dashed #000;
+        }
+        
+        .example-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .example-title {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+        
+        .example-source {
+            font-style: italic;
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            z-index: 90;
+            display: none;
+        }
+        
+        /* Stage Indicator */
+        .stage-indicator {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #0066ff;
+            color: #fff;
+            font-size: 1.5rem;
+            font-weight: bold;
+            padding: 1rem;
+            border: 3px solid #000;
+            box-shadow: 5px 5px 0 rgba(0,0,0,0.8);
+            z-index: 80;
+            display: none;
+            text-transform: uppercase;
+        }
+        
+        /* Responsive */
+        @media (max-width: 900px) {
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .lifecycle-container {
+                height: 900px;
+            }
+            
+            .circle {
+                width: 150px;
+                height: 150px;
+            }
+            
+            .popup {
+                width: 95%;
+            }
+            
+            .comparison-table th,
+            .comparison-table td {
+                padding: 0.7rem;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .comparison-table {
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+            
+            .circle {
+                width: 130px;
+                height: 130px;
+            }
+            
+            .circle .name {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Traditional & Digital Journalism</h1>
+        <h2>An introductory comparison</h2>
+    </header>
+    
+    <div class="container">
+        <div class="lifecycle-container" id="lifecycle">
+            <!-- Circles will be added here by JavaScript -->
+        </div>
+    </div>
+    
+    <div class="overlay" id="overlay"></div>
+    
+    <div class="popup" id="popup">
+        <div class="popup-header">
+            <div class="popup-title" id="popupTitle">Stage</div>
+            <button class="close-btn" id="closeBtn">X</button>
+        </div>
+        <div class="popup-content">
+            <div class="comparison-section">
+                <h3 class="comparison-title">TRADITIONAL VS DIGITAL COMPARISON</h3>
+                <table class="comparison-table" id="comparisonTable">
+                    <!-- Comparison table will be populated by JavaScript -->
+                </table>
+            </div>
+            
+            <div class="research-section">
+                <h3 class="research-title">THEORETICAL FRAMEWORKS</h3>
+                <div class="research-content" id="researchContent">
+                    <!-- Research content will be populated by JavaScript -->
+                </div>
+            </div>
+            
+            <div class="examples-section">
+                <h3 class="examples-title">ILLUSTRATIVE EXAMPLES</h3>
+                <div class="example" id="exampleContent">
+                    <!-- Examples will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="stage-indicator" id="stageIndicator"></div>
+    
+    <script>
+        // Lifecycle stages data
+        const stages = [
+            {
+                id: 1,
+                name: "Production",
+                x: 25,
+                y: 25,
+                color: "#0066ff",
+                textColor: "white",
+                comparison: [
+                    {
+                        factor: "Gatekeeping",
+                        traditional: "Editorial hierarchy with strong gatekeeping by editors and publishers",
+                        digital: "Distributed decision-making with reduced gatekeeping barriers"
+                    },
+                    {
+                        factor: "Workflow",
+                        traditional: "Linear process with fixed deadlines (daily, weekly, monthly)",
+                        digital: "Continuous production cycle with real-time updates"
+                    },
+                    {
+                        factor: "Content Creation",
+                        traditional: "Text-centric with supporting visuals, standardized formats",
+                        digital: "Multimedia-first approach with integration of various formats"
+                    },
+                    {
+                        factor: "Resources",
+                        traditional: "High fixed costs (printing, physical infrastructure)",
+                        digital: "Lower initial costs but continuous platform investment"
+                    },
+                    {
+                        factor: "Specialization",
+                        traditional: "Clear separation of roles (reporter, photographer, editor)",
+                        digital: "Blended roles requiring multiple skill sets (reporter-videographer-social media manager)"
+                    }
+                ],
+                research: [
+                    {
+                        title: "The Medium Shapes the Message",
+                        content: "Media Logic approach examines how production formats influence content. Traditional newspapers designed stories to fit physical pages with inverted pyramid structure, while TV news crafted segments to fit between commercial breaks. Digital journalism employs different logic: The Guardian's digital-first stories use interactive elements, non-linear narratives, and live-updating capabilities that would be impossible in print formats."
+                    },
+                    {
+                        title: "It Takes a (Digital) Village",
+                        content: "Actor-Network Theory reveals how digital production involves complex networks of human and technological actors. Traditional journalism's production chain (reporter → editor → printer) has transformed into interconnected systems where BuzzFeed's CMS, Google's AMP format, and human journalists collaborate to produce a single story, with each element influencing the final product in ways impossible in traditional journalism."
+                    },
+                    {
+                        title: "New Bosses, Same Pressures",
+                        content: "Political Economy analysis shows how economic structures shape journalism. The Washington Post's transformation under Amazon's Jeff Bezos demonstrates how digital production faces different but equally powerful economic pressures than traditional owner-publishers like the Graham family applied. Lower entry barriers enabled digital-native operations like Vox, but new dependencies on platforms and investor expectations create alternative constraints."
+                    },
+                    {
+                        title: "When Journalists Break Script",
+                        content: "Goffman's Dramaturgical Theory helps us understand how journalism's performance has changed. Traditional journalists maintained clear 'front stage' (formal public broadcasts) and 'backstage' (newsroom discussions) boundaries. Digital journalism blurs these lines as reporters share behind-the-scenes content on Twitter, reveal production processes through Instagram Stories, and engage directly with audiences on professional accounts, transforming journalism from formal performance to continuous interaction."
+                    },
+                    {
+                        title: "Seeing the World Through Different Frames",
+                        content: "Social Constructionism explains how journalists actively construct reality rather than simply reflecting it. Traditional news production presented authoritative singular narratives, while digital journalism often acknowledges multiple perspectives and contested truths. Compare how The New York Times covered race relations in the 1960s (objective 'truth-telling') versus their modern interactive pieces that incorporate diverse voices and explicitly acknowledge how editorial choices frame events differently."
+                    }
+                ],
+                examples: [
+                    {
+                        title: "The Washington Post's Arc Publishing Platform",
+                        description: "The Post's proprietary content management system represents the evolution of in-house production tools that integrate content creation, optimization, and distribution in one ecosystem - contrasting with traditional production systems that kept these functions separate.",
+                        source: "The Washington Post"
+                    },
+                    {
+                        title: "NRK's (Norwegian Broadcasting) Mobile-First Production",
+                        description: "Complete transition to mobile journalism kits allowing reporters to produce broadcast-quality content with smartphones and portable equipment, fundamentally changing the production workflow from crew-dependent to individually empowered journalism.",
+                        source: "Norwegian Broadcasting Corporation (NRK)"
+                    },
+                    {
+                        title: "South China Morning Post's Integrated Newsroom",
+                        description: "Redesigned physical and digital workspace where traditional print journalists, digital producers, and data visualization specialists collaborate in hub-and-spoke formation instead of department silos, demonstrating the spatial reorganization of production in digital journalism.",
+                        source: "South China Morning Post"
+                    },
+                    {
+                        title: "Buzzfeed's Content Management System",
+                        description: "Custom-built CMS that allows non-technical journalists to create interactive, multimedia stories without coding knowledge - eliminating the traditional technical barriers in content production and enabling journalists to independently produce complex digital stories.",
+                        source: "Buzzfeed"
+                    }
+                ]
+            },
+            {
+                id: 2,
+                name: "Distribution",
+                x: 75,
+                y: 25,
+                color: "#00cc99",
+                textColor: "white",
+                comparison: [
+                    {
+                        factor: "Channels",
+                        traditional: "Single-channel distribution (print newspaper, television broadcast)",
+                        digital: "Multi-platform approach across owned media, social platforms, and third-party distributors"
+                    },
+                    {
+                        factor: "Timing",
+                        traditional: "Fixed publishing schedule with deadlines",
+                        digital: "Continuous publishing with strategic timing optimization"
+                    },
+                    {
+                        factor: "Geography",
+                        traditional: "Geographically bounded distribution (local, regional, national)",
+                        digital: "Global reach with potential for geo-targeting"
+                    },
+                    {
+                        factor: "Accessibility",
+                        traditional: "Limited by physical distribution networks",
+                        digital: "Accessible anywhere with internet connection, device-responsive"
+                    },
+                    {
+                        factor: "Control",
+                        traditional: "Publisher controls entire distribution chain",
+                        digital: "Dependent on platform algorithms and third-party distribution"
+                    }
+                ],
+                research: [
+                    {
+                        title: "Six Degrees of Information",
+                        content: "Network Theory shows how the traditional two-step information flow (from Walter Cronkite to dinner table discussions) has evolved into complex networks where a single tweet from a citizen journalist in Cairo can reach global audiences without traditional media intermediaries. The Arab Spring demonstrated this new distribution reality where information flows through unpredictable social networks rather than controlled channels."
+                    },
+                    {
+                        title: "Who Controls the Gates When There Are No Walls?",
+                        content: "Gatekeeping has transformed from editors deciding what makes tomorrow's front page to a complex interplay between journalists and algorithms. When The New York Times publishes a story, its visibility now depends on Facebook's algorithm as much as editorial promotion – creating scenarios where vital investigative journalism can be outperformed by clickbait, a dynamic not possible when editors controlled the entire distribution channel."
+                    },
+                    {
+                        title: "Swimming in the Content Ocean",
+                        content: "The Information Ecology view explains why a deeply reported ProPublica investigation must now compete directly with cat videos, shopping recommendations, and personal messages – all appearing in the same Facebook feed or Google search results. Traditional distribution channels kept news separate from entertainment and advertising, while digital distribution creates an omnipresent information soup where context and attention are constantly negotiated."
+                    },
+                    {
+                        title: "The Invisible Web of Power",
+                        content: "Foucault's concept of Power/Knowledge Networks illuminates how digital distribution has decentralized control while creating new power structures. Traditional distribution power rested with media conglomerates and government regulators, while today's power circulates through algorithmic systems that privilege certain voices while suppressing others. When YouTube's algorithm promotes Fox News over independent creators, it exercises power in ways more subtle and pervasive than traditional distribution gatekeepers."
+                    },
+                    {
+                        title: "Truth at the Speed of Light",
+                        content: "Epistemological Relativism examines how distribution speed affects truth verification. Traditional journalism's 24-hour news cycle allowed fact-checking and verification before distribution. Digital distribution's instantaneous nature means information spreads before verification is possible, creating new epistemological challenges. The Boston Marathon bombing demonstrated how Reddit's real-time distribution of unverified information created 'truth by consensus' rather than truth through verification, fundamentally changing how knowledge is established."
+                    }
+                ],
+                examples: [
+                    {
+                        title: "The New York Times' Multi-Platform Strategy",
+                        description: "Evolution from print-centric distribution to a comprehensive ecosystem including website, mobile apps, newsletters, podcasts, and platform-specific content - demonstrating the shift from single to multi-channel distribution.",
+                        source: "The New York Times"
+                    },
+                    {
+                        title: "Axel Springer's Platform Partnerships",
+                        description: "Strategic distribution agreements with platforms like Apple News, Facebook, and Google demonstrating how traditional publishers now co-distribute with technology companies rather than controlling their exclusive distribution channels.",
+                        source: "Axel Springer"
+                    },
+                    {
+                        title: "BBC News Labs Distribution Optimization",
+                        description: "AI-driven content distribution system that analyzes real-time audience data to determine optimal timing, format, and platform for each story, representing the shift from scheduled to algorithmic distribution timing.",
+                        source: "BBC"
+                    },
+                    {
+                        title: "El País Global Expansion",
+                        description: "Spanish newspaper's transformation from nationally-distributed print publication to global digital news source with targeted editions for Latin America and international audiences, demonstrating the removal of geographical constraints in distribution.",
+                        source: "El País"
+                    }
+                ]
+            },
+            {
+                id: 3,
+                name: "Consumption",
+                x: 25,
+                y: 75,
+                color: "#ff9900",
+                textColor: "white",
+                comparison: [
+                    {
+                        factor: "Access Pattern",
+                        traditional: "Dedicated consumption time (morning paper, evening news)",
+                        digital: "On-demand, throughout-the-day access in short sessions"
+                    },
+                    {
+                        factor: "Attention",
+                        traditional: "Focused, linear consumption of complete packages",
+                        digital: "Fragmented attention, non-linear navigation between pieces"
+                    },
+                    {
+                        factor: "User Control",
+                        traditional: "Curated experience determined by publisher",
+                        digital: "User-directed navigation and personalization"
+                    },
+                    {
+                        factor: "Community",
+                        traditional: "Individual consumption with delayed, limited feedback",
+                        digital: "Social consumption with immediate sharing and discussion"
+                    },
+                    {
+                        factor: "Format",
+                        traditional: "Standardized format (newspaper layout, TV broadcast)",
+                        digital: "Variable format based on device, preferences, and context"
+                    }
+                ],
+                research: [
+                    {
+                        title: "The News Buffet Effect",
+                        content: "Uses and Gratifications Theory explains why Reuters Institute's Digital News Report shows readers assembling personalized news diets across multiple sources rather than consuming pre-packaged bulletins or newspapers. Traditional consumption fulfilled information needs, while digital consumption addresses additional needs: social sharing (Twitter), participation (Reddit discussions), and identity signaling (which Substack newsletters you subscribe to)."
+                    },
+                    {
+                        title: "Echo Chambers With Better Acoustics",
+                        content: "Selective Exposure dynamics are visible in how partisan news consumption has intensified online. Traditional newspaper readers were exposed to diverse viewpoints on the same page, while digital platforms like Breitbart or Occupy Democrats create immersive partisan environments reinforced by recommendation engines. The Wall Street Journal's 'Blue Feed, Red Feed' project visually demonstrated how Facebook users experience entirely different realities based on political alignment."
+                    },
+                    {
+                        title: "When Everyone's Watching Something Different",
+                        content: "The Ritual perspective illuminates how shared media experiences have fragmented. When the moon landing aired, most Americans watched the same broadcast simultaneously, creating collective experience. Today, even major events like presidential debates are experienced through fragmented second-screens, live-tweets, and on-demand viewing, fundamentally changing the communal aspect of news consumption while creating new forms of digital togetherness through hashtags and comment sections."
+                    },
+                    {
+                        title: "The Digital Divide 2.0",
+                        content: "Bourdieu's Cultural Capital theory reveals how news consumption has become a form of social distinction. Traditional news consumption required only basic literacy, while navigating today's complex media landscape demands considerable cultural and technical capital. Compare how accessing news via a printed newspaper democratized information versus how understanding which sources are credible on Twitter requires sophisticated media literacy skills that correlate with educational privilege."
+                    },
+                    {
+                        title: "When Algorithms Know You Better Than You Know Yourself",
+                        content: "Standpoint Epistemology questions whose perspective shapes the news we consume. Traditional editing hierarchies limited news to dominant social perspectives. Digital personalization creates different problems: when Netflix's recommendation algorithm suggests conservative or liberal news based on your viewing history, it shapes your epistemological standpoint without transparent criteria. This raises questions about how knowledge formation occurs when invisible algorithms increasingly determine which perspectives you encounter."
+                    }
+                ],
+                examples: [
+                    {
+                        title: "Reuters Institute Digital News Report Analysis",
+                        description: "Annual report documenting the shift from linear newspaper/broadcast consumption to algorithmic feeds and notification-based consumption, with side-by-side comparison showing how consumption patterns have fundamentally changed.",
+                        source: "Reuters Institute for the Study of Journalism"
+                    },
+                    {
+                        title: "Financial Times' MyFT Personalization",
+                        description: "Personalized news feed allowing readers to follow specific topics, industries, and authors - contrasting with the identical newspaper every subscriber would receive in traditional model and demonstrating the shift to user-controlled consumption.",
+                        source: "Financial Times"
+                    },
+                    {
+                        title: "Guardian Mobile App User Experience",
+                        description: "Redesigned mobile experience that accommodates both deep reading and scanning behaviors, recognizing the contextual nature of digital consumption compared to the fixed context of traditional newspaper reading.",
+                        source: "The Guardian"
+                    },
+                    {
+                        title: "NPR One Listening Patterns",
+                        description: "Audio app that transformed radio listening from fixed-schedule broadcasting to on-demand, personalized audio streams, showing how digital approaches reshape even traditional audio journalism consumption.",
+                        source: "National Public Radio"
+                    }
+                ]
+            },
+            {
+                id: 4,
+                name: "Analytics",
+                x: 75,
+                y: 75,
+                color: "#cc00cc",
+                textColor: "white",
+                comparison: [
+                    {
+                        factor: "Metrics",
+                        traditional: "Circulation numbers, audience demographics, Nielsen ratings",
+                        digital: "Detailed engagement metrics, conversion funnels, individual user behavior"
+                    },
+                    {
+                        factor: "Timeliness",
+                        traditional: "Delayed feedback (quarterly reports, annual surveys)",
+                        digital: "Real-time data with immediate feedback loops"
+                    },
+                    {
+                        factor: "Granularity",
+                        traditional: "Aggregate audience data with limited segmentation",
+                        digital: "Individual user-level data with detailed behavioral patterns"
+                    },
+                    {
+                        factor: "Application",
+                        traditional: "Primarily for advertising sales and general editorial direction",
+                        digital: "Integrated into content, design, and strategic decisions"
+                    },
+                    {
+                        factor: "Methodology",
+                        traditional: "Sample-based research, surveys, focus groups",
+                        digital: "Complete dataset tracking, A/B testing, predictive modeling"
+                    }
+                ],
+                research: [
+                    {
+                        title: "Metrics for the Masses, Stories for the Few?",
+                        content: "The Knowledge Gap Hypothesis manifests when The Atlantic optimizes content for its most engaged, affluent subscribers rather than broader public information needs. Traditional newspapers balanced mass appeal with public service journalism, while analytics can identify and cater precisely to wealthy demographic segments, potentially widening information disparities as content increasingly targets those most valuable to advertisers or subscription models."
+                    },
+                    {
+                        title: "When Readers Become Products",
+                        content: "Audience Commodity dynamics have intensified as Chartbeat dashboards track reader behavior down to individual scroll depth and engagement seconds. Traditional audience measurement gathered anonymous, aggregate data quarterly, while digital analytics enables real-time surveillance of reader behavior. This transforms The Guardian's readers from anonymous citizens into precisely tracked digital profiles, intensifying the commodification process that critical theorists warned about."
+                    },
+                    {
+                        title: "Data's Invisible Hand in the Newsroom",
+                        content: "Structuration Theory reveals the feedback loop between metrics and editorial judgment. When NPR producers see real-time engagement drops during certain story types, it inevitably influences future content decisions despite journalistic values. Traditional journalism maintained stronger boundaries between sales and editorial, while digital newsrooms at places like Vice and BuzzFeed explicitly optimize headlines, topics, and formats based on performance metrics, fundamentally restructuring professional autonomy."
+                    },
+                    {
+                        title: "When Numbers Replace Judgment",
+                        content: "Weber's Theory of Rationalization explains analytics as the ultimate form of technical rationality overtaking journalism's professional values. Traditional journalism balanced measurable factors (circulation) with unmeasurable values (public interest), while analytics represents the 'iron cage' of rationalization where complex journalistic decisions are increasingly reduced to quantifiable metrics. Chartbeat's influence in newsrooms exemplifies how technical rationality can displace professional judgment as the primary decision-making framework."
+                    },
+                    {
+                        title: "The Double-Edged Sword of Transparency",
+                        content: "Feminist Standpoint Theory interrogates whose knowledge matters in analytics. Traditional audience measurement relied on representative samples that often marginalized certain groups. Digital analytics can reveal previously invisible audience segments (such as The 19th's discovery of untapped interest in women's political coverage), while simultaneously reinforcing dominant perspectives when outlets optimize for maximum engagement rather than diverse viewpoints, creating complex new epistemological challenges around which audiences' preferences shape coverage."
+                    }
+                ],
+                examples: [
+                    {
+                        title: "The Atlantic's Sophisticated Analytics System",
+                        description: "Development from basic pageview tracking to a comprehensive system measuring scroll depth, recirculation, subscriber conversion, and lifetime value - demonstrating the evolution from simplistic to multi-dimensional analytics.",
+                        source: "The Atlantic"
+                    },
+                    {
+                        title: "Schibsted Media Group's Predictive Analytics",
+                        description: "Advanced machine learning models that predict not just what content will perform well but which users are likely to convert to subscribers based on reading patterns - showing the shift from descriptive to predictive analytics that wasn't possible in traditional models.",
+                        source: "Schibsted Media"
+                    },
+                    {
+                        title: "Vox Media's Chorus Analytics Dashboard",
+                        description: "Newsroom-facing analytics platform that empowers journalists with real-time data about their stories' performance, replacing the traditional model where only executives had access to delayed audience metrics.",
+                        source: "Vox Media"
+                    },
+                    {
+                        title: "Associated Press 'Metrics for News' Program",
+                        description: "Initiative transforming how traditional wire service measures content value beyond basic metrics, incorporating quality measures and engagement patterns to assess journalistic impact rather than just reach.",
+                        source: "Associated Press"
+                    }
+                ]
+            }
+        ];
+        
+        // DOM Elements
+        const lifecycleEl = document.getElementById('lifecycle');
+        const popup = document.getElementById('popup');
+        const popupTitle = document.getElementById('popupTitle');
+        const comparisonTable = document.getElementById('comparisonTable');
+        const researchContent = document.getElementById('researchContent');
+        const exampleContent = document.getElementById('exampleContent');
+        const closeBtn = document.getElementById('closeBtn');
+        const overlay = document.getElementById('overlay');
+        const stageIndicator = document.getElementById('stageIndicator');
+        
+        // Create lifecycle visualization
+        function createLifecycle() {
+            // Add circles
+            stages.forEach(stage => {
+                const circle = document.createElement('div');
+                circle.className = 'circle';
+                circle.style.left = `${stage.x - 9}%`;  // Adjust for center positioning
+                circle.style.top = `${stage.y - 9}%`;   // Adjust for center positioning
+                circle.style.backgroundColor = stage.color || '#ffffff';
+                circle.style.color = stage.textColor || '#000000';
+                
+                circle.innerHTML = `
+                    <div class="stage">${stage.id}</div>
+                    <div class="name">${stage.name}</div>
+                `;
+                
+                circle.addEventListener('click', () => {
+                    showStageDetails(stage);
+                });
+                
+                // Create hover effect
+                circle.addEventListener('mouseover', () => {
+                    showStageIndicator(stage.name);
+                });
+                
+                circle.addEventListener('mouseout', () => {
+                    hideStageIndicator();
+                });
+                
+                lifecycleEl.appendChild(circle);
+            });
+        }
+        
+        // Show stage indicator
+        function showStageIndicator(stageName) {
+            stageIndicator.textContent = stageName;
+            stageIndicator.style.display = 'block';
+        }
+        
+        // Hide stage indicator
+        function hideStageIndicator() {
+            stageIndicator.style.display = 'none';
+        }
+        
+        // Show details for a specific stage
+        function showStageDetails(stage) {
+            popupTitle.textContent = `${stage.id}. ${stage.name}`;
+            
+            // Clear previous content
+            comparisonTable.innerHTML = '';
+            researchContent.innerHTML = '';
+            exampleContent.innerHTML = '';
+            
+            // Add comparison table
+            const tableHeader = document.createElement('tr');
+            tableHeader.innerHTML = `
+                <th class="factor">Factor</th>
+                <th class="traditional">Traditional Journalism</th>
+                <th class="digital">Digital Media</th>
+            `;
+            comparisonTable.appendChild(tableHeader);
+            
+            stage.comparison.forEach(item => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td class="factor">${item.factor}</td>
+                    <td class="traditional">${item.traditional}</td>
+                    <td class="digital">${item.digital}</td>
+                `;
+                comparisonTable.appendChild(row);
+            });
+            
+            // Add research content
+            stage.research.forEach(item => {
+                const researchEl = document.createElement('div');
+                researchEl.className = 'research-item';
+                researchEl.innerHTML = `
+                    <div class="research-title-text">${item.title}</div>
+                    <div>${item.content}</div>
+                    <div class="research-citation">${item.citation}</div>
+                `;
+                researchContent.appendChild(researchEl);
+            });
+            
+            // Add examples
+            stage.examples.forEach(example => {
+                const exampleEl = document.createElement('div');
+                exampleEl.className = 'example-item';
+                exampleEl.innerHTML = `
+                    <div class="example-title">${example.title}</div>
+                    <div>${example.description}</div>
+                    <div class="example-source">Source: ${example.source}</div>
+                `;
+                exampleContent.appendChild(exampleEl);
+            });
+            
+            // Show popup and overlay
+            popup.style.display = 'block';
+            overlay.style.display = 'block';
+        }
+        
+        // Close popup
+        function closePopup() {
+            popup.style.display = 'none';
+            overlay.style.display = 'none';
+        }
+        
+        // Event listeners
+        closeBtn.addEventListener('click', closePopup);
+        overlay.addEventListener('click', closePopup);
+        
+        // Add keyboard accessibility
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closePopup();
+            }
+        });
+        
+        // Initialize
+        createLifecycle();
+        
+        // Add entry animation
+        setTimeout(() => {
+            const circles = document.querySelectorAll('.circle');
+            circles.forEach((circle, index) => {
+                setTimeout(() => {
+                    circle.style.opacity = '1';
+                    circle.style.transform = 'translateY(-5px) translateX(-5px)';
+                    setTimeout(() => {
+                        circle.style.transform = '';
+                    }, 200);
+                }, index * 150);
+            });
+        }, 300);
+        
+        // Add responsive handling
+        function adjustForMobile() {
+            if (window.innerWidth < 768) {
+                // Mobile layout adjustments
+                const circleElements = document.querySelectorAll('.circle');
+                
+                // Stack circles vertically
+                stages.forEach((stage, index) => {
+                    const yPos = 10 + index * 20;
+                    const circle = circleElements[index];
+                    if (circle) {
+                        circle.style.left = '42%';
+                        circle.style.top = `${yPos}%`;
+                    }
+                });
+            }
+        }
+        
+        // Check on resize and initial load
+        window.addEventListener('resize', adjustForMobile);
+        
+        // Add digital glitch effect for brutalist style
+        function addGlitchEffect() {
+            setInterval(() => {
+                const randomStage = Math.floor(Math.random() * stages.length);
+                const circles = document.querySelectorAll('.circle');
+                const targetCircle = circles[randomStage];
+                
+                if (targetCircle) {
+                    targetCircle.style.transform = 'translateX(3px)';
+                    setTimeout(() => {
+                        targetCircle.style.transform = '';
+                    }, 150);
+                }
+            }, 5000);
+        }
+        
+        // Initialize effects
+        addGlitchEffect();
+    </script>
+</body>
+</html>
