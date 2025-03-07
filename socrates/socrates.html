@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Socrates' Quest for Knowledge</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Include D3.js library -->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+</head>
+<body>
+    <header>
+        <h1>SOCRATES' QUEST FOR KNOWLEDGE</h1>
+        <p style="text-transform: uppercase; font-weight: bold; letter-spacing: 1px;">SHORT PHILOSOPHICAL ADVENTURE BASED ON PLATO'S THEAETETUS</p>
+    </header>
+    
+    <div class="container">
+        <!-- Introduction Scene -->
+        <div id="intro" class="scene active">
+            <img src="ancient-athens.png" alt="Ancient Athens" class="athens-image">
+            <div class="nav-indicator">SCENE: INTRO</div>
+            
+            <p>Athens, 399 BCE. The great philosopher Socrates walks through the agora, his mind troubled by a seemingly simple question: <em>What is knowledge?</em></p>
+            
+            <p>As you approach the great thinker, he turns to you with curious eyes.</p>
+            
+            <div class="dialogue">
+                <span class="character">Socrates:</span> "Ah, a seeker of wisdom! I've been pondering a fundamental question—what is knowledge itself? Many believe they know things, but when asked what knowledge is, they struggle to answer. Would you care to join me in this inquiry?"
+            </div>
+            
+            <p>You nod, eager to engage with the famous philosopher.</p>
+            
+            <div class="dialogue">
+                <span class="character">Socrates:</span> "Excellent! Let us begin our investigation. I will play the role of midwife—not possessing wisdom myself, but helping to bring forth the ideas already within you. So tell me, what do you think knowledge is?"
+            </div>
+            
+            <div class="choices">
+                <button class="choice-btn" onclick="showScene('examples')">Knowledge consists of subjects like mathematics, astronomy, and other fields of study.</button>
+                <button class="choice-btn" onclick="showScene('perception')">Knowledge is perception—what we perceive through our senses.</button>
+                <button class="choice-btn" onclick="showScene('true-belief')">Knowledge is true belief—having correct opinions about things.</button>
+                <button class="choice-btn" onclick="showScene('true-belief-account')">Knowledge is true belief with an account—correct opinions we can explain.</button>
+            </div>
+        </div>
+        
+        <!-- Examples of Knowledge Scene -->
+        <div id="examples" class="scene">
+            <div class="nav-indicator">SCENE: EXAMPLES</div>
+            <h2>Knowledge as Examples</h2>
+            
+            <div class="dialogue">
+                <span class="character">You:</span> "Knowledge consists of subjects like mathematics, astronomy, and other fields of study."
+            </div>
+            
+            <p>Socrates listens attentively, nodding as you list various fields of knowledge. When you finish, he strokes his beard thoughtfully.</p>
+            
+            <div class="dialogue">
+                <span class="character">Socrates:</span> "You've given me examples of knowledge—geometry, astronomy, harmony—but not what knowledge itself is. It's as if I asked 'What is clay?' and you replied 'Clay is what potters use, what roof-tiles are made of, and what kilns contain.' You've told me what clay is used for, not what clay is."
+            </div>
+            
+            <div class="refutation">
+                <h3>Socrates' Refutation: The Examples Fallacy</h3>
+                <p>Socrates points out that giving examples of knowledge doesn't tell us what knowledge itself is. Examples illustrate cases of knowledge but don't define the concept. This is a fundamental distinction between illustrating a concept through instances and defining the concept itself.</p>
+            </div>
+            
+            <div class="example">
+                <h3>Modern Example</h3>
+                <p>This is like someone asking "What is technology?" and you responding "Smartphones, computers, and electric cars." You've listed examples of technology but haven't defined what makes something technology. The examples don't tell us the essential characteristics that make these items technological in nature.</p>
+                <p>Similarly, if a doctor asked what disease is, and you replied "cancer, diabetes, and COVID-19," you would be giving examples of diseases without explaining what makes something a disease in the first place.</p>
+            </div>
+            
+            <div class="dialogue">
+                <span class="character">Socrates:</span> "Let us try again. Rather than listing examples, we must seek the essence of knowledge itself. What is the common quality that makes all these different subjects count as knowledge?"
+            </div>
+            
+            <div class="choices">
+                <button class="choice-btn" onclick="showScene('perception')">Knowledge is perception—what we perceive through our senses.</button>
+                <button class="choice-btn" onclick="showScene('true-belief')">Knowledge is true belief—having correct opinions about things.</button>
+                <button class="choice-btn" onclick="showScene('true-belief-account')">Knowledge is true belief with an account—correct opinions we can explain.</button>
+            </div>
+        </div>
+        
+        <!-- Knowledge as Perception Scene -->
+        <div id="perception" class="scene">
+            <div class="nav-indicator">SCENE: PERCEPTION</div>
+            <h2>Knowledge as Perception</h2>
+            
+            <div class="dialogue">
+                <span class="character">You:</span> "Knowledge is perception—what we perceive through our senses."
+            </div>
+            
+            <p>Socrates' eyes light up, and he nods enthusiastically.</p>
+            
+            <div class="dialogue">
+                <span class="character">Socrates:</span> "An interesting proposal! This reminds me of Protagoras' famous saying that 'Man is the measure of all things.' If knowledge is perception, then what appears to each person is true for that person. The wind feels cold to one who is chilled, but not to another who is warm. Both perceptions would be 'knowledge' under this definition."
+            </div>
+            
+            <p>After discussing this further, Socrates begins to look troubled.</p>
+            
+            <div class="dialogue">
+                <span class="character">Socrates:</span> "But I see some difficulties with this view. Consider this: when someone speaks a language you don't understand, do you perceive the sounds they make?"
+            </div>
+            
+            <p>You nod in agreement.</p>
+            
+            <div class="dialogue">
+                <span class="character">Socrates:</span> "Yet would you say you know what they're saying simply because you perceive the sounds?"
+            </div>
+            
+            <div class="refutation">
+                <h3>Socrates' Refutation: The Language Argument</h3>
+                <p>Socrates demonstrates that perception alone isn't sufficient for knowledge. When we hear someone speaking a language we don't understand, we perceive the sounds perfectly well, but we don't know what they mean. Therefore, perception cannot be equated with knowledge.</p>
+            </div>
+            
+            <div class="example">
+                <h3>Modern Example</h3>
+                <p>Imagine you're watching a technical presentation about quantum physics. You perceive all the words the physicist says, you see all the equations on the slides, but if you haven't studied quantum physics, you don't know what any of it means. You've perceived everything, yet gained no knowledge.</p>
+                <p>Similarly, if you visit a website written in a language you don't speak, you perceive all the characters on the screen, but you don't know the content. This shows that perception alone is insufficient for knowledge.</p>
+            </div>
+            
+            <div class="dialogue">
+                <span class="character">Socrates:</span> "And what about memory? Do you know what you had for dinner yesterday? Yet you no longer perceive it. If knowledge were merely perception, we could never know things we aren't currently perceiving."
+            </div>
+            
+            <div class="refutation">
+                <h3>Socrates' Refutation: The Memory Argument</h3>
+                <p>Socrates points out that we can know things we currently don't perceive. If knowledge were perception, we could only know what we're currently perceiving. Yet we clearly know many things through memory that we aren't currently perceiving.</p>
+            </div>
+            
+            <div class="example">
+                <h3>Modern Example</h3>
+                <p>You know your home address, your parents' names, and what you did last weekend—none of which you are perceiving right now. If knowledge were limited to immediate perception, most of what we consider knowledge would disappear whenever we stopped directly perceiving it.</p>
+                <p>Think about a password you use regularly. You know it even when you're not looking at it or typing it. This knowledge persists independent of perception.</p>
+            </div>
+            
+            <div class="dialogue">
+                <span class="character">Socrates:</span> "It seems that perception alone cannot be knowledge. Shall we consider another possibility?"
+            </div>
+            
+            <div class="choices">
+                <button class="choice-btn" onclick="showScene('true-belief')">Knowledge is true belief—having correct opinions about things.</button>
+                <button class="choice-btn" onclick="showScene('true-belief-account')">Knowledge is true belief with an account—correct opinions we can explain.</button>
+                <button class="restart-btn" onclick="restart()">Start Over</button>
+            </div>
+        </div>
+        
+        <!-- Knowledge as True Belief Scene -->
+        <div id="true-belief" class="scene">
+            <div class="nav-indicator">SCENE: TRUE BELIEF</div>
+            <h2>Knowledge as True Belief</h2>
+            
+            <div class="dialogue">
+                <span class="character">You:</span> "Knowledge is true belief—having correct opinions about things."
+            </div>
+            
+            <p>Socrates considers this thoughtfully.</p>
+            
+            <div class="dialogue">
+                <span class="character">Socrates:</span> "So knowledge is the possession of truth? This seems promising. Yet I wonder if there might be cases where someone has a true belief but we wouldn't say they have knowledge."
+            </div>
+            
+            <p>Socrates ponders for a moment before continuing.</p>
+            
+            <div class="dialogue">
+                <span class="character">Socrates:</span> "Consider a law court. A skilled orator persuades a jury that a man is innocent of a crime, and in fact, the man truly is innocent—though neither the jury nor the orator knows this for certain. The jury forms a true belief about the man's innocence. Do they have knowledge?"
+            </div>
+            
+            <div class="refutation">
+                <h3>Socrates' Refutation: The Jury Argument</h3>
+                <p>Socrates argues that the jury has a true belief (the defendant is innocent), but they lack knowledge because their belief comes from persuasion rather than direct evidence. They were convinced by the lawyer's rhetoric, not by understanding the facts themselves. This shows that true belief can exist without knowledge.</p>
+            </div>
+            
+            <div class="example">
+                <h3>Modern Example</h3>
+                <p>Imagine you correctly guess the answer to a complex math problem without understanding the mathematical principles involved. You have a true belief about the answer, but no genuine knowledge of mathematics.</p>
+                <p>Or consider someone who believes a scientific fact (like "black holes emit radiation") because a celebrity they trust mentioned it, not because they understand the science. Their belief is true, but it's not knowledge—it's just lucky acceptance of correct information. If asked to explain or defend the belief, they couldn't do so.</p>
+            </div>
+            
+            <div class="dialogue">
+                <span class="character">Socrates:</span> "Another puzzle arises: if knowledge is true belief, how do we account for false belief? Is it believing what is not? But how can one believe what is not, since what is not has no existence? The very nature of false belief becomes difficult to explain."
+            </div>
+            
+            <div class="refutation">
+                <h3>Socrates' Refutation: The Puzzle of False Belief</h3>
+                <p>Socrates raises philosophical difficulties about false belief. If knowledge is true belief, we need to explain how false belief is possible. But defining false belief proves challenging—is it believing what doesn't exist? Is it mistaking one thing for another? Each explanation faces problems.</p>
+            </div>
+            
+            <div class="example">
+                <h3>Modern Example</h3>
+                <p>This philosophical puzzle has modern parallels in discussions about misinformation. When someone believes fake news, what exactly is happening? They believe something that isn't true, but the content of their belief exists as a proposition even if it doesn't correspond to reality.</p>
+                <p>Consider someone who believes "The Earth is flat." They aren't believing nothing (which would be impossible); they're believing a proposition that doesn't correspond to reality. This illustrates the complexity of how beliefs relate to truth and existence.</p>
+            </div>
+            
+            <div class="dialogue">
+                <span class="character">Socrates:</span> "It seems that true belief alone is not sufficient for knowledge. Perhaps we need something more?"
+            </div>
+            
+            <div class="choices">
+                <button class="choice-btn" onclick="showScene('true-belief-account')">Knowledge is true belief with an account—correct opinions we can explain.</button>
+                <button class="choice-btn" onclick="showScene('perception')">Let me reconsider: Knowledge is perception—what we perceive through our senses.</button>
+                <button class="restart-btn" onclick="restart()">Start Over</button>
+            </div>
+        </div>
+        
+        <!-- Knowledge as True Belief with Account Scene -->
+        <div id="true-belief-account" class="scene">
+            <div class="nav-indicator">SCENE: TRUE BELIEF WITH ACCOUNT</div>
+            <h2>Knowledge as True Belief with an Account</h2>
+            
+            <div class="dialogue">
+                <span class="character">You:</span> "Knowledge is true belief with an account—correct opinions that we can explain or justify."
+            </div>
+            
+            <p>Socrates nods approvingly.</p>
+            
+            <div class="dialogue">
+                <span class="character">Socrates:</span> "This seems most promising! True belief alone might come by chance or persuasion, but knowledge would require an understanding—an account or explanation of why the belief is true. But what exactly constitutes an 'account'?"
+            </div>
+            
+            <p>Socrates considers several possibilities.</p>
+            
+            <div class="dialogue">
+                <span class="character">Socrates:</span> "Perhaps an account merely means expressing your thought in words? But surely everyone with a belief can state it—this would make all true beliefs into knowledge."
+            </div>
+            
+            <div class="refutation">
+                <h3>Socrates' Refutation: Account as Expression</h3>
+                <p>Socrates argues that if "account" simply means putting one's belief into words, this doesn't add anything meaningful to true belief. Anyone capable of speech could transform their true beliefs into knowledge just by expressing them, which doesn't seem right.</p>
+            </div>
+            
+            <div class="example">
+                <h3>Modern Example</h3>
+                <p>This is like claiming you "know" something simply because you can say it out loud. If you make a lucky guess that "Barcelona is the capital of Catalonia" and then simply state this belief verbally, you haven't transformed your lucky guess into knowledge merely by expressing it in words.</p>
+                <p>In modern terms, this would mean that merely tweeting or posting a correct fact would constitute knowledge, even if you had no understanding of why that fact is true.</p>
+            </div>
+            
+            <div class="dialogue">
+                <span class="character">Socrates:</span> "Or perhaps an account means listing the elements or components of something? But this creates new problems. If I know a word by listing its letters, must I also know each letter? And what is a letter known by?"
+            </div>
+            
+            <div class="refutation">
+                <h3>Socrates' Refutation: Account as Enumeration</h3>
+                <p>Socrates shows that if "account" means listing the basic elements of something, we face a paradox: How can we know a complex thing by listing its elements if we don't already know the elements themselves? And if the elements are "unknowable," how can listing unknowable things create knowledge?</p>
+            </div>
+            
+            <div class="example">
+                <h3>Modern Example</h3>
+                <p>This is like claiming you know how a smartphone works because you can list its components (battery, processor, screen, etc.) without understanding how those components function or interact. Simply naming parts doesn't constitute knowledge of the whole.</p>
+                <p>Similarly, listing the ingredients in a medicine doesn't mean you know how the medicine works in the body. True knowledge requires understanding the relationships and functions, not just identifying components.</p>
+            </div>
+            
+            <div class="dialogue">
+                <span class="character">Socrates:</span> "Or perhaps an account means identifying what makes something unique—its distinguishing feature? But to recognize what distinguishes one thing from all others, wouldn't you already need to know the thing?"
+            </div>
+            
+            <div class="refutation">
+                <h3>Socrates' Refutation: Account as Distinguishing Mark</h3>
+                <p>Socrates argues that if "account" means stating what distinguishes something from everything else, we face a circularity: To identify the distinguishing feature of something, you must already know how it differs from other things—which presupposes the very knowledge you're trying to define.</p>
+            </div>
+            
+            <div class="example">
+                <h3>Modern Example</h3>
+                <p>This is like saying you know what makes a particular programming language unique, but to identify its unique features, you'd first need to understand programming languages well enough to compare them. The knowledge precedes the account, rather than being constituted by it.</p>
+                <p>Or consider trying to explain what makes your friend unique among all people. To do this, you'd already need to know your friend well—the account depends on prior knowledge rather than creating it.</p>
+            </div>
+            
+            <div class="dialogue">
+                <span class="character">Socrates:</span> "It seems we've examined several possibilities for what knowledge might be, but each has fallen short. Perhaps knowledge is not as easily defined as we had hoped. Yet this inquiry has not been in vain—we now understand better what knowledge is not, and why the question is so profound."
+            </div>
+            
+            <p>The sun begins to set over Athens. Socrates must leave for his appointment at the King's Porch—the beginning of his trial.</p>
+            
+            <div class="dialogue">
+                <span class="character">Socrates:</span> "I must go now to answer the charges against me. But remember, recognizing what we do not know is itself a form of wisdom. Perhaps that is the beginning of true knowledge."
+            </div>
+            
+            <h3>The End</h3>
+            <p>While Socrates never arrived at a definitive answer to "What is knowledge?", his explorations laid the foundation for epistemology—the study of knowledge—that continues to this day.</p>
+            <p>Philosophers after Plato would continue developing theories of knowledge, with many accepting some version of "justified true belief" as the starting point, while acknowledging the complexities Socrates identified.</p>
+            
+            <button class="next-btn" onclick="showScene('network-map')">EXPLORE EPISTEMOLOGY MAP</button>
+            <button class="restart-btn" onclick="restart()">Start Over</button>
+        </div>
+        
+        <!-- Network Map Scene -->
+        <div id="network-map" class="scene">
+            <div class="nav-indicator">SCENE: EPISTEMOLOGY MAP</div>
+            <h2>EPISTEMOLOGICAL NETWORK</h2>
+            
+            <p>This interactive map shows how Socrates' inquiries in the Theaetetus connect to modern epistemological problems and concepts. Click on any node to explore connections.</p>
+            
+            <div id="network-container" style="height: 500px; border: var(--content-border); background-color: #f1f1f1; margin: 2rem 0; position: relative;">
+                <!-- Network graph will be rendered here via JavaScript -->
+                <div id="node-info" class="node-info">
+                    <p>Click on a node to see information</p>
+                </div>
+            </div>
+            
+            <div id="concept-detail" class="concept-detail">
+                <h3>CONCEPT DETAILS</h3>
+                <div id="concept-content">
+                    <p>Select a node in the network to view detailed information about that epistemological concept and its connections.</p>
+                </div>
+            </div>
+            
+            <button class="restart-btn" onclick="restart()">RESTART ADVENTURE</button>
+        </div>
+        
+        <div class="credits">
+            <p>BASED ON PLATO'S DIALOGUE "THEAETETUS" (c. 369 BCE)</p>
+            <p>MADE BY MERT SEVEN FOR COMMUNICATION RESEARCH AND ETHICS COURSE</p>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
