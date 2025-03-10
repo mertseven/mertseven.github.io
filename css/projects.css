@@ -144,6 +144,70 @@ ul li a[download]::after {
     nav ul {
         flex-direction: column;
     }
+    
+    .content {
+        flex-direction: column;
+    }
+    
+    .left-content {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+    
+    /* Force single column layout for mobile */
+    .grid-container {
+        display: block !important; /* Override any other display properties */
+        grid-template-rows: none !important;
+        grid-template-columns: none !important;
+    }
+    
+    /* Style each frame component for mobile */
+    .frame-component {
+        display: block !important;
+        width: 100% !important;
+        height: 250px !important;
+        margin-bottom: 20px !important;
+        position: relative;
+        overflow: hidden;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        transform: none !important; /* Prevent any transforms */
+    }
+    
+    /* Ensure image containers fill the frame */
+    .image-container {
+        position: absolute;
+        width: 100% !important;
+        height: 100% !important;
+    }
+    
+    /* Ensure images fill their containers */
+    .image-wrapper {
+        width: 100% !important;
+        height: 100% !important;
+    }
+    
+    .image {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover !important;
+    }
+    
+    /* Remove tap to view indicator */
+    .frame-component::after {
+        content: none;
+    }
+    
+    /* Improve button styling for mobile */
+    .read-more-btn, .read-less-btn {
+        padding: 8px 12px;
+        font-size: 0.8rem;
+        display: block;
+        width: 100%;
+        margin-top: 10px;
+        background-color: rgba(255, 255, 255, 0.1);
+        border-radius: 4px;
+        -webkit-tap-highlight-color: rgba(255, 255, 255, 0.3);
+    }
 }
 
 @media (max-width: 600px) {
