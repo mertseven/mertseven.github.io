@@ -1,0 +1,285 @@
+/* Base styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: 'IBM Plex Mono', monospace;
+    color: #000000;
+    background: #ffffff;
+    line-height: 1.4;
+    padding: 20px;
+  }
+  
+  h1, h2 {
+    font-family: 'IBM Plex Sans Condensed', sans-serif;
+    text-transform: uppercase;
+  }
+  
+  h1 {
+    font-size: 4em;
+    margin: 0;
+    border-bottom: 8px solid #000000;
+    padding-bottom: 10px;
+    color: #000000;
+    z-index: 3;
+  }
+  
+  /* Main section styling */
+  main {
+    max-width: 1400px;
+    margin: 40px auto;
+  }
+  
+  /* Projects section */
+  #projects-section {
+    border-left: 4px solid #333;
+    padding-left: 20px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Projects header */
+  .projects-header {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin-bottom: 30px;
+  }
+  
+  .projects-title h2 {
+    font-size: 5em;
+    font-weight: 300;
+    margin: 0;
+    line-height: 0.9;
+    color: #000000;
+  }
+  
+  /* Projects content */
+  .projects-content {
+    display: flex;
+  }
+  
+  .projects-description {
+    width: 300px;
+    flex-shrink: 0;
+    margin-right: 40px;
+    color: #999;
+  }
+  
+  .divider {
+    height: 1px;
+    background-color: #333;
+    width: 100%;
+    margin: 20px 0;
+  }
+  
+   /* Navigation styles to match site */
+   nav {
+    margin: 20px 0;
+    border: 4px solid #fff;
+    padding: 10px;
+  }
+  
+  nav ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  nav ul li {
+    margin-right: 20px;
+    margin-bottom: 0;
+  }
+  
+  nav ul li a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1.2em;
+  }
+  
+  nav ul li a:hover {
+    background-color: #fff;
+    color: #000;
+  }
+  
+  /* Scrolling text header */
+  .scroll-container {
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    border-bottom: 4px solid #fff;
+    padding: 10px 0;
+    margin-bottom: 20px;
+  }
+  
+  .scrolling-text {
+    display: inline-block;
+    animation: scroll-left 30s linear infinite;
+    margin: 0;
+    padding-left: 100%;
+    color: #000000;
+  }
+
+  .projects-description p {
+    margin: 15px 0;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+  
+  /* Grid Container */
+  .grid-container {
+    display: grid;
+    grid-template-rows: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 4px;
+    width: 100%;
+    min-height: 600px;
+    flex-grow: 1;
+  }
+  
+  /* Frame Component */
+  .frame-component {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: width 0.3s ease-in-out, height 0.3s ease-in-out;
+    overflow: hidden;
+    background-color: #fff;
+    border: none;
+  }
+  
+  .frame-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+  
+  /* Image container styles */
+  .image-container {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .image-wrapper {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    transform-origin: center;
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  /* Description overlay styles */
+  .description-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.9);
+    color: white;
+    padding: 15px;
+    transform: translateY(100%);
+    transition: transform 0.3s ease;
+    z-index: 2;
+    font-family: 'IBM Plex Mono', monospace;
+  }
+  
+  .description-overlay.visible {
+    transform: translateY(0);
+  }
+  
+  .description-overlay p {
+    margin: 0;
+    font-size: 0.9rem;
+    font-weight: 400;
+    opacity: 1;
+    text-align: left;
+  }
+  
+  /* Image placeholder */
+  .placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    background-color: #ccc;
+    color: #666;
+  }
+  
+ 
+  
+  @keyframes scroll-left {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-100%); }
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    body {
+      padding: 10px;
+    }
+    
+    h1 {
+      font-size: 2.5em;
+    }
+    
+    .projects-content {
+      flex-direction: column;
+    }
+    
+    .projects-title h2 {
+      font-size: 3.5em;
+    }
+    
+    .projects-description {
+      width: 100%;
+      margin-right: 0;
+      margin-bottom: 20px;
+    }
+    
+    .grid-container {
+      gap: 4px;
+      min-height: 400px;
+    }
+  }
+  
+  @media (min-width: 1200px) {
+    .grid-container {
+      min-height: 800px;
+    }
+  }
+  
+  /* X-Ray Styles Adjustment for Dark Theme */
+  .xray-viewer {
+    background: #333;
+    color: #fff;
+    border-color: #666;
+  }
+  
+  .xray-toggle {
+    background: #333;
+    color: #fff;
+  }
+  
+  /* Terminal Adjustments for Dark Theme */
+  .terminal-toggle {
+    background: #333;
+  }

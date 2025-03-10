@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Projects - Mert Seven</title>
+  
+  <!-- Google Fonts -->
+  <link href='https://fonts.googleapis.com/css?family=IBM+Plex+Sans+Condensed' rel='stylesheet'>
+  <link href='https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap' rel='stylesheet'>
+  
+  <!-- CSS Files -->
+  <link rel="stylesheet" href="css/grids.css">
+  <link rel="stylesheet" href="css/projects.css">
+  <link rel="stylesheet" href="css/terminal.css">
+  <link rel="stylesheet" href="css/xray.css">
+</head>
+<body>
+  <header>
+    <h1>Mert Seven</h1>
+    <div class="scroll-container">
+      <p class="scrolling-text">
+        <span class="text-variant font-1" style="font-weight: 700;">PROJECTS AND EXPLORATIONS</span>
+        <span class="text-variant font-2" style="font-style: italic; font-weight: 400;">projects and explorations</span>
+        <span class="text-variant font-3" style="font-weight: 500;">PROJECTS AND EXPLORATIONS</span>
+        <span class="text-variant font-4" style="font-style: italic; font-weight: 700;">projects and explorations</span>
+        <span class="text-variant font-5" style="font-weight: 500;">PROJECTS AND EXPLORATIONS</span>
+        <span class="text-variant font-6" style="font-weight: 400;">projects and explorations</span>
+        <span class="text-variant font-7" style="font-style: italic; font-weight: 500;">PROJECTS AND EXPLORATIONS</span>
+        <span class="text-variant font-8" style="font-weight: 700;">projects and explorations</span>
+        <span class="text-variant font-9" style="font-style: italic; font-weight: 400;">PROJECTS AND EXPLORATIONS</span>
+        <span class="text-variant font-10" style="font-weight: 500;">projects and explorations</span>
+      </p>
+    </div>
+  </header>
+
+  <nav>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="publications.html">Publications</a></li>
+      <li><a href="projects.html">Projects</a></li>
+      <li><a href="tools.html">Tools</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <section id="projects-section">
+      <div class="projects-header">
+        <div class="projects-title">
+          <h2>Projects</h2>
+        </div>
+      </div>
+      
+      <div class="projects-content">
+        <div class="projects-description">
+          <div class="divider"></div>
+          <p>
+            My projects weave together digital media, interactive tools, and educational experiments—each one a curious exploration at the intersection of technology, design, and social understanding. 
+            I build these digital playgrounds to investigate how humans and technology interact, creating systems that reveal patterns in our collective experiences and behaviors.
+          </p>
+          <p>
+            These works aren't just tools or websites; they're windows into how we communicate, learn, and connect in the digital age. 
+            They reflect my fascination with making complex concepts tangible through interactive experiences.
+          </p>
+          <p>Here are some of my favorite works so far—feel free to explore and interact with them.</p>
+          <div class="divider"></div>
+        </div>
+        
+        <div class="grid-container" id="grid-container">
+          <!-- Grid items will be added dynamically via JavaScript -->
+        </div>
+      </div>
+    </section>
+  </main>
+  
+  <!-- X-Ray Viewer Elements -->
+  <div id="xray-viewer" class="xray-viewer">
+    <div class="xray-placeholder">Hover over elements to see their code</div>
+  </div>
+  <button id="xray-toggle" class="xray-toggle">Show X-Ray</button>
+
+  <!-- Terminal Elements -->
+  <button id="terminal-toggle" class="terminal-toggle">Show Terminal</button>
+  <div class="terminal-container" id="terminal">
+    <div class="terminal-header">
+      <div class="terminal-title">MOONBASE TERMINAL</div>
+      <div class="terminal-controls">
+        <span id="terminal-minimize">_</span>
+      </div>
+    </div>
+    <div class="terminal-content" id="terminal-content">
+      <p class="terminal-line terminal-output">Welcome to MOONBASE Terminal v1.0.0</p>
+      <p class="terminal-line terminal-output">Type 'help' for available commands</p>
+      <p class="terminal-line">
+        <span class="terminal-prompt">moonbase:~$</span>
+        <input type="text" class="terminal-input" id="terminal-input" spellcheck="false" autocomplete="off">
+      </p>
+    </div>
+  </div>
+
+  <!-- JavaScript Files -->
+  <script src="js/xray.js"></script>
+  <script src="js/terminal.js"></script>
+  <script src="js/projects.js"></script>
+</body>
+</html>
