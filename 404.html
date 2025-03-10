@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - Space Oddity</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap');
+        
+        :root {
+            --bowie-red: #e41f25;
+            --bowie-blue: #1c3aa9;
+            --bowie-gold: #ffd700;
+            --ziggy-orange: #ff6b35;
+            --aladdin-teal: #5cbdb9;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Space Mono', monospace;
+            background-color: #000;
+            color: white;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            display: block;
+        }
+        
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 5s infinite;
+        }
+        
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.2; }
+            50% { opacity: 1; }
+        }
+        
+        .lightning {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--bowie-red), var(--bowie-blue));
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+            opacity: 0;
+            z-index: 1;
+            animation: flash 10s infinite;
+        }
+        
+        @keyframes flash {
+            0%, 95%, 100% { opacity: 0; }
+            97% { opacity: 0.7; }
+        }
+        
+        .container {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            margin: 0 auto;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+        }
+        
+        .bowie-symbol {
+            width: 150px;
+            height: 150px;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+        
+        .bowie-symbol::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 10px;
+            height: 150px;
+            background: var(--bowie-gold);
+        }
+        
+        .bowie-symbol::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            width: 150px;
+            height: 10px;
+            background: var(--ziggy-orange);
+        }
+        
+        .error-code {
+            font-size: 8rem;
+            font-weight: bold;
+            background: linear-gradient(to right, var(--bowie-red), var(--bowie-blue), var(--ziggy-orange), var(--aladdin-teal));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .error-code::after {
+            content: "404";
+            position: absolute;
+            top: 0;
+            left: 0;
+            color: rgba(255, 255, 255, 0.1);
+            z-index: -1;
+            animation: glitch 3s infinite;
+        }
+        
+        @keyframes glitch {
+            0%, 100% { transform: translate(0); }
+            20% { transform: translate(-5px, 5px); }
+            40% { transform: translate(5px, -5px); }
+            60% { transform: translate(-5px, -5px); }
+            80% { transform: translate(5px, 5px); }
+        }
+        
+        .message {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            max-width: 600px;
+        }
+        
+        .message span {
+            display: block;
+            margin-top: 0.5rem;
+            font-style: italic;
+            opacity: 0.8;
+        }
+        
+        .return-button {
+            background: none;
+            border: 2px solid white;
+            color: white;
+            padding: 1rem 2rem;
+            font-family: 'Space Mono', monospace;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .return-button::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: all 0.5s ease;
+        }
+        
+        .return-button:hover {
+            background-color: var(--bowie-red);
+            border-color: var(--bowie-red);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .return-button:hover::before {
+            left: 100%;
+        }
+        
+        .era-switch {
+            position: absolute;
+            bottom: 2rem;
+            right: 2rem;
+            display: flex;
+            gap: 1.2rem;
+            background-color: rgba(0, 0, 0, 0.6);
+            padding: 1rem 1.5rem;
+            border-radius: 50px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+            z-index: 3;
+        }
+        
+        .era {
+            width: 3rem;
+            height: 3rem;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 3px solid transparent;
+        }
+        
+        .era:hover {
+            transform: scale(1.15) translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+        }
+        
+        .era:active {
+            transform: scale(0.95);
+        }
+        
+        .era::after {
+            content: attr(data-era);
+            position: absolute;
+            bottom: -2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.75rem;
+            color: white;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            white-space: nowrap;
+            text-shadow: 0 0 4px rgba(0, 0, 0, 0.8);
+        }
+        
+        .era:hover::after {
+            opacity: 1;
+        }
+        
+        .era.active {
+            border: 3px solid white;
+            box-shadow: 0 0 12px rgba(255, 255, 255, 0.6);
+        }
+        
+        .era-ziggy {
+            background: radial-gradient(circle, #ff6b35, #e41f25);
+            background-size: 150% 150%;
+            animation: pulse-ziggy 3s infinite alternate;
+        }
+        
+        @keyframes pulse-ziggy {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 100% 100%; }
+        }
+        
+        .era-aladdin {
+            background: linear-gradient(135deg, #5cbdb9, #1c3aa9);
+            background-size: 200% 200%;
+            animation: pulse-aladdin 3s infinite alternate;
+        }
+        
+        @keyframes pulse-aladdin {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 100% 100%; }
+        }
+        
+        .era-thin-white {
+            background: radial-gradient(circle, white, #dddddd);
+            border: 1px solid #999;
+        }
+        
+        .era-blackstar {
+            background: radial-gradient(circle, #333, black);
+            border: 1px solid white;
+        }
+        
+        .era-icon {
+            width: 1.5rem;
+            height: 1.5rem;
+            position: relative;
+        }
+        
+        .era-ziggy .era-icon {
+            clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+            background-color: #ffd700;
+        }
+        
+        .era-aladdin .era-icon {
+            clip-path: polygon(25% 0%, 75% 0%, 100% 100%, 0% 100%);
+            background-color: white;
+            transform: rotate(15deg);
+        }
+        
+        .era-thin-white .era-icon {
+            background-color: transparent;
+            border-top: 2px solid #333;
+            border-bottom: 2px solid #333;
+            height: 0.8rem;
+            width: 1.8rem;
+        }
+        
+        .era-blackstar .era-icon {
+            clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+            background-color: white;
+            transform: rotate(180deg);
+        }
+        
+        .credit {
+            position: absolute;
+            bottom: 1rem;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.8rem;
+            opacity: 0.5;
+        }
+    </style>
+</head>
+<body>
+    <div class="stars" id="stars"></div>
+    <div class="lightning"></div>
+    
+    <div class="container">
+        <div class="bowie-symbol"></div>
+        <div class="error-code">404</div>
+        <div class="message">
+            This page is floating in a most peculiar way
+            <span>The file you're looking for is far away</span>
+        </div>
+        <a href="https://mertseven.com/" class="return-button">RETURN TO GROUND CONTROL</a>
+    </div>
+    
+    <div class="era-switch">
+        <div class="era era-ziggy active" data-era="Ziggy Stardust" title="Ziggy Stardust Era" onclick="changeEra('ziggy', this)">
+            <div class="era-icon"></div>
+        </div>
+        <div class="era era-aladdin" data-era="Aladdin Sane" title="Aladdin Sane Era" onclick="changeEra('aladdin', this)">
+            <div class="era-icon"></div>
+        </div>
+        <div class="era era-thin-white" data-era="Thin White Duke" title="Thin White Duke Era" onclick="changeEra('thin-white', this)">
+            <div class="era-icon"></div>
+        </div>
+        <div class="era era-blackstar" data-era="Blackstar" title="Blackstar Era" onclick="changeEra('blackstar', this)">
+            <div class="era-icon"></div>
+        </div>
+    </div>
+    
+    <div class="credit">Choose your own Bowie era 404 Page</div>
+    
+    <script>
+        // Create stars and initialize with default era
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set Ziggy as the default era when page loads
+            setTimeout(function() {
+                changeEra('ziggy', document.querySelector('.era-ziggy'));
+                
+                // Add hover effect for buttons
+                const eraButtons = document.querySelectorAll('.era');
+                eraButtons.forEach(button => {
+                    button.addEventListener('mouseenter', () => {
+                        const audio = new Audio();
+                        audio.volume = 0.2;
+                        audio.src = 'data:audio/mp3;base64,SUQzBAAAAAAAI1RTU0UAAAAPAAADTGF2ZjU4Ljc2LjEwMAAAAAAAAAAAAAAA//tAwAAAAAAAAAAAAAAAAAAAAAAAWGluZwAAAA8AAAACAAAFRgCurq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6urq6u//////////////////////////////////////////////////////////////////8AAAAATGF2YzU4LjEzAAAAAAAAAAAAAAAAJANBAAAAAAAABUaVhRbHAAAAAAD/+xDEAAAG6AF9QAAAIVAIJ6wjAAQpAIJyMPBgiIEYeHApAGPfBxH/gwQDH85P//+DBA5///BD/5P//+D//y4GPAgmFlYb0CBgCAlrAgYAiAx38usfgQDHXAQuNKFQxq8DIQ80RDhETBRYfRbC//6v/////e8e+YL/0f///9f///hS///qW////9RfhQAAAAAJ5LgARkQrAQXPxUcIlgolrGLAcEh4jFx0/GNAkZBwplIGKR8M+ISEhQRn0Xs3+Df///////////jvTApu9RUKiYmKiqmZqrmu+7u7AEQApgCgMQBCASAFwI4Af+66P/////////////////////////////////////////////+AECcHJ4IATADA7BlODo/7////////////////////////////////////////////+AKAuDVm7xgQUAZAwY9///////////////////////////////////////////6gCgY/////////////////////////1MQU1FMy45OS41VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVU=';
+                        audio.play();
+                    });
+                });
+            }, 100);
+            const starsContainer = document.getElementById('stars');
+            const numberOfStars = 200;
+            
+            for (let i = 0; i < numberOfStars; i++) {
+                const star = document.createElement('div');
+                star.classList.add('star');
+                
+                // Random position
+                star.style.top = `${Math.random() * 100}%`;
+                star.style.left = `${Math.random() * 100}%`;
+                
+                // Random size
+                const size = Math.random() * 3 + 1;
+                star.style.width = `${size}px`;
+                star.style.height = `${size}px`;
+                
+                // Random twinkle timing
+                star.style.animationDelay = `${Math.random() * 5}s`;
+                
+                starsContainer.appendChild(star);
+            }
+        });
+        
+        // Change era themes
+        function changeEra(era, clickedButton) {
+            // Update active button
+            document.querySelectorAll('.era').forEach(button => {
+                button.classList.remove('active');
+            });
+            
+            if (clickedButton) {
+                clickedButton.classList.add('active');
+            }
+            const body = document.body;
+            const errorCode = document.querySelector('.error-code');
+            const button = document.querySelector('.return-button');
+            const message = document.querySelector('.message');
+            const container = document.querySelector('.container');
+            const bowieSymbol = document.querySelector('.bowie-symbol');
+            
+            // Reset all classes first
+            body.classList.remove('ziggy', 'aladdin', 'thin-white', 'blackstar');
+            body.classList.add(era);
+            
+            // Change content based on era
+            switch(era) {
+                case 'ziggy':
+                    // Ziggy Stardust era - red and electric blue with orange accent
+                    document.documentElement.style.setProperty('--bowie-red', '#e41f25');
+                    document.documentElement.style.setProperty('--bowie-blue', '#1c3aa9');
+                    document.documentElement.style.setProperty('--ziggy-orange', '#ff6b35');
+                    document.documentElement.style.setProperty('--bowie-gold', '#ffd700');
+                    document.documentElement.style.setProperty('--aladdin-teal', '#5cbdb9');
+                    
+                    // Space theme
+                    body.style.backgroundColor = '#000';
+                    body.style.color = '#fff';
+                    document.querySelector('.stars').style.display = 'block';
+                    document.querySelector('.lightning').style.display = 'block';
+                    
+                    // Content updates
+                    message.innerHTML = 'This page is floating in a most peculiar way <span>The file you\'re looking for is far away</span>';
+                    button.textContent = 'RETURN TO GROUND CONTROL';
+                    button.style.borderColor = '#fff';
+                    button.style.color = '#fff';
+                    
+                    // Symbol updates
+                    bowieSymbol.style.display = 'block';
+                    
+                    // Gradient for the error code
+                    errorCode.style.background = 'linear-gradient(to right, var(--bowie-red), var(--bowie-blue), var(--ziggy-orange), var(--aladdin-teal))';
+                    errorCode.style.webkitBackgroundClip = 'text';
+                    errorCode.style.backgroundClip = 'text';
+                    errorCode.style.color = 'transparent';
+                    break;
+                    
+                case 'aladdin':
+                    // Aladdin Sane era - teal and orange
+                    document.documentElement.style.setProperty('--bowie-red', '#5cbdb9');
+                    document.documentElement.style.setProperty('--bowie-blue', '#ff6b35');
+                    document.documentElement.style.setProperty('--ziggy-orange', '#ff6b35');
+                    document.documentElement.style.setProperty('--bowie-gold', '#ffd700');
+                    document.documentElement.style.setProperty('--aladdin-teal', '#5cbdb9');
+                    
+                    // Lightning bolt theme
+                    body.style.backgroundColor = '#fff';
+                    body.style.color = '#000';
+                    document.querySelector('.stars').style.display = 'none';
+                    document.querySelector('.lightning').style.display = 'block';
+                    document.querySelector('.lightning').style.background = 'linear-gradient(135deg, var(--aladdin-teal), var(--ziggy-orange))';
+                    
+                    // Content updates
+                    message.innerHTML = 'Oh no, not the 404 again <span>The changes have come too strange</span>';
+                    button.textContent = 'TIME MAY CHANGE ME';
+                    button.style.borderColor = '#000';
+                    button.style.color = '#000';
+                    
+                    // Symbol updates - lightning bolt
+                    bowieSymbol.style.display = 'block';
+                    bowieSymbol.style.setProperty('--bowie-gold', '#5cbdb9');
+                    
+                    // Gradient for the error code
+                    errorCode.style.background = 'linear-gradient(to right, var(--aladdin-teal), var(--ziggy-orange))';
+                    errorCode.style.webkitBackgroundClip = 'text';
+                    errorCode.style.backgroundClip = 'text';
+                    errorCode.style.color = 'transparent';
+                    break;
+                    
+                case 'thin-white':
+                    // Thin White Duke era - monochromatic, stark
+                    document.documentElement.style.setProperty('--bowie-red', '#111111');
+                    document.documentElement.style.setProperty('--bowie-blue', '#dddddd');
+                    document.documentElement.style.setProperty('--ziggy-orange', '#ffffff');
+                    document.documentElement.style.setProperty('--bowie-gold', '#888888');
+                    document.documentElement.style.setProperty('--aladdin-teal', '#444444');
+                    
+                    // Stark minimalist theme
+                    body.style.backgroundColor = '#ffffff';
+                    body.style.color = '#111111';
+                    document.querySelector('.stars').style.display = 'none';
+                    document.querySelector('.lightning').style.display = 'none';
+                    
+                    // Content updates
+                    message.innerHTML = 'The page is not there <span>Just a European with emotional scars</span>';
+                    button.textContent = 'RETURN TO STATION TO STATION';
+                    button.style.borderColor = '#111';
+                    button.style.color = '#111';
+                    
+                    // Symbol updates - minimal line
+                    bowieSymbol.style.display = 'block';
+                    
+                    // Monochromatic for the error code
+                    errorCode.style.background = 'none';
+                    errorCode.style.webkitBackgroundClip = 'initial';
+                    errorCode.style.backgroundClip = 'initial';
+                    errorCode.style.color = '#111';
+                    break;
+                    
+                case 'blackstar':
+                    // Blackstar era - dark with minimal white accent
+                    document.documentElement.style.setProperty('--bowie-red', '#000000');
+                    document.documentElement.style.setProperty('--bowie-blue', '#222222');
+                    document.documentElement.style.setProperty('--ziggy-orange', '#333333');
+                    document.documentElement.style.setProperty('--bowie-gold', '#ffffff');
+                    document.documentElement.style.setProperty('--aladdin-teal', '#444444');
+                    
+                    // Dark theme with stars
+                    body.style.backgroundColor = '#000';
+                    body.style.color = '#fff';
+                    document.querySelector('.stars').style.display = 'block';
+                    document.querySelector('.lightning').style.display = 'none';
+                    
+                    // Content updates
+                    message.innerHTML = 'Something happened on the day it died <span>The page disappeared and came to us instead</span>';
+                    button.textContent = 'I CAN\'T GIVE EVERYTHING AWAY';
+                    button.style.borderColor = '#fff';
+                    button.style.color = '#fff';
+                    
+                    // Symbol updates - blackstar symbol
+                    bowieSymbol.style.display = 'block';
+                    
+                    // Simple white on black for error code
+                    errorCode.style.background = 'none';
+                    errorCode.style.webkitBackgroundClip = 'initial';
+                    errorCode.style.backgroundClip = 'initial';
+                    errorCode.style.color = '#fff';
+                    break;
+            }
+        }
+    </script>
+</body>
+</html>
