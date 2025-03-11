@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>404 - Space Oddity</title>
+<link rel="icon" type="image/x-icon" href="Group 8.png">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap');
         
@@ -147,6 +148,7 @@
         .message {
             font-size: 1.5rem;
             margin-bottom: 2rem;
+	    margin-top: 1rem;	
             text-align: center;
             max-width: 600px;
         }
@@ -324,6 +326,64 @@
             font-size: 0.8rem;
             opacity: 0.5;
         }
+        
+        /* Media queries for mobile responsiveness */
+        @media (max-width: 768px) {
+            .error-code {
+                font-size: 6rem;
+                margin-bottom: 1rem;
+            }
+            
+            .message {
+                font-size: 1.2rem;
+                margin-top: 1.5rem;
+            }
+            
+            .return-button {
+                padding: 0.8rem 1.5rem;
+                font-size: 0.9rem;
+                margin-bottom: 1rem;
+            }
+            
+            .bowie-symbol {
+                width: 120px;
+                height: 120px;
+                margin-bottom: 1.5rem;
+            }
+            
+            .bowie-symbol::before {
+                height: 120px;
+            }
+            
+            .bowie-symbol::after {
+                width: 120px;
+            }
+            
+            .era-switch {
+                position: fixed;
+                bottom: 1.5rem;
+                left: 50%;
+                transform: translateX(-50%);
+                right: auto;
+                gap: 0.8rem;
+                padding: 0.8rem 1.2rem;
+                z-index: 10;
+            }
+            
+            .era {
+                width: 2.5rem;
+                height: 2.5rem;
+            }
+            
+            .era-icon {
+                width: 1.2rem;
+                height: 1.2rem;
+            }
+            
+            .credit {
+                bottom: 0.5rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -333,11 +393,11 @@
     <div class="container">
         <div class="bowie-symbol"></div>
         <div class="error-code">404</div>
+        <a href="https://mertseven.com/" class="return-button">RETURN TO GROUND CONTROL</a>
         <div class="message">
             This page is floating in a most peculiar way
             <span>The file you're looking for is far away</span>
         </div>
-        <a href="https://mertseven.com/" class="return-button">RETURN TO GROUND CONTROL</a>
     </div>
     
     <div class="era-switch">
