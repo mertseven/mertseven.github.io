@@ -8,7 +8,7 @@ const publicationsData = [
         doi: "https://doi.org/10.19145/e-gifder.1297604",
         keywords: ["Higher education", "Social networks", "Social learning"],
         downloadable: {
-            pdf: "https://doi.org/10.48146/odusobiad.1473688",
+            pdf: "https://dergipark.org.tr/tr/pub/odusobiad/issue/90913/1473688",
             citation: "Seven, M., & Aysel, K. (2025). Homophily studies in higher education: Bibliometric and methodological analysis of the international literature. Ordu Üniversitesi Sosyal Bilimler Enstitüsü Sosyal Bilimler Araştırmaları Dergisi, 15(1), 426-471. https://doi.org/10.48146/odusobiad.1473688",  
         }
     },
