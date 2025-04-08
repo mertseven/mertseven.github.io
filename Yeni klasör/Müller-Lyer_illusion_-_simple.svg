@@ -1,0 +1,13 @@
+<svg viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg">
+  <defs></defs>
+  <path style="fill: rgb(216, 216, 216); stroke-linecap: round; stroke-width: 3px; stroke: rgb(0, 0, 0);" d="M 64 45 L 232 45"></path>
+  <path style="fill: rgb(216, 216, 216); stroke-linecap: round; stroke-width: 3px; stroke: rgb(0, 0, 0);" d="M 232 45 L 276.497 18.581"></path>
+  <path style="fill: rgb(216, 216, 216); stroke-linecap: round; stroke-width: 3px; stroke: rgb(0, 0, 0);" d="M 232 45 L 276.5 71"></path>
+  <path style="fill: rgb(216, 216, 216); stroke-linecap: round; stroke-width: 3px; stroke: rgb(0, 0, 0); transform-origin: 42.252px 31.79px;" d="M 64.5 45 L 20.003 18.581"></path>
+  <path style="fill: rgb(216, 216, 216); stroke-linecap: round; stroke-width: 3px; stroke: rgb(0, 0, 0); transform-origin: 42.25px 58px;" d="M 64.5 45 L 20 71"></path>
+  <path style="fill: rgb(216, 216, 216); stroke-linecap: round; stroke-width: 3px; stroke: rgb(0, 0, 0);" d="M 64 152 L 232 152"></path>
+  <path style="fill: rgb(216, 216, 216); stroke-linecap: round; stroke-width: 3px; stroke: rgb(0, 0, 0);" d="M 62 152 L 106.497 125.581"></path>
+  <path style="fill: rgb(216, 216, 216); stroke-linecap: round; stroke-width: 3px; stroke: rgb(0, 0, 0);" d="M 62 152 L 106.5 178"></path>
+  <path style="fill: rgb(216, 216, 216); stroke-linecap: round; stroke-width: 3px; stroke: rgb(0, 0, 0); transform-origin: 212.252px 138.791px;" d="M 234.501 152.001 L 190.004 125.582"></path>
+  <path style="fill: rgb(216, 216, 216); stroke-linecap: round; stroke-width: 3px; stroke: rgb(0, 0, 0); transform-origin: 212.25px 165px;" d="M 234.5 152 L 190 178"></path>
+</svg>

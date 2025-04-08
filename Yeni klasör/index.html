@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mind/Shift: Deconstruct Your Thinking</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Import Google Fonts (including Monospace) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&family=Inter:wght@400;700&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
+</head>
+<body data-theme="light"> <!-- Default theme -->
+    <header>
+        <div class="header-content">
+             <h1>MIND/SHIFT</h1>
+               <button id="mobile-header-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+                <span class="arrow down">▼</span> <!-- Down arrow initially -->
+                <span class="arrow up" style="display: none;">▲</span> <!-- Up arrow hidden initially -->
+            </button>
+        </div>
+
+        <!-- Content to be collapsed -->
+        <div class="header-collapsible-content">
+             <nav>
+                <a href="#home">Home</a>
+                <a href="#system1">System 1</a>
+                <a href="#system2">System 2</a>
+                <a href="#conflict">Conflict</a>
+                <a href="#matters">Why It Matters</a>
+                <a href="#know">Know Your Mind</a>
+            </nav>
+            <button id="theme-toggle" aria-label="Switch theme">Toggle Theme</button>
+        </div>
+    </header>
+
+    <main>
+        <section id="home">
+            <h2>YOUR BRAIN HAS TWO VOICES.</h2>
+            <p>To understand human judgment, choice, and perception, Nobel laureate Daniel Kahneman's influential book "Thinking, Fast and Slow" presents a model of two interacting "systems" in our mind. These aren't literal brain parts, but useful <span class="tooltip-term" data-definition="Conceptual models used by Kahneman to make cognitive processes easier to understand, not literal brain structures.">fictional characters</span> to describe distinct modes of thinking <span class="citation monospace">(Kahneman, 2011, Introduction)</span>. One character is impulsive, intuitive, and fast (<span class="tooltip-term" data-definition="The fast, automatic, intuitive, and emotional system of thinking. Operates effortlessly.">System 1</span>). The other is cautious, deliberate, and slow (<span class="tooltip-term" data-definition="The slower, effortful, deliberate, and logical system of thinking. Requires attention and energy.">System 2</span>).</p>
+            <p>This <span class="tooltip-term" data-definition="Theories suggesting that thinking involves two distinct types or modes of processing (e.g., fast/intuitive vs. slow/deliberate).">dual-process</span> framework, widely accepted by cognitive psychologists <span class="citation monospace">(Da Silva, 2023)</span>, helps explain why we sometimes act against our better judgment, why 'gut feelings' can be both remarkably insightful and deeply flawed, and how subtle cues can influence our decisions. The core tension lies between the automatic, powerful, error-prone System 1 and the lazy, effortful, but potentially more logical System 2 <span class="citation monospace">(Kahneman, 2011)</span>.</p>
+            <div class="button-group">
+                <a href="#system1" class="btn">MEET SYSTEM 1</a>
+                <a href="#system2" class="btn">MEET SYSTEM 2</a>
+            </div>
+        </section>
+
+        <section id="system1">
+            <h2>SYSTEM 1: INSTINCT. INTUITION. INSTANT.</h2>
+            <p>System 1 operates **automatically and quickly**, with little or no effort and no sense of voluntary control <span class="citation monospace">(Kahneman, 2011, Ch. 1)</span>. It's the source of the effortless impressions, feelings, associations, and <span class="tooltip-term" data-definition="Judgments and ideas that come to mind quickly and effortlessly, without conscious reasoning. Often feel like 'gut feelings'.">intuitions</span> that constantly arise in our minds. It's highly efficient, handling routine tasks and immediate perceptions.</p>
+            <h3>Key Characteristics <span class="citation monospace">(Kahneman, 2011, Part 1)</span>:</h3>
+            <ul>
+                <li>Generates impressions, feelings, and inclinations; when endorsed by System 2, these become beliefs, attitudes, and intentions.</li>
+                <li>Operates automatically and rapidly.</li>
+                <li>Can be programmed by System 2 to mobilize attention when a particular pattern is detected.</li>
+                <li>Executes skilled responses and generates skilled intuitions after adequate training.</li>
+                <li>Creates a coherent pattern of activated ideas in associative memory (<span class="tooltip-term" data-definition="The activation of ideas in memory triggers related ideas, creating a cascade of linked thoughts and feelings.">associative coherence</span>).</li>
+                <li>Relies on <span class="tooltip-term" data-definition="Mental shortcuts or rules of thumb used for quick judgments and problem-solving. Efficient but can lead to errors.">heuristics</span> to make quick judgments, often by answering an easier question than the one asked (<span class="tooltip-term" data-definition="System 1 often substitutes a complex question with a simpler, related one to find an easy answer.">substitution</span>).</li>
+                <li>Infers and invents causes and intentions, even when evidence is scant.</li>
+                <li>Neglects ambiguity and suppresses doubt.</li>
+                <li>Is biased to believe and confirm.</li>
+                <li>Focuses on existing evidence and ignores absent evidence (<span class="tooltip-term" data-definition="What You See Is All There Is. System 1 works only with the information currently activated, ignoring what it doesn't know.">WYSIATI</span>). This leads to overconfidence.</li>
+                <li>Generates judgments based on <span class="tooltip-term" data-definition="Making judgments by matching the intensity across different scales (e.g., matching the severity of a crime to the length of a prison sentence).">intensity matching</span>.</li>
+                <li>More sensitive to changes than to states (<span class="tooltip-term" data-definition="A core concept explaining how people evaluate outcomes relative to a reference point, are loss-averse, and show diminishing sensitivity.">prospect theory</span>).</li>
+                <li>Overweights low probabilities.</li>
+                <li>Shows diminishing sensitivity to quantity (psychophysics).</li>
+                <li>Responds more strongly to losses than to gains (<span class="tooltip-term" data-definition="The tendency for losses to feel more impactful than equivalent gains. A key part of Prospect Theory.">loss aversion</span>).</li>
+            </ul>
+             <h3>Examples <span class="citation monospace">(Kahneman, 2011, Ch. 1)</span>:</h3>
+            <ul>
+                 <li>Detecting hostility in a voice.</li>
+                <li>Driving a car on an empty road.</li>
+                <li>Understanding simple sentences.</li>
+                 <li>Answering "2 + 2 = ?"</li>
+                <li>Recognizing stereotypes ("meek and tidy soul" -> librarian).</li>
+                <li>Generating a 'gut feeling' about a situation.</li>
+            </ul>
+            <div class="interactive-box" id="quick-reaction">
+                <h4>Quick Reaction Demo</h4>
+                <p>System 1 instantly processes familiar patterns like facial expressions. Click below:</p>
+                <button class="btn" id="face-btn">Show Simple Face</button>
+                <p id="face-result" class="result monospace"></p>
+                 <p class="small-note">S1 processes vast amounts of perceptual information automatically. <span class="citation monospace">(Kahneman, 2011)</span></p>
+            </div>
+            <div class="takeaway">S1 is the "hero" of the book <span class="citation monospace">(Kahneman, 2011)</span>: fast, intuitive, associative, the originator of most thoughts, but operates on heuristics and WYSIATI, making it prone to systematic biases.</div>
+        </section>
+
+        <section id="system2">
+            <h2>SYSTEM 2: EFFORT. FOCUS. LOGIC.</h2>
+            <p>System 2 allocates attention to the **effortful mental activities** that demand it, including complex computations, comparisons, reasoning, and self-control. It's the conscious, reasoning self that has beliefs, makes choices, and decides what to think about and what to do <span class="citation monospace">(Kahneman, 2011, Ch. 1, 2)</span>.</p>
+             <h3>Key Characteristics <span class="citation monospace">(Kahneman, 2011, Part 1)</span>:</h3>
+            <ul>
+                 <li>Operates **slowly and requires effort**. Activities are disrupted when attention is drawn away.</li>
+                <li>Draws heavily on a **limited budget of attention**. You can't do multiple demanding S2 tasks at once.</li>
+                <li>Associated with the subjective experience of **agency, choice, and concentration**.</li>
+                <li>Physiological signs of effort include **pupil dilation** and increased heart rate <span class="citation monospace">(Kahneman, 2011, Ch. 3)</span>.</li>
+                <li>Can follow complex **rules**, compare objects on several attributes, and make **deliberate choices**.</li>
+                <li>Capable of **statistical thinking** (though often doesn't engage unless prompted) and **logical reasoning**.</li>
+                <li>The only system that can perform **step-by-step processing**.</li>
+                <li>Acts as the **monitor and controller** of thoughts/actions generated by S1, though it's often **lazy** and endorses S1's output uncritically.</li>
+                <li>Implements **self-control**, resisting S1's impulses and temptations (requires attention and is depleting - <span class="tooltip-term" data-definition="The idea that self-control or willpower draws upon a limited mental resource that can be temporarily used up.">ego depletion</span>).</li>
+                <li>Can adopt **task sets**: programming memory and attention to obey instructions that override habitual responses (e.g., Stroop task).</li>
+                <li>Source of **doubt**; can suspend judgment generated by S1.</li>
+            </ul>
+            <h3>Examples <span class="citation monospace">(Kahneman, 2011, Ch. 1, 2)</span>:</h3>
+             <ul>
+                <li>Focusing on a particular voice in a noisy room.</li>
+                <li>Searching memory for a specific piece of information.</li>
+                <li>Monitoring the appropriateness of your behavior.</li>
+                <li>Counting the letter 'a' on a page.</li>
+                <li>Parking in a narrow space.</li>
+                <li>Checking the validity of a logical argument.</li>
+                <li>Calculating "17 x 24".</li>
+                <li>Resisting the urge to eat a tempting dessert.</li>
+            </ul>
+            <div class="interactive-box" id="crt">
+                <h4>Cognitive Reflection Test (CRT)</h4>
+                <p>These questions have an intuitive S1 answer that is compelling but wrong. Correctness requires S2 to suppress the initial impulse and perform the calculation <span class="citation monospace">(Kahneman, 2011, Ch. 5; Frederick, 2005, cited in Da Silva, 2023)</span>.</p>
+                <div class="crt-question">
+                    <p><strong>1.</strong> A bat and a ball cost $1.10 in total. The bat costs $1.00 more than the ball. How much does the ball cost? (Enter cents)</p>
+                    <input type="text" id="crt1-answer" placeholder="e.g., 10" class="monospace"> <button class="btn crt-submit" data-crt-id="1">Check</button>
+                    <p id="crt1-result" class="result monospace"></p>
+                </div>
+                <div class="crt-question">
+                     <p><strong>2.</strong> If it takes 5 machines 5 minutes to make 5 widgets, how long would it take 100 machines to make 100 widgets? (Enter minutes)</p>
+                     <input type="text" id="crt2-answer" placeholder="e.g., 100" class="monospace"> <button class="btn crt-submit" data-crt-id="2">Check</button>
+                     <p id="crt2-result" class="result monospace"></p>
+                </div>
+                 <div class="crt-question">
+                    <p><strong>3.</strong> In a lake, there is a patch of lily pads. Every day, the patch doubles in size. If it takes 48 days for the patch to cover the entire lake, how long would it take for the patch to cover half of the lake? (Enter days)</p>
+                    <input type="text" id="crt3-answer" placeholder="e.g., 24" class="monospace"> <button class="btn crt-submit" data-crt-id="3">Check</button>
+                    <p id="crt3-result" class="result monospace"></p>
+                </div>
+            </div>
+             <div class="takeaway">S2 is the explicit believer and chooser, the self we identify with. It's capable of reasoning but requires limited attention and effort, often defaulting to S1's easier path. <span class="citation monospace">(Kahneman, 2011)</span></div>
+        </section>
+
+        <section id="conflict">
+             <h2>THE TUG-OF-WAR: COGNITIVE EASE & STRAIN</h2>
+            <p>Systems 1 and 2 work together, with S1 constantly generating suggestions and S2 typically operating in a low-effort mode, endorsing most of them. This is efficient. S2 fully engages when S1 encounters difficulty, when surprise violates expectations, or when S2 detects a potential error <span class="citation monospace">(Kahneman, 2011, Ch. 1, 4)</span>.</p>
+            <p>Situations often involve <span class="tooltip-term" data-definition="A state where information processing feels effortless, familiar, and good. Encourages S1 thinking and positive feelings.">cognitive ease</span> (things feel familiar, easy, good - S1 is happy) or <span class="tooltip-term" data-definition="A state where information processing requires effort, feels difficult or unfamiliar. Mobilizes S2 and promotes suspicion.">cognitive strain</span> (difficulty, novelty, effort required - S2 is mobilized). Strain activates S2, leading to more analytical and suspicious thinking, but less creativity <span class="citation monospace">(Kahneman, 2011, Ch. 5)</span>.</p>
+            <p>**Conflict** arises when S1's automatic response clashes with S2's current task or knowledge. Resisting S1 requires effortful **self-control** handled by S2 <span class="citation monospace">(Kahneman, 2011, Ch. 2)</span>.</p>
+
+             <h3>Examples of Conflict & S1 Persistence:</h3>
+            <div class="interactive-box" id="muller-lyer">
+                <h4>Müller-Lyer Illusion</h4>
+                 <object type="image/svg+xml" data="mli.svg" class="illusion-svg" aria-label="Muller-Lyer Illusion: Two lines with fins, one appears longer"></object>
+                 <p>Which horizontal line looks longer?</p>
+                <button class="btn" id="muller-reveal">Reveal Truth</button>
+                <p id="muller-result" class="result monospace"></p>
+                 <p class="small-note">Even when your S2 *learns* the lines are identical, your S1 *continues* to perceive them differently. Visual illusions demonstrate the automatic, often impenetrable nature of S1 processing <span class="citation monospace">(Kahneman, 2011, Ch. 1)</span>.</p>
+            </div>
+             <div class="interactive-box" id="stroop">
+                <h4>Stroop Effect</h4>
+                <p>Try saying the *COLOR* of the ink these words are written in, OUT LOUD, quickly:</p>
+                <div class="stroop-demo">
+                     <span style="color: blue;">RED</span>
+                    <span style="color: green;">YELLOW</span>
+                    <span style="color: red;">BLUE</span>
+                    <span style="color: orange;">GREEN</span>
+                    <span style="color: purple;">RED</span>
+                    <span style="color: black;" class="stroop-color-black">ORANGE</span> <!-- Need special class for black -->
+                </div>
+                <p>The conflict between S1's automatic skill (reading) and S2's effortful task (naming color) creates cognitive strain, slowing you down <span class="citation monospace">(Kahneman, 2011, Ch. 2; Stroop, 1935)</span>. This requires S2 to exert control.</p>
+            </div>
+             <p><strong>Cognitive Illusions vs. Visual Illusions:</strong> Similar to visual illusions, <span class="tooltip-term" data-definition="Systematic errors in thinking and judgment that arise from heuristics or biases, analogous to perceptual illusions.">cognitive illusions</span> are errors of intuitive thought. We might feel strong sympathy (S1) for someone despite red flags our S2 should recognize. Unlike visual illusions, cognitive illusions can sometimes be overcome with training and deliberate S2 vigilance <span class="citation monospace">(Kahneman, 2011, Ch. 1)</span>.</p>
+             <div class="takeaway">Cognitive strain mobilizes S2. Conflict between systems requires effortful S2 control. S1's automatic processes often persist even when S2 knows better.</div>
+        </section>
+
+        <section id="matters">
+             <h2>WHY IT MATTERS: HEURISTICS, BIASES & DECISIONS</h2>
+            <p>System 1 relies on **heuristics** – simple procedures or rules of thumb – to find quick answers to complex questions. Often, this involves **substitution**: answering an easier question than the one actually asked <span class="citation monospace">(Kahneman, 2011, Ch. 9)</span>. While efficient, this leads to predictable, systematic errors called <span class="tooltip-term" data-definition="Predictable, systematic errors in judgment and decision-making that deviate from rational norms, often caused by reliance on heuristics.">Cognitive Biases</span>.</p>
+            <h3>Key Heuristics & Biases <span class="citation monospace">(Kahneman, 2011, Part 2)</span>:</h3>
+             <ul>
+                <li><strong><span class="tooltip-term" data-definition="Judging frequency or probability based on the ease with which examples come to mind.">Availability Heuristic</span>:</strong> Influenced by media coverage, vividness, personal experience. (Leads to overestimating risks of things recently in the news).</li>
+                <li><strong><span class="tooltip-term" data-definition="Judging the probability that something belongs to a category based on how similar it is to a stereotype or prototype, often ignoring base rates.">Representativeness Heuristic</span>:</strong> Leads to stereotype-based judgments and <span class="tooltip-term" data-definition="Ignoring overall statistical information (base rates) in favor of specific descriptive information when making judgments.">base-rate neglect</span>.</li>
+                 <li><strong><span class="tooltip-term" data-definition="Making estimates by starting from an initial value (anchor) and making insufficient adjustments away from it.">Anchoring and Adjustment</span>:</strong> Powerful in negotiations, pricing, and quantitative judgments.</li>
+                <li><strong><span class="tooltip-term" data-definition="Letting one's overall impression (like/dislike) of a person or situation influence judgments about their specific traits or properties.">Affect Heuristic</span>:</strong> Letting likes and dislikes determine beliefs about risks and benefits.</li>
+                <li><strong>WYSIATI (What You See Is All There Is):</strong> S1 builds the best possible story from available information, ignoring missing data. Leads to **<span class="tooltip-term" data-definition="The tendency to be more confident in one's judgments and knowledge than is objectively warranted.">overconfidence</span>**, **<span class="tooltip-term" data-definition="The way information is presented (framed) influences choices, even if the underlying options are identical (e.g., gain vs. loss framing).">framing effects</span>**, and base-rate neglect.</li>
+                <li><strong><span class="tooltip-term" data-definition="The tendency to search for, interpret, favor, and recall information that confirms or supports one's prior beliefs or hypotheses.">Confirmation Bias</span>:</strong> Seeking out confirming evidence, ignoring disconfirming evidence.</li>
+                <li><strong><span class="tooltip-term" data-definition="The tendency to see past events as having been predictable ('I knew it all along'), making it hard to evaluate decisions objectively.">Hindsight Bias</span> ("I-knew-it-all-along"):</strong> Difficulty reconstructing past beliefs.</li>
+                 <li><strong><span class="tooltip-term" data-definition="The tendency to underestimate the time, costs, and risks of future actions and overestimate the benefits. Driven by WYSIATI.">Planning Fallacy</span>:</strong> Underestimating task completion times. A manifestation of WYSIATI.</li>
+            </ul>
+            <p>Understanding these biases is crucial for New Media & Communication students to critically analyze persuasive messages, design clearer interfaces, avoid flawed audience assumptions, and improve personal decision-making. **<span class="tooltip-term" data-definition="Subtle changes in how choices are presented (choice architecture) that predictably influence System 1 behavior without forbidding options or significantly changing incentives.">Nudges</span>** use insights about S1 to structure choices to steer behavior predictably <span class="citation monospace">(Thaler & Sunstein, 2008; cited in Da Silva, 2023)</span>.</p>
+             <div class="interactive-box" id="bias-spotting">
+                <h4>Spot the Bias</h4>
+                 <div class="bias-scenario">
+                     <p><strong>Scenario 1:</strong> A political ad focuses heavily on a single, emotionally charged story of someone negatively affected by a policy, rather than presenting broad statistics. What heuristic is it primarily leveraging?</p>
+                    <label><input type="radio" name="bias1" value="a"> Availability</label>
+                    <label><input type="radio" name="bias1" value="b"> Anchoring</label>
+                    <label><input type="radio" name="bias1" value="c"> Representativeness</label>
+                    <button class="btn bias-submit" data-bias-id="1">Check</button>
+                    <p id="bias1-result" class="result monospace"></p> <!-- Correct: A -->
+                </div>
+                 <div class="bias-scenario">
+                    <p><strong>Scenario 2:</strong> You meet someone described as "shy, withdrawn, helpful, but with little interest in people or reality, needs order, passion for detail". You guess their profession is more likely librarian than farmer, despite many more farmers existing. What bias?</p>
+                    <label><input type="radio" name="bias2" value="a"> Availability</label>
+                    <label><input type="radio" name="bias2" value="b"> Anchoring</label>
+                    <label><input type="radio" name="bias2" value="c"> Representativeness</label>
+                    <button class="btn bias-submit" data-bias-id="2">Check</button>
+                    <p id="bias2-result" class="result monospace"></p> <!-- Correct: C -->
+                </div>
+            </div>
+             <p><strong>Expert Intuition vs. Flawed Intuition:</strong> Kahneman argues true <span class="tooltip-term" data-definition="Reliable skilled intuition developed through prolonged practice in highly regular, predictable environments with rapid, clear feedback.">expert intuition</span> develops only in highly regular environments with opportunities for rapid, clear feedback (e.g., chess masters). In less predictable domains ("low-validity environments"), 'expert' intuition is often just overconfidence <span class="citation monospace">(Kahneman, 2011, Part 3)</span>. This connects to trained S1 shortcuts in design <span class="citation monospace">(Kannengiesser & Gero, 2019)</span>.</p>
+            <p><strong>Academic Debates:</strong> Remember that while influential, Kahneman's model is debated. Some argue for unified models or different evolutionary explanations <span class="citation monospace">(Da Silva, 2023)</span>.</p>
+             <div class="takeaway">S1's heuristics & WYSIATI are efficient but create predictable biases. Awareness helps identify flawed reasoning in yourself and others. <span class="citation monospace">(Kahneman, 2011)</span></div>
+        </section>
+
+         <section id="know">
+            <h2>KNOW YOUR MIND: IMPROVING JUDGMENT</h2>
+            <p>The goal of understanding S1 and S2 isn't just academic; it's practical. By recognizing the patterns of intuitive thinking and its pitfalls, you can learn when to trust your gut and when to engage in more effortful S2 checking. Improving judgment often involves slowing down and deliberately questioning S1's proposals <span class="citation monospace">(Kahneman, 2011, Conclusion)</span>.</p>
+             <h3>Applying the Concepts:</h3>
+            <ul>
+                 <li>**Recognize Cognitive Ease:** When something feels easy or familiar, is it genuinely simple, or is S1 just glossing over complexity? Challenge easy answers, especially when stakes are high.</li>
+                <li>**Combat WYSIATI:** Actively ask "What information might I be missing?" before making important judgments. Seek out disconfirming evidence.</li>
+                <li>**Use S2 for Important Decisions:** Don't rely solely on S1 for major choices. Engage S2's analytical capabilities. Consider using checklists or algorithms where appropriate.</li>
+                 <li>**Anticipate Biases:** Know the common biases and look for them in information presented to you, and in your own reasoning. Engage in <span class="tooltip-term" data-definition="Systematically considering alternatives, counter-arguments, and reasons why an initial judgment might be wrong.">adversarial collaboration</span> (even with yourself).</li>
+                <li>**Improve Self-Control:** Recognize that S2 effort is depletable. Manage attention and avoid making crucial decisions when tired or distracted.</li>
+                <li>**Learn from Mistakes:** Conduct 'post-mortems' on judgments. Analyze whether S1 heuristics or biases were involved. Use feedback to refine S2's monitoring.</li>
+            </ul>
+             <div class="interactive-box" id="self-poll">
+                <h4>Quick Self-Check (For Reflection Only)</h4>
+                 <p>When evaluating a user interface design, I mostly rely on:</p>
+                 <label><input type="radio" name="poll1"> My immediate 'feel' for usability (S1 intuition)</label><br>
+                 <label><input type="radio" name="poll1"> Systematically checking against heuristics or user testing (S2 analysis)</label><br>
+
+                 <p>When reading online reviews, I give more weight to:</p>
+                 <label><input type="radio" name="poll2"> Vivid, emotional anecdotes (S1 trigger)</label><br>
+                 <label><input type="radio" name="poll2"> Overall statistical ratings and consensus (S2 data)</label><br>
+            </div>
+            <div class="interactive-box" id="reflection">
+                <h4>Personal Reflection (Not Saved)</h4>
+                 <label for="reflect1">Identify one specific heuristic (e.g., Availability, Anchoring) you might fall prey to when researching for an NMIX project. How could you mitigate it?</label>
+                 <textarea id="reflect1" rows="3" class="monospace"></textarea>
+
+                <label for="reflect2">How can the concept of 'cognitive ease' explain why you might prefer certain study methods or media formats, even if they aren't the most effective for deep learning?</label>
+                <textarea id="reflect2" rows="3" class="monospace"></textarea>
+
+                 <label for="reflect3">Kahneman suggests it's easier to spot biases in others than ourselves. How can you use peer feedback or collaboration to check your own S1 assumptions?</label>
+                <textarea id="reflect3" rows="3" class="monospace"></textarea>
+            </div>
+             <p><strong>The Challenge of Debiasing:</strong> System 1 operates automatically, making it very difficult to completely eliminate biases. Continuous vigilance is impractical. The most effective strategy is often to learn to recognize situations where biases are likely, slow down, and deliberately engage System 2 analysis <span class="citation monospace">(Kahneman, 2011, Conclusion)</span>. The <span class="tooltip-term" data-definition="The idea that individuals with higher cognitive capacity might have more accurate S1 intuitions, not just better S2 override ability.">Smart Intuitor</span> concept suggests some individuals might naturally have better S1 accuracy, but conscious effort remains crucial <span class="citation monospace">(Da Silva, 2023)</span>.</p>
+             <div class="takeaway final-takeaway">Understand the flaws in your intuitive thinking. Learn when *not* to trust your gut and engage the effortful machinery of System 2. <span class="citation monospace">(Kahneman, 2011)</span></div>
+        </section>
+    </main>
+
+    <footer>
+        <p>Mind/Shift Midterm Study Tool | NMIX Course</p>
+        <p><strong>Primary Source:</strong> Daniel Kahneman (2011), <em>Thinking, Fast and Slow</em>. Farrar, Straus and Giroux.</p>
+        <p><strong>Academic Context & Nuances:</strong> Da Silva, S. (2023). System 1 vs. System 2 Thinking. <em>Psych</em>, 5, 1057-1076.</p>
+        <p><strong>Design Thinking Application:</strong> Kannengiesser, U., & Gero, J. S. (2019). Empirical Evidence for Kahneman’s System 1 and System 2 Thinking in Design. <em>Human Behaviour in Design (HBID)</em>.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
