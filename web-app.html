@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Weather Recommendation App</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #f0f5ff;
+      color: #333;
+    }
+    
+    .app-container {
+      background-color: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    h1 {
+      color: #2c58a0;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    
+    .input-group {
+      margin-bottom: 20px;
+    }
+    
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+      color: #2c58a0;
+    }
+    
+    input[type="number"], select {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+    
+    button {
+      background-color: #2c58a0;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      font-size: 16px;
+      border-radius: 5px;
+      cursor: pointer;
+      display: block;
+      width: 100%;
+      margin-top: 20px;
+    }
+    
+    button:hover {
+      background-color: #1e3c72;
+    }
+    
+    .results {
+      margin-top: 30px;
+      padding: 20px;
+      border-radius: 5px;
+      background-color: #f5f8ff;
+      border-left: 5px solid #2c58a0;
+      display: none;
+    }
+    
+    .results h2 {
+      color: #2c58a0;
+      margin-top: 0;
+    }
+    
+    .recommendation {
+      margin-bottom: 15px;
+    }
+    
+    .recommendation h3 {
+      margin-bottom: 5px;
+      color: #2c58a0;
+    }
+    
+    .recommendation p {
+      margin-top: 0;
+      line-height: 1.5;
+    }
+    
+    .weather-icon {
+      font-size: 2em;
+      margin-right: 10px;
+    }
+    
+    .weather-display {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    
+    .code-view {
+      margin-top: 40px;
+      display: none;
+    }
+    
+    .code-toggle {
+      background-color: transparent;
+      color: #2c58a0;
+      border: 1px solid #2c58a0;
+      padding: 5px 10px;
+      font-size: 14px;
+      border-radius: 3px;
+      cursor: pointer;
+      width: auto;
+      display: inline-block;
+      margin: 30px 0 10px;
+    }
+    
+    .code-container {
+      background-color: #f5f5f5;
+      padding: 15px;
+      border-radius: 5px;
+      overflow-x: auto;
+    }
+    
+    code {
+      font-family: Consolas, Monaco, 'Courier New', monospace;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 600px) {
+      body {
+        padding: 10px;
+      }
+      
+      .app-container {
+        padding: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-container">
+    <h1>Weather Recommendation App</h1>
+    
+    <div class="input-group">
+      <label for="temperature">Temperature (°C):</label>
+      <input type="number" id="temperature" name="temperature" min="-50" max="50" step="0.1" value="20">
+    </div>
+    
+    <div class="input-group">
+      <label for="condition">Weather Condition:</label>
+      <select id="condition" name="condition">
+        <option value="sunny">Sunny</option>
+        <option value="rainy">Rainy</option>
+        <option value="cloudy">Cloudy</option>
+        <option value="snowy">Snowy</option>
+      </select>
+    </div>
+    
+    <button id="generate-btn">Generate Recommendations</button>
+    
+    <div id="results" class="results">
+      <h2>Your Personalized Recommendations</h2>
+      
+      <div class="weather-display">
+        <span id="weather-icon" class="weather-icon"></span>
+        <span id="weather-summary"></span>
+      </div>
+      
+      <div class="recommendation">
+        <h3>Clothing Recommendation:</h3>
+        <p id="clothing-recommendation"></p>
+      </div>
+      
+      <div class="recommendation">
+        <h3>Activity Recommendation:</h3>
+        <p id="activity-recommendation"></p>
+      </div>
+    </div>
+    
+    <button id="code-toggle" class="code-toggle">Show JavaScript Code</button>
+    
+    <div id="code-view" class="code-view">
+      <div class="code-container">
+        <code id="code-display">
+// This is the JavaScript implementation of our recommendation logic
+
+function getClothingRecommendation(temperature, weatherCondition) {
+  // Base recommendation based on temperature
+  let recommendation = "";
+  
+  if (temperature < 15) {
+    recommendation = "Wear warm clothes, jacket, and boots";
+  } else if (temperature >= 15 && temperature <= 25) {
+    recommendation = "Light jacket or sweater is sufficient";
+  } else { // temperature > 25
+    recommendation = "Light clothes and sun protection";
+  }
+  
+  // Add specific recommendations based on weather condition
+  if (weatherCondition === "sunny") {
+    recommendation += ", sunglasses, and sunscreen";
+  } else if (weatherCondition === "rainy") {
+    recommendation += ", umbrella, and waterproof shoes";
+  } else if (weatherCondition === "cloudy") {
+    recommendation += ", and maybe pack a light rain jacket just in case";
+  } else if (weatherCondition === "snowy") {
+    recommendation += ", waterproof boots, gloves, and scarf";
+  }
+  
+  return recommendation;
+}
+
+function getActivityRecommendation(temperature, weatherCondition) {
+  // Base recommendation based on temperature
+  let recommendation = "";
+  
+  if (temperature < 15) {
+    recommendation = "Indoor activities recommended";
+  } else if (temperature >= 15 && temperature <= 25) {
+    recommendation = "Perfect weather for outdoor activities";
+  } else { // temperature > 25
+    recommendation = "Stay hydrated, seek shade during peak sun hours";
+  }
+  
+  // Add specific recommendations based on weather condition
+  if (weatherCondition === "sunny" && temperature > 25) {
+    recommendation += ", swimming or water activities are great";
+  } else if (weatherCondition === "rainy") {
+    recommendation += ", consider indoor alternatives";
+  } else if (weatherCondition === "snowy" && temperature < 0) {
+    recommendation += ", sledding or building a snowman could be fun if it's not too cold";
+  }
+  
+  return recommendation;
+}
+        </code>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Get DOM elements
+    const generateBtn = document.getElementById('generate-btn');
+    const temperatureInput = document.getElementById('temperature');
+    const conditionSelect = document.getElementById('condition');
+    const resultsDiv = document.getElementById('results');
+    const weatherIcon = document.getElementById('weather-icon');
+    const weatherSummary = document.getElementById('weather-summary');
+    const clothingRecommendation = document.getElementById('clothing-recommendation');
+    const activityRecommendation = document.getElementById('activity-recommendation');
+    const codeToggle = document.getElementById('code-toggle');
+    const codeView = document.getElementById('code-view');
+    
+    // Weather icons (using emoji for simplicity)
+    const weatherIcons = {
+      sunny: '☀️',
+      rainy: '🌧️',
+      cloudy: '☁️',
+      snowy: '❄️'
+    };
+    
+    // Event listener for generate button
+    generateBtn.addEventListener('click', function() {
+      const temperature = parseFloat(temperatureInput.value);
+      const condition = conditionSelect.value;
+      
+      // Generate recommendations
+      const clothing = getClothingRecommendation(temperature, condition);
+      const activity = getActivityRecommendation(temperature, condition);
+      
+      // Update UI
+      weatherIcon.textContent = weatherIcons[condition];
+      weatherSummary.textContent = `${temperature}°C, ${condition.charAt(0).toUpperCase() + condition.slice(1)}`;
+      clothingRecommendation.textContent = clothing;
+      activityRecommendation.textContent = activity;
+      
+      // Show results
+      resultsDiv.style.display = 'block';
+    });
+    
+    // Event listener for code toggle button
+    codeToggle.addEventListener('click', function() {
+      if (codeView.style.display === 'none' || codeView.style.display === '') {
+        codeView.style.display = 'block';
+        codeToggle.textContent = 'Hide JavaScript Code';
+      } else {
+        codeView.style.display = 'none';
+        codeToggle.textContent = 'Show JavaScript Code';
+      }
+    });
+    
+    // Clothing recommendation function
+    function getClothingRecommendation(temperature, weatherCondition) {
+      // Base recommendation based on temperature
+      let recommendation = "";
+      
+      if (temperature < 15) {
+        recommendation = "Wear warm clothes, jacket, and boots";
+      } else if (temperature >= 15 && temperature <= 25) {
+        recommendation = "Light jacket or sweater is sufficient";
+      } else { // temperature > 25
+        recommendation = "Light clothes and sun protection";
+      }
+      
+      // Add specific recommendations based on weather condition
+      if (weatherCondition === "sunny") {
+        recommendation += ", sunglasses, and sunscreen";
+      } else if (weatherCondition === "rainy") {
+        recommendation += ", umbrella, and waterproof shoes";
+      } else if (weatherCondition === "cloudy") {
+        recommendation += ", and maybe pack a light rain jacket just in case";
+      } else if (weatherCondition === "snowy") {
+        recommendation += ", waterproof boots, gloves, and scarf";
+      }
+      
+      return recommendation;
+    }
+    
+    // Activity recommendation function
+    function getActivityRecommendation(temperature, weatherCondition) {
+      // Base recommendation based on temperature
+      let recommendation = "";
+      
+      if (temperature < 15) {
+        recommendation = "Indoor activities recommended";
+      } else if (temperature >= 15 && temperature <= 25) {
+        recommendation = "Perfect weather for outdoor activities";
+      } else { // temperature > 25
+        recommendation = "Stay hydrated, seek shade during peak sun hours";
+      }
+      
+      // Add specific recommendations based on weather condition
+      if (weatherCondition === "sunny" && temperature > 25) {
+        recommendation += ", swimming or water activities are great";
+      } else if (weatherCondition === "rainy") {
+        recommendation += ", consider indoor alternatives";
+      } else if (weatherCondition === "snowy" && temperature < 0) {
+        recommendation += ", sledding or building a snowman could be fun if it's not too cold";
+      }
+      
+      return recommendation;
+    }
+  </script>
+</body>
+</html>
