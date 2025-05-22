@@ -84,7 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
         { id: 'ufmd_ad', code: 'UFMD XXXX', name: 'ANALİTİK DÜŞÜNME (Analytical Thinking)', syllabus: '', color: '#FFDACD', tags: [], ects: 2, hours: "2T+0P", lecturer: "ODL", category: 'category-semester-2' },
 
         // SEMESTER 3
-        { id: 'comm1140', code: 'COMM 1140', name: 'MEDIA THEORIES', syllabus: '', color: '#FFFFE0', tags: [], ects: 5, hours: "3T+0P", lecturer: "Güven Selçuk", category: 'category-semester-3' },
+        { id: 'comm1140', code: 'COMM 11XX', name: 'HISTORY OF CIVILIZATION', syllabus: '', color: '#FFFFE0', tags: [], ects: 5, hours: "3T+0P", lecturer: "Güven Selçuk", category: 'category-semester-3' },
         { id: 'nmed2115', code: 'NMED 2115', name: 'USER EXPERIENCE DESIGN', syllabus: '', color: '#FFFFFF', tags: [], ects: 5, hours: "2T+2P", lecturer: "Ayça Durmaz", category: 'category-semester-3' },
         { id: 'nmed2117', code: 'NMED 2117', name: 'VIDEO NARRATIVES I', syllabus: '', color: '#FFFFFF', tags: [], ects: 6, hours: "2T+2P", lecturer: "Simge Gökbayrak", category: 'category-semester-3' },
         { id: 'nmed2105', code: 'NMED 2105', name: 'BASIC DESIGN FOR DIGITAL ENVIRONMENT', syllabus: '', color: '#FFFFFF', tags: [], ects: 6, hours: "4T+2P", lecturer: "Ayça Durmaz", category: 'category-semester-3' },
