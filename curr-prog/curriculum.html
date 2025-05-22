@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Curriculum Whiteboard - Lecturers & Workload</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <button id="sidebarToggle" title="Toggle Toolbar">☰</button> 
+
+    <div id="sidebar">
+        <div id="main-controls">
+            <div class="control-section">
+                <h4>Course Actions (for selected)</h4>
+                <button id="editCourseButton" disabled>Edit Selected Course</button>
+                <button id="compareButton" disabled>Compare (<span id="comparisonCount">0</span>)</button>
+            </div>
+
+            <div class="control-section">
+                <h4>Course Properties (for selected)</h4>
+                <label for="courseColor">Color:</label>
+                <input type="color" id="courseColor" value="#e0e0e0">
+                <label for="courseTagsInput">Tag:</label>
+                <input type="text" id="courseTagsInput" placeholder="e.g., 'core'">
+                <button id="addTagButton">Add Tag</button>
+            </div>
+
+            <div class="control-section">
+                <h4>Add New Course</h4>
+                <input type="text" id="newCourseCode" placeholder="Code (e.g., NMC100)">
+                <input type="text" id="newCourseName" placeholder="Course Name">
+                <input type="number" id="newCourseEcts" placeholder="ECTS (e.g., 5)">
+                <input type="text" id="newCourseHours" placeholder="Hours (e.g., 2T+2P or 4)">
+                <input type="text" id="newCourseLecturer" placeholder="Lecturer Name">
+                <textarea id="newCourseSyllabus" placeholder="Syllabus..."></textarea>
+                <button id="addNewCourseButton">Add New Course</button>
+            </div>
+
+            <div class="control-section">
+                <h4>View Options</h4>
+                <input type="text" id="searchInput" placeholder="Search by code, name, tag...">
+            </div>
+
+            <div class="control-section">
+                <h4>Lecturer Workload</h4>
+                <button id="viewWorkloadButton">View/Refresh Workload</button>
+                <button id="exportWorkloadCsvButton" disabled>Export Workload (CSV)</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="app-container">
+        <header>
+            <h1>Curriculum Whiteboard - New Media & Communication</h1>
+            <p>Drag to re-arrange. Click for edit options. Ctrl/Cmd+Click to select for comparison.</p>
+        </header>
+
+        <div id="curriculum-layout">
+            <div class="category-zone" id="category-semester-1" data-category-name="Semester 1">
+                <h2>Semester 1</h2>
+                <div class="course-list"></div>
+                <div class="semester-footer">Total ECTS: <span class="total-ects">0</span></div>
+            </div>
+            <div class="category-zone" id="category-semester-2" data-category-name="Semester 2">
+                <h2>Semester 2</h2>
+                <div class="course-list"></div>
+                <div class="semester-footer">Total ECTS: <span class="total-ects">0</span></div>
+            </div>
+            <div class="category-zone" id="category-semester-3" data-category-name="Semester 3">
+                <h2>Semester 3</h2>
+                <div class="course-list"></div>
+                <div class="semester-footer">Total ECTS: <span class="total-ects">0</span></div>
+            </div>
+            <div class="category-zone" id="category-semester-4" data-category-name="Semester 4">
+                <h2>Semester 4</h2>
+                <div class="course-list"></div>
+                <div class="semester-footer">Total ECTS: <span class="total-ects">0</span></div>
+            </div>
+            <div class="category-zone" id="category-semester-5" data-category-name="Semester 5">
+                <h2>Semester 5</h2>
+                <div class="course-list"></div>
+                <div class="semester-footer">Total ECTS: <span class="total-ects">0</span></div>
+            </div>
+            <div class="category-zone" id="category-semester-6" data-category-name="Semester 6">
+                <h2>Semester 6</h2>
+                <div class="course-list"></div>
+                <div class="semester-footer">Total ECTS: <span class="total-ects">0</span></div>
+            </div>
+            <div class="category-zone" id="category-semester-7" data-category-name="Semester 7">
+                <h2>Semester 7</h2>
+                <div class="course-list"></div>
+                <div class="semester-footer">Total ECTS: <span class="total-ects">0</span></div>
+            </div>
+            <div class="category-zone" id="category-semester-8" data-category-name="Semester 8">
+                <h2>Semester 8</h2>
+                <div class="course-list"></div>
+                <div class="semester-footer">Total ECTS: <span class="total-ects">0</span></div>
+            </div>
+             <div class="category-zone" id="category-uncategorized" data-category-name="Uncategorized / Pool">
+                <h2>Uncategorized / Pool</h2>
+                <div class="course-list"></div>
+                <div class="semester-footer">Total ECTS: <span class="total-ects">0</span></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="edit-course-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" id="closeEditModal">×</span>
+            <h2>Edit Course</h2>
+            <input type="hidden" id="editCourseId">
+            <label for="editCourseCodeModal">Code:</label>
+            <input type="text" id="editCourseCodeModal">
+            <label for="editCourseNameModal">Name:</label>
+            <input type="text" id="editCourseNameModal">
+            <label for="editCourseEctsModal">ECTS:</label>
+            <input type="number" id="editCourseEctsModal">
+            <label for="editCourseHoursModal">Hours:</label>
+            <input type="text" id="editCourseHoursModal">
+            <label for="editCourseLecturerModal">Lecturer:</label>
+            <input type="text" id="editCourseLecturerModal">
+            <label for="editCourseSyllabusModal">Syllabus:</label>
+            <textarea id="editCourseSyllabusModal"></textarea>
+            <button id="saveCourseChangesButton">Save Changes</button>
+        </div>
+    </div>
+
+    <div id="syllabus-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" id="closeCompareModal">×</span>
+            <h2>Syllabus Comparison</h2>
+            <div id="syllabus-comparison-area"></div>
+        </div>
+    </div>
+
+    <div id="workload-modal" class="modal">
+        <div class="modal-content large">
+            <span class="close-button" id="closeWorkloadModal">×</span>
+            <h2>Lecturer Workload</h2>
+            <div id="workload-table-container">
+                <p>Click "View/Refresh Workload" in the sidebar to generate the table.</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
