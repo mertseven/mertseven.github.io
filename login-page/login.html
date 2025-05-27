@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Login System</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header Section -->
+        <header class="header">
+            <h1>🔐 Not So Secure Access Portal</h1>
+            <p>Şampiyon Beşiktaş</p>
+        </header>
+
+        <!-- Login Form Section -->
+        <div class="login-container" id="loginContainer">
+            <div class="login-form">
+                <h2>Login Required</h2>
+                <p id="statusMessage">Please enter your credentials to continue</p>
+                
+                <form id="loginForm">
+                    <div class="input-group">
+                        <label for="password">Password:</label>
+                        <input type="password" id="passwordInput" placeholder="Enter your password" required>
+                        <button type="button" id="togglePassword" class="toggle-btn">👁️</button>
+                    </div>
+                    
+                    <div class="attempts-counter">
+                        <span id="attemptsDisplay">Attempts remaining: 3</span>
+                    </div>
+                    
+                    <button type="submit" id="loginBtn" class="login-btn">Login</button>
+                </form>
+
+                <!-- Alternative Methods Section -->
+                <div class="alternative-methods">
+                    <hr>
+                    <p>Other Examples:</p>
+                    <button id="promptMethodBtn" class="alt-btn">Try Prompt Method</button>
+                    <button id="resetBtn" class="alt-btn">Reset System</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Success Section (Hidden initially) -->
+        <div class="success-container" id="successContainer" style="display: none;">
+            <div class="success-content">
+                <h2>🎉 Access Granted!</h2>
+                <p>Welcome to the secure area</p>
+                <div class="secure-content">
+                    <h3>Protected Content</h3>
+                    <p>This content is only visible after successful authentication.</p>
+                    <ul>
+                        <li>User dashboard</li>
+                        <li>Personal settings</li>
+                        <li>Secure documents</li>
+                    </ul>
+                </div>
+                <button id="logoutBtn" class="logout-btn">Logout</button>
+            </div>
+        </div>
+
+        <!-- Locked Section (Hidden initially) -->
+        <div class="locked-container" id="lockedContainer" style="display: none;">
+            <div class="locked-content">
+                <h2>🚫 Account Locked</h2>
+                <p>Too many failed login attempts</p>
+                <div class="security-message">
+                    <p>For security reasons, access has been temporarily restricted.</p>
+                    <p>Please contact administrator or try again later.</p>
+                </div>
+                <button id="resetSystemBtn" class="reset-btn">Reset for Demo</button>
+            </div>
+        </div>
+
+        <!-- Educational Footer -->
+        <footer class="footer">
+            <div class="computational-thinking">
+                <h3>Computational Thinking Elements</h3>
+                <div class="thinking-grid">
+                    <div class="thinking-item">
+                        <strong>Pattern Recognition:</strong> Login attempts pattern
+                    </div>
+                    <div class="thinking-item">
+                        <strong>Decomposition:</strong> Break down authentication process
+                    </div>
+                    <div class="thinking-item">
+                        <strong>Abstraction:</strong> Focus on core login logic
+                    </div>
+                    <div class="thinking-item">
+                        <strong>Algorithm Design:</strong> Step-by-step validation process
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

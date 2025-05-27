@@ -1,0 +1,344 @@
+/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Header Styles */
+.header {
+    text-align: center;
+    color: white;
+    margin-bottom: 40px;
+    padding: 20px;
+}
+
+.header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+.header p {
+    font-size: 1.2rem;
+    opacity: 0.9;
+}
+
+/* Login Container Styles */
+.login-container, .success-container, .locked-container {
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    padding: 40px;
+    margin-bottom: 30px;
+}
+
+.login-form h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #4a5568;
+}
+
+#statusMessage {
+    text-align: center;
+    margin-bottom: 30px;
+    padding: 10px;
+    border-radius: 5px;
+    font-weight: 500;
+}
+
+.status-normal {
+    background-color: #e8f4fd;
+    color: #2563eb;
+}
+
+.status-warning {
+    background-color: #fef3cd;
+    color: #f59e0b;
+}
+
+.status-error {
+    background-color: #fee2e2;
+    color: #dc2626;
+}
+
+/* Input Group Styles */
+.input-group {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #4a5568;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 12px 45px 12px 15px;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+.input-group input:focus {
+    outline: none;
+    border-color: #4f46e5;
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+}
+
+.toggle-btn {
+    position: absolute;
+    right: 10px;
+    top: 38px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    padding: 5px;
+}
+
+/* Attempts Counter */
+.attempts-counter {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+#attemptsDisplay {
+    font-weight: 600;
+    padding: 8px 16px;
+    border-radius: 20px;
+    display: inline-block;
+}
+
+.attempts-normal {
+    background-color: #dcfce7;
+    color: #16a34a;
+}
+
+.attempts-warning {
+    background-color: #fef3cd;
+    color: #f59e0b;
+}
+
+.attempts-danger {
+    background-color: #fee2e2;
+    color: #dc2626;
+}
+
+/* Button Styles */
+.login-btn {
+    width: 100%;
+    padding: 15px;
+    background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-bottom: 20px;
+}
+
+.login-btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(79, 70, 229, 0.4);
+}
+
+.login-btn:disabled {
+    background: #9ca3af;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Alternative Methods */
+.alternative-methods {
+    margin-top: 30px;
+}
+
+.alternative-methods hr {
+    margin: 20px 0;
+    border: none;
+    height: 1px;
+    background: #e2e8f0;
+}
+
+.alternative-methods p {
+    text-align: center;
+    margin-bottom: 15px;
+    font-weight: 600;
+    color: #6b7280;
+}
+
+.alt-btn {
+    display: inline-block;
+    margin: 5px;
+    padding: 8px 16px;
+    background: #f3f4f6;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    color: #374151;
+}
+
+.alt-btn:hover {
+    background: #e5e7eb;
+    transform: translateY(-1px);
+}
+
+/* Success Container */
+.success-container {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: white;
+}
+
+.success-content h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.secure-content {
+    background: rgba(255,255,255,0.1);
+    padding: 20px;
+    border-radius: 10px;
+    margin: 20px 0;
+}
+
+.secure-content ul {
+    margin-left: 20px;
+    margin-top: 10px;
+}
+
+.logout-btn {
+    display: block;
+    margin: 20px auto 0;
+    padding: 10px 30px;
+    background: rgba(255,255,255,0.2);
+    color: white;
+    border: 2px solid white;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.logout-btn:hover {
+    background: white;
+    color: #059669;
+}
+
+/* Locked Container */
+.locked-container {
+    background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+    color: white;
+}
+
+.locked-content h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.security-message {
+    background: rgba(255,255,255,0.1);
+    padding: 20px;
+    border-radius: 10px;
+    margin: 20px 0;
+    text-align: center;
+}
+
+.reset-btn {
+    display: block;
+    margin: 20px auto 0;
+    padding: 10px 30px;
+    background: rgba(255,255,255,0.2);
+    color: white;
+    border: 2px solid white;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.reset-btn:hover {
+    background: white;
+    color: #dc2626;
+}
+
+/* Footer - Computational Thinking */
+.footer {
+    background: rgba(255,255,255,0.1);
+    border-radius: 15px;
+    padding: 30px;
+    color: white;
+}
+
+.footer h3 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.thinking-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 15px;
+}
+
+.thinking-item {
+    background: rgba(255,255,255,0.1);
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.thinking-item strong {
+    display: block;
+    margin-bottom: 5px;
+    color: #fbbf24;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        padding: 10px;
+    }
+    
+    .header h1 {
+        font-size: 2rem;
+    }
+    
+    .login-container, .success-container, .locked-container {
+        padding: 20px;
+    }
+    
+    .thinking-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Animation for transitions */
+.fade-in {
+    animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
