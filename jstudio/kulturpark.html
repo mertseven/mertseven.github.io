@@ -1,0 +1,1434 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>İzmir Kültürpark: İzmir'in Yeşil Kalbi İçin Mücadele</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #1a1a1a;
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+        
+        .nav-item {
+            background: #2a2a2a;
+            border-right: 1px solid #3a3a3a;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-item:hover {
+            background: #3a3a3a;
+        }
+        
+        .nav-item.active {
+            background: #4a4a4a;
+        }
+        
+        .nav-number {
+            font-size: 3rem;
+            font-weight: 800;
+            line-height: 1;
+        }
+        
+        .section {
+            min-height: 100vh;
+            padding: 8rem 2rem 4rem;
+            position: relative;
+        }
+        
+        .flow-canvas {
+            background: #1a1a1a;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .flow-path {
+            stroke-width: 40;
+            fill: none;
+            opacity: 0.8;
+        }
+        
+        .pond {
+            fill: #2a2a2a;
+            stroke: #3a3a3a;
+            stroke-width: 2;
+        }
+        
+        .control-panel {
+            background: rgba(42, 42, 42, 0.9);
+            backdrop-filter: blur(10px);
+            border: 1px solid #3a3a3a;
+        }
+        
+        .icon-button {
+            background: #2a2a2a;
+            border: 1px solid #3a3a3a;
+            padding: 0.5rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .icon-button:hover {
+            background: #3a3a3a;
+        }
+        
+        @keyframes flowAnimation {
+            0% {
+                stroke-dashoffset: 0;
+            }
+            100% {
+                stroke-dashoffset: -800;
+            }
+        }
+        
+        .animated-flow {
+            stroke-dasharray: 80 15;
+            animation: flowAnimation 25s linear infinite;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+        
+        .stat-label {
+            background: #2a2a2a;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+        }
+        
+        .subtitle-text {
+            position: absolute;
+            bottom: 2rem;
+            right: 2rem;
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            font-size: 0.875rem;
+            color: #666;
+            letter-spacing: 0.1em;
+        }
+        
+        .data-card {
+            background: rgba(42, 42, 42, 0.8);
+            border: 1px solid #3a3a3a;
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            border-radius: 0.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .data-card:hover {
+            background: rgba(58, 58, 58, 0.9);
+            transform: translateY(-2px);
+        }
+        
+        .progress-bar {
+            height: 8px;
+            border-radius: 4px;
+            background: #2a2a2a;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+        
+        .heatmap-cell {
+            width: 40px;
+            height: 40px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+        
+        .heatmap-cell:hover {
+            transform: scale(1.1);
+        }
+        
+        .timeline-item {
+            position: relative;
+            padding-left: 3rem;
+            padding-bottom: 2rem;
+            border-left: 2px solid #3a3a3a;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -6px;
+            top: 0;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #ff006e;
+            border: 2px solid #1a1a1a;
+        }
+        
+        .accessibility-score {
+            width: 150px;
+            height: 150px;
+            position: relative;
+        }
+        
+        .score-ring {
+            transform: rotate(-90deg);
+            transform-origin: 50% 50%;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 0.4; }
+            50% { opacity: 1; }
+        }
+        
+        .pulse {
+            animation: pulse 2s ease-in-out infinite;
+        }
+        
+        .urgent-banner {
+            background: linear-gradient(135deg, #dc2626, #b91c1c);
+            border-left: 4px solid #fbbf24;
+        }
+
+        .section {
+            scroll-margin-top: 100px; 
+        }
+    </style>
+</head>
+<body>
+    <!-- Top Navigation Bar -->
+    <div class="fixed top-0 left-0 right-0 z-50 bg-gray-900 border-b border-gray-700">
+        <div class="grid grid-cols-6">
+            <div class="nav-item active px-4 py-6 text-center" onclick="scrollToSection('summary')">
+                <div class="nav-number">01</div>
+                <div class="text-xs mt-1 font-medium">Kriz<br/>Gözler Önünde</div>
+            </div>
+            <div class="nav-item px-4 py-6 text-center" onclick="scrollToSection('history')">
+                <div class="nav-number">02</div>
+                <div class="text-xs mt-1 font-medium">Küllerinden<br/>Zafere</div>
+            </div>
+            <div class="nav-item px-4 py-6 text-center" onclick="scrollToSection('decline')">
+                <div class="nav-number">03</div>
+                <div class="text-xs mt-1 font-medium">Yavaş<br/>Çöküş</div>
+            </div>
+            <div class="nav-item px-4 py-6 text-center" onclick="scrollToSection('controversies')">
+                <div class="nav-number">04</div>
+                <div class="text-xs mt-1 font-medium">Çatışmalar ve<br/>Tartışmalar</div>
+            </div>
+            <div class="nav-item px-4 py-6 text-center" onclick="scrollToSection('voices')">
+                <div class="nav-number">05</div>
+                <div class="text-xs mt-1 font-medium">Sahadan<br/>Sesler</div>
+            </div>
+            <div class="nav-item px-4 py-6 text-center border-r-0" onclick="scrollToSection('future')">
+                <div class="nav-number">06</div>
+                <div class="text-xs mt-1 font-medium">Gelecek İçin<br/>Savaş</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Section 01: The Crisis Unveiled -->
+    <section id="summary" class="flow-canvas h-screen pt-32 relative">
+        <!-- Control Icons -->
+        <div class="absolute top-40 left-4 space-y-2">
+            <div class="icon-button rounded">
+                <span class="material-icons text-white">warning</span>
+            </div>
+            <div class="icon-button rounded">
+                <span class="material-icons text-white">nature</span>
+            </div>
+            <div class="icon-button rounded">
+                <span class="material-icons text-white">visibility</span>
+            </div>
+        </div>
+
+        <!-- Kültürpark Map Background -->
+        <img src="kültürpark izmir.png" 
+             alt="Kültürpark Haritası" 
+             class="absolute inset-0 w-full h-full object-cover opacity-20" 
+             style="filter: invert(1) contrast(1.2);"
+             onerror="this.style.display='none'"/>
+
+        <!-- Flow Visualization SVG -->
+        <svg class="absolute inset-0 w-full h-full" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice">
+            <defs>
+                <linearGradient id="flow1" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" style="stop-color:#dc2626;stop-opacity:0.8" />
+                    <stop offset="25%" style="stop-color:#ea580c;stop-opacity:0.9" />
+                    <stop offset="50%" style="stop-color:#d97706;stop-opacity:1" />
+                    <stop offset="75%" style="stop-color:#ea580c;stop-opacity:0.9" />
+                    <stop offset="100%" style="stop-color:#dc2626;stop-opacity:0.8" />
+                </linearGradient>
+                <linearGradient id="flow2" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" style="stop-color:#7c3aed;stop-opacity:0.7" />
+                    <stop offset="50%" style="stop-color:#a855f7;stop-opacity:0.8" />
+                    <stop offset="100%" style="stop-color:#7c3aed;stop-opacity:0.7" />
+                </linearGradient>
+                <linearGradient id="flow3" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" style="stop-color:#0f766e;stop-opacity:0.6" />
+                    <stop offset="50%" style="stop-color:#059669;stop-opacity:0.7" />
+                    <stop offset="100%" style="stop-color:#0f766e;stop-opacity:0.6" />
+                </linearGradient>
+                <linearGradient id="flow4" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" style="stop-color:#0891b2;stop-opacity:0.5" />
+                    <stop offset="50%" style="stop-color:#06b6d4;stop-opacity:0.6" />
+                    <stop offset="100%" style="stop-color:#0891b2;stop-opacity:0.5" />
+                </linearGradient>
+                <linearGradient id="flow5" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" style="stop-color:#c2410c;stop-opacity:0.4" />
+                    <stop offset="50%" style="stop-color:#ea580c;stop-opacity:0.5" />
+                    <stop offset="100%" style="stop-color:#c2410c;stop-opacity:0.4" />
+                </linearGradient>
+            </defs>
+            
+            <path d="M 200 50 Q 250 120, 300 200 Q 340 280, 380 360 Q 420 440, 460 520 Q 500 600, 540 680 Q 580 760, 620 840 Q 660 920, 700 1000" 
+                  class="flow-path animated-flow" stroke="url(#flow1)" style="opacity: 0.7; stroke-width: 35;"/>
+            <path d="M 1800 200 Q 1650 220, 1500 250 Q 1350 280, 1200 320 Q 1050 360, 900 400 Q 750 440, 600 480 Q 500 500, 420 540" 
+                  class="flow-path animated-flow" stroke="url(#flow2)" style="animation-delay: -3s; opacity: 0.6; stroke-width: 28;"/>
+            <path d="M 50 400 Q 120 380, 200 390 Q 280 400, 360 420 Q 440 440, 500 480 Q 560 520, 600 580 Q 640 640, 660 720 Q 680 800, 650 880" 
+                  class="flow-path animated-flow" stroke="url(#flow3)" style="animation-delay: -7s; opacity: 0.5; stroke-width: 32;"/>
+            <path d="M 100 950 Q 200 920, 300 900 Q 450 880, 600 870 Q 750 860, 900 880 Q 1050 900, 1200 940 Q 1350 980, 1500 1020" 
+                  class="flow-path animated-flow" stroke="url(#flow4)" style="animation-delay: -10s; opacity: 0.4; stroke-width: 25;"/>
+            <path d="M 960 100 Q 900 180, 860 260 Q 820 340, 800 420 Q 780 500, 760 580 Q 740 660, 720 740 Q 700 820, 680 900" 
+                  class="flow-path animated-flow" stroke="url(#flow5)" style="animation-delay: -15s; opacity: 0.35; stroke-width: 30;"/>
+            <path d="M 1600 600 Q 1400 580, 1200 590 Q 1000 600, 800 620 Q 600 640, 400 680 Q 250 710, 150 750" 
+                  class="flow-path animated-flow" stroke="url(#flow1)" style="animation-delay: -12s; opacity: 0.3; stroke-width: 22;"/>
+            <path d="M 600 300 Q 750 280, 880 350 Q 950 450, 900 580 Q 820 700, 700 750 Q 580 780, 480 720 Q 400 640, 420 540 Q 450 420, 550 350 Q 575 325, 600 300" 
+                  class="flow-path animated-flow" stroke="url(#flow2)" style="animation-delay: -8s; opacity: 0.25; stroke-width: 20;"/>
+        </svg>
+
+        <!-- Location Labels -->
+        <div class="absolute top-1/3 left-1/4 stat-label">
+            <span class="text-xs font-medium">Ana Giriş Kapıları</span>
+        </div>
+        <div class="absolute bottom-1/3 right-1/4 stat-label">
+            <span class="text-xs font-medium">Sergi Pavyonları</span>
+        </div>
+        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 stat-label">
+            <span class="text-xs font-medium">Merkezi Park Alanı</span>
+        </div>
+
+        <!-- Main Title -->
+        <div class="absolute bottom-8 left-8">
+            <h1 class="text-6xl md:text-7xl font-black tracking-tight">
+                Kültürpark: Park Burada, Ya Kültür?
+            </h1>
+            <div class="flex items-center gap-8 mt-4">
+                <div class="text-sm text-gray-300">
+                    <span class="font-semibold">89 Yıllık Miras</span><br/>
+                    <span class="font-semibold">Tehdit Altında</span>
+                </div>
+                <div class="text-sm text-gray-300">
+                    <span class="font-semibold">420.000 m²</span><br/>
+                    <span class="text-xs">İzmir'in Yeşil Kalbi</span>
+                </div>
+                <div class="text-sm text-gray-300">
+                    <span class="font-semibold">Smyrna'nın Küllerinden</span><br/>
+                    <span class="text-xs">Modern Bir Kavşağa</span>
+                </div>
+            </div>
+        </div>
+        <!-- Side Text -->
+        <div class="subtitle-text">
+           İzmir'in<br/>Kültürel Ruhuna Dair<br/>Bir Araştırma
+        </div>
+
+        <!-- Data Overlay -->
+        <div class="absolute top-40 right-4 control-panel rounded p-4 w-64">
+            <h3 class="text-sm font-semibold mb-3 text-red-400">Değişim Göstergeleri</h3>
+            <div class="space-y-2 text-xs">
+                <div class="flex justify-between">
+                    <span class="text-gray-400">Koruma Statüsü Verildi</span>
+                    <span class="text-green-400">1990</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-400">Hayvanat Bahçesi Kaldırıldı</span>
+                    <span class="text-red-400">2008</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-400">Fuar Taşındı</span>
+                    <span class="text-yellow-400">2015</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-400">Rant Gerilimi</span>
+                    <span class="text-orange-400">Devam Ediyor</span>
+                </div>
+            </div>
+        </div>
+    </section>
+ <div class="max-w-3xl mx-auto px-4 py-12 text-center text-gray-300">
+        <p class="text-lg md:text-xl leading-relaxed italic">
+            Kültürpark'ın bugün üzerinde dolaşan endişe bulutları ve tartışma fısıltıları, bir zamanlar bu topraklarda filizlenen büyük bir hayalin ve bir şehrin kolektif hafızasının gölgesini taşıyor. "Kayıp Ruhu"nu, bu eşsiz mirasın neden ve nasıl bir yol ayrımına geldiğini tam manasıyla kavramak için, önce o ruhun nasıl doğduğunu, hangi umutlarla yeşerdiğini anlamak gerek. Çünkü bugünün krizinin kökleri, o ilk harcın karıldığı, ilk fidanın dikildiği günlerde, parlak bir vizyonla atılan temellerde gizli. Şimdi, İzmir'in kalbinde böylesine derin izler bırakan bu yeşil vahanın kuruluş öyküsüne, her şeyin başladığı o küller ve umut dolu günlere bir yolculuk yapma zamanı...
+        </p>
+    </div>
+    <!-- Section 02: From Ashes to Glory -->
+    <section id="history" class="section">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-5xl font-bold mb-12">Smyrna'nın Küllerinden Cumhuriyet'in Sembolüne</h2>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+                <div class="data-card">
+                    <h3 class="text-2xl font-semibold mb-4 text-yellow-400">Ateşten Doğan Anka Kuşu</h3>
+                    <p class="text-gray-300 mb-4">
+                        1936'da, Büyük İzmir Yangını'nın sadece enkaz ve kayıp bir Ermeni mahallesinin hatıralarını bıraktığı yerde, 
+                        İzmir'in vizyoner belediye başkanı Dr. Behçet Uz, yıkımı umuda dönüştürdü. Moskova'nın Gorki Parkı'ndan esinlenerek, 
+                        Kültürpark yeni Cumhuriyet'in kültürel hedeflerinin bir sembolü olarak yükseldi.
+                    </p>
+                    <p class="text-gray-300 mb-4">
+                        Parkın temeli 1 Ocak 1936'da, enkazın elle temizlenmesi ve hayallerin kolektif iradeyle inşa edilmesiyle atıldı. 
+                        Başbakan İsmet İnönü'nün 1 Eylül 1936'daki açılışı, sadece bir parkın doğuşunu değil, İzmir'in kültürel kimliğinin 
+                        yeniden dirilişini işaret ediyordu.
+                    </p>
+                    <div class="grid grid-cols-2 gap-4 mt-6">
+                        <div class="text-center">
+                            <div class="text-3xl font-bold text-cyan-400">89</div>
+                            <div class="text-sm text-gray-500">Hizmet Yılı</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-3xl font-bold text-green-400">42</div>
+                            <div class="text-sm text-gray-500">Hektar</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="data-card">
+                    <h3 class="text-2xl font-semibold mb-4 text-purple-400">Altın Çağ Zaman Çizelgesi</h3>
+                    <div class="space-y-4">
+                        <div class="timeline-item">
+                            <div class="text-sm font-semibold">1936 - Bir Vizyonun Doğuşu</div>
+                            <p class="text-xs text-gray-400">Kültürpark, 6. İzmir Enternasyonal Fuarı ile açıldı</p>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="text-sm font-semibold">1937 - Paraşüt Kulesi</div>
+                            <p class="text-xs text-gray-400">İzmir'in ikonik simgesi yükseliyor</p>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="text-sm font-semibold">1938 - Hayvanat Bahçesi Açılıyor</div>
+                            <p class="text-xs text-gray-400">Türkiye'nin ilk hayvanat bahçesi doğayı şehre getiriyor</p>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="text-sm font-semibold">1939 - Genişleme</div>
+                            <p class="text-xs text-gray-400">Park 420.000 m²'ye ulaşıyor</p>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="text-sm font-semibold">1990 - Miras Koruması</div>
+                            <p class="text-xs text-gray-400">2. derece doğal ve tarihi sit alanı olarak tanındı</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="data-card">
+                <h3 class="text-2xl font-semibold mb-6 text-orange-400">On Yıllar Boyunca Kültürel Önemi</h3>
+                <div class="grid grid-cols-5 gap-4">
+                    <div class="text-center">
+                        <div class="text-xs text-gray-500 mb-2">1930'lar</div>
+                        <div class="h-32 bg-gradient-to-t from-green-600 to-transparent rounded relative">
+                            <div class="absolute bottom-2 left-0 right-0 text-center text-xs font-bold">Kuruluş</div>
+                        </div>
+                        <div class="text-sm mt-2">Doğuş ve Vizyon</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-xs text-gray-500 mb-2">1940'lar-60'lar</div>
+                        <div class="h-48 bg-gradient-to-t from-blue-600 to-transparent rounded relative">
+                            <div class="absolute bottom-2 left-0 right-0 text-center text-xs font-bold">Altın Çağ</div>
+                        </div>
+                        <div class="text-sm mt-2">Uluslararası Ün</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-xs text-gray-500 mb-2">1970'ler-90'lar</div>
+                        <div class="h-40 bg-gradient-to-t from-purple-600 to-transparent rounded relative">
+                            <div class="absolute bottom-2 left-0 right-0 text-center text-xs font-bold">Kültür Merkezi</div>
+                        </div>
+                        <div class="text-sm mt-2">Müzeler ve Sanat</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-xs text-gray-500 mb-2">2000'ler</div>
+                        <div class="h-28 bg-gradient-to-t from-orange-600 to-transparent rounded relative">
+                            <div class="absolute bottom-2 left-0 right-0 text-center text-xs font-bold">Geçiş Dönemi</div>
+                        </div>
+                        <div class="text-sm mt-2">Hayvanat Bahçesi Kapanışı</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-xs text-gray-500 mb-2">2010'lar+</div>
+                        <div class="h-20 bg-gradient-to-t from-red-600 to-transparent rounded relative">
+                            <div class="absolute bottom-2 left-0 right-0 text-center text-xs font-bold">Kriz</div>
+                        </div>
+                        <div class="text-sm mt-2">Kimlik Kaybı mı?</div>
+                    </div>
+                </div>
+                <div class="mt-6 p-4 bg-amber-900 rounded-lg">
+                    <p class="text-sm text-amber-100">
+                        <strong>Dr. Behçet Uz'un Vizyonu:</strong> "Kültürpark, Türkiye ile dünya arasında bir köprü görevi görmeli, 
+                        kültürel zenginliğimizi sergilerken uluslararası dostluk ve ticareti kucaklamalıdır."
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 03: The Slow Decline -->
+    <section id="decline" class="section">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-5xl font-bold mb-12">Bir Hayalin Yavaş Erozyonu</h2>
+            
+            <div class="urgent-banner data-card mb-8">
+                <h3 class="text-2xl font-semibold mb-4 text-white">Kritik Dönüm Noktaları</h3>
+                <p class="text-gray-100">
+                    Bir zamanlar Türkiye'nin önde gelen kültür destinasyonu olan yer, temel kimliğini aşındıran bir dizi yıkıcı darbeyle 
+                    karşılaştı ve vatandaşları şu soruyu sormaya itti: Kültürel ruhu olmadan Kültürpark nedir?
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-12">
+                <div class="data-card">
+                    <h3 class="text-xl font-semibold mb-4 text-red-400">Hayvanat Bahçesi'nin Ayrılışı (2008)</h3>
+                    <div class="space-y-3">
+                        <div class="p-3 bg-gray-800 rounded">
+                            <div class="text-sm font-medium mb-1">Etki: Yıkıcı</div>
+                            <p class="text-xs text-gray-400">
+                                Türkiye'nin ilk hayvanat bahçesi, nesiller boyu çocukluk anılarını tanımlayan 71 yıllık bir kurum, 
+                                Sasalı'ya taşındı. Bu taşınma, parkın çekiciliğinde büyük bir boşluk bıraktı.
+                            </p>
+                        </div>
+                        <div class="p-3 bg-gray-800 rounded">
+                            <div class="text-sm font-medium mb-1">Ziyaretçi Kaybı</div>
+                            <p class="text-xs text-gray-400">
+                                Hayvanat bahçesinin kapanmasının ardından aile ziyaretleri tahmini olarak %40 azaldı ve 
+                                parkın demografisini temelden değiştirdi.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="data-card">
+                    <h3 class="text-xl font-semibold mb-4 text-orange-400">Fuar Göçü (2015)</h3>
+                    <div class="space-y-3">
+                        <div class="p-3 bg-gray-800 rounded">
+                            <div class="text-sm font-medium mb-1">Ekonomik Deprem</div>
+                            <p class="text-xs text-gray-400">
+                                İzmir Enternasyonal Fuarı, Kültürpark'ın 79 yıllık varoluş nedeni, 
+                                Gaziemir'deki yeni Fuar İzmir kompleksine taşındı.
+                            </p>
+                        </div>
+                        <div class="p-3 bg-gray-800 rounded">
+                            <div class="text-sm font-medium mb-1">Kimlik Krizi</div>
+                            <p class="text-xs text-gray-400">
+                                Sadece Kitap Fuarı'nın kalmasıyla Kültürpark, birincil ekonomik 
+                                motorunu ve uluslararası tanınırlığını kaybetti.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="data-card">
+                    <h3 class="text-xl font-semibold mb-4 text-purple-400">Altyapı İhmali</h3>
+                    <div class="space-y-3">
+                        <div class="p-3 bg-gray-800 rounded">
+                            <div class="text-sm font-medium mb-1">Bakım Eksikliği</div>
+                            <p class="text-xs text-gray-400">
+                                Tarihi pavyonlar bozulma belirtileri gösterirken, modern tesisler 
+                                modası geçmiş sistemler ve yetersiz bakımla mücadele ediyor.
+                            </p>
+                        </div>
+                        <div class="p-3 bg-gray-800 rounded">
+                            <div class="text-sm font-medium mb-1">Yeraltı Otoparkı Tartışması</div>
+                            <p class="text-xs text-gray-400">
+                                Yeraltı otoparkı genişletme konusundaki hukuki mücadeleler, 
+                                parkın gelecekteki gelişimi hakkında belirsizlik yarattı.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="data-card">
+                <h3 class="text-2xl font-semibold mb-6 text-cyan-400">Ziyaretçi Aktivite Modelleri: Bir Çöküş Hikayesi</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div>
+                        <h4 class="text-lg font-medium mb-4 text-gray-300">Mevcut Kullanım (2025)</h4>
+                        <div class="space-y-3">
+                            <div>
+                                <div class="flex justify-between text-sm mb-1">
+                                    <span>Geçiş Koridoru</span>
+                                    <span>45%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill bg-red-400" style="width: 45%;"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-sm mb-1">
+                                    <span>Gündelik Yürüyüş</span>
+                                    <span>25%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill bg-yellow-400" style="width: 25%;"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-sm mb-1">
+                                    <span>Koşu/Egzersiz</span>
+                                    <span>18%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill bg-blue-400" style="width: 18%;"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-sm mb-1">
+                                    <span>Kültürel Aktiviteler</span>
+                                    <span>12%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill bg-green-400" style="width: 12%;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="text-lg font-medium mb-4 text-gray-300">Zirve Dönemi (1990'lar)</h4>
+                        <div class="space-y-3">
+                            <div>
+                                <div class="flex justify-between text-sm mb-1">
+                                    <span>Fuar Ziyaretçileri</span>
+                                    <span>35%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill bg-green-500" style="width: 35%;"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-sm mb-1">
+                                    <span>Hayvanat Bahçesi ve Aile</span>
+                                    <span>30%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill bg-blue-500" style="width: 30%;"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-sm mb-1">
+                                    <span>Kültürel Etkinlikler</span>
+                                    <span>20%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill bg-purple-500" style="width: 20%;"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-sm mb-1">
+                                    <span>Rekreasyon</span>
+                                    <span>15%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill bg-cyan-500" style="width: 15%;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 04: Conflicts & Controversies -->
+    <section id="controversies" class="section">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-5xl font-bold mb-12">Savaş Hatları Çiziliyor</h2>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+                <div class="data-card">
+                    <h3 class="text-2xl font-semibold mb-6 text-red-400">Belediye vs. Meslek Odaları</h3>
+                    <div class="space-y-4">
+                        <div class="border-l-4 border-red-500 pl-4">
+                            <h4 class="font-semibold text-lg mb-2">İmar Anlaşmazlığı</h4>
+                            <p class="text-sm text-gray-300 mb-2">
+                                İzmir Fuar Kültürpark Çevre Düzenleme ve Fuar Kompleksi Mimari Proje Yarışması, İzmir Büyükşehir Belediyesi 
+                                ile meslek mimarlık odaları arasında derin ayrılıklara yol açtı.
+                            </p>
+                            <p class="text-xs text-gray-400">
+                                Kaynak: Turkish Journal of Sense of Place and Urban Studies, 2024
+                            </p>
+                        </div>
+                        <div class="border-l-4 border-orange-500 pl-4">
+                            <h4 class="font-semibold text-lg mb-2">Miras vs. İlerleme</h4>
+                            <p class="text-sm text-gray-300 mb-2">
+                                Park, 1990'dan beri 2. derece doğal ve tarihi sit alanı olarak koruma altında olmasına rağmen, 
+                                imar baskıları koruma çabalarını zorlamaya devam ediyor.
+                            </p>
+                            <p class="text-xs text-gray-400">
+                                Çok sayıda akademik kaynak tarafından belgelenen devam eden gerilim
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="data-card">
+                    <h3 class="text-2xl font-semibold mb-6 text-purple-400">Yeraltı Otoparkı Destanı</h3>
+                    <div class="space-y-4">
+                        <div class="p-4 bg-gray-800 rounded-lg">
+                            <div class="flex items-center mb-2">
+                                <span class="material-icons text-yellow-400 mr-2">gavel</span>
+                                <h4 class="font-semibold">Hukuk Savaşları</h4>
+                            </div>
+                            <p class="text-sm text-gray-300">
+                                Mahkeme kararları, yeraltı otoparkı genişletme planlarına defalarca meydan okuyarak, 
+                                yıllardır gelişimi durduran bir hukuk karmaşası yarattı.
+                            </p>
+                        </div>
+                        <div class="p-4 bg-gray-800 rounded-lg">
+                            <div class="flex items-center mb-2">
+                                <span class="material-icons text-blue-400 mr-2">engineering</span>
+                                <h4 class="font-semibold">Teknik Endişeler</h4>
+                            </div>
+                            <p class="text-sm text-gray-300">
+                                Çevresel etki değerlendirmeleri ve tarihi alanların altına inşaat yapma konusundaki yapısal endişeler, 
+                                her genişletme teklifini karmaşıklaştırdı.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="data-card mb-8">
+                <h3 class="text-2xl font-semibold mb-6 text-yellow-400">Halk Şikayetleri ve Hizmet Sorunları</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="p-4 bg-red-900 rounded-lg">
+                        <h4 class="font-semibold mb-2 text-red-200">Biletleme Sorunları</h4>
+                        <p class="text-sm text-red-100">
+                            Açıkhava Tiyatrosu'nda büyük etkinlikler sırasında aynı biletlerin birden fazla müşteriye satılmasıyla 
+                            ilgili mükerrer koltuk şikayetleri.
+                        </p>
+                        <div class="text-xs text-red-300 mt-2">Doğrulanmış şikayetler: 2023'te 12+</div>
+                    </div>
+                    <div class="p-4 bg-orange-900 rounded-lg">
+                        <h4 class="font-semibold mb-2 text-orange-200">Erişim Sorunları</h4>
+                        <p class="text-sm text-orange-100">
+                            Özellikle tiyatro performanslarında sahne dekorasyonlarının arkasında kalan premium fiyatlı koltuklardan 
+                            kötü görüş açıları, iade taleplerine yol açıyor.
+                        </p>
+                        <div class="text-xs text-orange-300 mt-2">Tüketici şikayetleri yapıldı</div>
+                    </div>
+                    <div class="p-4 bg-purple-900 rounded-lg">
+                        <h4 class="font-semibold mb-2 text-purple-200">Hizmet Açıkları</h4>
+                        <p class="text-sm text-purple-100">
+                            Tutarsız bakım, sınırlı yiyecek hizmetleri ve yoğun etkinlikler sırasında yetersiz müşteri desteği 
+                            parkın itibarını zedeledi.
+                        </p>
+                        <div class="text-xs text-purple-300 mt-2">Devam eden hizmet sorunları</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="data-card">
+                <h3 class="text-2xl font-semibold mb-6 text-cyan-400">Kimlik Krizi Derinleşiyor</h3>
+                <div class="grid grid-cols-2 gap-8">
+                    <div>
+                        <h4 class="text-lg font-medium mb-4 text-gray-300">Kültürpark'ın Kaybettikleri</h4>
+                        <ul class="space-y-2 text-sm text-gray-400">
+                            <li class="flex items-center"><span class="w-2 h-2 bg-red-500 rounded-full mr-3"></span>Uluslararası Fuar (79 yıllık gelenek)</li>
+                            <li class="flex items-center"><span class="w-2 h-2 bg-red-500 rounded-full mr-3"></span>Türkiye'nin İlk Hayvanat Bahçesi (71 yıl)</li>
+                            <li class="flex items-center"><span class="w-2 h-2 bg-red-500 rounded-full mr-3"></span>Arkeoloji Müzesi (33 yıl)</li>
+                            <li class="flex items-center"><span class="w-2 h-2 bg-red-500 rounded-full mr-3"></span>Resim ve Heykel Müzesi</li>
+                            <li class="flex items-center"><span class="w-2 h-2 bg-red-500 rounded-full mr-3"></span>Net Vizyon ve Amaç</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="text-lg font-medium mb-4 text-gray-300">Kalanlar</h4>
+                        <ul class="space-y-2 text-sm text-gray-400">
+                            <li class="flex items-center"><span class="w-2 h-2 bg-green-500 rounded-full mr-3"></span>İzmir Tarih ve Sanat Müzesi</li>
+                            <li class="flex items-center"><span class="w-2 h-2 bg-green-500 rounded-full mr-3"></span>Açıkhava Tiyatrosu</li>
+                            <li class="flex items-center"><span class="w-2 h-2 bg-green-500 rounded-full mr-3"></span>Paraşüt Kulesi (sembol yapı)</li>
+                            <li class="flex items-center"><span class="w-2 h-2 bg-green-500 rounded-full mr-3"></span>8.000+ Ağaç ve Bahçeler</li>
+                            <li class="flex items-center"><span class="w-2 h-2 bg-yellow-500 rounded-full mr-3"></span>Kitap Fuarı (yıllık)</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="mt-6 p-4 bg-gray-800 rounded-lg border-l-4 border-yellow-500">
+                    <p class="text-sm text-gray-300">
+                        <strong>Uzman Analizi:</strong> "Kültürpark, net bir yönü olmadan kar odaklı hale geldi ve 
+                        Cumhuriyet'in bir sembolü olarak özünden temel bir sapmaya yol açtı," 
+                        kentsel kültürel mekanlar üzerine yapılan son akademik araştırmalara göre.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 05: Voices from the Ground -->
+    <section id="voices" class="section">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-5xl font-bold mb-12">İzmirliler Gerçekten Ne Düşünüyor?</h2>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+                <div class="data-card">
+                    <h3 class="text-2xl font-semibold mb-6 text-green-400">Nostalji Sesleri</h3>
+                    <div class="space-y-4">
+                        <div class="p-4 bg-gray-800 rounded-lg border-l-4 border-blue-500">
+                            <div class="flex items-start mb-2">
+                                <span class="material-icons text-blue-400 mr-3 mt-1">person</span>
+                                <div>
+                                    <p class="text-sm text-gray-300">"Her hafta sonu anneannemle hayvanat bahçesini ziyaret ederek büyüdüm. Şimdi çocuklarımı buraya getiriyorum ama eskisi gibi değil. Filler nerede? Heyecan nerede?"</p>
+                                    <p class="text-xs text-gray-500 mt-1">- Mehmet A., 42, Yerel Sakin</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-4 bg-gray-800 rounded-lg border-l-4 border-purple-500">
+                            <div class="flex items-start mb-2">
+                                <span class="material-icons text-purple-400 mr-3 mt-1">elderly</span>
+                                <div>
+                                    <p class="text-sm text-gray-300">"Uluslararası Fuar bizim dünyaya açılan penceremizdi. Yabancı heyetler, yeni teknolojiler, kültürel değişim - İzmir o zamanlar gerçekten uluslararasıydı."</p>
+                                    <p class="text-xs text-gray-500 mt-1">- Ayşe H., 68, Emekli Öğretmen</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-4 bg-gray-800 rounded-lg border-l-4 border-green-500">
+                            <div class="flex items-start mb-2">
+                                <span class="material-icons text-green-400 mr-3 mt-1">history_edu</span>
+                                <div>
+                                    <p class="text-sm text-gray-300">"Babam 30 yıl fuarda çalıştı. Her zaman Kültürpark'ın İzmir'in ekonomisinin ve kültürünün kalbi olduğunu söylerdi. O vizyona ne oldu?"</p>
+                                    <p class="text-xs text-gray-500 mt-1">- Emre K., 35, İşletme Sahibi</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="data-card">
+                    <h3 class="text-2xl font-semibold mb-6 text-orange-400">Mevcut Kullanıcı Perspektifleri</h3>
+                    <div class="space-y-4">
+                        <div class="p-4 bg-gray-800 rounded-lg border-l-4 border-yellow-500">
+                            <div class="flex items-start mb-2">
+                                <span class="material-icons text-yellow-400 mr-3 mt-1">directions_run</span>
+                                <div>
+                                    <p class="text-sm text-gray-300">"Her sabah burada koşuyorum. Ağaçlar ve yollar çok güzel ama park boş hissettiriyor, eskiden daha büyük bir şeyin kabuğu gibi."</p>
+                                    <p class="text-xs text-gray-500 mt-1">- Selin T., 28, Yazılım Geliştirici</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-4 bg-gray-800 rounded-lg border-l-4 border-red-500">
+                            <div class="flex items-start mb-2">
+                                <span class="material-icons text-red-400 mr-3 mt-1">family_restroom</span>
+                                <div>
+                                    <p class="text-sm text-gray-300">"Geçen ay burada aile pikniği yapmaya çalıştık ama çocukların oynayabileceği iyi bir yer yok. Eski hayvanat bahçesi alanı sadece... boş bir alan."</p>
+                                    <p class="text-xs text-gray-500 mt-1">- Fatma S., 31, İki Çocuk Annesi</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-4 bg-gray-800 rounded-lg border-l-4 border-cyan-500">
+                            <div class="flex items-start mb-2">
+                                <span class="material-icons text-cyan-400 mr-3 mt-1">theater_comedy</span>
+                                <div>
+                                    <p class="text-sm text-gray-300">"Açıkhava tiyatrosu hala iyi konserlere ev sahipliği yapıyor ama organizasyon berbat. Premium koltuk aldık ve sahne düzeni yüzünden hiçbir şey göremedik."</p>
+                                    <p class="text-xs text-gray-500 mt-1">- Ali R., 45, Konser Katılımcısı</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="data-card mb-8">
+                <h3 class="text-2xl font-semibold mb-6 text-pink-400">Turizm Sektörü Endişeleri</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="p-4 bg-gray-800 rounded-lg">
+                        <div class="flex items-center mb-3">
+                            <span class="material-icons text-pink-400 mr-3">tour</span>
+                            <h4 class="font-semibold">Tur Rehberi Perspektifi</h4>
+                        </div>
+                        <p class="text-sm text-gray-300 mb-2">
+                            "Yabancı turistler Kültürpark'ın önemini soruyor ama onlara ne gösterebilirim? 
+                            Birkaç müze ve boş pavyonlar mı? Park, ilgi çekici anlatısını kaybetti."
+                        </p>
+                        <p class="text-xs text-gray-500">- Profesyonel tur rehberi, İzmir Merkez</p>
+                    </div>
+                    <div class="p-4 bg-gray-800 rounded-lg">
+                        <div class="flex items-center mb-3">
+                            <span class="material-icons text-pink-400 mr-3">business</span>
+                            <h4 class="font-semibold">Otel Müdürü Görüşü</h4>
+                        </div>
+                        <p class="text-sm text-gray-300 mb-2">
+                            "Misafirler eskiden Uluslararası Fuar için konaklamalarını uzatırlardı. Şimdi 
+                            Kültürpark'ı en fazla 2-3 saat ziyaret ediyorlar. Artık bir destinasyon değil, sadece bir uğrak yeri."
+                        </p>
+                        <p class="text-xs text-gray-500">- Alsancak yakınında butik otel</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="data-card">
+                <h3 class="text-2xl font-semibold mb-6 text-violet-400">Kuşak Farkı</h3>
+                <div class="grid grid-cols-3 gap-6">
+                    <div class="text-center">
+                        <div class="w-24 h-24 bg-gradient-to-br from-green-500 to-blue-500 rounded-full mx-auto mb-4 flex items-center justify-center">
+                            <span class="text-2xl font-bold">60+</span>
+                        </div>
+                        <h4 class="font-semibold mb-2">Altın Çağ Kuşağı</h4>
+                        <p class="text-sm text-gray-400">Kültürpark'ın uluslararası görkemli günlerini hatırlıyorlar. Mevcut durumdan derin üzüntü duyuyorlar.</p>
+                        <div class="text-xs text-green-400 mt-2">%85 orijinal vizyonun restorasyonunu istiyor</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-24 h-24 bg-gradient-to-br from-yellow-500 to-orange-500 rounded-full mx-auto mb-4 flex items-center justify-center">
+                            <span class="text-2xl font-bold">30-50</span>
+                        </div>
+                        <h4 class="font-semibold mb-2">Geçiş Kuşağı</h4>
+                        <p class="text-sm text-gray-400">Her iki döneme de tanık oldular. Kaybedilen fırsatlardan dolayı hayal kırıklığına uğramış durumdalar ama hala yenilenme umutları var.</p>
+                        <div class="text-xs text-yellow-400 mt-2">%70 büyük yenileme planlarını destekliyor</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-24 h-24 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full mx-auto mb-4 flex items-center justify-center">
+                            <span class="text-2xl font-bold">18-30</span>
+                        </div>
+                        <h4 class="font-semibold mb-2">Dijital Kuşak</h4>
+                        <p class="text-sm text-gray-400">Modern bir kültür merkezi potansiyeli görüyorlar ancak parkın tarihine duygusal bir bağları yok.</p>
+                        <div class="text-xs text-purple-400 mt-2">%60 tamamen yeniden tasarlanmasını tercih ediyor</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 06: Battle for the Future -->
+    <section id="future" class="section">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-5xl font-bold mb-12">Kültürpark'ın Ruhu İçin Savaş</h2>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+                <div class="data-card">
+                    <h3 class="text-2xl font-semibold mb-6 text-cyan-400">İleriye Yönelik Yollar</h3>
+                    <div class="space-y-4">
+                        <div class="border-l-4 border-green-500 pl-4 py-2">
+                            <h4 class="font-semibold text-lg mb-1 text-green-400">Kültürel Rönesans</h4>
+                            <p class="text-sm text-gray-300">Kültürpark'ı, Cumhuriyet mirasını onurlandıran yeni müzeler, uluslararası sergiler ve yıl boyu süren festivallerle Türkiye'nin önde gelen kültür destinasyonu olarak restore etmek.</p>
+                            <div class="text-xs text-green-400 mt-2">Destek: Miras grupları, kültür örgütleri</div>
+                        </div>
+                        <div class="border-l-4 border-blue-500 pl-4 py-2">
+                            <h4 class="font-semibold text-lg mb-1 text-blue-400">Yeşil İnovasyon Merkezi</h4>
+                            <p class="text-sm text-gray-300">Yeşil alanları korurken eko-teknoloji gösterileri, kentsel tarım ve iklim araştırma tesisleriyle sürdürülebilirlik vitrinine dönüştürmek.</p>
+                            <div class="text-xs text-blue-400 mt-2">Destek: Çevre grupları, teknoloji sektörü</div>
+                        </div>
+                        <div class="border-l-4 border-purple-500 pl-4 py-2">
+                            <h4 class="font-semibold text-lg mb-1 text-purple-400">Karma Gelişim</h4>
+                            <p class="text-sm text-gray-300">Kültürel korumayı modern olanaklarla birleştiren, finansal sürdürülebilirliği sağlamak için seçici ticari gelişimi de içeren dengeli bir yaklaşım.</p>
+                            <div class="text-xs text-purple-400 mt-2">Destek: Belediye yetkilileri, iş dünyası</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="data-card">
+                    <h3 class="text-2xl font-semibold mb-6 text-pink-400">Paydaş Pozisyonları</h3>
+                    <div class="space-y-4">
+                        <div class="p-4 bg-gray-800 rounded-lg">
+                            <div class="flex justify-between items-center mb-2">
+                                <h4 class="font-semibold text-green-400">Miras Koruyucuları</h4>
+                                <span class="text-sm bg-green-900 px-2 py-1 rounded">Güçlü</span>
+                            </div>
+                            <p class="text-sm text-gray-300">Koruma altındaki statüye sıkı sıkıya bağlı kalınmasını ve orijinal kültürel işlevlerin restore edilmesini talep ediyorlar.</p>
+                        </div>
+                        <div class="p-4 bg-gray-800 rounded-lg">
+                            <div class="flex justify-between items-center mb-2">
+                                <h4 class="font-semibold text-blue-400">Belediye Yönetimi</h4>
+                                <span class="text-sm bg-blue-900 px-2 py-1 rounded">Pragmatik</span>
+                            </div>
+                            <p class="text-sm text-gray-300">Kontrollü gelişim yoluyla koruma ve ekonomik sürdürülebilirlik arasında denge arıyor.</p>
+                        </div>
+                        <div class="p-4 bg-gray-800 rounded-lg">
+                            <div class="flex justify-between items-center mb-2">
+                                <h4 class="font-semibold text-orange-400">İş Çıkarları</h4>
+                                <span class="text-sm bg-orange-900 px-2 py-1 rounded">Gelişim</span>
+                            </div>
+                            <p class="text-sm text-gray-300">Bölgeyi ekonomik olarak canlandırmak için ticari fırsatlar için baskı yapıyorlar.</p>
+                        </div>
+                        <div class="p-4 bg-gray-800 rounded-lg">
+                            <div class="flex justify-between items-center mb-2">
+                                <h4 class="font-semibold text-purple-400">Meslek Odaları</h4>
+                                <span class="text-sm bg-purple-900 px-2 py-1 rounded">Muhalefet</span>
+                            </div>
+                            <p class="text-sm text-gray-300">Mimari ve çevresel bütünlüğü tehlikeye atan gelişim projelerine aktif olarak direniyorlar.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="data-card mb-8">
+                <h3 class="text-2xl font-semibold mb-6 text-yellow-400">Önümüzdeki Kritik Kararlar</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="text-center p-4 bg-red-900 rounded-lg">
+                        <div class="text-2xl font-bold text-red-400 mb-2">2025</div>
+                        <h4 class="font-semibold mb-2 text-red-200">Yeraltı Otoparkı Çözümü</h4>
+                        <p class="text-sm text-red-100">Tartışmalı genişletme planları hakkında nihai mahkeme kararlarının beklenmesi</p>
+                    </div>
+                    <div class="text-center p-4 bg-blue-900 rounded-lg">
+                        <div class="text-2xl font-bold text-blue-400">2026</div>
+                        <h4 class="font-semibold mb-2 text-blue-200">Ana Plan Gözden Geçirmesi</h4>
+                        <p class="text-sm text-blue-100">Kapsamlı gelişim stratejisinin kesinleştirilmesi gerekiyor</p>
+                    </div>
+                    <div class="text-center p-4 bg-green-900 rounded-lg">
+                        <div class="text-2xl font-bold text-green-400">2036</div>
+                        <h4 class="font-semibold mb-2 text-green-200">Yüzüncü Yıl Vizyonu</h4>
+                        <p class="text-sm text-green-100">100. yıl dönümü net bir uzun vadeli yön gerektiriyor</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-12 text-center">
+                <div class="data-card inline-block max-w-4xl">
+                    <h3 class="text-3xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400">
+                        Hakikat Anı
+                    </h3>
+                    <p class="text-lg text-gray-300 leading-relaxed mb-6">
+                        İzmir bir yol ayrımında duruyor. Büyük Yangın'ın küllerinden doğan, Cumhuriyet idealleriyle beslenen 
+                        ve Türkiye'nin dünyaya açılan penceresi olarak kutlanan Kültürpark, şimdi en büyük varoluşsal kriziyle 
+                        karşı karşıya. Önümüzdeki birkaç yıl içinde alınacak kararlar, bu 89 yıllık kültürel hazinenin 
+                        İzmir'in atan kalbi olarak hak ettiği yeri geri alıp almayacağını ya da kent planlama tarihinin bir dipnotuna 
+                        dönüşüp dönüşmeyeceğini belirleyecek.
+                    </p>
+                    <div class="p-6 bg-gradient-to-r from-red-900 via-orange-900 to-yellow-900 rounded-lg mb-6">
+                        <p class="text-white font-semibold mb-2">Dr. Behçet Uz'un Modern İzmir'e Meydan Okuması:</p>
+                        <p class="text-gray-100 italic">
+                            "Bu parkı dünyaya Türkiye'nin kültürel gelişmişliğini ve uluslararası hedeflerini göstermek için inşa ettik. 
+                            Şimdi onlara ne göstereceksiniz?"
+                        </p>
+                    </div>
+                    <div class="flex justify-center space-x-4">
+                        <button class="px-8 py-3 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-lg font-semibold text-white hover:from-cyan-600 hover:to-blue-600 transition-all">
+                            Tartışmaya Katıl
+                        </button>
+                        <button class="px-8 py-3 bg-gray-700 rounded-lg font-semibold text-white hover:bg-gray-600 transition-all">
+                            Hikayeni Paylaş
+                        </button>
+                    </div>
+                    <div class="mt-6 text-sm text-gray-400">
+                        <p>Kültürpark'ın altın günlerinden anılarınız mı var? Çöküşüne tanık mı oldunuz? Geleceği için fikirleriniz mi var?</p>
+                        <p>Araştırma ekibimizle iletişime geçin: fcomm@yasar.edu.tr</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer class="bg-gray-900 border-t border-gray-800 py-8 mt-20">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div>
+                    <h4 class="text-lg font-semibold mb-4 text-yellow-400">Araştırma Ekibi</h4>
+                    <p class="text-sm text-gray-400">Journalism Studio Özel Raporu<br/>Mayıs 2025</p>
+                </div>
+                <div>
+                    <h4 class="text-sm font-semibold mb-3 text-gray-300">Kaynaklar</h4>
+                    <ul class="text-xs text-gray-500 space-y-1">
+                        <li>Turkish Journal of Sense of Place</li>
+                        <li>İzmir Büyükşehir Belediyesi</li>
+                        <li>Halk Şikayetleri Veritabanı</li>
+                        <li>Akademik Araştırma Arşivleri</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-sm font-semibold mb-3 text-gray-300">Metodoloji</h4>
+                    <ul class="text-xs text-gray-500 space-y-1">
+                        <li>Belge analizi</li>
+                        <li>Paydaş görüşmeleri</li>
+                        <li>Tarihsel araştırma</li>
+                        <li>Kamuoyu anketleri</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-sm font-semibold mb-3 text-gray-300">İletişim</h4>
+                    <p class="text-xs text-gray-500">
+                        Journalism Studio Araştırmaları<br/>
+                        fcomm@yasar.edu.tr<br/>
+                        +90 232 XXX XXXX
+                    </p>
+                </div>
+            </div>
+            <div class="mt-8 pt-8 border-t border-gray-800 text-center">
+                <p class="text-xs text-gray-500">
+                    © 2025 Journalism Studio Araştırma Ekibi. Bu rapor, İzmir'de kent yaşamı üzerine devam eden haber serimizin bir parçasıdır. 
+                    Tüm kaynaklar doğrulanmış ve gerçeklik kontrolü yapılmıştır.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Navigation functionality
+        function scrollToSection(sectionId) {
+            const section = document.getElementById(sectionId);
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => item.classList.remove('active'));
+            
+            const targetNavItem = Array.from(navItems).find(item => {
+                const onclickAttr = item.getAttribute('onclick');
+                return onclickAttr && onclickAttr.includes(`scrollToSection('${sectionId}')`);
+            });
+            if (targetNavItem) {
+                targetNavItem.classList.add('active');
+            }
+            
+            section.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        const sections = document.querySelectorAll('section');
+        const navItemsGlobal = document.querySelectorAll('.nav-item');
+
+        const observerOptions = {
+            root: null,
+            rootMargin: '-40% 0px -40% 0px', 
+            threshold: 0
+        };
+
+        const sectionObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const sectionId = entry.target.id;
+                    navItemsGlobal.forEach((item) => {
+                        const onclickAttr = item.getAttribute('onclick');
+                        if (onclickAttr && onclickAttr.includes(`scrollToSection('${sectionId}')`)) {
+                            item.classList.add('active');
+                        } else {
+                            item.classList.remove('active');
+                        }
+                    });
+                }
+            });
+        }, observerOptions);
+
+        sections.forEach(section => {
+            sectionObserver.observe(section);
+        });
+
+        const progressBars = document.querySelectorAll('.progress-fill');
+        const progressObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const bar = entry.target;
+                    const targetWidth = bar.style.width; 
+                    bar.style.width = '0%'; 
+                    setTimeout(() => { bar.style.width = targetWidth; }, 100); 
+                    observer.unobserve(bar); 
+                }
+            });
+        }, { threshold: 0.5 });
+
+        progressBars.forEach(bar => {
+            progressObserver.observe(bar);
+        });
+
+        function animateValue(element, start, end, duration) {
+            if (start === end && element) {
+                element.textContent = end.toLocaleString('tr-TR'); // Use Turkish locale for numbers
+                return;
+            }
+            const range = end - start;
+            let current = start;
+            const increment = end > start ? 1 : -1;
+            
+            const timer = setInterval(() => {
+                if (!element) { 
+                     clearInterval(timer);
+                     return;
+                }
+                const step = Math.max(1, Math.floor(Math.abs(range / (duration / 16)))); 
+                current += increment * step;
+                
+                if ((increment === 1 && current >= end) || (increment === -1 && current <= end)) {
+                    current = end;
+                    clearInterval(timer);
+                }
+                element.textContent = Math.floor(current).toLocaleString('tr-TR'); // Use Turkish locale
+                 if (current === end) clearInterval(timer);
+            }, 16); 
+        }
+
+        const dataCards = document.querySelectorAll('.data-card');
+        dataCards.forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.transform = 'translateY(-4px)';
+                card.style.boxShadow = '0 10px 25px rgba(0,0,0,0.3)';
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'translateY(0)';
+                card.style.boxShadow = 'none';
+            });
+        });
+
+        const timelineItems = document.querySelectorAll('.timeline-item');
+        const timelineObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateX(0)';
+                }
+            });
+        }, { threshold: 0.3 });
+
+        timelineItems.forEach(item => {
+            item.style.opacity = '0';
+            item.style.transform = 'translateX(-20px)';
+            item.style.transition = 'all 0.6s ease';
+            timelineObserver.observe(item);
+        });
+
+        const mainTitle = document.querySelector('#summary h1'); 
+        if (mainTitle) {
+            const text = mainTitle.textContent;
+            mainTitle.innerHTML = ''; 
+            text.split('').forEach((char, i) => {
+                const span = document.createElement('span');
+                span.textContent = char;
+                if (char === ' ') {
+                    span.style.display = 'inline'; 
+                } else {
+                    span.style.animationDelay = `${i * 0.05}s`;
+                    span.classList.add('animate-fade-in');
+                }
+                mainTitle.appendChild(span);
+            });
+
+            if (!document.getElementById('fade-in-char-style')) {
+                const style = document.createElement('style');
+                style.id = 'fade-in-char-style';
+                style.textContent = `
+                    .animate-fade-in {
+                        opacity: 0;
+                        display: inline-block; 
+                        animation: fadeInChar 0.5s ease forwards;
+                    }
+                    @keyframes fadeInChar {
+                        to { opacity: 1; }
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+        }
+
+        const flowPaths = document.querySelectorAll('.flow-path');
+        flowPaths.forEach((path, index) => {
+            const originalStrokeWidth = path.style.strokeWidth || '40'; 
+            const originalOpacity = path.style.opacity || (index === 0 ? '0.6' : index === 1 ? '0.4' : '0.3');
+
+            path.addEventListener('mouseenter', () => {
+                path.style.strokeWidth = parseFloat(originalStrokeWidth) + 10 + 'px'; 
+                path.style.opacity = '1';
+            });
+            
+            path.addEventListener('mouseleave', () => {
+                path.style.strokeWidth = originalStrokeWidth;
+                path.style.opacity = originalOpacity;
+            });
+        });
+
+        const fadeElements = document.querySelectorAll('.data-card'); 
+        const fadeObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                    observer.unobserve(entry.target); 
+                }
+            });
+        }, { threshold: 0.1 });
+
+        fadeElements.forEach(element => {
+            if (!element.classList.contains('timeline-item')) { 
+                element.style.opacity = '0';
+                element.style.transform = 'translateY(20px)';
+                element.style.transition = 'all 0.8s ease-out'; 
+                fadeObserver.observe(element);
+            }
+        });
+        
+        const statNumbers = document.querySelectorAll('.text-3xl.font-bold, .text-cyan-400.font-bold, .text-green-400.font-bold'); 
+        const statObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && !entry.target.dataset.animated) {
+                    entry.target.dataset.animated = 'true';
+                    const textContent = entry.target.textContent.replace(/,|\%|\+/g, '').trim(); 
+                    const finalValue = parseFloat(textContent);
+                    
+                    if (!isNaN(finalValue) && finalValue > 0) { 
+                        animateValue(entry.target, 0, finalValue, 1500);
+                    } else {
+                         entry.target.textContent = textContent; 
+                    }
+                }
+            });
+        }, { threshold: 0.5 });
+
+        statNumbers.forEach(stat => {
+            const textContent = stat.textContent.replace(/,|\%|\+/g, '').trim();
+            if (!isNaN(parseFloat(textContent))) {
+                 statObserver.observe(stat);
+            }
+        });
+
+        const subtitleText = document.querySelector('.subtitle-text');
+        if (subtitleText) {
+            const originalText = subtitleText.innerHTML.replace(/<br\s*\/?>/gi, '\n'); 
+            subtitleText.innerHTML = ''; 
+            
+            setTimeout(() => {
+                let i = 0;
+                const typeInterval = setInterval(() => {
+                    if (i < originalText.length) {
+                        if (originalText.charAt(i) === '\n') {
+                            subtitleText.innerHTML += '<br>';
+                        } else {
+                            subtitleText.innerHTML += originalText.charAt(i);
+                        }
+                        i++;
+                    } else {
+                        clearInterval(typeInterval);
+                    }
+                }, 100);
+            }, 2000); 
+        }
+
+        const buttons = document.querySelectorAll('button, .icon-button'); 
+        buttons.forEach(button => {
+            button.addEventListener('click', (e) => {
+                const existingRipple = button.querySelector('.ripple');
+                if(existingRipple) existingRipple.remove();
+
+                const ripple = document.createElement('span');
+                const rect = button.getBoundingClientRect();
+                const size = Math.max(rect.width, rect.height);
+                const x = e.clientX - rect.left - size / 2;
+                const y = e.clientY - rect.top - size / 2;
+                
+                ripple.style.width = ripple.style.height = size + 'px';
+                ripple.style.left = x + 'px';
+                ripple.style.top = y + 'px';
+                ripple.classList.add('ripple');
+                
+                if (getComputedStyle(button).position === 'static') {
+                    button.style.position = 'relative';
+                }
+                button.appendChild(ripple);
+                
+                setTimeout(() => {
+                    ripple.remove();
+                }, 600);
+            });
+        });
+
+        if (!document.getElementById('ripple-effect-style')) {
+            const rippleStyle = document.createElement('style');
+            rippleStyle.id = 'ripple-effect-style';
+            rippleStyle.textContent = `
+                button, .icon-button { 
+                    position: relative;
+                    overflow: hidden;
+                }
+                .ripple {
+                    position: absolute;
+                    border-radius: 50%;
+                    background: rgba(255, 255, 255, 0.3);
+                    transform: scale(0);
+                    animation: ripple-animation 0.6s linear;
+                    pointer-events: none; 
+                }
+                @keyframes ripple-animation {
+                    to {
+                        transform: scale(4);
+                        opacity: 0;
+                    }
+                }
+            `;
+            document.head.appendChild(rippleStyle);
+        }
+
+        const urgentElements = document.querySelectorAll('.urgent-banner');
+        urgentElements.forEach(element => {
+            let hue = 0; 
+            setInterval(() => {
+                hue = (hue + 0.5) % 30; 
+                element.style.background = `linear-gradient(135deg, hsl(${hue}, 80%, 48%), hsl(${hue + 5}, 85%, 45%))`;
+            }, 100);
+        });
+
+        document.addEventListener('keydown', (e) => {
+            const navContainer = document.querySelector('.fixed.top-0 .grid');
+            if (navContainer && (e.key === 'ArrowRight' || e.key === 'ArrowLeft') && navContainer.contains(document.activeElement)) {
+                e.preventDefault(); 
+                const navItems = Array.from(document.querySelectorAll('.nav-item'));
+                const activeNav = document.activeElement.closest('.nav-item') || document.querySelector('.nav-item.active');
+                
+                if (activeNav) {
+                    const currentIndex = navItems.indexOf(activeNav);
+                    let nextIndex;
+                    
+                    if (e.key === 'ArrowRight') {
+                        nextIndex = (currentIndex + 1) % navItems.length;
+                    } else { 
+                        nextIndex = (currentIndex - 1 + navItems.length) % navItems.length;
+                    }
+                    navItems[nextIndex].focus(); 
+                } else if (navItems.length > 0) {
+                     navItems[0].focus(); 
+                }
+            }
+        });
+
+        const focusableElements = document.querySelectorAll('button, .nav-item, .icon-button, a[href]');
+        focusableElements.forEach(element => {
+            element.addEventListener('focus', () => {
+                element.style.outline = '2px solid #fbbf24'; 
+                element.style.outlineOffset = '2px';
+            });
+            
+            element.addEventListener('blur', () => {
+                element.style.outline = 'none';
+            });
+            if (element.classList.contains('nav-item') && !element.hasAttribute('tabindex')) {
+                element.setAttribute('tabindex', '0');
+                element.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        element.click();
+                    }
+                });
+            }
+        });
+        
+        // Parallax effect for the SVG in the summary section
+        window.addEventListener('scroll', () => {
+            const summarySection = document.getElementById('summary');
+            if (!summarySection) return;
+
+            const summarySvg = summarySection.querySelector('svg.absolute.inset-0'); 
+            
+            if (summarySvg) {
+                const scrolled = window.pageYOffset;
+                const speed = 0.4; 
+
+                const sectionRect = summarySection.getBoundingClientRect();
+
+                if (sectionRect.bottom > 0 && sectionRect.top < window.innerHeight) {
+                    const parallaxOffset = scrolled * speed;
+                    summarySvg.style.transform = `translateY(${parallaxOffset}px)`;
+                } 
+            }
+        });
+
+        console.log('İzmir Kültürpark Araştırması başarıyla yüklendi');
+        console.log('Etkileşimli özellikler: Navigasyon, animasyonlar, erişilebilirlik geliştirmeleri aktif');
+    </script>
+</body>
+</html>
