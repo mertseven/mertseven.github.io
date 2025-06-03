@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Curriculum Whiteboard - Lecturers & Workload</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <button id="sidebarToggle" title="Toggle Toolbar">☰</button>
+
+    <div id="sidebar">
+        <div id="main-controls">
+            <div class="control-section">
+                <h4>Course Actions (for selected)</h4>
+                <button id="editCourseButton" disabled>Edit Selected Course</button>
+                <button id="compareButton" disabled>Compare (<span id="comparisonCount">0</span>)</button>
+            </div>
+
+            <div class="control-section">
+                <h4>Course Properties (for selected)</h4>
+                <label for="courseColor">Color:</label>
+                <input type="color" id="courseColor" value="#e0e0e0">
+                <label for="courseTagsInput">Tag:</label>
+                <input type="text" id="courseTagsInput" placeholder="e.g., 'core'">
+                <button id="addTagButton">Add Tag</button>
+                <div id="newTagCategoryPrompt" style="display:none; margin-top: 10px; padding: 8px; background-color: #4a6278; border-radius: 3px;">
+                    <label for="newTagCategorySelect" style="font-size: 0.85em;">Category for new tag '<span id="newTagNameDisplay"></span>':</label>
+                    <select id="newTagCategorySelect" style="width: 100%; margin-bottom: 5px; padding: 6px; background-color: #5d7a93; color: #ecf0f1; border: 1px solid #4a6278;">
+                        <!-- Options will be populated by JS -->
+                    </select>
+                    <button id="confirmNewTagCategoryButton" class="small-confirm-button">Confirm & Add</button>
+                    <button id="cancelNewTagCategoryButton" class="small-cancel-button">Cancel</button>
+                </div>
+            </div>
+
+            <div class="control-section">
+                <h4>Add New Course</h4>
+                <input type="text" id="newCourseCode" placeholder="Code (e.g., NMC100)">
+                <input type="text" id="newCourseName" placeholder="Course Name">
+                <input type="number" id="newCourseEcts" placeholder="ECTS (e.g., 5)">
+                <input type="text" id="newCourseHours" placeholder="Hours (e.g., 2T+2P or 4)">
+                <input type="text" id="newCourseLecturer" placeholder="Lecturer Name">
+                <textarea id="newCourseSyllabus" placeholder="Syllabus..."></textarea>
+                <button id="addNewCourseButton">Add New Course</button>
+            </div>
+
+            <div class="control-section">
+                <h4>View Options</h4>
+                <input type="text" id="searchInput" placeholder="Search by code, name, tag...">
+            </div>
+
+            <div class="control-section">
+                <h4>Visualizations</h4>
+                <button id="viewTagNetworkButton">View Tag Network Graph (D3)</button>
+            </div>
+
+            <div class="control-section">
+                <h4>Lecturer Workload</h4>
+                <button id="viewWorkloadButton">View/Refresh Workload</button>
+            </div>
+
+            <div class="control-section">
+                <h4>Data Management</h4>
+                <button id="exportCurriculumTsvButton">Export Curriculum (CSV)</button>
+                <button id="exportWorkloadCsvButton" disabled>Export Workload (CSV)</button>
+                <button id="importTagsButton">Import Tags (CSV)</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="app-container">
+        <header>
+            <h1>Curriculum Whiteboard - New Media & Communication</h1>
+            <p>Drag to re-arrange. Click for edit options. Ctrl/Cmd+Click to select for comparison.</p>
+        </header>
+
+        <div id="curriculum-layout">
+            <!-- Semester zones -->
+            <div class="category-zone" id="category-semester-1" data-category-name="Semester 1"><h2>Semester 1</h2><div class="course-list"></div><div class="semester-footer">Total ECTS: <span class="total-ects">0</span></div></div>
+            <div class="category-zone" id="category-semester-2" data-category-name="Semester 2"><h2>Semester 2</h2><div class="course-list"></div><div class="semester-footer">Total ECTS: <span class="total-ects">0</span></div></div>
+            <div class="category-zone" id="category-semester-3" data-category-name="Semester 3"><h2>Semester 3</h2><div class="course-list"></div><div class="semester-footer">Total ECTS: <span class="total-ects">0</span></div></div>
+            <div class="category-zone" id="category-semester-4" data-category-name="Semester 4"><h2>Semester 4</h2><div class="course-list"></div><div class="semester-footer">Total ECTS: <span class="total-ects">0</span></div></div>
+            <div class="category-zone" id="category-semester-5" data-category-name="Semester 5"><h2>Semester 5</h2><div class="course-list"></div><div class="semester-footer">Total ECTS: <span class="total-ects">0</span></div></div>
+            <div class="category-zone" id="category-semester-6" data-category-name="Semester 6"><h2>Semester 6</h2><div class="course-list"></div><div class="semester-footer">Total ECTS: <span class="total-ects">0</span></div></div>
+            <div class="category-zone" id="category-semester-7" data-category-name="Semester 7"><h2>Semester 7</h2><div class="course-list"></div><div class="semester-footer">Total ECTS: <span class="total-ects">0</span></div></div>
+            <div class="category-zone" id="category-semester-8" data-category-name="Semester 8"><h2>Semester 8</h2><div class="course-list"></div><div class="semester-footer">Total ECTS: <span class="total-ects">0</span></div></div>
+            <div class="category-zone" id="category-uncategorized" data-category-name="Uncategorized / Pool"><h2>Uncategorized / Pool</h2><div class="course-list"></div><div class="semester-footer">Total ECTS: <span class="total-ects">0</span></div></div>
+        </div>
+    </div>
+
+    <div id="edit-course-modal" class="modal"><div class="modal-content"><span class="close-button" id="closeEditModal">×</span><h2>Edit Course</h2><input type="hidden" id="editCourseId"><label for="editCourseCodeModal">Code:</label><input type="text" id="editCourseCodeModal"><label for="editCourseNameModal">Name:</label><input type="text" id="editCourseNameModal"><label for="editCourseEctsModal">ECTS:</label><input type="number" id="editCourseEctsModal"><label for="editCourseHoursModal">Hours:</label><input type="text" id="editCourseHoursModal"><label for="editCourseLecturerModal">Lecturer:</label><input type="text" id="editCourseLecturerModal"><label for="editCourseSyllabusModal">Syllabus:</label><textarea id="editCourseSyllabusModal"></textarea><button id="saveCourseChangesButton">Save Changes</button></div></div>
+    <div id="syllabus-modal" class="modal"><div class="modal-content"><span class="close-button" id="closeCompareModal">×</span><h2>Syllabus Comparison</h2><div id="syllabus-comparison-area"></div></div></div>
+    <div id="workload-modal" class="modal"><div class="modal-content large"><span class="close-button" id="closeWorkloadModal">×</span><h2>Lecturer Workload</h2><div id="workload-table-container"><p>Click "View/Refresh Workload" in the sidebar to generate the table.</p></div></div></div>
+
+    <div id="tag-network-modal" class="modal d3-network-modal">
+        <div class="modal-content large d3-modal-content">
+            <div class="d3-visualization-area">
+                <div class="d3-controls-panel">
+                    <span class="close-button" id="closeTagNetworkModalD3">×</span>
+                    <h2>Network Controls</h2>
+                    <div class="d3-search-container"><input type="text" id="d3-search-input" placeholder="Search nodes..."><button id="d3-search-button">Search</button></div>
+                    
+                    <div class="d3-control-parameters collapsible expanded">
+                        <div class="d3-control-header"><h3>Visualization Parameters</h3><button class="d3-toggle-button">▲</button></div>
+                        <div class="d3-control-content">
+                            <div class="d3-parameter-group"><label for="d3-link-distance">Link Distance:</label><input type="range" id="d3-link-distance" min="30" max="300" step="10" value="100"></div>
+                            <div class="d3-parameter-group"><label for="d3-charge-strength">Repulsion Force:</label><input type="range" id="d3-charge-strength" min="-1000" max="-50" step="50" value="-300"></div>
+                            <div class="d3-parameter-group"><label for="d3-node-size-factor">Node Size Factor:</label><input type="range" id="d3-node-size-factor" min="0.5" max="3" step="0.1" value="1"></div>
+                            <div class="d3-parameter-group"><label for="d3-link-strength">Link Strength:</label><input type="range" id="d3-link-strength" min="0.1" max="1" step="0.1" value="0.3"></div>
+                        </div>
+                    </div>
+
+                    <div class="d3-tag-link-parameters collapsible"> <!-- New Collapsible for Tag Links -->
+                        <div class="d3-control-header"><h3>Tag Link Parameters</h3><button class="d3-toggle-button">▼</button></div>
+                        <div id="d3-tag-links-control-content" class="d3-control-content">
+                            <div class="d3-parameter-group">
+                                <input type="checkbox" id="d3-toggle-tag-links">
+                                <label for="d3-toggle-tag-links">Show Tag Co-occurrence Links</label>
+                            </div>
+                            <div class="d3-parameter-group">
+                                <label for="d3-min-cooccurrence">Min. Shared Courses for Tag Link:</label>
+                                <input type="number" id="d3-min-cooccurrence" value="2" min="1" disabled>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d3-category-filters"><h3>Filter by Type/Category</h3><div id="d3-category-filter-buttons"></div><button class="d3-reset-button" id="d3-reset-view">Reset View & Filters</button></div>
+                    <button id="d3-refresh-graph-button" class="d3-control-button" style="margin-top: 15px;">Refresh Graph</button>
+                    <button id="calculateMetricsButton" class="d3-control-button" style="margin-top: 10px; background-color: var(--neo-accent-purple);" disabled>Calculate Network Metrics</button>
+                    <div id="calculating-metrics-message" style="display:none; margin-top:10px; padding: 8px; background-color: var(--neo-accent-blue); color: var(--neo-white); text-align: center; border: 2px solid var(--neo-border); font-size:0.9em;">Calculating metrics, please wait...</div>
+                </div>
+                <svg id="d3-tag-network-graph"></svg>
+                <div class="d3-legend-panel"><h3>Legend</h3><div id="d3-legend-items"></div></div>
+                <button id="d3-info-button" class="d3-info-button">ⓘ</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="d3-popup" id="d3-node-popup"><div class="d3-popup-header"><h2 id="d3-popup-title"></h2><span class="d3-close-button" id="d3-close-popup">×</span></div><div class="d3-popup-content"><p id="d3-popup-type"></p><p id="d3-popup-category-info"></p><div id="d3-popup-description-container"><p><strong>Description/Syllabus:</strong></p><pre id="d3-popup-description"></pre></div><div id="d3-popup-details"></div><div id="d3-popup-connections"><h3>Connections:</h3><ul id="d3-connections-list"></ul></div><div id="d3-popup-metrics" style="margin-top:10px; padding-top:10px; border-top: 1px solid #ddd;"><h4 style="margin-top:0; margin-bottom: 8px; font-size: 0.95em; text-transform: uppercase;">Network Metrics:</h4><p style="margin-bottom: 5px; font-size:0.9em;"><strong>Degree:</strong> <span id="d3-metric-degree">N/A</span></p><p style="margin-bottom: 5px; font-size:0.9em;"><strong>Betweenness:</strong> <span id="d3-metric-betweenness">N/A</span></p></div><button id="d3-show-neighbor-graph-button" class="d3-control-button" style="width: calc(100% - 0px); margin-top: 15px; font-size: 0.9em; padding: 8px;">Explore Neighbors</button></div></div>
+    <div class="d3-modal-overlay" id="d3-info-overlay"><div class="d3-info-modal-content"><div class="d3-modal-header"><h2>About This Network Visualization</h2><span class="d3-close-button" id="d3-close-info-modal">×</span></div><div class="d3-modal-body"><p>This network graph visualizes relationships between courses and their assigned tags.</p><ul><li><strong>Courses</strong> are represented by one type of node.</li><li><strong>Tags</strong> are represented by another, colored by their category.</li><li>Lines indicate that a course has a particular tag. Optionally, links between co-occurring tags can be shown.</li></ul><h3>How to Use:</h3><ul><li>Click on any node to see detailed information.</li><li>Use the search box to find specific nodes.</li><li>Filter by type/category using the buttons.</li><li>Use "Tag Link Parameters" to toggle and control co-occurrence links between tags.</li><li>Click "Calculate Network Metrics" to compute centrality scores (Degree, Betweenness) for the current graph structure and view them in a sortable table. Metrics in node popups will also update.</li><li>Click "Reset View & Filters" to return to default layout, filters, and tag link settings.</li><li>Zoom with mouse wheel, pan by dragging the background.</li><li>Click "Explore Neighbors" in a node's popup to see its local network.</li></ul></div></div></div>
+    
+    <div id="neighbor-visualization-modal" class="modal"><div class="modal-content large"><span class="close-button" id="closeNeighborVisModal">×</span><h2 id="neighbor-vis-title">Local Network Neighborhood</h2><div id="neighbor-vis-controls" style="margin-bottom: 15px; padding-bottom: 10px; border-bottom: 2px solid var(--neo-border); display: flex; align-items: center; gap: 10px;"><label for="neighbor-vis-depth" style="font-weight: bold; text-transform: uppercase; font-size: 0.9em;">Depth:</label><select id="neighbor-vis-depth" style="padding: 8px; border: 2px solid var(--neo-border); background-color: var(--neo-white); font-family: var(--neo-font); border-radius: 0;"><option value="1">1st Degree</option><option value="2">2nd Degree</option><option value="3" selected>3rd Degree</option></select></div><div id="neighbor-vis-svg-container" style="width: 100%; height: 65vh; background-color: var(--neo-bg); border: 2px solid var(--neo-border); position: relative; flex-grow: 1;"></div></div></div>
+    <div id="network-metrics-modal" class="modal"><div class="modal-content large" style="height: 80vh; display: flex; flex-direction: column;"><span class="close-button" id="closeNetworkMetricsModal">×</span><h2>Network Centrality Metrics</h2><div id="metrics-table-container" style="flex-grow: 1; overflow-y: auto; border: 2px solid var(--neo-border); margin-top:15px;"></div></div></div>
+    <div id="import-tags-modal" class="modal"><div class="modal-content"><span class="close-button" id="closeImportTagsModal">×</span><h2>Import Tags (CSV Format)</h2><p>Provide data in CSV format: <code>CourseCode,Tag Name[,Tag Category]</code> (one entry per line).</p><p><small>If category is not provided or not recognized, it defaults to 'Uncategorized'.</small></p><label for="tagImportFileInput">Upload CSV/TXT File:</label><input type="file" id="tagImportFileInput" accept=".csv,.txt" style="margin-bottom: 10px; display: block;"><label for="tagImportTextarea">Or Paste CSV Data:</label><textarea id="tagImportTextarea" rows="10" placeholder="Example:&#10;COMM1120,Social Theory,Theory&#10;NMED1115,HTML,Tool&#10;COMM1130,Semiotics" style="width: 98%; margin-bottom:10px; font-family: monospace;"></textarea><button id="processTagImportButton" class="control-button">Process Import</button><div id="importTagsStatus" style="margin-top:15px; padding:10px; background-color:#f0f0f0; border:1px solid #ddd; border-radius:3px; max-height: 150px; overflow-y: auto; font-size:0.9em;">Import status will appear here.</div></div></div>
+
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

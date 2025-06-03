@@ -1,0 +1,1282 @@
+/* --- GLOBAL & NEO-BRUTALIST BASE --- */
+:root {
+    --neo-font: 'Archivo', sans-serif; /* Primary UI font */
+    --d3-font: 'Space Mono', monospace; /* Specific font for D3 elements */
+    --neo-bg: #f0f0f0;
+    --neo-text: #000000;
+    --neo-border: #000000;
+    --neo-accent-red: #ff3e3e;
+    --neo-accent-blue: #4A90E2;
+    --neo-accent-green: #2ecc71;
+    --neo-accent-purple: #9b59b6;
+    --neo-white: #ffffff;
+    --neo-dark-bg: #2c3e50;
+    --neo-light-text: #ecf0f1;
+
+    --d3-color-course: var(--neo-accent-blue);
+    --d3-border-course: #357ABD;
+    --d3-color-uncategorized-bg: #97C2FC;
+    --d3-color-uncategorized-border: #2B7CE9;
+    --d3-link-tag-tag-color: #e74c3c; /* Lighter red for tag-tag links */
+}
+
+body {
+    font-family: var(--neo-font);
+    color: var(--neo-text);
+    margin: 0;
+    background-color: var(--neo-bg);
+    line-height: 1.5;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--neo-font);
+    color: var(--neo-text);
+    text-transform: uppercase;
+    margin-top: 1.2em;
+    margin-bottom: 0.6em;
+}
+
+header h1 {
+    color: var(--neo-text); 
+    border-bottom: 3px solid var(--neo-border);
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+
+/* --- SIDEBAR STYLES (NEO-BRUTALIST) --- */
+#sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 300px;
+    background-color: var(--neo-white);
+    color: var(--neo-text);
+    padding: 20px;
+    padding-top: 70px;
+    box-sizing: border-box;
+    border-right: 3px solid var(--neo-border);
+    box-shadow: 5px 0px 0px rgba(0,0,0,0.3);
+    z-index: 100;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease-in-out;
+    overflow-y: auto;
+}
+#sidebar.expanded { transform: translateX(0); }
+
+#sidebarToggle {
+    position: fixed; left: 15px; top: 15px; z-index: 101;
+    background-color: var(--neo-accent-red);
+    color: var(--neo-white);
+    border: 2px solid var(--neo-border);
+    width: 40px; height: 40px; font-size: 1.6em; line-height: 36px;
+    text-align: center; font-weight: bold; cursor: pointer;
+    border-radius: 0;
+    box-shadow: 3px 3px 0px var(--neo-border);
+    transition: all 0.1s ease;
+}
+#sidebarToggle:hover {
+    transform: translate(1px, 1px);
+    box-shadow: 2px 2px 0px var(--neo-border);
+}
+#sidebarToggle:active {
+    transform: translate(3px, 3px);
+    box-shadow: none;
+}
+
+#main-controls { display: flex; flex-direction: column; gap: 20px; width: 100%; }
+
+.control-section {
+    background-color: var(--neo-bg);
+    padding: 15px;
+    border: 3px solid var(--neo-border);
+    border-radius: 0;
+}
+.control-section h4 {
+    margin-top: 0; margin-bottom: 15px; color: var(--neo-text);
+    border-bottom: 2px solid var(--neo-border); padding-bottom: 10px;
+    font-size: 1.1em;
+    text-transform: capitalize;
+}
+.control-section h5 {
+    margin-top: 18px;
+    margin-bottom: 12px;
+    color: var(--neo-text);
+    font-size: 1em;
+    border-top: 2px solid var(--neo-border);
+    padding-top: 12px;
+}
+.control-section label {
+    display: block; margin-bottom: 6px; font-size: 0.9em; color: var(--neo-text); font-weight: bold;
+    text-transform: uppercase;
+}
+
+.control-section > input[type="text"], 
+.control-section > input[type="number"],
+.control-section > input[type="color"],
+.control-section > textarea,
+.control-section > select,
+.control-section div > input[type="text"], 
+.control-section div > input[type="number"],
+.control-section div > input[type="color"],
+.control-section div > textarea,
+.control-section div > select {
+    width: calc(100% - 10px);
+    padding: 10px; margin-bottom: 12px;
+    background-color: var(--neo-white);
+    color: var(--neo-text);
+    border: 2px solid var(--neo-border);
+    border-radius: 0;
+    box-sizing: border-box;
+    font-family: var(--neo-font);
+    font-size: 0.9em;
+}
+.control-section > input[type="color"],
+.control-section div > input[type="color"] {
+    height: 42px;
+    padding: 4px;
+}
+.control-section > textarea,
+.control-section div > textarea { min-height: 80px; }
+
+.control-section > input::placeholder, .control-section > textarea::placeholder,
+.control-section div > input::placeholder, .control-section div > textarea::placeholder {
+    color: #777;
+    font-family: var(--neo-font);
+}
+
+.control-section > input[type="number"]:disabled,
+.control-section div > input[type="number"]:disabled {
+    background-color: #ccc;
+    color: #888;
+    cursor: not-allowed;
+    border-color: #aaa;
+}
+
+#sidebar .control-section > button,
+#sidebar #import-tags-modal .modal-content button.control-button {
+    background-color: var(--neo-accent-blue);
+    color: var(--neo-white);
+    border: 2px solid var(--neo-border);
+    padding: 10px 15px;
+    border-radius: 0;
+    cursor: pointer;
+    transition: all 0.1s ease;
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 5px;
+    font-family: var(--neo-font);
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 0.9em;
+    box-shadow: 3px 3px 0px var(--neo-border);
+}
+#sidebar .control-section > button:hover,
+#sidebar #import-tags-modal .modal-content button.control-button:hover {
+    background-color: #357ABD;
+    transform: translate(1px, 1px);
+    box-shadow: 2px 2px 0px var(--neo-border);
+}
+#sidebar .control-section > button:active,
+#sidebar #import-tags-modal .modal-content button.control-button:active {
+    transform: translate(3px, 3px);
+    box-shadow: none;
+}
+#sidebar .control-section > button:disabled {
+    background-color: #aaa;
+    color: #ddd;
+    border-color: #888;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+/* Specific Sidebar Button Colors */
+#sidebar #addTagButton { background-color: var(--neo-accent-purple); }
+#sidebar #addTagButton:hover { background-color: #8e44ad; }
+#sidebar #addNewCourseButton { background-color: var(--neo-accent-green); }
+#sidebar #addNewCourseButton:hover { background-color: #27ae60; }
+
+
+#sidebar .control-section div input[type="checkbox"] {
+    vertical-align: middle;
+    margin-right: 5px;
+    margin-bottom: 10px;
+    appearance: none;
+    -webkit-appearance: none;
+    background-color: var(--neo-white);
+    border: 2px solid var(--neo-border);
+    width: 18px;
+    height: 18px;
+    position: relative;
+    cursor: pointer;
+}
+#sidebar .control-section div input[type="checkbox"]:checked {
+    background-color: var(--neo-text);
+}
+#sidebar .control-section div input[type="checkbox"]:checked::after {
+    content: '✔';
+    font-size: 12px;
+    color: var(--neo-white);
+    position: absolute;
+    left: 2px;
+    top: -1px;
+}
+
+#sidebar .control-section div label[for^="graphDisablePhysics"],
+#sidebar .control-section div label[for^="graphToggleTagToTagEdges"] {
+    display: inline;
+    margin-left: 5px;
+    margin-bottom: 0;
+    font-weight: normal;
+    color: var(--neo-text);
+    text-transform: none;
+}
+
+#sidebar .control-section button.small-confirm-button,
+#sidebar .control-section button.small-cancel-button {
+    background-color: var(--neo-accent-green);
+    padding: 6px 12px;
+    width: auto;
+    font-size: 0.8em;
+    margin-right: 8px;
+}
+#sidebar .control-section button.small-cancel-button {
+    background-color: var(--neo-accent-red);
+}
+#sidebar .control-section button.small-confirm-button:hover {
+    background-color: #27ae60;
+}
+#sidebar .control-section button.small-cancel-button:hover {
+    background-color: #c0392b;
+}
+
+#sidebar #newTagCategoryPrompt {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: var(--neo-white);
+    border: 2px solid var(--neo-border);
+    border-radius: 0;
+}
+#sidebar #newTagCategoryPrompt label {
+    font-size: 0.9em !important;
+    margin-bottom: 5px !important;
+}
+#sidebar #newTagCategoryPrompt select {
+    margin-bottom: 10px !important;
+}
+
+
+/* --- APP CONTAINER & HEADER (NEO-BRUTALIST) --- */
+.app-container {
+    margin: 25px 25px 25px 70px;
+    padding: 25px;
+    background-color: var(--neo-white);
+    border: 3px solid var(--neo-border);
+    box-shadow: 6px 6px 0px rgba(0,0,0,0.4);
+    border-radius: 0;
+    transition: margin-left 0.3s ease-in-out;
+}
+#sidebar.expanded + .app-container { margin-left: 330px; }
+
+header {
+    text-align: left;
+    margin-bottom: 25px;
+    padding-bottom: 0;
+    border-bottom: none;
+}
+header p {
+    font-size: 0.9em;
+    color: #555;
+    margin-top: -15px;
+    margin-bottom: 20px;
+}
+
+
+/* --- CURRICULUM LAYOUT & CATEGORIES (NEO-BRUTALIST) --- */
+#curriculum-layout { display: flex; gap: 20px; flex-wrap: wrap; align-items: flex-start; }
+
+.category-zone {
+    flex: 1 1 100%; max-width: 100%;
+    background-color: var(--neo-bg);
+    border: 3px solid var(--neo-border);
+    border-radius: 0;
+    padding: 15px;
+    box-shadow: 4px 4px 0px rgba(0,0,0,0.2);
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+.category-zone h2 { 
+    margin-top: 0; font-size: 1.2em;
+    padding-bottom: 10px; margin-bottom: 15px; text-align: center;
+    border-bottom: 2px solid var(--neo-border);
+}
+.category-zone .course-list {
+    display: flex; flex-direction: row; overflow-x: auto; overflow-y: hidden;
+    gap: 10px;
+    align-items: flex-start; padding-bottom: 15px;
+    min-height: 160px;
+}
+.category-zone .course-list::-webkit-scrollbar { height: 12px; }
+.category-zone .course-list::-webkit-scrollbar-track { background: #ccc; border-radius: 0; border: 1px solid var(--neo-border);}
+.category-zone .course-list::-webkit-scrollbar-thumb { background: var(--neo-text); border-radius: 0; border: 1px solid var(--neo-border); }
+.category-zone .course-list::-webkit-scrollbar-thumb:hover { background: #333; }
+
+.semester-footer {
+    margin-top: 15px; padding-top: 10px; border-top: 2px solid var(--neo-border);
+    text-align: right; font-weight: bold; font-size: 0.95em; color: var(--neo-text);
+    text-transform: uppercase;
+}
+.semester-footer .total-ects { color: var(--neo-accent-red); font-size: 1.1em; }
+
+
+/* --- COURSE ITEMS (NEO-BRUTALIST) --- */
+.course-item {
+    width: 180px; min-width: 160px; max-width: 190px; min-height: 150px;
+    padding: 10px;
+    border: 2px solid var(--neo-border);
+    border-radius: 0;
+    background-color: var(--neo-white);
+    cursor: grab;
+    transition: transform 0.1s ease-out, box-shadow 0.1s;
+    display: flex; flex-direction: column; justify-content: space-between;
+    box-sizing: border-box; flex-grow: 0; flex-shrink: 0;
+    flex-basis: 180px;
+    box-shadow: 3px 3px 0px rgba(0,0,0,0.3);
+}
+.course-item:hover {
+    box-shadow: 4px 4px 0px rgba(0,0,0,0.4);
+    transform: translate(-1px, -1px);
+}
+
+.course-item h3 { 
+    font-size: 0.95em; margin-top: 0; margin-bottom: 5px;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    font-weight: bold;
+}
+.course-item p.course-name {
+    font-size: 0.8em; margin-bottom: 6px; flex-grow: 1;
+    color: #333;
+    line-height: 1.4; max-height: 2.8em; overflow: hidden;
+    text-transform: none;
+}
+.course-details { font-size: 0.75em; color: #444; margin-bottom: 6px; }
+.course-details span { margin-right: 8px; display: block; }
+.course-details strong { color: var(--neo-text); }
+.course-details span.lecturer-info {
+    font-style: normal;
+    color: #555;
+    margin-top: 4px;
+    font-size: 0.9em; 
+}
+
+.course-tags { font-size: 0.7em; margin-top: auto; line-height: 1.5; }
+.course-tags .tag {
+    background-color: var(--neo-text);
+    color: var(--neo-white);
+    padding: 3px 6px;
+    border-radius: 0;
+    margin-right: 4px; margin-bottom: 4px; display: inline-block;
+    padding-left: 6px;
+    border-left: none;
+    font-weight: bold;
+    text-transform: lowercase;
+}
+.course-tags .tag .remove-tag {
+    margin-left: 5px; cursor: pointer; font-weight: bold; opacity: 0.8;
+    color: var(--neo-accent-red);
+}
+.course-tags .tag .remove-tag:hover { opacity: 1; }
+
+.course-item.dragging {
+    opacity: 0.7; cursor: grabbing;
+    box-shadow: 6px 6px 0px var(--neo-accent-red) !important;
+    transform: scale(1.03) rotate(2deg);
+    border-color: var(--neo-accent-red);
+}
+.course-item.active-edit {
+    border: 3px solid var(--neo-accent-blue);
+    box-shadow: 0 0 0 3px var(--neo-accent-blue), 3px 3px 0px var(--neo-border);
+}
+.course-item.selected-compare {
+    border: 3px solid var(--neo-accent-green);
+    box-shadow: 0 0 0 3px var(--neo-accent-green), 3px 3px 0px var(--neo-border);
+}
+
+.drag-placeholder {
+    background-color: rgba(0, 0, 0, 0.05);
+    border: 3px dashed #888;
+    height: 150px; flex-basis: 180px; min-width: 160px; width: 180px;
+    margin-right: 10px; box-sizing: border-box; border-radius: 0;
+    flex-shrink: 0; flex-grow: 0;
+}
+
+
+/* --- MODALS (NEO-BRUTALIST) --- */
+.modal {
+    display: none; position: fixed; z-index: 1010; left: 0; top: 0;
+    width: 100%; height: 100%; overflow: auto;
+    background-color: rgba(0,0,0,0.75);
+}
+.modal-content:not(.d3-modal-content) {
+    background-color: var(--neo-white);
+    margin: 5% auto;
+    padding: 25px;
+    border: 3px solid var(--neo-border);
+    width: 60%; max-width: 750px;
+    border-radius: 0;
+    position: relative;
+    box-shadow: 8px 8px 0px rgba(0,0,0,0.5);
+    font-family: var(--neo-font);
+}
+.modal-content:not(.d3-modal-content).large {
+    width: 85%; max-width: 1200px;
+}
+#neighbor-visualization-modal .modal-content.large,
+#network-metrics-modal .modal-content.large { 
+     width: 90%; max-width: 1400px;
+     height: 85vh; 
+     display: flex;
+     flex-direction: column;
+}
+
+
+.modal-content:not(.d3-modal-content) .close-button {
+    color: var(--neo-text);
+    float: right; font-size: 36px;
+    font-weight: bold; line-height: 0.8;
+    cursor: pointer;
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    padding: 5px;
+}
+.modal-content:not(.d3-modal-content) .close-button:hover,
+.modal-content:not(.d3-modal-content) .close-button:focus {
+    color: var(--neo-accent-red);
+    text-decoration: none;
+}
+
+.modal-content:not(.d3-modal-content) h2 { 
+    margin-top: 0;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--neo-border);
+    font-size: 1.5em;
+}
+
+.modal-content:not(.d3-modal-content) label {
+    display: block;
+    margin-top: 15px; margin-bottom: 5px;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 0.9em;
+}
+.modal-content:not(.d3-modal-content) input[type="text"],
+.modal-content:not(.d3-modal-content) input[type="number"],
+.modal-content:not(.d3-modal-content) input[type="hidden"],
+.modal-content:not(.d3-modal-content) textarea,
+.modal-content:not(.d3-modal-content) select { 
+    width: calc(100% - 10px);
+    padding: 10px;
+    margin-bottom: 15px;
+    background-color: var(--neo-white);
+    color: var(--neo-text);
+    border: 2px solid var(--neo-border);
+    border-radius: 0;
+    box-sizing: border-box;
+    font-family: var(--neo-font);
+    font-size: 1em;
+}
+.modal-content:not(.d3-modal-content) textarea { min-height: 100px; }
+.modal-content:not(.d3-modal-content) input::placeholder,
+.modal-content:not(.d3-modal-content) textarea::placeholder {
+    color: #777;
+    font-family: var(--neo-font);
+}
+
+.modal-content:not(.d3-modal-content) button {
+    background-color: var(--neo-accent-blue);
+    color: var(--neo-white);
+    border: 2px solid var(--neo-border);
+    padding: 12px 20px;
+    border-radius: 0;
+    cursor: pointer;
+    transition: all 0.1s ease;
+    width: auto;
+    min-width: 150px;
+    margin-top: 10px;
+    margin-right: 10px;
+    font-family: var(--neo-font);
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 1em;
+    box-shadow: 3px 3px 0px var(--neo-border);
+}
+.modal-content:not(.d3-modal-content) button:hover {
+    background-color: #357ABD;
+    transform: translate(1px, 1px);
+    box-shadow: 2px 2px 0px var(--neo-border);
+}
+.modal-content:not(.d3-modal-content) button:active {
+    transform: translate(3px, 3px);
+    box-shadow: none;
+}
+
+#workload-table-container, #syllabus-comparison-area {
+    max-height: 70vh; overflow-y: auto; margin-top: 20px;
+    border: 2px solid var(--neo-border);
+    padding: 10px;
+}
+#workload-table-container table {
+    width: 100%; border-collapse: collapse; font-size: 0.9em;
+    border: 2px solid var(--neo-border);
+}
+#workload-table-container th,
+#workload-table-container td {
+    border: 1px solid var(--neo-border);
+    padding: 10px 12px;
+    text-align: left;
+}
+#workload-table-container th {
+    background-color: var(--neo-text);
+    color: var(--neo-white);
+    position: sticky; top: 0; z-index: 10;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+#workload-table-container tr:nth-child(even) { background-color: #e0e0e0; }
+#workload-table-container tr:nth-child(odd) { background-color: var(--neo-bg); }
+
+#workload-table-container .lecturer-total-row td {
+    font-weight: bold;
+    background-color: #ccc;
+    color: var(--neo-text);
+    text-transform: uppercase;
+}
+#workload-table-container .lecturer-total-row td:first-child { text-align: right; }
+
+#syllabus-comparison-area {
+    display: flex; justify-content: space-between; gap: 20px;
+    padding: 0;
+    border: none;
+}
+.syllabus-column {
+    flex: 1;
+    border: 2px solid var(--neo-border);
+    padding: 15px;
+    border-radius: 0;
+    background-color: var(--neo-bg);
+    overflow-y: auto; max-height: 65vh;
+}
+.syllabus-column h4 { 
+    margin-top: 0;
+    border-bottom: 2px solid var(--neo-border);
+    padding-bottom: 8px;
+    font-size: 1.1em;
+}
+.syllabus-column pre {
+    white-space: pre-wrap; word-wrap: break-word;
+    font-size: 0.9em; color: #333;
+    background-color: var(--neo-white);
+    padding: 10px;
+    border: 1px solid #ccc;
+    margin-top: 10px;
+}
+
+#import-tags-modal .modal-content label {
+    font-size: 0.9em;
+}
+#import-tags-modal .modal-content p {
+    margin-bottom: 8px;
+    font-size: 0.9em;
+}
+#import-tags-modal .modal-content p small {
+    color: #555;
+    font-size: 0.85em;
+}
+#import-tags-modal .modal-content input[type="file"] {
+    width: 100%;
+    padding: 8px;
+    border: 2px solid var(--neo-border);
+    background: var(--neo-white);
+    margin-bottom: 15px;
+    font-family: var(--neo-font);
+}
+#import-tags-modal .modal-content button.control-button {
+    min-width: 180px;
+    margin-top: 15px;
+}
+#importTagsStatus {
+    margin-top: 20px;
+    padding: 12px;
+    background-color: var(--neo-bg);
+    border: 2px solid var(--neo-border);
+    max-height: 180px;
+    overflow-y: auto;
+    font-size: 0.85em;
+    line-height: 1.6;
+}
+
+
+/* --- D3 Network Visualization Styles --- */
+.d3-network-modal .d3-modal-content { 
+    background-color: #f0f0f0; 
+    margin: 1% auto;
+    padding: 0;
+    width: 95%;
+    max-width: 1600px;
+    height: 95vh;
+    overflow: hidden;
+    display: flex;
+    border: 3px solid var(--neo-border);
+    box-shadow: 8px 8px 0px rgba(0, 0, 0, 0.5);
+    font-family: var(--d3-font);
+}
+
+.d3-visualization-area {
+    flex: 1;
+    display: flex;
+    position: relative;
+    overflow: hidden;
+    background-color: var(--neo-bg); 
+}
+
+.d3-controls-panel {
+    width: 280px;
+    padding: 20px;
+    background-color: var(--neo-white);
+    border-right: 3px solid var(--neo-border);
+    overflow-y: auto;
+    z-index: 10;
+    height: 100%;
+    box-shadow: 5px 0px 0px rgba(0, 0, 0, 0.1);
+    font-family: var(--d3-font);
+    position: relative;
+}
+.d3-controls-panel .close-button#closeTagNetworkModalD3 {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 28px;
+    color: #aaa;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+    font-weight: bold;
+}
+.d3-controls-panel .close-button#closeTagNetworkModalD3:hover {
+    color: var(--neo-text);
+}
+
+
+.d3-controls-panel h2 { 
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 18px;
+    color: var(--neo-text);
+    text-transform: uppercase;
+    border-bottom: 3px solid var(--neo-border);
+    padding-bottom: 8px;
+}
+
+.d3-search-container {
+    display: flex;
+    margin-bottom: 20px;
+}
+.d3-search-container input { 
+    flex: 1;
+    padding: 10px;
+    border: 3px solid var(--neo-border);
+    font-family: var(--neo-font);
+    font-size: 14px;
+    background-color: var(--neo-white);
+    margin-right: -3px;
+    width: auto; margin-bottom: 0; border-radius:0; 
+}
+.d3-search-container button { 
+    padding: 10px 15px;
+    background-color: var(--neo-accent-red);
+    color: var(--neo-white);
+    border: 3px solid var(--neo-border);
+    cursor: pointer;
+    font-family: var(--neo-font);
+    font-weight: bold;
+    font-size: 14px;
+    text-transform: uppercase;
+    box-shadow: 3px 3px 0px var(--neo-border);
+    transition: all 0.1s ease;
+    width: auto; margin-bottom: 0; border-radius:0; 
+}
+.d3-search-container button:hover {
+    transform: translate(1px, 1px);
+    box-shadow: 2px 2px 0px var(--neo-border);
+}
+.d3-search-container button:active {
+    transform: translate(3px, 3px);
+    box-shadow: none;
+}
+
+.d3-control-parameters, .d3-tag-link-parameters { /* Grouped for common collapsible styles */
+    background-color: var(--neo-white);
+    margin-bottom: 20px;
+    border: 3px solid var(--neo-border);
+    overflow: hidden;
+}
+.d3-control-header { /* Applies to both collapsible sections */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 12px;
+    background-color: var(--neo-text);
+    color: var(--neo-white);
+    cursor: pointer;
+}
+.d3-control-header h3 { 
+    margin: 0;
+    font-size: 14px;
+    text-transform: uppercase;
+    color: var(--neo-white); 
+    border-bottom: none; 
+    padding-bottom: 0; 
+}
+.d3-toggle-button { /* Applies to both collapsible sections */
+    background: none;
+    border: none;
+    font-size: 16px;
+    color: var(--neo-white);
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+.d3-control-content { /* Applies to both collapsible sections */
+    padding: 15px;
+    max-height: 0; /* Collapsed by default */
+    overflow: hidden;
+    transition: max-height 0.4s ease-out, padding 0.4s ease-out;
+}
+.d3-control-parameters.expanded .d3-control-content,
+.d3-tag-link-parameters.expanded .d3-control-content { /* When expanded */
+    max-height: 500px; /* Adjust as needed */
+    padding: 15px;
+}
+.d3-control-parameters.expanded .d3-toggle-button,
+.d3-tag-link-parameters.expanded .d3-toggle-button { /* Arrow direction */
+    transform: rotate(180deg);
+}
+
+/* Specific for tag link controls if different content height is needed */
+#d3-tag-links-control-content {
+    max-height: 0; /* Collapsed by default if not .expanded */
+    overflow: hidden;
+    transition: max-height 0.4s ease-out, padding 0.4s ease-out;
+}
+.d3-tag-link-parameters.expanded #d3-tag-links-control-content {
+     max-height: 200px; /* Or scrollHeight if dynamic */
+     padding: 15px;
+}
+
+
+.d3-parameter-group {
+    margin-bottom: 15px;
+}
+.d3-parameter-group label { 
+    display: block;
+    margin-bottom: 8px;
+    font-size: 13px;
+    color: var(--neo-text);
+    font-weight: bold;
+    text-transform: uppercase;
+}
+/* Specific label styling for checkbox in D3 controls */
+.d3-parameter-group label[for="d3-toggle-tag-links"] {
+    display: inline; /* Keep label next to checkbox */
+    font-weight: normal;
+    text-transform: none;
+    margin-left: 5px;
+}
+.d3-parameter-group input[type="checkbox"] { /* Style for checkbox */
+    vertical-align: middle;
+    margin-right: 0;
+    appearance: none;
+    -webkit-appearance: none;
+    background-color: var(--neo-white);
+    border: 2px solid var(--neo-border);
+    width: 16px;
+    height: 16px;
+    position: relative;
+    cursor: pointer;
+}
+.d3-parameter-group input[type="checkbox"]:checked {
+    background-color: var(--neo-text);
+}
+.d3-parameter-group input[type="checkbox"]:checked::after {
+    content: '✔';
+    font-size: 11px;
+    color: var(--neo-white);
+    position: absolute;
+    left: 1px;
+    top: -1px;
+}
+
+.d3-parameter-group input[type="range"] {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 10px;
+    border-radius: 0;
+    background: #ddd;
+    border: 2px solid var(--neo-border);
+    outline: none;
+    padding: 0;
+}
+.d3-parameter-group input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 0;
+    background: var(--neo-accent-red);
+    cursor: pointer;
+    border: 2px solid var(--neo-border);
+}
+.d3-parameter-group input[type="range"]::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 0;
+    background: var(--neo-accent-red);
+    cursor: pointer;
+    border: 2px solid var(--neo-border);
+}
+.d3-parameter-group input[type="number"] { /* For min co-occurrence */
+    width: calc(100% - 12px); /* Match other inputs in controls */
+    padding: 8px;
+    margin-bottom: 0;
+    background-color: var(--neo-white);
+    color: var(--neo-text);
+    border: 2px solid var(--neo-border);
+    border-radius: 0;
+    box-sizing: border-box;
+    font-family: var(--neo-font);
+    font-size: 0.9em;
+}
+.d3-parameter-group input[type="number"]:disabled {
+    background-color: #e9e9e9;
+    color: #aaa;
+    cursor: not-allowed;
+    border-color: #ccc;
+}
+
+
+.d3-category-filters {
+    margin-top: 20px;
+}
+.d3-category-filters h3 { 
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 14px;
+    color: var(--neo-text);
+    text-transform: uppercase;
+    border-bottom: 2px solid var(--neo-border);
+    padding-bottom: 5px;
+}
+#d3-category-filter-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 10px;
+}
+.d3-category-button { 
+    padding: 6px 10px;
+    background-color: var(--neo-white);
+    border: 2px solid var(--neo-border);
+    font-family: var(--neo-font);
+    font-size: 11px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 2px 2px 0px var(--neo-border);
+    transition: all 0.1s ease;
+    text-transform: capitalize;
+    color: var(--neo-text);
+    width: auto; margin-bottom: 0; border-radius:0; 
+}
+.d3-category-button:hover {
+    transform: translate(1px, 1px);
+    box-shadow: 1px 1px 0px var(--neo-border);
+}
+.d3-category-button.active {
+    background-color: var(--neo-accent-red);
+    color: var(--neo-white);
+}
+
+.d3-reset-button, .d3-control-button { 
+    display: block;
+    width: 100%;
+    margin-top: 15px;
+    padding: 10px;
+    background-color: var(--neo-text);
+    color: var(--neo-white);
+    border: 2px solid var(--neo-border);
+    font-family: var(--neo-font);
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    box-shadow: 3px 3px 0px #666;
+    transition: all 0.1s ease;
+    margin-bottom: 0; border-radius:0; 
+}
+.d3-reset-button:hover, .d3-control-button:hover {
+    transform: translate(1px, 1px);
+    box-shadow: 2px 2px 0px #666;
+}
+.d3-reset-button:active, .d3-control-button:active {
+    transform: translate(3px, 3px);
+    box-shadow: none;
+}
+.d3-control-button:disabled {
+    background-color: #aaa;
+    color: #ddd;
+    border-color: #888;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+
+#d3-tag-network-graph {
+    flex: 1;
+    background-color: var(--neo-bg);
+    height: 100%;
+    width: 100%;
+    cursor: grab;
+}
+#d3-tag-network-graph.grabbing {
+    cursor: grabbing;
+}
+
+/* D3 Node and Link Styles for MAIN graph */
+#d3-tag-network-graph .d3-link.d3-link-course-tag { 
+    stroke: #555;
+    stroke-opacity: 0.6;
+}
+#d3-tag-network-graph .d3-link.d3-link-tag-tag {
+    stroke: var(--d3-link-tag-tag-color); /* Use variable for tag-tag links */
+    stroke-opacity: 0.5;
+    stroke-dasharray: 3,3; /* Optional: dashed line for tag-tag */
+}
+
+#d3-tag-network-graph .d3-node circle { 
+    stroke: var(--neo-white);
+    stroke-width: 1.5px;
+    transition: r 0.2s ease-out;
+}
+#d3-tag-network-graph .d3-node.highlight circle { 
+    stroke: var(--neo-text);
+    stroke-width: 2.5px;
+}
+#d3-tag-network-graph .d3-node text { 
+    font-family: var(--neo-font); 
+    font-size: 9px;
+    pointer-events: none;
+    fill: var(--neo-text);
+    text-anchor: middle;
+    dominant-baseline: central;
+    paint-order: stroke;
+    stroke: var(--neo-bg);
+    stroke-width: 2.5px;
+    stroke-linecap: butt;
+    stroke-linejoin: miter;
+    transition: font-size 0.2s ease-out;
+}
+#d3-tag-network-graph .d3-node.highlight text { 
+    font-weight: bold;
+}
+
+#d3-tag-network-graph .d3-node.dimmed { opacity: 0.15; pointer-events: none; }
+#d3-tag-network-graph .d3-link.dimmed { opacity: 0.05; }
+#d3-tag-network-graph .d3-node.search-match circle {
+    stroke: var(--neo-accent-red);
+    stroke-width: 3px;
+}
+#d3-tag-network-graph .d3-node.search-match text {
+    font-weight: bold;
+    fill: var(--neo-accent-red);
+}
+
+
+.d3-legend-panel {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    background-color: var(--neo-white);
+    padding: 12px 15px;
+    border: 3px solid var(--neo-border);
+    box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.7);
+    z-index: 10;
+    font-family: var(--neo-font);
+    max-height: 35vh;
+    overflow-y: auto;
+}
+.d3-legend-panel h3 { 
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 14px;
+    color: var(--neo-text);
+    text-transform: uppercase;
+    border-bottom: 2px solid var(--neo-border);
+    padding-bottom: 5px;
+}
+.d3-legend-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: capitalize;
+    color: var(--neo-text);
+}
+.d3-legend-color {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    margin-right: 10px;
+    border: 2px solid var(--neo-border);
+}
+
+.d3-popup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 420px;
+    max-width: 90%;
+    background-color: var(--neo-white);
+    border: 3px solid var(--neo-border);
+    box-shadow: 6px 6px 0px rgba(0, 0, 0, 0.7);
+    z-index: 1020;
+    font-family: var(--neo-font);
+}
+.d3-popup.visible { display: block; }
+
+.d3-popup-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 15px;
+    background-color: var(--neo-text);
+    color: var(--neo-white);
+}
+.d3-popup-header h2 { 
+    margin: 0;
+    font-size: 16px;
+    text-transform: uppercase;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: var(--neo-white);
+    border-bottom: none; 
+    padding-bottom: 0; 
+}
+.d3-close-button {
+    font-size: 22px;
+    color: var(--neo-white);
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0;
+    line-height: 1;
+    font-weight: bold;
+}
+.d3-close-button:hover { color: var(--neo-accent-red); }
+
+.d3-popup-content {
+    padding: 15px 20px;
+    max-height: 70vh; 
+    overflow-y: auto;
+    font-size: 13px;
+    color: var(--neo-text);
+}
+.d3-popup-content p {
+    margin: 0 0 10px 0;
+    line-height: 1.5;
+}
+.d3-popup-content strong { font-weight: bold; }
+.d3-popup-content pre {
+    white-space: pre-wrap; word-wrap: break-word;
+    background-color: #f8f8f8;
+    padding: 10px;
+    border: 1px solid #eee;
+    font-size: 0.9em;
+    max-height: 200px;
+    overflow-y: auto;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    color: #333;
+}
+#d3-popup-connections h3 { 
+    margin-top: 15px;
+    margin-bottom: 8px;
+    font-size: 14px;
+    text-transform: uppercase;
+    border-bottom: 2px solid var(--neo-border);
+    padding-bottom: 4px;
+    color: var(--neo-text);
+}
+#d3-connections-list {
+    margin: 0;
+    padding-left: 0;
+    list-style: none;
+}
+#d3-connections-list li {
+    margin-bottom: 6px;
+    padding: 4px 0;
+}
+#d3-popup-details div { margin-bottom: 6px; }
+
+
+.d3-info-button { 
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    width: 36px;
+    height: 36px;
+    background-color: var(--neo-text);
+    color: var(--neo-white);
+    border: 2px solid var(--neo-border);
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 3px 3px 0px rgba(0, 0, 0, 0.5);
+    transition: all 0.1s ease;
+    z-index: 10;
+    margin-top:0; margin-bottom: 0; border-radius:0; text-transform: none;
+}
+.d3-info-button:hover {
+    transform: translate(1px, 1px);
+    box-shadow: 2px 2px 0px rgba(0, 0, 0, 0.5);
+}
+.d3-info-button:active {
+    transform: translate(2px, 2px);
+    box-shadow: 1px 1px 0px rgba(0,0,0,0.5);
+}
+
+.d3-modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.75);
+    z-index: 1015;
+    font-family: var(--neo-font);
+}
+.d3-modal-overlay.visible { display: flex; align-items: center; justify-content: center; }
+
+.d3-info-modal-content {
+    width: 550px;
+    max-width: 90%;
+    max-height: 85vh;
+    background-color: var(--neo-white);
+    border: 3px solid var(--neo-border);
+    box-shadow: 8px 8px 0px rgba(0, 0, 0, 0.7);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    font-family: var(--neo-font);
+}
+.d3-info-modal-content .d3-modal-header {
+    padding: 12px 15px;
+    background-color: var(--neo-text);
+    color: var(--neo-white);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 0;
+}
+.d3-info-modal-content .d3-modal-header h2 { 
+    margin: 0;
+    font-size: 16px;
+    text-transform: uppercase;
+    color: var(--neo-white);
+    border-bottom: none; 
+    padding-bottom: 0; 
+}
+.d3-info-modal-content .d3-modal-body {
+    padding: 20px 25px;
+    line-height: 1.6;
+    overflow-y: auto;
+    font-size: 13px;
+    flex-grow: 1;
+    color: var(--neo-text);
+}
+.d3-info-modal-content .d3-modal-body h3 { 
+    margin-top: 15px;
+    margin-bottom: 10px;
+    font-size: 14px;
+    color: var(--neo-text);
+    text-transform: uppercase;
+    border-bottom: 2px solid var(--neo-border);
+    padding-bottom: 5px;
+}
+.d3-info-modal-content .d3-modal-body ul {
+    padding-left: 20px;
+    margin-bottom: 15px;
+}
+.d3-info-modal-content .d3-modal-body li {
+    margin-bottom: 8px;
+}
+
+#neighbor-vis-svg-container svg text {
+    font-family: var(--d3-font); 
+    fill: var(--neo-text);
+    text-anchor: middle;
+    dominant-baseline: central;
+    paint-order: stroke;
+    stroke: var(--neo-bg); 
+    stroke-width: 2.5px; 
+    stroke-linecap: butt;
+    stroke-linejoin: miter;
+    pointer-events: none; 
+}
+
+#neighbor-vis-svg-container svg circle {
+     transition: r 0.1s ease-out; 
+}
+
+/* Network Metrics Table Modal Styles */
+#metrics-table-container table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85em; 
+}
+#metrics-table-container th,
+#metrics-table-container td {
+    border: 1px solid var(--neo-border);
+    padding: 8px 10px;
+    text-align: left;
+    word-break: break-word;
+}
+#metrics-table-container th {
+    background-color: var(--neo-text);
+    color: var(--neo-white);
+    position: sticky;
+    top: 0;
+    z-index: 1; 
+    cursor: pointer;
+    text-transform: uppercase;
+}
+#metrics-table-container th:hover {
+    background-color: #333;
+}
+#metrics-table-container th .sort-arrow {
+    margin-left: 5px;
+    font-size: 0.8em;
+}
+#metrics-table-container tr:nth-child(even) { background-color: #e0e0e0; }
+#metrics-table-container tr:nth-child(odd) { background-color: var(--neo-bg); }
