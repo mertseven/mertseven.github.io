@@ -1,0 +1,202 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    background-color: #000000;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Align to top for longer content */
+    min-height: 100vh;
+    padding: 20px 0; /* Add some padding top/bottom */
+}
+
+.container {
+    background-color: #ffb3b3;
+    padding: 20px 30px;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 600px;
+    margin: 20px;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 30px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 20px;
+}
+
+header #logo {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+    background-color: #8BC34A; /* Placeholder color */
+    color: white;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+header h1 {
+    color: #2e7d32; /* Darker green */
+    margin-bottom: 5px;
+}
+
+header p {
+    font-size: 0.9em;
+    color: #555;
+}
+
+fieldset {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+legend {
+    padding: 0 10px;
+    font-weight: bold;
+    color: #4caf50; /* Green */
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="number"] {
+    width: calc(100% - 22px); /* Account for padding and border */
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"] {
+  -moz-appearance: textfield; /* Firefox */
+}
+
+
+.donation-options label {
+    display: inline-flex; /* Align radio and text */
+    align-items: center;
+    margin-right: 15px;
+    margin-bottom: 10px;
+}
+
+.donation-options input[type="radio"] {
+    margin-right: 5px;
+    accent-color: #4caf50; /* Green radio button */
+}
+
+#custom-amount {
+    width: 80px;
+    margin-left: 5px;
+    display: inline-block;
+}
+
+.card-details-row {
+    display: flex;
+    gap: 15px;
+}
+
+.card-details-row > div {
+    flex: 1;
+}
+
+button[type="submit"], #donate-again-button {
+    background-color: #4caf50;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1em;
+    width: 100%;
+    transition: background-color 0.3s ease;
+}
+
+button[type="submit"]:hover, #donate-again-button:hover {
+    background-color: #388e3c; /* Darker green */
+}
+
+button[type="submit"]:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.error-message {
+    color: #d32f2f; /* Red for errors */
+    background-color: #ffebee;
+    border: 1px solid #d32f2f;
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 15px;
+    display: none; /* Hidden by default */
+}
+
+.security-note {
+    font-size: 0.8em;
+    color: #757575;
+    text-align: center;
+    margin-top: 15px;
+}
+
+.hidden {
+    display: none !important;
+}
+
+#thank-you-section {
+    text-align: center;
+    padding: 40px 20px;
+}
+
+#thank-you-section h2 {
+    color: #2e7d32;
+}
+
+footer {
+    text-align: center;
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+    font-size: 0.9em;
+    color: #777;
+}
+
+/* Basic Responsive */
+@media (max-width: 600px) {
+    .container {
+        margin: 10px;
+        padding: 15px;
+    }
+    .card-details-row {
+        flex-direction: column;
+        gap: 0; /* Remove gap when stacked */
+    }
+    .card-details-row > div {
+        margin-bottom: 15px; /* Add margin back for stacked items */
+    }
+    .card-details-row > div:last-child {
+        margin-bottom: 0;
+    }
+    .donation-options label {
+        display: block; /* Stack donation options for smaller screens */
+        margin-right: 0;
+    }
+}
