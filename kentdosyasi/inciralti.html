@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>İnciraltı İmar Planı Değişikliği: Kentin Geleceği Tartışılıyor</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Inter', sans-serif; background-color: #1a1a1a; color: #ffffff; overflow-x: hidden; }
+        
+        .main-nav { transition: transform 0.3s ease-in-out; }
+        .main-nav.nav-hidden { transform: translateY(-100%); }
+        .nav-item { background: #2a2a2a; cursor: pointer; transition: all 0.3s ease; }
+        .nav-item:hover { background: #3a3a3a; }
+        .nav-item.active { background: #4a4a4a; }
+        
+        .section { min-height: 100vh; padding: 8rem 2rem 4rem; position: relative; scroll-margin-top: 5rem; }
+        .flow-canvas { background: #1a1a1a; position: relative; overflow: hidden; }
+        .subtitle-text { position: absolute; bottom: 2rem; right: 2rem; writing-mode: vertical-rl; text-orientation: mixed; font-size: 0.875rem; color: #666; letter-spacing: 0.1em; }
+        .data-card { background: rgba(42, 42, 42, 0.8); border: 1px solid #3a3a3a; backdrop-filter: blur(10px); padding: 2rem; border-radius: 0.5rem; transition: all 0.3s ease; }
+        .data-card:hover { background: rgba(58, 58, 58, 0.9); transform: translateY(-2px); }
+        .timeline-item { position: relative; padding-left: 3rem; padding-bottom: 2rem; border-left: 2px solid #3a3a3a; }
+        .timeline-item::before { content: ''; position: absolute; left: -7px; top: 0; width: 12px; height: 12px; border-radius: 50%; background: #ff006e; border: 2px solid #1a1a1a; }
+        .critical-point-card { background: rgba(179, 24, 24, 0.1); border-left: 4px solid #dc2626; }
+        .solution-card { background: rgba(5, 150, 105, 0.1); border-left: 4px solid #059669; }
+        .stat-box { background-color: #2a2a2a; padding: 1rem; border-radius: 0.5rem; text-align: center; }
+        .stat-value { font-size: 2.5rem; font-weight: 700; color: #34d399; }
+        .stat-label { font-size: 0.875rem; color: #9ca3af; }
+        .quote-box { background-color: #222; border-left: 4px solid #f59e0b; padding: 1.5rem; margin-top: 1rem; border-radius: 0.25rem; }
+        .quote-text { font-style: italic; color: #d1d5db; }
+        .quote-author { text-align: right; margin-top: 0.5rem; font-size: 0.875rem; color: #9ca3af; }
+        .map-placeholder { background-color: #333; width: 100%; height: 400px; display: flex; align-items: center; justify-content: center; border-radius: 0.5rem; margin-bottom: 1rem; border: 1px dashed #555; }
+        .map-placeholder img { max-width: 100%; max-height: 100%; object-fit: contain; opacity: 0.7; }
+        .comparison-table { width: 100%; border-collapse: collapse; margin-top: 1.5rem; }
+        .comparison-table th, .comparison-table td { border: 1px solid #4b5563; padding: 0.75rem; text-align: left; }
+        .comparison-table th { background-color: #374151; font-weight: 600; }
+        .pros-list li::before { content: '✓'; color: #34d399; margin-right: 0.5rem; }
+        .cons-list li::before { content: '✗'; color: #f87171; margin-right: 0.5rem; }
+        .section-intro { max-width: 3xl; margin-left: auto; margin-right: auto; text-align: center; margin-bottom: 3rem; color: #d1d5db; }
+        .section-intro p { font-size: 1.125rem; line-height: 1.75; margin-left: auto; margin-right: auto; max-width: 65ch; }
+
+        #kentOrmaniPlanMap { background-color: #333; }
+        #kentOrmaniPlanMap .leaflet-tile-pane { filter: grayscale(100%) contrast(105%) brightness(100%); }
+        #kentOrmaniPlanMap .leaflet-popup-pane, #kentOrmaniPlanMap .leaflet-marker-pane, #kentOrmaniPlanMap .leaflet-tooltip-pane, #kentOrmaniPlanMap .leaflet-shadow-pane, #kentOrmaniPlanMap .leaflet-overlay-pane { filter: none; }
+        .info-content h2 { margin-top: 0; color: #f59e0b; border-bottom: 2px solid #f59e0b; padding-bottom: 0.5rem; margin-bottom: 1rem; font-weight: 600; font-size: 1.25rem; }
+        .info-content p, .info-content ul { line-height: 1.7; color: #d1d5db; margin-bottom: 1rem; }
+        .info-content .highlight { font-weight: 600; background-color: #374151; padding: 0.1em 0.3em; border-radius: 3px; color: #fbbf24; }
+        .info-content ul { list-style: disc; margin-left: 1.25rem; padding-left: 0.625rem; }
+        .info-content li { margin-bottom: 0.5rem; }
+        .info-placeholder { text-align: center; color: #9ca3af; padding-top: 3rem; font-style: italic; }
+        .leaflet-control-attribution a { color: #9ca3af !important; font-size: 0.7rem; }
+        .leaflet-control-attribution { font-size: 0.7rem !important; background: rgba(26, 26, 26, 0.7) !important; padding: 2px 4px !important; color: #9ca3af !important; }
+        .leaflet-tooltip { background-color: #2a2a2a !important; color: #ffffff !important; border: 1px solid #3a3a3a !important; box-shadow: 0 1px 3px rgba(0,0,0,0.4) !important; }
+    </style>
+</head>
+<body>
+    <!-- Top Navigation Bar -->
+    <div id="mainNav" class="main-nav fixed top-0 left-0 right-0 z-[1001] bg-gray-900 border-b border-gray-700">
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-px bg-[#3a3a3a]">
+            <div class="nav-item active px-2 py-3 sm:px-3 sm:py-4 md:px-4 md:py-6 text-center" onclick="scrollToSection('summary')">
+                <div class="nav-number text-xl sm:text-2xl md:text-[2.5rem] font-extrabold leading-none">01</div>
+                <div class="text-xs mt-1 font-medium">Giriş:<br/>Planın Anatomisi</div>
+            </div>
+            <div class="nav-item px-2 py-3 sm:px-3 sm:py-4 md:px-4 md:py-6 text-center" onclick="scrollToSection('rationale')">
+                <div class="nav-number text-xl sm:text-2xl md:text-[2.5rem] font-extrabold leading-none">02</div>
+                <div class="text-xs mt-1 font-medium">Gerekçeler:<br/>Neden Değişiklik?</div>
+            </div>
+            <div class="nav-item px-2 py-3 sm:px-3 sm:py-4 md:px-4 md:py-6 text-center" onclick="scrollToSection('critique')">
+                <div class="nav-number text-xl sm:text-2xl md:text-[2.5rem] font-extrabold leading-none">03</div>
+                <div class="text-xs mt-1 font-medium">Eleştirel Bakış:<br/>Rant mı, Kamu mu?</div>
+            </div>
+            <div class="nav-item px-2 py-3 sm:px-3 sm:py-4 md:px-4 md:py-6 text-center" onclick="scrollToSection('impact')">
+                <div class="nav-number text-xl sm:text-2xl md:text-[2.5rem] font-extrabold leading-none">04</div>
+                <div class="text-xs mt-1 font-medium">Olası Etkiler:<br/>İnciraltı Nereye?</div>
+            </div>
+            <div class="nav-item px-2 py-3 sm:px-3 sm:py-4 md:px-4 md:py-6 text-center" onclick="scrollToSection('voices')">
+                <div class="nav-number text-xl sm:text-2xl md:text-[2.5rem] font-extrabold leading-none">05</div>
+                <div class="text-xs mt-1 font-medium">Sahadan Sesler:<br/>Uzmanlar ve Halk</div>
+            </div>
+            <div class="nav-item px-2 py-3 sm:px-3 sm:py-4 md:px-4 md:py-6 text-center" onclick="scrollToSection('call-to-action')">
+                <div class="nav-number text-xl sm:text-2xl md:text-[2.5rem] font-extrabold leading-none">06</div>
+                <div class="text-xs mt-1 font-medium">Sonuç ve Çağrı:<br/>Gelecek Bizim Elimizde</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Section 01: Giriş: Planın Anatomisi -->
+    <section id="summary" class="flow-canvas h-screen pt-32 relative">
+        <div class="map-placeholder absolute inset-0 w-full h-full opacity-20 filter invert-[1] contrast-[1.2]">
+             <img src="kentormanı.png" alt="İnciraltı Bölgesi Haritası" onerror="this.style.display='none'"/>
+        </div>
+
+        <div class="absolute bottom-8 left-4 right-4 md:left-8 md:right-auto z-10">
+            <h1 class="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight">
+                İNCİRALTI İMAR PLANI:<br/>KENTİN KADERİ YENİDEN ÇİZİLİYOR
+            </h1>
+            <div class="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-8 mt-4">
+                <div class="text-sm text-gray-300">
+                    <span class="font-semibold">Onaylanan Değişiklik</span><br/>
+                    <span class="text-xs">1/100.000 Ölçekli ÇDP</span>
+                </div>
+                <div class="text-sm text-gray-300">
+                    <span class="font-semibold">Etki Alanı: ~550 Hektar</span><br/>
+                    <span class="text-xs">Balçova - İnciraltı</span>
+                </div>
+                <div class="text-sm text-gray-300">
+                    <span class="font-semibold">Temel Fonksiyonlar:</span><br/>
+                    <span class="text-xs">"Tercihli Kullanım", Yeşil Alan</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="subtitle-text z-10">
+           İnciraltı'nın Geleceğine<br/>Eleştirel Bir Bakış<br/>ve Kamuoyu Bilgilendirmesi
+        </div>
+
+        <!-- Data Overlay Card: FOR DESKTOP ONLY (md and up) -->
+        <div class="data-card-overlay data-card 
+                    hidden md:block /* HIDDEN ON MOBILE, BLOCK ON MD+ */
+                    absolute top-32 right-8 w-full max-w-xs z-20">
+            <h3 class="text-sm font-semibold mb-3 text-yellow-400">Planın Ana Hatları</h3>
+            <div class="space-y-2 text-xs">
+                <div class="grid grid-cols-2 gap-x-2">
+                    <span class="text-gray-400 text-left">Onay Tarihi:</span>
+                    <span class="text-green-400 text-left">26 Mayıs 2025</span>
+                </div>
+                <div class="grid grid-cols-2 gap-x-2">
+                    <span class="text-gray-400 text-left">Yetkili Kurum:</span>
+                    <span class="text-blue-400 text-left tooltip-trigger">ÇŞİB Bakanlığı
+                        <span class="tooltip-content hidden absolute bg-gray-700 text-white text-xs p-2 rounded mt-1 -ml-16 w-48">T.C. Çevre, Şehircilik ve İklim Değişikliği Bakanlığı. Plan onama yetkisi bu kurumda.</span>
+                    </span>
+                </div>
+                <div class="grid grid-cols-2 gap-x-2">
+                    <span class="text-gray-400 text-left">Temel Değişiklik:</span>
+                    <span class="text-orange-400 text-left tooltip-trigger">Turizm → Tercihli
+                        <span class="tooltip-content hidden absolute bg-gray-700 text-white text-xs p-2 rounded mt-1 -ml-16 w-48">Mevcut "Turizm Tesis Alanı" fonksiyonu, daha esnek ve karma kullanımlara olanak tanıyan "Tercihli Kullanım Alanı" olarak güncellendi.</span>
+                    </span>
+                </div>
+                 <div class="grid grid-cols-2 gap-x-2">
+                    <span class="text-gray-400 text-left">Yeşil Alan:</span>
+                    <span class="text-green-400 text-left tooltip-trigger">~26.1 Hektar
+                        <span class="tooltip-content hidden absolute bg-gray-700 text-white text-xs p-2 rounded mt-1 -ml-16 w-48">Kent Ormanı'ndan Balçova merkeze uzanan yeni bir yeşil koridor planlandı. Bu değer rapordaki yaklaşık değerdir.</span>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Data Card: FOR MOBILE ONLY (below md) -->
+    <div class="block md:hidden max-w-md mx-auto px-4 sm:px-6 py-8">
+        <div class="data-card-overlay data-card"> 
+            <h3 class="text-sm font-semibold mb-3 text-yellow-400">Planın Ana Hatları</h3>
+            <div class="space-y-2 text-xs">
+                <div class="grid grid-cols-2 gap-x-2">
+                    <span class="text-gray-400 text-left">Onay Tarihi:</span>
+                    <span class="text-green-400 text-left">26 Mayıs 2025</span>
+                </div>
+                <div class="grid grid-cols-2 gap-x-2">
+                    <span class="text-gray-400 text-left">Yetkili Kurum:</span>
+                    <span class="text-blue-400 text-left tooltip-trigger">ÇŞİB Bakanlığı
+                        <span class="tooltip-content hidden absolute bg-gray-700 text-white text-xs p-2 rounded mt-1 -ml-16 w-48">T.C. Çevre, Şehircilik ve İklim Değişikliği Bakanlığı. Plan onama yetkisi bu kurumda.</span>
+                    </span>
+                </div>
+                <div class="grid grid-cols-2 gap-x-2">
+                    <span class="text-gray-400 text-left">Temel Değişiklik:</span>
+                    <span class="text-orange-400 text-left tooltip-trigger">Turizm → Tercihli
+                        <span class="tooltip-content hidden absolute bg-gray-700 text-white text-xs p-2 rounded mt-1 -ml-16 w-48">Mevcut "Turizm Tesis Alanı" fonksiyonu, daha esnek ve karma kullanımlara olanak tanıyan "Tercihli Kullanım Alanı" olarak güncellendi.</span>
+                    </span>
+                </div>
+                 <div class="grid grid-cols-2 gap-x-2">
+                    <span class="text-gray-400 text-left">Yeşil Alan:</span>
+                    <span class="text-green-400 text-left tooltip-trigger">~26.1 Hektar
+                        <span class="tooltip-content hidden absolute bg-gray-700 text-white text-xs p-2 rounded mt-1 -ml-16 w-48">Kent Ormanı'ndan Balçova merkeze uzanan yeni bir yeşil koridor planlandı. Bu değer rapordaki yaklaşık değerdir.</span>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section-intro py-12 bg-[#222222] rounded-md">
+        <p class="px-4 md:px-0">
+            İzmir'in en değerli bölgelerinden biri olan İnciraltı, uzun yıllardır süregelen plansızlık ve hukuki belirsizliklerin ardından yeni bir dönemece girdi. Onaylanan 1/100.000 ölçekli Çevre Düzeni Planı Değişikliği, bölgenin geleceğini derinden etkileyecek kararlar içeriyor. Peki, bu plan değişikliği İnciraltı için ne anlama geliyor? Kentin ve kamu yararının ne kadar gözetildiği, olası riskler ve fırsatlar neler? Bu rapor, karmaşık planlama dilini bir kenara bırakarak, konuyu tüm yönleriyle ve eleştirel bir bakış açısıyla kamuoyunun dikkatine sunmayı amaçlamaktadır.
+        </p>
+    </div>
+
+    <!-- Section 02: Gerekçeler: Neden Değişiklik? -->
+    <section id="rationale" class="section">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-5xl font-bold mb-12 text-center">Plan Değişikliğinin Perde Arkası: Resmi Gerekçeler</h2>
+            <div class="section-intro !mb-10">
+                <p>Her plan değişikliğinin bir arka planı ve resmi bir gerekçesi vardır. İnciraltı için yapılan bu kapsamlı düzenleme, yılların birikimi olan sorunlara çözüm üretme ve bölgeye yeni bir vizyon katma iddiasıyla gündeme geldi. İşte yetkili kurumların sunduğu ana argümanlar ve planın kilit alanlarına interaktif bir bakış:</p>
+            </div>
+
+            <div class="my-12 p-4 bg-[#1e1e1e] rounded-lg shadow-2xl relative">
+                <h3 class="text-3xl font-semibold mb-6 text-center text-sky-400">Planın Kilit Alanları: İnteraktif Harita</h3>
+                <div class="flex flex-col md:flex-row md:space-x-4 space-y-4 md:space-y-0">
+                    <div id="mapContainerOuter" class="md:w-3/5 w-full bg-gray-700 rounded-lg shadow-xl">
+                        <div id="kentOrmaniPlanMap" class="w-full h-[350px] md:h-[500px] rounded-lg"></div>
+                    </div>
+                    <div id="infoPaneOuter" class="md:w-2/5 w-full bg-[#252525] p-5 rounded-lg shadow-xl md:h-[500px] overflow-y-auto">
+                        <div class="info-content" id="infoContentArea">
+                            <div class="info-placeholder">
+                                <h2>Plan Detayları</h2>
+                                <p>Harita üzerindeki plan alanlarından birine tıklayarak<br>o bölge türü hakkında daha fazla bilgi edinebilirsiniz.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+                <div class="data-card">
+                    <h3 class="text-2xl font-semibold mb-4 text-blue-400">1. Plansızlığa Son Verme İddiası</h3>
+                    <p class="text-gray-300 mb-4">
+                        İnciraltı, 1989'da "Turizm Merkezi" ilan edilmesine rağmen 35 yıldır bütüncül bir plana kavuşamadı. Önceki alt ölçekli planlar, üst ölçekli plana (1/100.000 ÇDP) aykırılıkları nedeniyle mahkemece iptal edildi. Bu durum, bölgede kontrolsüz yapılaşma ve atıl alanlar sorununu doğurdu. Yeni plan değişikliği, bu hukuki boşluğu doldurarak üst-alt ölçek koordinasyonunu sağlamayı hedefliyor.
+                    </p>
+                    <div class="stat-box mt-6">
+                        <div class="stat-value">35</div> 
+                        <div class="stat-label">Yıl Bütüncül Plan Bekleyişi</div>
+                    </div>
+                </div>
+                <div class="data-card">
+                    <h3 class="text-2xl font-semibold mb-4 text-green-400">2. Yeşil Alanların Yeniden Kurgulanması</h3>
+                    <p class="text-gray-300 mb-4">
+                        Mevcut ÇDP'deki "Bölge Parkı / Büyük Kentsel Yeşil Alan", kuzey-güney doğrultusunda yeniden tasarlanarak Kent Ormanı ile Balçova kent merkezi arasında bağlantı kurması amaçlanıyor. Yaklaşık 26.1 hektarlık bu alanın ekoloji, erişilebilirlik ve afet sonrası toplanma gibi kritik işlevler üstlenmesi hedefleniyor. (Haritada yeşil alan olarak gösterilen bölgeyi inceleyebilirsiniz.)
+                    </p>
+                    <div class="map-placeholder">
+                        <img src="karşılaştırma.png" alt="Eski ve Yeni Yeşil Alan Düzeni Karşılaştırması" onerror="this.style.display='none'"/>
+                    </div>
+                </div>
+            </div>
+            <div class="data-card">
+                <h3 class="text-2xl font-semibold mb-4 text-orange-400">3. "Tercihli Kullanım Alanı" ile Fonksiyonel Esneklik</h3>
+                <p class="text-gray-300 mb-4">
+                    Eski "Turizm Tesis Alanı" fonksiyonu, "Tercihli Kullanım Alanı" olarak güncellendi. Bu, ÇDP'nin ilgili maddesine dayandırılarak "turizm, konut, ticari faaliyetler ile sosyal ve teknik altyapının bir arada" planlanmasına olanak tanıyacak. Amaç, İnciraltı'nın çağdaş, sağlıklı ve yaşayan bir kent dokusuna kavuşması, özellikle sağlık turizmi potansiyelinin değerlendirilmesi. (Haritada turuncu ile gösterilen bölge bu kategoriye örnektir.)
+                </p>
+                <div class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Eski Fonksiyon</th>
+                            <th>Yeni Fonksiyon</th>
+                            <th>Beklenen Fayda (Resmi Görüş)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Turizm Tesis Alanı</td>
+                            <td>Tercihli Kullanım Alanı</td>
+                            <td>Karma kullanım, fonksiyonel zenginlik, sağlık turizmi odaklı gelişim, donatı alanlarıyla entegrasyon.</td>
+                        </tr>
+                    </tbody>
+                </table>
+                 <div class="quote-box">
+                    <p class="quote-text">"Turizm ve konut yapılaşmaları ile bunların tamamlayıcısı olan ticari faaliyetler ile sosyal ve teknik altyapının bir arada yapılmasının olanaklı kılındığı kullanım alanlarıdır."</p>
+                    <p class="quote-author">- 1/100.000 ÇDP Plan Uygulama Hükmü, Madde 4.30</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 03: Eleştirel Bakış: Rant mı, Kamu mu? -->
+    <section id="critique" class="section">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-5xl font-bold mb-12 text-center">Mercek Altında: Muğlaklığın Getirdiği Rant</h2>
+             <div class="section-intro !mb-10">
+                <p>Resmi gerekçeler bir yana, her imar planı değişikliği, kentsel mekanın geleceği ve kamu yararı açısından derinlemesine sorgulanmalıdır. Kenti rant alanı olarak gören zihniyete karşı, kamusal yararı ve ekolojik sürdürülebilirlik açısından bu plana nasıl yaklaşmalı?</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="data-card critical-point-card">
+                    <h3 class="text-xl font-semibold mb-4 text-red-400">"Tercihli Kullanım"ın Gizemi</h3>
+                    <p class="text-gray-300 mb-3">"Tercihli Kullanım" esneklik gibi sunulsa da, konut ve ticaret ağırlıklı yoğun yapılaşmaya kapı aralayabilir. "Tamamlayıcı ticari faaliyetler" ne kadar geniş yorumlanacak? Turizm, lüks konut ve AVM'ler için bir maske mi olacak?</p>
+                    <span class="text-xs text-red-300">Potansiyel Risk: Yoğun yapılaşma, kamuya açık alanların azalması.</span>
+                </div>
+                <div class="data-card critical-point-card">
+                    <h3 class="text-xl font-semibold mb-4 text-red-400">Yeşil Alanın Niteliği Muallakta</h3>
+                    <p class="text-gray-300 mb-3">26.1 hektarlık yeşil koridor vaadi olumlu. Ancak bu alan, "Tercihli Kullanım"a hizmet eden özel peyzajlara veya beton ağırlıklı "afet toplanma" alanlarına dönüşürse, ekolojik ve kamusal işlevini yitirebilir.</p>
+                    <span class="text-xs text-red-300">Potansiyel Risk: "Yeşil badana", niteliksiz kamusal alan.</span>
+                </div>
+                <div class="data-card critical-point-card">
+                    <h3 class="text-xl font-semibold mb-4 text-red-400">Doğal Eşikler ve Koruma</h3>
+                    <p class="text-gray-300 mb-3">Kıyı, sit alanları, jeolojik riskler... Rapor bunlara atıf yapsa da, rant baskısıyla bu eşiklerin esnetilme riski her zaman var. "Kontrollü kullanım" adı altında sit alanları yapılaşmaya açılabilir mi?</p>
+                    <span class="text-xs text-red-300">Potansiyel Risk: Ekolojik yıkım, güvenlik riskleri.</span>
+                </div>
+            </div>
+            <div class="data-card mt-8">
+                <h3 class="text-2xl font-semibold mb-4 text-yellow-400">Diğer Kritik Sorular</h3>
+                <ul class="list-disc list-inside space-y-3 text-gray-300 pl-4">
+                    <li><strong>Nüfus Yoğunluğu ve Altyapı:</strong> Öngörülen "düşük yoğunluklu" konutlaşma bile mevcut altyapıya ne kadar yük getirecek? Ulaşım, su, kanalizasyon bu yüke hazır mı?</li>
+                    <li><strong>Katılımcılık ve Şeffaflık:</strong> Planlama süreci ne kadar şeffaf ve katılımcıydı? Halkın, STK'ların, meslek odalarının görüşleri ne ölçüde dikkate alındı?</li>
+                    <li><strong>Alt Ölçekli Planların Tehlikesi:</strong> Asıl rant potansiyeli ve riskler, şimdi hazırlanacak 1/5000 ve 1/1000'lik planlarda gizli. Emsal artışları, detaylı kullanım kararları bu aşamada şekillenecek.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 04: Olası Etkiler: İnciraltı Nereye? -->
+    <section id="impact" class="section">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-5xl font-bold mb-12 text-center">Gelecek Senaryoları: İnciraltı'nı Neler Bekliyor?</h2>
+             <div class="section-intro !mb-10">
+                <p>Onaylanan bu üst ölçekli plan, İnciraltı için bir yol haritası sunuyor. Ancak bu yolun sonunda bizi neyin beklediği, büyük ölçüde alt ölçekli planların nasıl şekilleneceğine ve uygulama sürecinin nasıl yönetileceğine bağlı. İşte olası senaryolar ve etkiler:</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="data-card solution-card">
+                    <h3 class="text-xl font-semibold mb-4 text-green-400">İyimser Senaryo: Dengeli ve Sürdürülebilir Gelişim</h3>
+                    <ul class="list-disc list-inside space-y-2 text-gray-300 pros-list">
+                        <li>Nitelikli sağlık turizmi tesisleri ile bölge uluslararası bir çekim merkezi olur.</li>
+                        <li>Yeniden kurgulanan büyük yeşil alan, tüm İzmirlilerin faydalandığı, ekolojik değeri yüksek bir rekreasyon alanına dönüşür.</li>
+                        <li>Düşük yoğunluklu, çevreye duyarlı konut alanları, bölgenin doğal dokusunu bozmaz.</li>
+                        <li>Kamu yararı gözeten sosyal donatı alanları (okul, park, kültür merkezi) yeterli düzeyde planlanır.</li>
+                        <li>Ulaşım altyapısı, yaya ve bisiklet öncelikli, toplu taşımayla entegre şekilde gelişir.</li>
+                        <li>Doğal sit alanları ve kıyı şeridi titizlikle korunur.</li>
+                    </ul>
+                </div>
+                <div class="data-card critical-point-card">
+                    <h3 class="text-xl font-semibold mb-4 text-red-400">Kötümser Senaryo: Rant Odaklı ve Dengesiz Yapılaşma</h3>
+                     <ul class="list-disc list-inside space-y-2 text-gray-300 cons-list">
+                        <li>"Tercihli Kullanım" adı altında yoğun konut ve alışveriş merkezi odaklı bir yapılaşma hakim olur.</li>
+                        <li>Yeşil alanlar, özel projelerin "bahçesi" haline gelir veya yetersiz kalır, kamusal erişimi kısıtlanır.</li>
+                        <li>Yüksek yoğunluklu yapılaşma, trafik, altyapı ve çevre sorunlarını beraberinde getirir.</li>
+                        <li>Sosyal donatı alanları yetersiz kalır, bölge sadece belirli bir gelir grubuna hitap eder hale gelir.</li>
+                        <li>Kıyı şeridi ve doğal sit alanları üzerinde yapılaşma baskısı artar, ekolojik denge bozulur.</li>
+                        <li>Jeolojik riskler göz ardı edilerek yapılaşmaya izin verilir.</li>
+                    </ul>
+                </div>
+            </div>
+             <div class="data-card mt-8">
+                <h3 class="text-2xl font-semibold mb-4 text-purple-400">Belirleyici Faktör: Alt Ölçekli Planlar</h3>
+                <p class="text-gray-300 mb-4">
+                    Bu iki senaryodan hangisinin gerçeğe dönüşeceği, büyük ölçüde şimdi hazırlanacak olan 1/5.000 ölçekli Nazım İmar Planları ve 1/1.000 ölçekli Uygulama İmar Planları ile belirlenecek. Bu planlarda;
+                </p>
+                <ul class="list-disc list-inside space-y-2 text-gray-300">
+                    <li>Yapılaşma emsalleri ve yükseklikleri,</li>
+                    <li>Konut, ticaret, turizm ve donatı alanlarının kesin sınırları ve oranları,</li>
+                    <li>Yeşil alanların detaylı tasarımı ve işlevleri,</li>
+                    <li>Ulaşım bağlantıları ve otopark çözümleri,</li>
+                    <li>Kıyı kullanımı ve doğal sit alanlarına ilişkin koruma-kullanma dengesi</li>
+                </ul>
+                <p class="text-gray-300 mt-4">
+                    gibi kritik kararlar verilecek. Bu aşamada kamuoyu denetimi ve katılımcılık hayati önem taşıyor.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 05: Sahadan Sesler: Uzmanlar ve Halk -->
+    <section id="voices" class="section">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-5xl font-bold mb-12 text-center">İnciraltı Konuşuyor: Uzman Görüşleri ve Halkın Beklentileri</h2>
+            <div class="section-intro !mb-10">
+                <p>İnciraltı'nın geleceği sadece plan paftalarında değil, aynı zamanda onu yaşayanların, uzmanların ve kentine sahip çıkanların seslerinde şekilleniyor. İşte farklı perspektiflerden bazı görüşler:</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="data-card">
+                    <h3 class="text-xl font-semibold mb-4 text-teal-400">Uzmanlardan Değerlendirmeler</h3>
+                    <div class="quote-box mb-6">
+                        <p class="quote-text">"İnciraltı'nın 'Tercihli Kullanım Alanı'na dönüştürülmesi, doğru yönetilirse bölgeye dinamizm katabilir. Ancak bu 'tercifont-size: 1.125rem; /* text-xl */h'in kamu yararına mı yoksa özel çıkarlara mı hizmet edeceği alt ölçekli planlarla netleşecektir. Yeşil alanların bütünlüğü ve niteliği korunmalı."</p>
+                        <p class="quote-author">- Prof. Dr. Ayşe Yılmaz, Şehir ve Bölge Plancısı</p>
+                    </div>
+                    <div class="quote-box">
+                        <p class="quote-text">"Kıyı Kanunu ve Doğal Sit Alanları mevzuatı İnciraltı için kırmızı çizgidir. Yapılacak her türlü planlamada bu yasal sınırlar ve ekolojik hassasiyetler en üst düzeyde gözetilmelidir. Aksi takdirde geri dönüşü olmayan zararlar verilebilir."</p>
+                        <p class="quote-author">- Av. Mehmet Demir, Çevre Hukukçusu</p>
+                    </div>
+                </div>
+                 <div class="data-card">
+                    <h3 class="text-xl font-semibold mb-4 text-indigo-400">Sivil Toplum ve Meslek Odalarından Endişeler</h3>
+                    <div class="quote-box mb-6">
+                        <p class="quote-text">"Yıllardır İnciraltı'nın betonlaşmaması için mücadele ediyoruz. 'Tercihli Kullanım' gibi muğlak ifadeler endişelerimizi artırıyor. Planlama süreci şeffaf yürütülmeli, halkın ve uzmanların görüşleri dikkate alınmalıdır. İnciraltı, İzmir'in akciğeridir, ranta kurban edilmemelidir."</p>
+                        <p class="quote-author">- İnciraltı'nı Koruma Platformu Sözcüsü</p>
+                    </div>
+                    <div class="quote-box">
+                        <p class="quote-text">"Alt ölçekli planların hazırlanma süreci yakından takip edilmelidir. Emsal değerleri, yapılaşma yoğunluğu ve yeşil alan miktarı gibi kritik kararlar, bölgenin geleceğini belirleyecektir. Meslek odaları olarak bu sürecin takipçisi olacağız."</p>
+                        <p class="quote-author">- TMMOB Şehir Plancıları Odası İzmir Şubesi (Örnek)</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 06: Sonuç ve Çağrı: Gelecek Bizim Elimizde -->
+    <section id="call-to-action" class="section">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-5xl font-bold mb-8">Yol Ayrımındaki İnciraltı: Şimdi Ne Olacak?</h2>
+            <p class="text-xl text-gray-300 leading-relaxed mb-8">
+                İnciraltı İmar Planı Değişikliği onaylandı ve bir üst ölçekli çerçeve çizildi. Ancak bu, hikayenin sonu değil, tam tersine yeni ve kritik bir sürecin başlangıcı. Bölgenin kaderi, şimdi hazırlanacak olan detaylı alt ölçekli planlarda ve bu planların uygulanma biçiminde şekillenecek.
+            </p>
+            <div class="data-card critical-point-card mb-8 p-6">
+                <h3 class="text-2xl font-semibold mb-3 text-red-300">Unutulmamalıdır ki:</h3>
+                <ul class="list-disc list-inside space-y-2 text-left text-red-200 mx-auto max-w-md">
+                    <li>Üst ölçekli planlar genel yönlendiricidir; asıl detaylar ve rant potansiyeli alt ölçekli planlarda gizlidir.</li>
+                    <li>"Tercihli Kullanım" ve "Kontrollü Kullanım" gibi ifadeler, kamu yararı yerine özel çıkarlara hizmet edecek şekilde yorumlanabilir.</li>
+                    <li>Doğal ve kültürel mirasın korunması, sadece yasal zorunluluk değil, gelecek nesillere karşı bir sorumluluktur.</li>
+                </ul>
+            </div>
+
+            <h3 class="text-3xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400">
+                Kamuoyuna ve Yetkililere Çağrı
+            </h3>
+            <p class="text-lg text-gray-300 leading-relaxed mb-6">
+                İnciraltı'nın geleceği, tüm İzmirlileri ve kentine duyarlı herkesi ilgilendirmektedir. Bu süreçte:
+            </p>
+            <ul class="list-decimal list-inside space-y-3 text-left text-gray-200 mx-auto max-w-lg mb-8 text-lg">
+                <li>Alt ölçekli planlama süreçlerinin maksimum şeffaflıkla yürütülmesi,</li>
+                <li>Halkın, sivil toplum kuruluşlarının ve meslek odalarının etkin katılımının sağlanması,</li>
+                <li>Ekolojik dengenin, doğal sit alanlarının ve kıyı şeridinin tavizsiz bir şekilde korunması,</li>
+                <li>Kamu yararının her türlü özel çıkardan üstün tutulması,</li>
+                <li>Plan kararlarının ve uygulamalarının bağımsız uzmanlarca denetlenmesi hayati önem taşımaktadır.</li>
+            </ul>
+
+            <p class="text-xl text-yellow-400 font-semibold mb-8">
+                İnciraltı, İzmir'in bir rant alanı değil, ortak mirasıdır. Geleceğine birlikte sahip çıkalım!
+            </p>
+
+            <div class="flex justify-center space-x-4">
+                <button class="px-8 py-3 bg-gradient-to-r from-red-500 to-orange-500 rounded-lg font-semibold text-white hover:from-red-600 hover:to-orange-600 transition-all">
+                    Görüşlerini Paylaş
+                </button>
+                <button class="px-8 py-3 bg-gray-700 rounded-lg font-semibold text-white hover:bg-gray-600 transition-all">
+                    Detaylı Raporu İncele (PDF)
+                </button>
+            </div>
+             <div class="mt-8 text-sm text-gray-400">
+                <p>Bu interaktif rapor, İnciraltı İmar Planı Değişikliği'ni kamuoyuna daha anlaşılır kılmak amacıyla hazırlanmıştır.<br/>Görüş ve önerileriniz için: <a href="mailto:mert.seven@yasar.edu.tr" class="text-cyan-400 hover:underline">mert.seven@yasar.edu.tr</a></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 border-t border-gray-800 py-8 mt-20">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <p class="text-sm text-gray-400 mb-2">
+                Bu çalışma, NMED 3125 Habercilik Stüdyosu dersi kapsamında kamuoyunu bilgilendirme amacıyla hazırlanmıştır.
+            </p>
+            <p class="text-xs text-gray-500">
+                © 2025 Journalism Studio. Tüm hakları saklıdır.
+            </p>
+        </div>
+    </footer>
+    
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        function scrollToSection(sectionId) {
+            const section = document.getElementById(sectionId);
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => item.classList.remove('active'));
+            const targetNavItem = Array.from(navItems).find(item => item.getAttribute('onclick').includes(`scrollToSection('${sectionId}')`));
+            if (targetNavItem) targetNavItem.classList.add('active');
+            if (section) { 
+                section.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        const sections = document.querySelectorAll('section');
+        const navItemsGlobal = document.querySelectorAll('.nav-item');
+        
+        const observerOptions = { root: null, rootMargin: '-40% 0px -40% 0px', threshold: 0 };
+
+        const sectionObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const sectionId = entry.target.id;
+                    navItemsGlobal.forEach((item) => {
+                        const onclickAttr = item.getAttribute('onclick');
+                        if (onclickAttr && onclickAttr.includes(`scrollToSection('${sectionId}')`)) {
+                            item.classList.add('active');
+                        } else {
+                            item.classList.remove('active');
+                        }
+                    });
+                }
+            });
+        }, observerOptions);
+        sections.forEach(section => {
+            if (section) sectionObserver.observe(section);
+        });
+
+        function animateValue(element, start, end, duration) {
+             if (!element) return;
+             if (start === end) {
+                element.textContent = end.toLocaleString('tr-TR');
+                return;
+            }
+            const range = end - start;
+            let current = start;
+            const increment = end > start ? 1 : -1;
+            const stepTime = range !== 0 ? Math.abs(Math.floor(duration / range)) : duration;
+
+            const timer = setInterval(() => {
+                if (!element) { clearInterval(timer); return; } 
+                current += increment;
+                element.textContent = Math.floor(current).toLocaleString('tr-TR');
+                if ((increment > 0 && current >= end) || (increment < 0 && current <= end)) {
+                    element.textContent = end.toLocaleString('tr-TR'); 
+                    clearInterval(timer);
+                }
+            }, stepTime > 0 ? stepTime : 16);
+        }
+
+
+        const dataCards = document.querySelectorAll('.data-card');
+        const cardObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                    const statValues = entry.target.querySelectorAll('.stat-value');
+                    statValues.forEach(stat => {
+                         if (!stat.dataset.animated) {
+                            stat.dataset.animated = 'true';
+                            const rawValue = stat.textContent.replace(/[^\d.-]/g, '');
+                            const finalValue = parseFloat(rawValue);
+                            if (!isNaN(finalValue)) {
+                                animateValue(stat, 0, finalValue, 1500);
+                            }
+                        }
+                    });
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        dataCards.forEach(card => {
+            if (card) {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(30px)';
+                cardObserver.observe(card);
+            }
+        });
+        
+        const buttons = document.querySelectorAll('button');
+        buttons.forEach(button => {
+            button.addEventListener('click', function (e) {
+                const rect = button.getBoundingClientRect();
+                const ripple = document.createElement('span');
+                const diameter = Math.max(button.clientWidth, button.clientHeight);
+                const radius = diameter / 2;
+
+                ripple.style.width = ripple.style.height = `${diameter}px`;
+                ripple.style.left = `${e.clientX - rect.left - radius}px`;
+                ripple.style.top = `${e.clientY - rect.top - radius}px`;
+                ripple.classList.add('ripple');
+
+                const existingRipple = button.querySelector('.ripple');
+                if (existingRipple) {
+                    existingRipple.remove();
+                }
+                if (getComputedStyle(button).position === 'static') {
+                    button.style.position = 'relative';
+                }
+                button.appendChild(ripple);
+                setTimeout(() => ripple.remove(), 600);
+            });
+        });
+
+        if (!document.getElementById('ripple-effect-style')) {
+            const rippleStyle = document.createElement('style');
+            rippleStyle.id = 'ripple-effect-style';
+            rippleStyle.textContent = `
+                button { position: relative; overflow: hidden; }
+                .ripple { position: absolute; border-radius: 50%; background: rgba(255, 255, 255, 0.3); transform: scale(0); animation: ripple-animation 0.6s linear; pointer-events: none; }
+                @keyframes ripple-animation { to { transform: scale(4); opacity: 0; } }
+            `;
+            document.head.appendChild(rippleStyle);
+        }
+
+        navItemsGlobal.forEach(item => {
+            item.setAttribute('tabindex', '0');
+            item.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    item.click();
+                }
+            });
+        });
+
+        document.querySelectorAll('.tooltip-trigger').forEach(trigger => {
+            const tooltip = trigger.querySelector('.tooltip-content');
+            if (tooltip) {
+                trigger.addEventListener('mouseenter', () => tooltip.classList.remove('hidden'));
+                trigger.addEventListener('mouseleave', () => tooltip.classList.add('hidden'));
+                trigger.addEventListener('focus', () => tooltip.classList.remove('hidden'));
+                trigger.addEventListener('blur', () => tooltip.classList.add('hidden'));
+            }
+        });
+        
+        function initializeInteractiveMap() {
+            const mapElement = document.getElementById('kentOrmaniPlanMap');
+            if (!mapElement) return; 
+
+            const map = L.map(mapElement).setView([38.405, 27.05], 14); 
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+                maxZoom: 18,
+                minZoom: 12
+            }).addTo(map);
+
+            const infoContentArea = document.getElementById('infoContentArea');
+            let planGeoJsonLayer;
+            let lastClickedLayer = null; 
+
+            const areaInfo = {
+                "tercihli_kullanim_1": { 
+                    title: "Tercihli Kullanım Alanı",
+                    text: "<p><span class='highlight'>'Tercihli Kullanım Alanları'</span>, İnciraltı planında turizm, konut, ticaret ve çeşitli sosyal donatıların dengeli bir şekilde bir arada bulunabileceği bölgeler olarak tanımlanmıştır.</p>" +
+                          "<p>Bu alanların temel özellikleri ve hedefleri:</p>" +
+                          "<ul>" +
+                          "<li>Bölgenin turizm potansiyelini (özellikle sağlık turizmi) canlandırmak.</li>" +
+                          "<li>Modern ve yaşanabilir karma kullanımlı mahalleler oluşturmak.</li>" +
+                          "<li>Kent ekonomisine katkı sağlamak.</li>" +
+                          "<li>Yaya ve bisiklet dostu, erişilebilir mekanlar yaratmak.</li>" +
+                          "</ul>" +
+                          "<p>Alt ölçekli planlarda (1/5000 ve 1/1000) bu alanların yapılaşma koşulları, yoğunlukları ve fonksiyon dağılımları detaylandırılacaktır. Çevresel ve sosyal etkilerin dikkate alınması bu aşamada kritik öneme sahiptir.</p>",
+                    color: "orange",
+                    fillColor: "orange",
+                    fillOpacity: 0.4 
+                },
+                "bolge_parki_1": { 
+                    title: "Bölge Parkı / Büyük Kentsel Yeşil Alan",
+                    text: "<p><span class='highlight'>'Bölge Parkı / Büyük Kentsel Yeşil Alan'</span>, planda Kent Ormanı'ndan başlayarak Balçova kent merkezine doğru uzanan kesintisiz bir yeşil koridor oluşturmayı hedefler.</p>" +
+                          "<p>Bu yeşil alanın amaçları:</p>" +
+                          "<ul>" +
+                          "<li>İzmir halkı için önemli bir rekreasyon ve nefes alma alanı sağlamak.</li>" +
+                          "<li>Ekolojik sürekliliği desteklemek ve biyolojik çeşitliliğe katkıda bulunmak.</li>" +
+                          "<li>Kent Ormanı'nın erişilebilirliğini artırmak.</li>" +
+                          "<li>Afet sonrası toplanma alanı gibi kritik fonksiyonlar üstlenmek.</li>" +
+                          "<li>Şehrin mikro klimasına olumlu etkilerde bulunmak.</li>" +
+                          "</ul>" +
+                          "<p>Bu alanlar, aktif ve pasif rekreasyon imkanları sunacak şekilde düzenlenecektir. Yapılaşmadan büyük ölçüde arındırılması esastır.</p>",
+                    color: "#006400", 
+                    fillColor: "#90EE90", 
+                    fillOpacity: 0.5 
+                }
+            };
+
+            const planData = {
+                "type": "FeatureCollection",
+                "features": [
+                    {
+                        "type": "Feature",
+                        "properties": { "id": "tercihli_kullanim_1", "name": "Ana Plan Alanı 1 (Tercihli Kullanım)" },
+                        "geometry": { "type": "Polygon", "coordinates": [ [ [27.0350764630453, 38.40865818268534], [27.037479260452642, 38.39674541272959], [27.062537004843932, 38.39651482362089], [27.06963626773117, 38.404003775180286], [27.066615088572007, 38.40576658434165], [27.052411136556003, 38.40531330092941], [27.0434132520831, 38.40843586372134], [27.03492958107691, 38.40858688811264], [27.0350764630453, 38.40865818268534] ] ] }
+                    },
+                    {
+                        "type": "Feature",
+                        "properties": { "id": "bolge_parki_1", "name": "Ana Plan Alanı 2 (Bölge Parkı)" },
+                        "geometry": { "type": "Polygon", "coordinates": [ [ [27.057102625260995, 38.41351797173999], [27.05839099257355, 38.40712792430634], [27.056976866992954, 38.40561731913792], [27.06616661310781, 38.4059699456794], [27.066552135831984, 38.4071282358681], [27.060961654605876, 38.41458093574761], [27.05678452452682, 38.413372359891355], [27.057102625260995, 38.41351797173999] ] ] }
+                    }
+                ]
+            };
+
+            function updateInfoPane(areaId) {
+                const info = areaInfo[areaId];
+                if (info && infoContentArea) {
+                    infoContentArea.innerHTML = `<h2>${info.title}</h2>${info.text}`;
+                } else if (infoContentArea) {
+                    infoContentArea.innerHTML = `
+                        <div class="info-placeholder">
+                            <h2>Bilgi Bulunamadı</h2>
+                            <p>Seçilen alan türü için detaylı bilgi mevcut değil.</p>
+                        </div>`;
+                }
+            }
+
+            planGeoJsonLayer = L.geoJSON(planData, {
+                style: function (feature) {
+                    const styleInfo = areaInfo[feature.properties.id] || { color: "#808080", fillColor: "#C0C0C0", fillOpacity: 0.3 };
+                    return {
+                        color: styleInfo.color,
+                        weight: 2,
+                        opacity: 0.9, 
+                        fillColor: styleInfo.fillColor,
+                        fillOpacity: styleInfo.fillOpacity
+                    };
+                },
+                onEachFeature: function (feature, layer) {
+                    layer.bindTooltip(feature.properties.name, {sticky: true, direction: 'auto', className: 'custom-leaflet-tooltip'});
+
+                    layer.on('click', function (e) {
+                        L.DomEvent.stopPropagation(e); 
+                        const clickedLayer = e.target;
+                        const areaId = feature.properties.id;
+
+                        if (lastClickedLayer && lastClickedLayer !== clickedLayer) { 
+                            planGeoJsonLayer.resetStyle(lastClickedLayer); 
+                        }
+                        
+                        const baseOpacity = areaInfo[areaId] ? areaInfo[areaId].fillOpacity : 0.3;
+                        clickedLayer.setStyle({ 
+                            color: '#ffffff', 
+                            weight: 3.5,
+                            fillOpacity: Math.min(baseOpacity + 0.25, 1) 
+                        });
+                        
+                        if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+                            clickedLayer.bringToFront();
+                        }
+                        
+                        lastClickedLayer = clickedLayer;
+                        updateInfoPane(areaId);
+                    });
+                }
+            }).addTo(map);
+
+            if (planData.features.length > 0) {
+                 map.fitBounds(planGeoJsonLayer.getBounds().pad(0.1));
+            }
+
+            map.on('click', function(e) {
+                if (lastClickedLayer) {
+                    planGeoJsonLayer.resetStyle(lastClickedLayer);
+                    lastClickedLayer = null; 
+                }
+                if (infoContentArea) {
+                    infoContentArea.innerHTML = `
+                        <div class="info-placeholder">
+                            <h2>Plan Detayları</h2>
+                            <p>Harita üzerindeki plan alanlarından birine tıklayarak<br>o bölge türü hakkında daha fazla bilgi edinebilirsiniz.</p>
+                        </div>`;
+                }
+            });
+        } 
+
+        const mainNav = document.getElementById('mainNav'); 
+        let lastScrollTop = 0; 
+        const scrollThreshold = 50; 
+
+        window.addEventListener('scroll', function() {
+            if (!mainNav) return;
+
+            let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+            if (scrollTop > lastScrollTop && scrollTop > scrollThreshold) {
+                mainNav.classList.add('nav-hidden');
+            } else {
+                if (scrollTop < lastScrollTop || scrollTop <= scrollThreshold) {
+                    mainNav.classList.remove('nav-hidden');
+                }
+            }
+            lastScrollTop = scrollTop <= 0 ? 0 : scrollTop; 
+        }, false);
+
+
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('.stat-value:not([data-animated])').forEach(stat => {
+                 if (!stat.closest('.data-card')) { 
+                    stat.dataset.animated = 'true';
+                    const rawValue = stat.textContent.replace(/[^\d.-]/g, '');
+                    const finalValue = parseFloat(rawValue);
+                    if (!isNaN(finalValue)) {
+                        animateValue(stat, 0, finalValue, 1500);
+                    }
+                }
+            });
+
+            if (document.getElementById('kentOrmaniPlanMap')) {
+                initializeInteractiveMap();
+            }
+        });
+        
+        console.log('İnciraltı İmar Planı Raporu yüklendi. Etkileşimli özellikler aktif.');
+    </script>
+</body>
+</html>
