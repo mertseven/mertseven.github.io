@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Yapay Zeka Destekli Haber Yazımı Araştırması</title>
+    <style>
+        :root {
+            --apple-blue: #007aff;
+            --apple-green: #34c759;
+            --apple-orange: #ff9500;
+            --apple-gray-light: #f2f2f7;
+            --apple-gray-medium: #e5e5ea;
+            --apple-gray-dark: #8e8e93;
+            --apple-text-primary: #1c1c1e;
+            --apple-text-secondary: #636366;
+            --apple-card-background: #ffffff;
+            --apple-separator-color: #c6c6c8;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+            line-height: 1.5;
+            margin: 0;
+            padding: 0;
+            background-color: var(--apple-gray-light);
+            color: var(--apple-text-primary);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .page-container {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+
+        .content-card {
+            background-color: var(--apple-card-background);
+            padding: 24px 28px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            width: 100%;
+            max-width: 680px;
+            text-align: left;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 1.9em;
+            font-weight: 600;
+            color: var(--apple-text-primary);
+            text-align: center;
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 1.05em;
+            margin-bottom: 16px;
+            color: var(--apple-text-secondary);
+        }
+        .content-card > p:first-of-type {
+            margin-bottom: 24px;
+        }
+
+
+        .step-item {
+            background-color: transparent;
+            padding: 18px 0;
+            margin-bottom: 12px;
+            border-bottom: 1px solid var(--apple-gray-medium);
+            transition: background-color 0.2s ease-in-out;
+        }
+        .step-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+
+        .step-item h3 {
+            font-size: 1.25em;
+            font-weight: 500;
+            color: var(--apple-text-primary);
+            margin-top: 0;
+            margin-bottom: 8px;
+        }
+
+        .step-item p {
+            font-size: 0.95em;
+            color: var(--apple-text-secondary);
+            margin-bottom: 12px;
+        }
+        .step-item p.highlight { /* Vurgulu paragraf için */
+            color: var(--apple-text-primary);
+            font-weight: 500;
+        }
+
+
+        .button-link {
+            display: inline-block;
+            background-color: var(--apple-blue);
+            color: white;
+            padding: 10px 18px;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 500;
+            font-size: 0.95em;
+            transition: background-color 0.2s ease, transform 0.1s ease;
+            margin-top: 8px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .button-link:hover {
+            background-color: #005bb5;
+        }
+        .button-link:active {
+            transform: scale(0.98);
+        }
+
+        .button-link.drive {
+            background-color: var(--apple-green);
+        }
+        .button-link.drive:hover {
+            background-color: #28a745;
+        }
+
+        .button-link.ai-tool {
+            background-color: var(--apple-orange);
+        }
+        .button-link.ai-tool:hover {
+            background-color: #e68a00;
+        }
+
+
+        .important-note {
+            background-color: #fff9e6; /* Yumuşak sarı */
+            color: #7d6e00; /* Koyu sarı metin */
+            padding: 12px 16px;
+            border-radius: 8px;
+            border-left: 4px solid #ffcc00; /* Sarı vurgu */
+            margin-top: 24px;
+            margin-bottom: 24px;
+            font-size: 0.9em;
+        }
+        .important-note strong {
+            font-weight: 500;
+        }
+
+        .step-item .info-note {
+             background-color: #e6f7ff; /* Açık mavi */
+             color: #005c99;
+             border-left-color: #007aff; /* Apple mavi */
+             padding: 10px 12px;
+             border-radius: 6px;
+             border-left-width: 3px;
+             margin-top: 15px;
+             margin-bottom: 5px;
+             font-size: 0.9em;
+        }
+
+
+        .footer {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 0.85em;
+            color: var(--apple-gray-dark);
+        }
+
+        .step-item.completed h3::after {
+            content: " ✓";
+            color: var(--apple-green);
+            font-weight: 600;
+            margin-left: 6px;
+        }
+        .step-item.completed {
+             opacity: 0.7;
+        }
+        .step-item.completed .button-link {
+            background-color: var(--apple-gray-dark);
+            cursor: default;
+        }
+        .step-item.completed .button-link:hover {
+            background-color: var(--apple-gray-dark);
+        }
+
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <div class="content-card">
+            <h1>Üretken Yapay Zeka Destekli Haber Yazımı Araştırması</h1>
+            <p>Değerli katılımcılar,</p>
+            <p>Bu araştırma çalışmasına katıldığınız için teşekkür ederiz. Lütfen aşağıdaki adımları sırasıyla takip ederek çalışmayı tamamlayınız.</p>
+
+            <div class="important-note">
+                <strong>Önemli Not:</strong> Lütfen adımları belirtilen sırada tamamlayınız. Her adım bir sonrakinin temelini oluşturmaktadır.
+            </div>
+
+            <div class="step-item" id="step1">
+                <h3>Adım 1: Ön Değerlendirme Anketi</h3>
+                <p>Çalışmaya başlamadan önce, konuyla ilgili mevcut bilgi ve düşüncelerinizi anlamamız için bu kısa anketi doldurmanız gerekmektedir.</p>
+                <a href="https://forms.gle/uifZNmD8akqyhsxx9" target="_blank" class="button-link" onclick="markCompleted('step1')">
+                    Ankete Git
+                </a>
+                <p><small style="color: var(--apple-text-secondary); font-size: 0.8em; display: block; margin-top: 8px;">(Yeni sekmede açılacaktır)</small></p>
+            </div>
+
+            <div class="step-item" id="step2">
+                <h3>Adım 2: Çalışma Materyalleri ve Teslim Klasörü</h3>
+                <p>Aşağıdaki Google Drive bağlantısından çalışmanızda kullanacağınız "Çalışma Dosyaları" (iş gücü verileri Excel ve Markdown formatında) klasörüne ve tamamladığınız çalışmanızı yükleyeceğiniz "Teslim Klasörü"ne erişebilirsiniz.</p>
+                <a href="https://drive.google.com/drive/folders/10VS_xYK3XiMyC9Yfs0cQKTBJjm-Sm4-l?usp=sharing" target="_blank" class="button-link drive" onclick="markCompleted('step2')">
+                    Drive Klasörüne Git
+                </a>
+                <p class="info-note">
+                    <strong>Drive Klasörü:</strong> Bu bağlantı sizi hem çalışma materyallerinizi bulacağınız hem de çalışmanızı yükleyeceğiniz "Teslim Klasörü"nü içeren ana klasöre götürecektir.
+                </p>
+                <p><small style="color: var(--apple-text-secondary); font-size: 0.8em; display: block; margin-top: 8px;">(Yeni sekmede açılacaktır)</small></p>
+            </div>
+
+            <div class="step-item" id="step3">
+                <h3>Adım 3: Yapay Zeka Aracı ile Haber Yazımı</h3>
+                <p>Haber metinlerinizi aşağıdaki bağlantıda bulunan üretken yapay zeka aracını (`news.llmapp.tr`) kullanarak oluşturacaksınız.</p>
+                <p>Lütfen Adım 2'de eriştiğiniz "Çalışma Dosyaları" klasöründeki verilerden birini bu araçta girdi olarak kullanınız.</p>
+                <a href="https://news.llmapp.tr/" target="_blank" class="button-link ai-tool" onclick="markCompleted('step3')">
+                    Yapay Zeka Aracına Git
+                </a>
+                <p><small style="color: var(--apple-text-secondary); font-size: 0.8em; display: block; margin-top: 8px;">(Yeni sekmede açılacaktır)</small></p>
+            </div>
+
+            <div class="step-item" id="step4">
+                <h3>Adım 4: Çalışmanın Teslim Edilmesi</h3>
+                <p>Yapay zeka aracı ile (Adım 3) haber yazımını tamamladıktan sonra, çalışmanızı Adım 2'de eriştiğiniz Google Drive içerisindeki <strong>"Teslim Klasörü"</strong>ne yükleyiniz.</p>
+                <p class="highlight"><strong>Lütfen dikkat:</strong></p>
+                <ul>
+                    <li>Dosya formatınız <strong>.docx</strong> (MS Word) olmalıdır.</li>
+                    <li>Dosya adınız <strong>"yz_katılımcıkodu.docx"</strong> (örneğin; yz_09.docx) şeklinde olmalıdır.</li>
+                </ul>
+                <a href="https://drive.google.com/drive/folders/1Tn4v3aHMxTILl94WR8DiY3hxn9NiDX-H?usp=sharing" target="_blank" class="button-link drive" onclick="markCompleted('step4')"> <!-- Tekrar Drive linki, kolay erişim için -->
+                    Teslim Klasörüne Git
+                </a>
+                <p><small style="color: var(--apple-text-secondary); font-size: 0.8em; display: block; margin-top: 8px;">(Yeni sekmede açılacaktır)</small></p>
+            </div>
+
+            <div class="step-item" id="step5">
+                <h3>Adım 5: Değerlendirme Çalışması Anketi</h3>
+                <p>Çalışmanızı (Adım 4) "Teslim Klasörü"ne yükledikten sonra, deneyimlerinizi ve çalışmanın etkilerini değerlendirmek üzere bu son anketi doldurunuz.</p>
+                <a href="https://forms.gle/pGmi3oLEQxemdDiK7" target="_blank" class="button-link" onclick="markCompleted('step5')">
+                    Değerlendirme Anketine Git
+                </a>
+                <p><small style="color: var(--apple-text-secondary); font-size: 0.8em; display: block; margin-top: 8px;">(Yeni sekmede açılacaktır)</small></p>
+            </div>
+        </div>
+
+        <p class="footer">
+            Katılımınız için teşekkür eder, çalışmalarınızda başarılar dileriz!
+        </p>
+    </div>
+
+    <script>
+        function markCompleted(stepId) {
+            const stepElement = document.getElementById(stepId);
+            if (stepElement && !stepElement.classList.contains('completed')) {
+                stepElement.classList.add('completed');
+            }
+        }
+    </script>
+</body>
+</html>
