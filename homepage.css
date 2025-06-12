@@ -1,0 +1,318 @@
+/* homepage.css */
+
+.homepage-wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: var(--bg-color-page);
+}
+
+/* Apply padding for fixed header based on screen size */
+@media (max-width: 767px) { /* Mobile */
+    .homepage-wrapper {
+        padding-top: 0; /* Header is relative */
+    }
+}
+@media (min-width: 768px) { /* Tablet & Desktop */
+    .homepage-wrapper {
+        padding-top: var(--header-height-desktop); /* Header is fixed */
+    }
+}
+
+.main-content-home {
+    flex-grow: 1;
+    width: 100%;
+}
+
+/* Hero Section */
+.hero-section {
+    background-color: var(--bg-color-content); /* White */
+    color: var(--text-color-primary); /* Black */
+    padding: 60px 20px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: calc(80vh - var(--header-height-desktop)); /* Adjust for visual balance */
+    border-bottom: 1px solid var(--border-color-strong);
+    position: relative;
+    overflow: hidden; /* For pseudo-elements if any */
+}
+
+/* Diagonal accent border for a techy/playful feel */
+.hero-section::before {
+    content: '';
+    position: absolute;
+    bottom: -50px; /* Adjust to control thickness and angle */
+    left: -5%;
+    width: 110%;
+    height: 100px; /* Adjust height for thickness */
+    background-color: var(--new-header-logo-bg); /* Salmon color */
+    transform: rotate(-2deg); /* Slight angle */
+    z-index: 0;
+     opacity: 0.15; /* Make it subtle */
+}
+
+
+.hero-content {
+    max-width: 800px;
+    position: relative; /* To be above pseudo-elements */
+    z-index: 1;
+}
+
+.hero-title {
+    font-size: 3.2em;
+    font-weight: var(--font-weight-black);
+    line-height: 1.15;
+    margin-bottom: 25px;
+    letter-spacing: -1px;
+}
+
+.hero-title-line {
+    display: block;
+}
+.hero-title-dynamic .accent-text {
+    color: var(--new-header-logo-bg); /* Salmon color */
+    /* Potential animation: slightly change color or scale on load */
+}
+
+.hero-subtitle {
+    font-size: 1.25em;
+    font-weight: var(--font-weight-regular);
+    color: #333; /* Slightly softer black */
+    line-height: 1.6;
+    margin-bottom: 35px;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.code-highlight {
+    font-family: var(--font-family-mono);
+    background-color: #f0f0f0;
+    padding: 0.1em 0.4em;
+    border: 1px solid #ddd;
+    border-radius: var(--border-radius-subtle);
+    font-size: 0.9em;
+}
+
+.hero-actions .btn {
+    margin: 10px;
+    padding: 12px 30px; /* Larger buttons for hero */
+    font-size: 1.05em;
+}
+
+/* Section Title Styling */
+.section-title {
+    font-size: 2.4em;
+    font-weight: var(--font-weight-extrabold);
+    color: var(--text-color-primary);
+    text-align: center;
+    margin-bottom: 40px;
+    padding-bottom: 15px;
+    position: relative;
+}
+.section-title::after { /* Underline accent */
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 3px;
+    background-color: var(--new-header-logo-bg); /* Salmon accent */
+}
+.title-accent-playful { /* For a more "fun" part of a title */
+    font-family: var(--font-family-mono);
+    color: var(--accent-electric); /* Lime green */
+    font-weight: var(--font-weight-medium);
+    font-size: 0.8em;
+    vertical-align: middle;
+}
+.title-accent-serious { /* For a more "wise" part of a title */
+    color: var(--new-header-logo-bg); /* Salmon */
+    font-weight: var(--font-weight-bold);
+}
+
+
+/* Core Explorations Section */
+.core-explorations-section {
+    padding: 60px 20px;
+    background-color: var(--bg-color-page); /* White */
+}
+
+.explorations-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.exploration-card {
+    background-color: var(--bg-color-content);
+    border: 1px solid var(--border-color-strong);
+    padding: 30px 25px;
+    text-align: left;
+    transition: transform 0.2s ease-out, box-shadow 0.2s ease-out, border-color 0.2s ease-out;
+}
+.exploration-card:hover {
+    transform: translateY(-6px) rotate(-0.5deg); /* Playful tilt */
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    border-color: var(--accent-electric); /* Lime green border on hover */
+}
+
+.exploration-card .card-icon {
+    margin-bottom: 15px;
+    color: var(--new-header-logo-bg); /* Salmon color for icons */
+}
+.exploration-card .card-icon svg {
+    width: 36px;
+    height: 36px;
+    display: block;
+}
+
+.exploration-card h3 {
+    font-size: 1.4em;
+    font-weight: var(--font-weight-bold);
+    color: var(--text-color-primary);
+    margin-bottom: 12px;
+}
+
+.exploration-card p {
+    font-size: 0.95em;
+    color: #444;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    min-height: 80px; /* Give some consistent height */
+}
+
+.exploration-card .card-link {
+    font-weight: var(--font-weight-bold);
+    color: var(--text-color-primary);
+    text-decoration: none;
+    display: inline-block;
+    padding: 5px 0;
+    border-bottom: 2px solid transparent;
+    transition: color 0.2s ease, border-bottom-color 0.2s ease;
+}
+.exploration-card .card-link:hover {
+    color: var(--new-header-logo-bg); /* Salmon on hover */
+    border-bottom-color: var(--new-header-logo-bg);
+    background-color: transparent !important; /* Override global link hover */
+}
+
+/* Philosophy Section */
+.philosophy-section {
+    padding: 60px 20px;
+    background-color: #0a0a0a; /* Dark background for contrast */
+    color: #e0e0e0; /* Light text */
+    border-top: 1px solid var(--border-color-strong);
+    border-bottom: 1px solid var(--border-color-strong);
+}
+.philosophy-section .section-title {
+    color: var(--bg-color-page); /* White title on dark bg */
+}
+.philosophy-section .section-title::after {
+    background-color: var(--accent-electric); /* Lime green accent on dark bg */
+}
+.philosophy-content {
+    max-width: 750px;
+    margin: 0 auto;
+    text-align: center;
+}
+.philosophy-content p {
+    font-size: 1.1em;
+    line-height: 1.7;
+    margin-bottom: 20px;
+}
+.philosophy-content mark { /* Using standard HTML mark for highlight */
+    background-color: var(--accent-electric);
+    color: var(--text-color-on-accent); /* Black text on lime */
+    padding: 0.1em 0.3em;
+    font-weight: var(--font-weight-medium);
+}
+.philosophy-section .code-highlight { /* Adjust for dark bg */
+    background-color: #222;
+    border-color: #444;
+    color: var(--accent-electric); /* Lime green text */
+}
+.philosophy-emphasis {
+    font-style: italic;
+    color: var(--new-header-logo-bg); /* Salmon color for emphasis */
+    font-weight: var(--font-weight-medium);
+}
+
+
+/* Responsive Adjustments */
+@media (max-width: 992px) {
+    .hero-title {
+        font-size: 2.8em;
+    }
+    .hero-subtitle {
+        font-size: 1.15em;
+    }
+    .section-title {
+        font-size: 2.1em;
+    }
+}
+
+@media (max-width: 768px) {
+    .hero-section {
+        padding: 40px 20px;
+        min-height: auto;
+    }
+    .hero-section::before { /* Make diagonal border less prominent or adjust */
+        bottom: -30px;
+        height: 60px;
+        transform: rotate(-3deg);
+    }
+    .hero-title {
+        font-size: 2.2em;
+    }
+    .hero-subtitle {
+        font-size: 1.05em;
+    }
+    .hero-actions .btn {
+        padding: 10px 25px;
+        font-size: 1em;
+    }
+    .section-title {
+        font-size: 1.8em;
+        margin-bottom: 30px;
+    }
+    .core-explorations-section, .philosophy-section {
+        padding: 40px 15px;
+    }
+    .exploration-card p {
+        min-height: auto; /* Allow natural height on mobile */
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-title {
+        font-size: 1.9em;
+    }
+     .hero-title-dynamic .accent-text {
+        display: inline; /* Keep on same line if possible */
+    }
+    .hero-subtitle {
+        font-size: 1em;
+    }
+    .hero-actions {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .hero-actions .btn {
+        width: 100%;
+        max-width: 280px; /* Max button width on mobile stack */
+        margin: 8px 0;
+    }
+    .section-title {
+        font-size: 1.6em;
+    }
+    .exploration-card h3 {
+        font-size: 1.25em;
+    }
+}

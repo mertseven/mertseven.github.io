@@ -1,0 +1,374 @@
+/* publications.css */
+
+/* Page Wrapper & Main Content Area */
+.publications-page-wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: var(--bg-color-page);
+}
+
+/* Apply padding for fixed header based on screen size */
+@media (max-width: 767px) { /* Mobile */
+    .publications-page-wrapper {
+        padding-top: 0; /* CORRECTED: Header is relative, so no top padding needed on wrapper */
+    }
+}
+@media (min-width: 768px) { /* Tablet & Desktop */
+    .publications-page-wrapper {
+        padding-top: var(--header-height-desktop); /* Header is fixed, padding needed */
+    }
+}
+
+/* ... rest of publications.css remains the same as the previous "playful card interaction" version ... */
+
+.main-content-publications {
+    flex-grow: 1;
+    width: 100%;
+    max-width: 1200px; /* Max content width */
+    margin: 0 auto; /* Center content */
+    padding: 30px 20px; /* Padding for content area */
+}
+
+/* Page Header Section */
+.page-header-section {
+    padding-bottom: 20px;
+    margin-bottom: 30px;
+    border-bottom: 1.5px solid var(--border-color-strong);
+}
+
+.page-header-section h1 {
+    font-size: 2.8em; /* Larger for page title */
+    font-weight: var(--font-weight-black); /* Bolder for title */
+    color: var(--text-color-primary);
+    line-height: 1.2;
+    margin-bottom: 10px;
+}
+
+.page-header-section p {
+    font-size: 1.1em;
+    color: #555555; /* Slightly muted subtitle */
+    max-width: 800px; /* Constrain subtitle width for readability */
+}
+
+/* Publications Grid */
+.publications-grid-new {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); /* Slightly wider cards */
+    gap: 30px; /* More gap */
+    padding-bottom: 40px; /* Space before footer */
+}
+
+/* Publication Card - Incorporating Old Hover Playfulness */
+.publication-card-new {
+    background-color: var(--bg-color-content);
+    border: 1px solid var(--border-color-strong);
+    padding: 25px;
+    font-family: var(--font-family-main);
+    transition: transform 0.2s ease-out, background-color 0.25s ease-out, border-color 0.25s ease-out;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    position: relative; /* For year positioning */
+    min-height: 280px; /* Base height, content can expand it */
+}
+
+.publication-card-new:hover {
+    transform: translateY(-5px);
+    background-color: var(--text-color-primary); /* Card background becomes black on hover */
+    border-color: var(--accent-electric); /* Accent border on hover */
+    color: var(--bg-color-page); /* Default text color on card becomes white */
+}
+
+.publication-year-new {
+    position: absolute;
+    top: -1px; 
+    right: -1px;
+    background-color: var(--text-color-primary);
+    color: var(--bg-color-page);
+    padding: 6px 12px;
+    font-size: 0.8em;
+    font-weight: var(--font-weight-bold);
+    border-bottom-left-radius: var(--border-radius-subtle);
+    border-left: 1px solid var(--border-color-strong);
+    border-bottom: 1px solid var(--border-color-strong);
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+.publication-card-new:hover .publication-year-new {
+    background-color: var(--accent-electric);
+    color: var(--text-color-on-accent); /* Black text on lime */
+    border-color: var(--accent-electric); /* Match border to bg */
+}
+
+.publication-title-new {
+    font-size: 1.25em;
+    font-weight: var(--font-weight-bold);
+    margin: 0 0 10px 0;
+    padding-right: 80px; /* Space for year tag */
+    color: var(--text-color-primary);
+    line-height: 1.35;
+    transition: color 0.2s ease-out, text-decoration-color 0.2s ease-out;
+}
+.publication-card-new:hover .publication-title-new {
+    color: var(--bg-color-page); /* White text */
+    text-decoration: underline;
+    text-decoration-color: var(--accent-electric); /* Lime underline */
+}
+
+.publication-authors-new {
+    font-size: 0.9em;
+    color: #505050;
+    margin-bottom: 15px;
+    font-style: italic;
+    transition: color 0.2s ease-out;
+}
+.publication-card-new:hover .publication-authors-new {
+    color: #cccccc; /* Lighter gray for authors on dark background */
+}
+
+.publication-abstract-new-wrapper {
+    font-size: 0.9em;
+    line-height: 1.5;
+    color: var(--text-color-primary); /* Default color */
+    max-height: 0; /* Collapsed by default */
+    overflow: hidden;
+    margin-bottom: 0; /* No margin when collapsed */
+    transition: max-height 0.3s ease-in-out, margin-bottom 0.3s ease-in-out, color 0.2s ease-out;
+}
+.publication-card-new:hover .publication-abstract-new-wrapper {
+    max-height: 100px; /* Expand on hover - adjust as needed */
+    margin-bottom: 15px; /* Add margin when visible */
+    color: var(--bg-color-page); /* White text */
+}
+.publication-abstract-new { /* Inner P tag for abstract text */
+    /* Styles for the text itself, if different from wrapper */
+}
+
+
+.publication-keywords-new {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+.keyword-new {
+    background-color: var(--new-header-logo-bg); /* Salmon accent */
+    color: var(--new-header-logo-text); /* Black text on salmon */
+    padding: 4px 10px;
+    font-size: 0.75em;
+    font-weight: var(--font-weight-medium);
+    border: 1px solid var(--new-header-logo-bg);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+.publication-card-new:hover .keyword-new {
+    background-color: var(--bg-color-page); /* White background on card hover */
+    color: var(--text-color-primary); /* Black text */
+    border-color: var(--text-color-primary);
+}
+.keyword-new-none {
+    font-style: italic;
+    color: #777;
+    font-size: 0.8em;
+}
+.publication-card-new:hover .keyword-new-none {
+    color: #bbbbbb; /* Lighter for "no keywords" on dark bg */
+}
+
+
+.publication-actions-new {
+    margin-top: auto; /* Pushes to bottom */
+    padding-top: 15px;
+    border-top: 1px solid #e0e0e0; /* Lighter border for separation */
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    transition: border-color 0.2s ease-out;
+}
+.publication-card-new:hover .publication-actions-new {
+    border-top-color: #555555; /* Darker separator on black card background */
+}
+
+.publication-actions-new .btn { /* Using global .btn styles */
+    margin: 0;
+    font-size: 0.85em;
+}
+
+/* Button behavior on card hover */
+.publication-card-new:hover .btn-primary {
+    /* Primary button on dark bg - default is salmon. Let's make its hover more distinct */
+    /* It will use its own hover styles defined in global style.css, which should work */
+}
+.publication-card-new:hover .btn-secondary {
+    background-color: var(--bg-color-page); /* White button */
+    color: var(--text-color-primary); /* Black text */
+    border-color: var(--bg-color-page); /* White border */
+}
+.publication-card-new:hover .btn-secondary:hover {
+    background-color: var(--accent-electric); /* Lime green on hover */
+    color: var(--text-color-on-accent); /* Black text */
+    border-color: var(--accent-electric);
+}
+
+
+/* Publication Modal Styles (remain largely the same as previous step) */
+.publication-modal-new {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: rgba(0, 0, 0, 0.8); 
+    z-index: 2050; 
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    overflow-y: auto;
+}
+.publication-modal-content-new {
+    background-color: var(--bg-color-content);
+    color: var(--text-color-primary);
+    border: 1px solid var(--border-color-strong);
+    border-radius: 0; 
+    width: 100%;
+    max-width: 800px; 
+    max-height: 90vh;
+    padding: 30px 40px; 
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 0 0 5px var(--accent-electric); 
+}
+.publication-modal-close-btn-new {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 2.2em;
+    font-weight: var(--font-weight-regular);
+    color: var(--text-color-primary);
+    cursor: pointer;
+    line-height: 1;
+    padding: 0 5px;
+}
+.publication-modal-close-btn-new:hover {
+    color: var(--new-header-logo-bg); 
+}
+.publication-modal-header-new {
+    border-bottom: 1px solid var(--border-color-strong);
+    padding-bottom: 20px;
+    margin-bottom: 25px;
+}
+.publication-modal-title-new {
+    font-size: 1.8em; 
+    font-weight: var(--font-weight-extrabold);
+    line-height: 1.3;
+    margin-bottom: 10px;
+}
+.publication-modal-meta-new {
+    font-size: 0.95em;
+    color: #444444;
+}
+.publication-modal-meta-new .publication-modal-year::after {
+    content: " \00B7 ";
+    margin: 0 8px;
+}
+
+.publication-modal-text-new {
+    overflow-y: auto; 
+    padding-right: 10px; 
+}
+
+.publication-modal-text-new .publication-modal-section h3 {
+    font-size: 1.1em;
+    font-weight: var(--font-weight-bold);
+    margin-top: 25px;
+    margin-bottom: 12px;
+    color: var(--text-color-primary);
+    padding-bottom: 8px;
+    border-bottom: 1px solid #ddd; 
+}
+.publication-modal-text-new .publication-modal-section:first-child h3 {
+    margin-top: 0;
+}
+.publication-modal-text-new p {
+    font-size: 1em;
+    line-height: 1.65;
+    margin-bottom: 18px;
+}
+.publication-modal-text-new .publication-keywords-new {
+    margin-top: 5px; 
+    margin-bottom: 20px;
+}
+
+.publication-modal-citation-box {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #f8f8f8; 
+    border: 1px solid #ccc;
+    border-left: 4px solid var(--new-header-logo-bg); 
+}
+.publication-modal-citation-box h4 {
+    font-size: 1.05em;
+    font-weight: var(--font-weight-bold);
+    margin: 0 0 12px 0;
+}
+.publication-modal-citation-box p {
+    font-size: 0.9em;
+    font-family: var(--font-family-mono);
+    line-height: 1.6;
+    margin-bottom: 15px;
+    word-break: break-word;
+}
+.publication-modal-download-actions .btn,
+.publication-modal-citation-box .btn { 
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+.publication-modal-text-new a { 
+    font-weight: var(--font-weight-medium);
+}
+.publication-modal-text-new a:hover {
+    background-color: var(--accent-electric);
+    color: var(--text-color-on-accent);
+}
+
+/* Responsive adjustments for publications page */
+@media (max-width: 768px) {
+    .main-content-publications {
+        padding: 20px 15px;
+    }
+    .page-header-section h1 {
+        font-size: 2.2em;
+    }
+    .page-header-section p {
+        font-size: 1em;
+    }
+    .publications-grid-new {
+        grid-template-columns: 1fr; /* Single column on mobile */
+        gap: 20px;
+    }
+    .publication-modal-content-new {
+        padding: 25px 20px;
+        box-shadow: 0 0 0 3px var(--accent-electric); /* Thinner outline on mobile */
+    }
+    .publication-modal-title-new {
+        font-size: 1.5em;
+    }
+     .publication-card-new:hover .publication-abstract-new-wrapper {
+        max-height: 120px; /* Allow more abstract to show on mobile hover */
+    }
+}
+
+@media (max-width: 480px) {
+    .page-header-section h1 {
+        font-size: 1.8em;
+    }
+    .publication-title-new {
+        font-size: 1.1em;
+    }
+    .publication-modal-title-new {
+        font-size: 1.3em;
+    }
+    .publication-card-new:hover .publication-abstract-new-wrapper {
+        max-height: 150px; 
+    }
+}

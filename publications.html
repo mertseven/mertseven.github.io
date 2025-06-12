@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Publications - Mert Seven | High Contrast Search</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="publications.css"> <!-- Page-specific CSS -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="publications-page-wrapper"> <!-- Wrapper for layout + footer + dynamic header padding -->
+    <header class="new-main-header">
+        <a href="index.html" class="new-logo-area">
+            <span class="logo-main-text">MS</span>
+            <span class="logo-sub-text">THE <span>CRAFTER</span></span>
+        </a>
+        <nav class="new-main-nav">
+            <a href="index.html" class="new-nav-item">
+                <span class="nav-item-title">HOME</span>
+                <span class="nav-item-subtitle">Main / Overview</span>
+            </a>
+            <a href="projects.html" class="new-nav-item">
+                <span class="nav-item-title">PROJECTS</span>
+                <span class="nav-item-subtitle">Portfolio / Works</span>
+            </a>
+            <a href="publications.html" class="new-nav-item"> <!-- JS will set active class -->
+                <span class="nav-item-title">PUBLICATIONS</span>
+                <span class="nav-item-subtitle">Articles / Research</span>
+            </a>
+            <a href="dissertation.html" class="new-nav-item">
+                <span class="nav-item-title">DISSERTATION</span>
+                <span class="nav-item-subtitle">Thesis / Academic</span>
+            </a>
+        </nav>
+        <div class="search-trigger-area" id="search-bar-trigger" tabindex="0" title="Search Site (Ctrl+K)">
+            <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+        </div>
+        <span class="kbd-shortcut-header-hint">CTRL K</span>
+    </header>
+
+    <main class="main-content-publications">
+        <section class="page-header-section">
+            <h1>Publications</h1>
+            <p>A collection of my academic articles, research papers, and conference presentations.</p>
+        </section>
+
+        <section id="publications-content" class="publications-content-section">
+            <div id="publications-grid" class="publications-grid-new">
+                <!-- Publication cards will be dynamically inserted here by publications.js -->
+            </div>
+        </section>
+
+        <!-- Publication Modal -->
+        <div id="publication-modal" class="publication-modal-new">
+            <div class="publication-modal-content-new">
+                <span class="publication-modal-close-btn-new">×</span>
+                <div class="publication-modal-header-new">
+                    <h2 id="modal-title" class="publication-modal-title-new"></h2>
+                    <div id="modal-meta" class="publication-modal-meta-new">
+                        <!-- Meta content (year, authors) here -->
+                    </div>
+                </div>
+                <div id="modal-text" class="publication-modal-text-new">
+                    <!-- Abstract, keywords, download section here -->
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <p>© <script>document.write(new Date().getFullYear())</script> Mert Seven. All rights reserved.</p>
+         <p>Contact me: mert.seven@yasar.edu.tr</p>
+    </footer>
+  </div> <!-- END publications-page-wrapper -->
+
+    <div id="search-terminal-overlay" class="search-terminal-overlay hidden">
+        <div class="search-terminal-content">
+            <div class="search-terminal-input-wrapper">
+                <svg class="search-terminal-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+                <input type="text" id="terminal-search-input" placeholder="Start typing..." autocomplete="off">
+            </div>
+            <div class="search-terminal-results" id="search-terminal-results-container">
+                <div class="results-category-title" id="projects-results-title" style="display:block;">NAVIGATE TO</div>
+                <ul id="projects-search-results-list">
+                    <!-- Filtered results will appear here -->
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script> <!-- Global JS -->
+    <script src="publications.js"></script> <!-- Page-specific JS -->
+</body>
+</html>

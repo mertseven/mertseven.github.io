@@ -1,0 +1,775 @@
+/* style.css (High Contrast Base + Search Terminal + Iframe Preview + NEW HEADER) */
+
+:root {
+    /* "Monochrome Impact" High Contrast Palette */
+    --bg-color-page: #FFFFFF;         /* Pure White */
+    --bg-color-content: #FFFFFF;      /* Pure White */
+    --text-color-primary: #000000;    /* Pure Black */
+    --text-color-on-accent: #000000;  /* Black text on lime green for max contrast */
+    --border-color-strong: #000000;   /* Pure Black borders */
+
+    --accent-electric: #39FF14;       /* Electric Lime Green (Old accent) */
+    
+    /* New Header Specific Palette */
+    --new-header-logo-bg: #F07662; /* Salmon color from screenshot */
+    --new-header-logo-text: #000000;
+    --new-header-logo-invisible-bg: #000000;
+    --new-header-logo-invisible-text: #FFFFFF;
+    --new-header-nav-arrow: #D9534F; /* A red for the arrow */
+    --new-header-nav-subtitle: #555555;
+    --new-header-nav-active-bg: #FBE9E7; /* Light peach/salmon for active item */
+    --new-header-search-bg: #000000;
+    --new-header-search-icon-color: #FFFFFF;
+
+    /* Typography */
+    --font-family-main: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    --font-family-mono: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+    --font-weight-regular: 400;
+    --font-weight-medium: 500;
+    --font-weight-bold: 700;
+    --font-weight-extrabold: 800;
+    --font-weight-black: 900; /* For "EXPOSING" */
+
+    /* UI Elements */
+    --border-radius-sharp: 0px;
+    --border-radius-subtle: 3px;
+    --transition-speed-fast: 0.1s;
+
+    /* DYNAMIC HEADER HEIGHTS */
+    --header-top-bar-height: 70px; /* Approx height of the logo/search top bar, used for mobile */
+    
+    /* Mobile: Total height of header when stacked (logo/search row + 4 nav items) */
+    --header-nav-item-height-mobile: 75px; /* Approx height of one nav item on mobile */
+    --header-height-mobile-total: calc(var(--header-top-bar-height) + (4 * var(--header-nav-item-height-mobile)));
+    
+    /* Tablet & Desktop: Single row header height */
+    --header-height-desktop: 80px; /* Approx height of single integrated bar */
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    border-radius: var(--border-radius-sharp);
+    box-shadow: none !important;
+}
+
+body {
+    font-family: var(--font-family-main);
+    background-color: var(--bg-color-page);
+    color: var(--text-color-primary);
+    font-size: 15px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden; /* Prevent horizontal scroll issues */
+}
+body.mobile-menu-open-no-scroll { /* Class added by JS when search is open */
+    overflow: hidden;
+}
+
+
+a {
+    color: var(--text-color-primary);
+    text-decoration: underline;
+    text-decoration-color: var(--text-color-primary);
+    font-weight: var(--font-weight-medium);
+    transition: background-color var(--transition-speed-fast) ease, color var(--transition-speed-fast) ease;
+}
+a:hover:not(.new-logo-area):not(.new-nav-item) { /* Exclude new header items from general hover */
+    background-color: var(--accent-electric);
+    color: var(--text-color-on-accent);
+    text-decoration-color: var(--text-color-on-accent);
+}
+
+/* --- NEW HEADER STYLES --- */
+.new-main-header {
+    position: relative; /* Default to relative for mobile, overridden to fixed for larger screens */
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    background-color: var(--bg-color-page);
+    border-bottom: 1px solid var(--border-color-strong); /* Overall bottom border for the whole header */
+    display: flex; /* Flex container for logo, nav, and search */
+    flex-direction: column; /* Stack vertically by default for mobile */
+    align-items: stretch; /* Stretch items to fill width */
+}
+
+.new-logo-area {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 10px 20px;
+    background-color: var(--new-header-logo-bg);
+    /* Diagonal lines background */
+    background-image: repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 5px,
+        rgba(0,0,0,0.05) 5px,
+        rgba(0,0,0,0.05) 10px
+    );
+    color: var(--new-header-logo-text);
+    text-decoration: none;
+    font-family: var(--font-family-main);
+    flex-grow: 1; /* Allow logo to take available space on mobile row */
+    border-bottom: none; /* No bottom border here, as new-main-nav will provide it on mobile */
+    height: var(--header-top-bar-height); /* Fixed height for top bar on mobile */
+}
+.new-logo-area:hover {
+    background-color: var(--new-header-logo-bg); /* Keep bg on hover */
+}
+
+.logo-main-text {
+    font-size: 1.8em;
+    font-weight: var(--font-weight-black);
+    line-height: 1.1;
+    display: block;
+    letter-spacing: -0.5px;
+}
+
+/* Animation for the sub-text */
+@keyframes slideInFromLeft {
+    0% {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.logo-sub-text {
+    font-size: 0.9em;
+    font-weight: var(--font-weight-bold);
+    line-height: 1.2;
+    display: block;
+    margin-top: -2px;
+    overflow: hidden; /* Hide overflow during animation */
+    white-space: nowrap; /* Keep text on one line */
+    animation: slideInFromLeft 1.2s ease-out forwards; /* Apply animation */
+}
+.logo-sub-text span { /* "INVISIBLE" part */
+    background-color: var(--new-header-logo-invisible-bg);
+    color: var(--new-header-logo-invisible-text);
+    padding: 0px 4px;
+    border-radius: 2px;
+    margin-left: -2px;
+}
+
+.search-trigger-area {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--new-header-search-bg);
+    color: var(--new-header-search-icon-color);
+    width: var(--header-top-bar-height); /* Make it a square-ish bar */
+    height: var(--header-top-bar-height); /* Match logo height on mobile */
+    cursor: pointer;
+    flex-shrink: 0;
+    border-left: 1px solid var(--border-color-strong); /* Always has left border */
+    position: absolute; /* Position absolutely within the header on mobile */
+    top: 0;
+    right: 0;
+}
+.search-trigger-area .search-icon {
+    width: 28px;
+    height: 28px;
+    stroke-width: 2.5;
+}
+.search-trigger-area:hover {
+    background-color: #333;
+}
+
+.kbd-shortcut-header-hint { /* Ctrl+K hint */
+    display: none !important; /* Hide hint entirely */
+}
+
+
+.new-main-nav {
+    display: flex;
+    flex-direction: column; /* Stack vertically for mobile */
+    background-color: var(--bg-color-page);
+    flex-grow: 1; /* Allow nav to take available space */
+}
+
+.new-nav-item {
+    display: flex;
+    flex-direction: column; /* Default for mobile (title/subtitle stacked) */
+    justify-content: center;
+    padding: 15px 20px;
+    border-bottom: 1px solid var(--border-color-strong); /* Horizontal borders between items */
+    text-decoration: none;
+    color: var(--text-color-primary);
+    transition: background-color 0.15s ease;
+    flex-grow: 1; /* For grid/flex distribution */
+    min-height: var(--header-nav-item-height-mobile); /* Minimum height for mobile items */
+    border-right: none; /* No right border on mobile */
+}
+.new-nav-item:hover {
+    background-color: #f0f0f0;
+}
+.new-nav-item.active {
+    background-color: var(--new-header-nav-active-bg);
+}
+.new-nav-item.active .nav-item-title {
+    font-weight: var(--font-weight-bold);
+}
+
+
+.nav-item-title {
+    font-size: 1.5em;
+    font-weight: var(--font-weight-bold);
+    line-height: 1.2;
+    display: inline;
+}
+.nav-item-arrow {
+    font-size: 1.3em;
+    font-weight: var(--font-weight-bold);
+    color: var(--new-header-nav-arrow);
+    margin-left: 8px;
+    display: inline;
+}
+.nav-item-subtitle {
+    font-size: 0.85em;
+    color: var(--new-header-nav-subtitle);
+    margin-top: 3px;
+    display: block;
+}
+
+
+/* --- Project Page Layout --- */
+.projects-page-wrapper { 
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; 
+    /* Padding-top will be set by media queries */
+}
+.main-container {
+    display: flex;
+    flex-grow: 1; 
+    /* Removed height and overflow properties from here */
+    height: auto; /* Allow content to determine height */
+    overflow: visible; /* Allow content to overflow */
+}
+.sidebar {
+    width: 280px;
+    flex-shrink: 0;
+    background-color: var(--bg-color-content);
+    padding: 20px;
+    border-right: 1px solid var(--border-color-strong);
+    overflow-y: auto;
+}
+.sidebar h2 {
+    font-size: 0.8em; color: var(--text-color-primary);
+    text-transform: uppercase; letter-spacing: 0.6px;
+    margin-bottom: 15px; font-weight: var(--font-weight-bold);
+    border-bottom: 1.5px solid var(--border-color-strong);
+    padding-bottom: 8px;
+}
+.sidebar-nav ul { list-style: none; }
+.sidebar-nav ul ul { padding-left: 15px; margin-top: 5px; }
+.sidebar-nav a, .sidebar-nav summary {
+    display: flex; align-items: center;
+    padding: 7px 10px;
+    color: var(--text-color-primary);
+    font-size: 0.95em;
+    margin-bottom: 2px;
+    cursor: pointer;
+    font-weight: var(--font-weight-medium);
+    border: 1px solid transparent;
+    text-decoration: none;
+}
+.sidebar-nav a:hover, .sidebar-nav summary:hover {
+    background-color: #EFEFEF;
+    text-decoration: none;
+    color: var(--text-color-primary);
+}
+.sidebar-nav a.active {
+    background-color: var(--text-color-primary) !important;
+    color: var(--bg-color-content) !important;
+    font-weight: var(--font-weight-bold);
+    border-color: var(--text-color-primary) !important;
+}
+.sidebar-nav a.active:hover {
+    background-color: #333 !important;
+}
+.sidebar-nav summary { list-style: none; font-weight: var(--font-weight-bold); }
+.sidebar-nav summary::-webkit-details-marker { display: none; }
+.sidebar-nav summary .arrow {
+    display: inline-block; width: 14px; height: 14px;
+    margin-right: 8px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23000000' class='bi bi-chevron-right' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: center; background-size: contain;
+    transition: transform 0.15s ease-in-out;
+    order: -1;
+}
+.sidebar-nav details[open] > summary .arrow { transform: rotate(90deg); }
+.sidebar-nav details > summary.active .arrow,
+.sidebar-nav a.active ~ summary .arrow {
+     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23FFFFFF' class='bi bi-chevron-right' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E");
+}
+.badge {
+    margin-left: auto; font-size: 0.7em;
+    background-color: var(--bg-color-content); color: var(--text-color-primary);
+    border: 1px solid var(--border-color-strong); padding: 2px 7px;
+    border-radius: var(--border-radius-subtle); font-weight: var(--font-weight-bold);
+    text-transform: uppercase;
+}
+.sidebar-nav a.active .badge {
+    background-color: var(--accent-electric); color: var(--text-color-on-accent);
+    border-color: var(--text-color-on-accent);
+}
+.content-pane { 
+    flex-grow: 1;
+    padding: 25px 40px;
+    overflow-y: auto;
+}
+.breadcrumb {
+    font-size: 0.85em; color: #555; margin-bottom: 15px;
+    font-weight: var(--font-weight-medium); text-transform: uppercase;
+    font-family: var(--font-family-mono);
+}
+.content-pane h2 {
+    font-size: 2em; margin-bottom: 20px; font-weight: var(--font-weight-extrabold);
+    color: var(--text-color-primary); line-height: 1.2;
+}
+.content-pane p { margin-bottom: 15px; font-size: 1em; }
+.content-pane mark {
+    background-color: var(--accent-electric); padding: 0.1em 0.3em;
+    color: var(--text-color-on-accent);
+}
+.content-pane a[target="_blank"]::after { /* External link icon */
+    content: ''; display: inline-block; width: 0.7em; height: 0.7em;
+    margin-left: 0.3em; vertical-align: middle;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23000000' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5z'/%3E%3Cpath fill-rule='evenodd' d='M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0v-5z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: center; background-size: contain;
+}
+.content-pane a[target="_blank"]:hover::after {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23000000' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5z'/%3E%3Cpath fill-rule='evenodd' d='M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0v-5z'/%3E%3C/svg%3E");
+}
+.content-pane figure { margin: 25px 0; }
+.content-pane figure img { max-width: 100%; height: auto; border: 1px solid var(--border-color-strong); }
+.content-pane figure figcaption { font-size: 0.85em; color: #444; text-align: left; margin-top: 8px; font-weight: var(--font-weight-medium); }
+
+/* Project Iframe Preview Styles */
+.project-iframe-container {
+    width: 100%; height: 450px; margin-top: 20px; margin-bottom: 20px;
+    border: 1px solid var(--border-color-strong); background-color: #1a1a1a; 
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden; position: relative;
+}
+.project-iframe-container iframe { width: 100%; height: 100%; border: none; }
+.iframe-loading-message, .iframe-unavailable-message {
+    color: #DDDDDD; font-family: var(--font-family-mono); font-size: 0.9em;
+    padding: 20px; text-align: center;
+}
+.iframe-unavailable-message { color: #AAAAAA; }
+
+/* Technologies Used Box Styles */
+.technologies-used {
+    margin-top: 20px;
+    margin-bottom: 20px; /* Add some space below it */
+    font-size: 0.9em;
+    line-height: 1.6;
+}
+.technologies-used strong {
+    display: block; /* Make the title a block element */
+    margin-bottom: 10px;
+    font-size: 1em; /* Match parent font size */
+    font-weight: var(--font-weight-bold);
+    color: var(--text-color-primary);
+}
+.tech-item {
+    display: inline-block;
+    background-color: var(--new-header-logo-bg); /* Use accent color for tags */
+    color: var(--new-header-logo-text); /* Black text on accent */
+    padding: 5px 10px;
+    margin-right: 8px;
+    margin-bottom: 8px;
+    border: 1px solid var(--border-color-strong);
+    font-size: 0.8em;
+    font-weight: var(--font-weight-medium);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    white-space: nowrap; /* Prevent breaking inside tag */
+}
+
+
+/* Footer Styles (shared) */
+.site-footer {
+    text-align: center; padding: 30px 20px;
+    border-top: 1px solid var(--border-color-strong);
+    font-size: 0.85em; color: #555555;
+    background-color: var(--bg-color-content);
+    flex-shrink: 0;
+    margin-top: auto; /* This helps push the footer down if content is short */
+}
+
+::-webkit-scrollbar { width: 12px; height: 12px; }
+::-webkit-scrollbar-track { background: #E0E0E0; }
+::-webkit-scrollbar-thumb { background: var(--text-color-primary); border: 2px solid #E0E0E0; }
+::-webkit-scrollbar-thumb:hover { background: #333; }
+
+
+/* --- RESPONSIVE STYLES for NEW HEADER and PAGE LAYOUT --- */
+
+/* Mobile First (max-width: 767px): Header is not fixed, search button is right of logo, nav stacks below */
+@media (max-width: 767px) {
+    .new-main-header {
+        position: relative; /* Make header scroll with content */
+        flex-direction: column; /* Stack logo/search row and nav below */
+        height: auto; /* Allow height to adjust based on content */
+        padding-top: 0; /* No fixed padding needed if header scrolls */
+    }
+
+    .new-logo-area {
+        border-bottom: none; /* No bottom border here, as new-main-nav will provide it on mobile */
+        flex-grow: 1;
+        width: auto; /* Allow logo to take full available width */
+    }
+
+    /* Create a flex row for the logo and search within the header's top part */
+    .new-main-header > .new-logo-area { /* Target specific logo area, now a direct child of header */
+        flex-grow: 1;
+        width: auto;
+    }
+    
+    .new-main-header { /* This wraps the top bar and nav items */
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* Mobile specific positioning for search button */
+    .search-trigger-area {
+        position: absolute; /* Position relative to .new-main-header */
+        top: 0;
+        right: 0;
+        width: var(--header-top-bar-height);
+        height: var(--header-top-bar-height);
+        border-left: 1px solid var(--border-color-strong);
+    }
+
+    .new-main-nav {
+        flex-direction: column; /* Ensure nav items stack */
+        border-top: 1px solid var(--border-color-strong); /* Separator between logo/search and nav */
+    }
+    .new-nav-item {
+        border-right: none; /* No right border on mobile */
+        border-bottom: 1px solid var(--border-color-strong); /* Keep bottom borders between stacked items */
+    }
+    .new-nav-item:last-child {
+       border-bottom: none; /* Remove bottom border from last item in stacked view */
+    }
+
+    .projects-page-wrapper {
+        padding-top: 0; /* Remove fixed padding as header scrolls */
+        height: auto; /* Let content determine height */
+        overflow: visible; /* Allow content to overflow */
+        min-height: 100vh; /* Ensure it's at least 100vh tall */
+    }
+    .main-container { 
+        flex-direction: column;
+        height: auto; /* Allow content to determine height */
+        overflow: visible; /* Allow content to overflow */
+    }
+    .sidebar { 
+        width: 100%; 
+        height: auto; 
+        max-height: 40vh; 
+        border-right: none; 
+        border-bottom: 1px solid var(--border-color-strong);
+        overflow-y: auto; 
+    }
+    .content-pane { 
+        height: auto; 
+        padding: 20px; 
+        overflow: visible;
+    }
+    .content-pane h2 { font-size: 1.7em; }
+    .project-iframe-container { height: 300px; }
+}
+
+/* Tablet (min-width: 768px and max-width: 1023px): Header is fixed, single row integrated nav */
+@media (min-width: 768px) and (max-width: 1023px) {
+    .new-main-header {
+        position: fixed; /* Header is fixed on tablet */
+        display: flex; /* Logo, nav, search in a row */
+        flex-direction: row;
+        align-items: stretch; /* Stretch items to fill header height */
+        justify-content: space-between; /* Push search to the right */
+        height: var(--header-height-desktop); /* Use desktop height for a consistent single row */
+        border-bottom: 1px solid var(--border-color-strong); /* Single bottom border */
+    }
+    /* The logo area */
+    .new-logo-area {
+        order: 1; /* First item in flex order */
+        flex-grow: 0; /* Don't let logo grow excessively */
+        flex-shrink: 0; /* Prevent logo from shrinking */
+        padding: 10px 25px; /* Adjust padding */
+        border-bottom: none; /* No individual bottom border */
+        border-right: 1px solid var(--border-color-strong); /* Right border to separate from nav */
+        height: 100%; /* Fill header height */
+    }
+
+    /* The main navigation container */
+    .new-main-nav {
+        order: 2; /* Second item in flex order */
+        display: flex; /* Make nav items horizontal */
+        flex-direction: row;
+        flex-grow: 1; /* Nav takes up remaining space */
+        height: 100%; /* Fill header height */
+        border: none; /* No borders for the nav container itself */
+        background-color: transparent; /* Transparent background */
+    }
+    /* Individual navigation items */
+    .new-nav-item {
+        flex-direction: column; /* Title and subtitle stacked within each item */
+        align-items: center; /* Center content horizontally */
+        justify-content: center; /* Center content vertically */
+        text-align: center;
+        padding: 10px 15px; /* Adjust padding */
+        border: none; /* Remove previous grid borders */
+        border-right: 1px solid var(--border-color-strong); /* Vertical separators between nav items */
+        min-height: auto; /* Reset min-height */
+        height: 100%; /* Fill header height */
+    }
+    .new-nav-item:last-child {
+        border-right: none; /* No border on the very last nav item */
+    }
+    .nav-item-title {
+        font-size: 0.9em; /* Adjust font size for tablet */
+        font-weight: var(--font-weight-bold);
+        margin-bottom: 0; /* Remove bottom margin if any */
+    }
+    .nav-item-arrow {
+        display: none; /* Hide arrow on tablet */
+    }
+    .nav-item-subtitle {
+        font-size: 0.75em; /* Adjust font size for tablet */
+        margin-top: 2px;
+        display: block;
+    }
+    .new-nav-item.active {
+        box-shadow: inset 0 -3px 0 0 var(--new-header-logo-bg); /* Bottom accent line */
+        background-color: transparent; /* No active background color on tablet */
+    }
+    .new-nav-item:hover:not(.active) {
+        background-color: #f5f5f5;
+    }
+
+    /* The search trigger area */
+    .search-trigger-area {
+        order: 3; /* Last item in flex order */
+        position: relative; /* Not absolute anymore, flows with flex */
+        width: var(--header-height-desktop); /* Match width to header height for square button */
+        height: 100%; /* Fill header height, fixing overflow */
+        border-left: 1px solid var(--border-color-strong); /* Left border to separate from nav */
+    }
+
+    /* Adjust main page content padding and height for fixed header */
+    .projects-page-wrapper { 
+        padding-top: var(--header-height-desktop); /* Padding to account for fixed header */
+        min-height: 100vh; /* Ensure full viewport height */
+        height: auto; /* Let content determine height */
+        overflow: visible; /* Allow content to overflow */
+    }
+    .main-container {
+        /* This now allows content to determine height */
+        height: auto; 
+        overflow: visible; 
+    }
+    .sidebar, .content-pane {
+        height: auto; /* Allow content to determine height */
+        max-height: calc(100vh - var(--header-height-desktop) - var(--footer-height-approx)); /* Adjust as needed */
+        overflow-y: auto; /* Allow scrolling inside pane/sidebar if content overflows */
+    }
+    .sidebar { width: 250px; } /* Adjust sidebar width for tablet */
+}
+
+/* Desktop (min-width: 1024px): Header is fixed, single row integrated nav */
+@media (min-width: 1024px) {
+    .new-main-header {
+        position: fixed; /* Header is fixed on desktop */
+        display: flex; /* Logo, nav, search in a row */
+        flex-direction: row;
+        align-items: stretch;
+        justify-content: space-between; /* Push search to the right */
+        height: var(--header-height-desktop);
+        border-bottom: 1px solid var(--border-color-strong); /* Single bottom border */
+    }
+    .new-logo-area {
+        order: 1; /* First item */
+        flex-grow: 0;
+        flex-shrink: 0;
+        padding: 10px 25px;
+        border-bottom: none; /* No individual bottom border */
+        border-right: 1px solid var(--border-color-strong); /* Right border for logo area */
+        height: 100%; /* Fill header height */
+    }
+    .logo-main-text { font-size: 2em; }
+    .logo-sub-text { font-size: 1em; }
+
+    .new-main-nav {
+        order: 2; /* Second item */
+        display: flex; /* Make nav items horizontal */
+        flex-direction: row;
+        flex-grow: 1; /* Nav takes up remaining space */
+        height: 100%;
+        border: none; /* No borders for the nav container itself */
+        background-color: transparent;
+    }
+    .new-nav-item {
+        flex-direction: column; /* Title, subtitle stacked but vertically centered */
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 10px 15px;
+        border: none;
+        border-right: 1px solid var(--border-color-strong); /* Vertical separators */
+        min-height: auto;
+        height: 100%;
+    }
+    .new-nav-item:last-child {
+        border-right: none; /* No border on the very last nav item */
+    }
+    .nav-item-title { font-size: 0.9em; font-weight: var(--font-weight-bold); margin-bottom: 0; }
+    .nav-item-arrow { display: none; } /* Hide arrow on desktop */
+    .nav-item-subtitle { font-size: 0.75em; margin-top: 2px; display: block; }
+
+    .new-nav-item.active {
+         box-shadow: inset 0 -3px 0 0 var(--new-header-logo-bg); /* Bottom accent line */
+         background-color: transparent; /* No active background color on desktop */
+    }
+    .new-nav-item:hover:not(.active) {
+        background-color: #f5f5f5;
+    }
+
+    .search-trigger-area {
+        order: 3; /* Last item */
+        position: relative; /* Back to relative positioning within flex flow */
+        width: var(--header-height-desktop);
+        height: 100%;
+        border-left: 1px solid var(--border-color-strong);
+    }
+
+    .projects-page-wrapper {
+        padding-top: var(--header-height-desktop);
+        min-height: 100vh; /* Ensure it's at least 100vh tall */
+        height: auto; /* Let content determine height */
+        overflow: visible; /* Allow content to overflow */
+    }
+    .main-container {
+        /* This now allows content to determine height */
+        height: auto; 
+        overflow: visible; 
+    }
+    .sidebar { 
+        width: 280px; 
+        height: auto; /* Allow content to determine height */
+        max-height: calc(100vh - var(--header-height-desktop) - var(--footer-height-approx)); /* Adjust as needed */
+    }
+    /* Add a variable for approximate footer height */
+    :root {
+        /* ... existing variables ... */
+        --footer-height-approx: 100px; /* Approximate height of your footer */
+    }
+}
+
+@media (max-width: 480px) { /* Small mobile */
+    .logo-main-text { font-size: 1.5em; }
+    .logo-sub-text { font-size: 0.8em; }
+    .new-nav-item { padding: 10px 15px; }
+    .nav-item-title { font-size: 1.3em; }
+    .nav-item-subtitle { font-size: 0.8em; }
+    .search-trigger-area .search-icon { width: 24px; height: 24px; }
+    
+    .search-terminal-overlay { 
+        padding-top: 5vh; 
+        padding-left: 5px; padding-right: 5px;
+    }
+}
+
+
+/* Search Terminal Overlay Styles (largely unchanged) */
+.search-terminal-overlay {
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    background-color: rgba(30, 30, 30, 0.6);
+    display: flex; align-items: flex-start; justify-content: center;
+    padding-top: 10vh; 
+    z-index: 2000;
+    opacity: 0; visibility: hidden;
+    transition: opacity 0.2s ease-in-out, visibility 0s linear 0.2s;
+    padding-left: 10px; padding-right: 10px; 
+}
+.search-terminal-overlay:not(.hidden) {
+    opacity: 1; visibility: visible;
+    transition: opacity 0.2s ease-in-out, visibility 0s linear 0s;
+}
+.search-terminal-content {
+    background-color: #000000cc; color: var(--bg-color-page); 
+    border-radius: 8px; width: 100%; max-width: 600px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    overflow: hidden; display: flex; flex-direction: column;
+}
+.search-terminal-input-wrapper {
+    display: flex; align-items: center; padding: 12px 16px;
+    border-bottom: 3px solid var(--new-header-logo-bg);
+}
+.search-terminal-icon { stroke: #909296; margin-right: 12px; flex-shrink: 0; }
+#terminal-search-input {
+    flex-grow: 1; background: transparent; border: none; outline: none;
+    color: #FFFFFF; font-size: 1.1em; font-family: var(--font-family-main);
+    padding: 4px 0;
+}
+#terminal-search-input::placeholder { color: #707276; }
+.search-terminal-results {
+    padding: 8px 8px 16px 8px; max-height: 50vh; overflow-y: auto;
+}
+.search-terminal-results::-webkit-scrollbar { width: 6px; }
+.search-terminal-results::-webkit-scrollbar-track { background: transparent; }
+.search-terminal-results::-webkit-scrollbar-thumb { background: #4A4D50; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #5A5D60; }
+.results-category-title {
+    font-size: 0.75em; color: #909296; text-transform: uppercase;
+    padding: 12px 12px 6px 12px; font-weight: var(--font-weight-medium);
+}
+.search-terminal-results ul { list-style: none; padding: 0; margin: 0; }
+.search-terminal-results li {
+    display: flex; align-items: flex-start; padding: 10px 12px;
+    border-radius: 6px; cursor: pointer; transition: background-color 0.1s ease;
+}
+.search-terminal-results li:hover, .search-terminal-results li.selected { background-color: #383A3D; }
+.search-terminal-results li .item-icon-project {
+    width: 28px; height: 28px; margin-right: 12px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center; padding-top: 2px;
+}
+.search-terminal-results li .item-icon-project svg { width: 18px; height: 18px; color: #C0C2C5; }
+.search-terminal-results li .item-text {
+    font-size: 0.95em; color: #E0E0E0; 
+    display: flex; flex-direction: column;
+}
+.search-terminal-results li .item-text-project-name { font-weight: var(--font-weight-medium); }
+.search-terminal-results li .item-text-project-name strong { color: var(--new-header-logo-bg); }
+.search-terminal-results li .item-text-project-breadcrumb {
+    font-size: 0.8em; color: #808285; margin-top: 2px;
+    font-family: var(--font-family-mono);
+}
+.search-terminal-results li .item-text-project-breadcrumb strong {
+    color: var(--new-header-logo-bg);
+}
+.search-terminal-results li .item-text-project-snippet {
+    font-size: 0.8em; color: #a0a2a5; display: block;
+    margin-top: 4px; font-style: italic; line-height: 1.3;
+}
+.search-terminal-results li .item-text-project-snippet strong {
+    color: var(--new-header-logo-bg); font-weight: bold; font-style: normal; 
+}
+
+.hidden {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    transition: opacity 0.2s ease-in-out, visibility 0s linear 0.2s !important;
+}
