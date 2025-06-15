@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mert Seven</title>
+    <link rel="stylesheet" href="style.css"> <!-- Global styles -->
+    <link rel="stylesheet" href="homepage.css"> <!-- Homepage-specific styles -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="homepage-wrapper">
+    <!-- START: HEADER - THIS SECTION MUST REMAIN UNCHANGED FOR JS FUNCTIONALITY -->
+    <header class="new-main-header">
+<a href="index.html" class="new-logo-area">
+    <img src="images/ms.svg" alt="Mert Seven Logo" class="new-logo-image">
+</a>        <nav class="new-main-nav">
+            <a href="index.html" class="new-nav-item">
+                <span class="nav-item-title">HOME</span>
+                <span class="nav-item-subtitle">Main / Overview</span>
+            </a>
+            <a href="projects.html" class="new-nav-item">
+                <span class="nav-item-title">PROJECTS</span>
+                <span class="nav-item-subtitle">Portfolio / Works</span>
+            </a>
+            <a href="publications.html" class="new-nav-item">
+                <span class="nav-item-title">RESEARCH</span>
+                <span class="nav-item-subtitle">Papers / Thesis</span>
+            </a>
+<a href="contact.html" class="new-nav-item">
+    <span class="nav-item-title">CONTACT</span>
+    <span class="nav-item-subtitle">Get in Touch</span>
+                        </a>
+        </nav>
+        <div class="search-trigger-area" id="search-bar-trigger" tabindex="0" title="Search Site (Ctrl+K)">
+            <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+        </div>
+        <span class="kbd-shortcut-header-hint">CTRL K</span>
+    </header>
+    <!-- END: HEADER -->
+
+    <main class="main-content-home brutalist-body">
+        <section class="brutalist-hero">
+            <div class="hero-block-main">
+                <h1 class="hero-name">MERT SEVEN</h1>
+            </div>
+            <div class="hero-block-sub">
+                <p class="hero-roles">
+                    DIGITAL <span class="accent-text-brutalist">CRAFTER</span><br>
+                    NEW MEDIA <span class="accent-text-brutalist">SCHOLAR</span>
+                </p>
+                <p class="hero-statement-brutalist">
+                    Building interactive experiences and digital systems. Exploring the human-technology narrative.
+                    Co-creating with <code class="code-highlight-brutalist">Claude AI</code> & <code class="code-highlight-brutalist">Gemini AI</code>.
+                </p>
+                <div class="hero-actions-brutalist">
+                    <a href="projects.html" class="btn-brutalist">EXPLORE WORK</a>
+                    <a href="publications.html" class="btn-brutalist btn-brutalist-secondary">VIEW PUBLICATIONS</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="brutalist-explorations">
+            <div class="explorations-header-block">
+                <h2 class="section-title-brutalist">CORE EXPLORATIONS</h2>
+            </div>
+            <div class="explorations-grid-brutalist">
+                <div class="exploration-item-brutalist">
+                    <h3>DIGITAL JOURNALISM & MEDIA</h3>
+                    <p>Crafting new narratives and workflows for the digital age, from interactive infographics to dynamic student platforms.</p>
+                    <a href="projects.html#project-jstudio" class="link-brutalist">Read more ></a>
+                </div>
+                <div class="exploration-item-brutalist">
+                    <h3>INTERACTIVE TOOLS & UTILITIES</h3>
+                    <p>Building functional and engaging digital tools, from classroom aids like Fortune Wheels to conceptual meta-viewers.</p>
+                    <a href="projects.html#project-fortune-wheel" class="link-brutalist">Read more ></a>
+                </div>
+                <div class="exploration-item-brutalist full-width-mobile">
+                    <h3>EDUCATIONAL & CONCEPTUAL INTERFACES</h3>
+                    <p>Transforming complex theories and philosophical ideas into interactive visualizations and playful learning games.</p>
+                    <a href="projects.html#project-critical-theory" class="link-brutalist">Read more ></a>
+                </div>
+            </div>
+        </section>
+
+        <section class="brutalist-philosophy">
+            <div class="philosophy-block-brutalist">
+                <h2 class="section-title-brutalist">PHILOSOPHY: EVER BECOMING</h2>
+                <blockquote class="quote-brutalist">
+                    "Nothing simply <mark>is</mark> in a fixed state. Instead, everything exists in a process of <mark>becoming</mark> something else."
+                </blockquote>
+                <p>This website, mirroring my work, is a space in constant transformation. Collaborating with tools like <code class="code-highlight-brutalist">Claude AI</code> and <code class="code-highlight-brutalist">Gemini AI</code> is integral, fostering deeper investigations into human-AI collaboration and the creation of more insightful, reflective digital artifacts.</p>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="site-footer">
+<p>Designed by Mert Seven ♦ Hosted on GitHub Pages</p>
+    <p>
+        This website is open source. 
+        <a href="https://github.com/mertseven/mertseven.github.io" target="_blank" rel="noopener noreferrer">View source and fork on GitHub</a>.
+    </p>
+    <p style="margin-top: 10px;">
+        <a rel="license" href="http://creativecommons.org/licenses/by/4.0/" target="_blank">
+            <img alt="Creative Commons License" style="border-width:0; vertical-align: middle;" src="https://i.creativecommons.org/l/by/4.0/80x15.png" />
+        </a>
+        Licensed under <a rel="license" href="http://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer">Creative Commons Attribution 4.0</a>.
+    </footer>
+  </div> <!-- END homepage-wrapper -->
+
+    <!-- START: SEARCH TERMINAL - THIS SECTION MUST REMAIN UNCHANGED FOR JS FUNCTIONALITY -->
+    <div id="search-terminal-overlay" class="search-terminal-overlay hidden">
+        <div class="search-terminal-content">
+            <div class="search-terminal-input-wrapper">
+                <svg class="search-terminal-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+                <input type="text" id="terminal-search-input" placeholder="Start typing..." autocomplete="off">
+            </div>
+            <div class="search-terminal-results" id="search-terminal-results-container">
+                <div class="results-category-title" id="projects-results-title" style="display:block;">NAVIGATE TO</div>
+                <ul id="projects-search-results-list">
+                    <!-- Filtered results will appear here -->
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- END: SEARCH TERMINAL -->
+
+    <script src="script.js"></script> <!-- Global JS for header, search -->
+    <!-- If you had homepage.js and it's not needed, you can remove its script tag -->
+</body>
+</html>

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact - Mert Seven</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+    <link href='https://fonts.googleapis.com/css?family=IBM+Plex+Mono' rel='stylesheet'>
+    
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="contact.css">
+</head>
+<body>
+  <div class="contact-page-wrapper">
+    <header class="new-main-header">
+        <a href="index.html" class="new-logo-area">
+            <img src="images/ms.svg" alt="Mert Seven Logo" class="new-logo-image">
+        </a>
+        <nav class="new-main-nav">
+            <a href="index.html" class="new-nav-item">
+                <span class="nav-item-title">HOME</span>
+                <span class="nav-item-subtitle">Main / Overview</span>
+            </a>
+            <a href="projects.html" class="new-nav-item">
+                <span class="nav-item-title">PROJECTS</span>
+                <span class="nav-item-subtitle">Portfolio / Works</span>
+            </a>
+            <a href="publications.html" class="new-nav-item">
+                <span class="nav-item-title">RESEARCH</span>
+                <span class="nav-item-subtitle">Papers / Thesis</span>
+            </a>
+            <a href="contact.html" class="new-nav-item active">
+                <span class="nav-item-title">CONTACT</span>
+                <span class="nav-item-subtitle">Get in Touch</span>
+            </a>
+        </nav>
+        <div class="search-trigger-area" id="search-bar-trigger" tabindex="0" title="Search Site (Ctrl+K)">
+            <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+        </div>
+        <span class="kbd-shortcut-header-hint">CTRL K</span>
+    </header>
+
+    <main class="main-content-contact">
+        <section class="page-header-section-contact">
+            <!-- Typewriter effect can be kept for the main page title if you like it -->
+            <h1 class="typewriter">GET IN TOUCH</h1> 
+            <p>Let's connect. I'm open to collaborations, inquiries, or discussions about digital crafting and new media scholarship.</p>
+        </section>
+
+        <div class="contact-layout-grid">
+            <section class="contact-form-section">
+                <h2 class="contact-section-title">Send a Message</h2> <!-- Modernized -->
+                <form id="contactForm" class="contact-form-new" action="https://formspree.io/f/xeoobzjk" method="POST">
+                    <div class="form-field">
+                        <label for="name">Full Name</label> <!-- Modernized -->
+                        <input type="text" id="name" name="name" required placeholder="Your Name">
+                        <div class="terminal-validation"></div>
+                    </div>
+
+                    <div class="form-field">
+                        <label for="email">Email Address</label> <!-- Modernized -->
+                        <input type="email" id="email" name="email" required placeholder="your.email@example.com">
+                        <div class="terminal-validation"></div>
+                    </div>
+
+                    <div class="form-field">
+                        <label for="subject">Subject</label> <!-- Modernized -->
+                        <input type="text" id="subject" name="subject" required placeholder="Message Subject">
+                        <div class="terminal-validation"></div>
+                    </div>
+
+                    <div class="form-field">
+                        <label for="message">Message</label> <!-- Modernized -->
+                        <textarea id="message" name="message" required placeholder="Compose your message..."></textarea>
+                        <div class="terminal-validation"></div>
+                    </div>
+
+                    <button type="submit" class="btn-brutalist contact-submit-btn">Send Message</button> <!-- Modernized -->
+                </form>
+                <div id="form-messages-container">
+                    <!-- Success/Error messages will be injected here by JS -->
+                </div>
+            </section>
+
+            <aside class="contact-sidebar-section">
+                <div class="contact-details-box">
+                    <h2 class="contact-section-title">Contact Details</h2> <!-- Modernized -->
+                    <p><strong>Mert Seven, PhD</strong></p>
+                    <p>New Media and Communication Department</p>
+                    <p>Office: B206, Yaşar University</p>
+                    <p>Email: <a href="mailto:mert.seven@yasar.edu.tr">mert.seven@yasar.edu.tr</a></p>
+                </div>
+
+                <div class="social-links-box">
+                    <h2 class="contact-section-title">Online Presence</h2> <!-- Modernized -->
+                    <ul class="social-links-list">
+                        <li><a href="YOUR_GOOGLE_SCHOLAR_LINK" target="_blank" rel="noopener noreferrer">Google Scholar</a></li>
+                        <li><a href="YOUR_ORCID_LINK" target="_blank" rel="noopener noreferrer">ORCID</a></li>
+                        <li><a href="YOUR_SOUNDCLOUD_LINK" target="_blank" rel="noopener noreferrer">Soundcloud</a></li>
+                        <li><a href="YOUR_LINKEDIN_LINK" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+                        <!-- Add more as needed -->
+                    </ul>
+                </div>
+
+                <div class="map-box">
+                    <h2 class="contact-section-title">Location</h2> <!-- Modernized -->
+                    <div class="map-embed-container">
+                        <iframe 
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3124.4240782824445!2d27.199708311418238!3d38.4547697717044!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14b97d34b9894483%3A0xccea44297ef6299!2sYa%C5%9Far%20University!5e0!3m2!1sen!2str!4v1749992219884!5m2!1sen!2str"
+                            width="100%" 
+                            height="300" 
+                            style="border:0;" 
+                            allowfullscreen="" 
+                            loading="lazy" 
+                            referrerpolicy="no-referrer-when-downgrade">
+                        </iframe>
+                    </div>
+                </div>
+            </aside>
+        </div>
+
+        <div id="transmission-status" class="transmission-status">
+            <div class="status-content">
+                <p class="status-text">SENDING MESSAGE...</p> <!-- Modernized -->
+                <div class="status-animation"></div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <p>© <script>document.write(new Date().getFullYear())</script> Mert Seven. All rights reserved.</p>
+        <p>Contact me: mert.seven@yasar.edu.tr</p>
+    </footer>
+  </div>
+
+    <div id="search-terminal-overlay" class="search-terminal-overlay hidden">
+        <!-- ... search terminal ... -->
+    </div>
+
+    <script src="script.js"></script>
+    <script src="contact.js"></script>
+</body>
+</html>

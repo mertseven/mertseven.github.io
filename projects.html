@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects - Mert Seven | High Contrast Search</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+     /*
+        For desktop/tablet side-by-side layout:
+        Make sidebar and content-pane fill the .main-container's height and be independently scrollable.
+        The overall page structure (header, main, footer) and .main-container's height are handled by style.css.
+     */
+       @media (min-width: 768px) { /* Corresponds to tablet/desktop breakpoints in style.css */
+           .main-container {
+                /*
+                   .main-container gets its height from style.css (flex-grow: 1 within .projects-page-wrapper).
+                   overflow: hidden establishes a new block formatting context and is necessary for
+                   height:100% on children with overflow:auto to work correctly without expanding .main-container.
+                */
+                overflow: hidden;
+           }
+           .sidebar,
+           .content-pane {
+              height: 100%; /* Fill the entire height of their parent, .main-container */
+              overflow-y: auto; /* Allow internal scrolling if content exceeds their height */
+           }
+       }
+       /*
+        Mobile layout (max-width: 767px):
+        The default behaviors and styles from style.css are sufficient.
+        .projects-page-wrapper, .main-container, .sidebar, .content-pane will stack and flow naturally.
+        .sidebar has max-height and overflow-y: auto from style.css for mobile if its content is long.
+        No specific overrides needed here for the footer spacing issue on mobile.
+       */
+    </style>
+    </head>
+<body>
+  <div class="projects-page-wrapper"> <!-- Wrapper for layout + footer + dynamic header padding -->
+    <header class="new-main-header">
+        <!-- The logo and search trigger are now direct children of new-main-header for easier flex control -->
+        <a href="index.html" class="new-logo-area">
+    <img src="images/ms.svg" alt="Mert Seven Logo" class="new-logo-image">
+        </a>
+        <nav class="new-main-nav">
+            <a href="index.html" class="new-nav-item">
+                <span class="nav-item-title">HOME</span>
+                <span class="nav-item-subtitle">Main / Overview</span>
+            </a>
+            <a href="projects.html" class="new-nav-item"> <!-- Removed 'active' class, JS will set it -->
+                <span class="nav-item-title">PROJECTS</span>
+                <span class="nav-item-subtitle">Portfolio / Works</span>
+            </a>
+            <a href="publications.html" class="new-nav-item">
+<span class="nav-item-title">RESEARCH</span>
+                <span class="nav-item-subtitle">Papers / Thesis</span>
+                        </a>
+<a href="contact.html" class="new-nav-item">
+    <span class="nav-item-title">CONTACT</span>
+    <span class="nav-item-subtitle">Get in Touch</span>
+            </a>
+        </nav>
+        <div class="search-trigger-area" id="search-bar-trigger" tabindex="0" title="Search Projects (Ctrl+K)">
+            <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+        </div>
+        <!-- KBD shortcut visual hint for search, now hidden by CSS -->
+        <span class="kbd-shortcut-header-hint">CTRL K</span>
+    </header>
+
+    <div class="main-container">
+        <aside class="sidebar">
+            <h2>EXPLORE</h2>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="#overview" class="active">Readme</a></li>
+                    <!-- Removed "My Projects" details and moved sub-categories directly here -->
+                    <li>
+                        <details open>
+                            <summary>
+                                <span class="arrow"></span>
+                                Digital Journalism & Media
+                            </summary>
+                            <ul>
+                                <li><a href="#project-jstudio">Journalism Studio Website <span class="badge">Web</span></a></li>
+                                <li><a href="#project-dj-workflow">Digital Journalism Workflow <span class="badge">Info</span></a></li>
+                                <li><a href="#project-dj-comparison">Traditional & Digital Journalism <span class="badge">Info</span></a></li>
+                            </ul>
+                        </details>
+                    </li>
+                    <li>
+                        <details open>
+                            <summary>
+                                <span class="arrow"></span>
+                                Tools & Utilities
+                            </summary>
+                            <ul>
+                                <li><a href="#project-fortune-wheel">Fortune Wheel <span class="badge">Tool</span></a></li>
+                                <li><a href="#project-xray-viewer">(Meta) X-Ray Viewer <span class="badge">Tool</span></a></li>
+                                <li><a href="#project-form-builder">Form Builder <span class="badge">Tool</span></a></li>
+                            </ul>
+                        </details>
+                    </li>
+                    <li>
+                        <details open>
+                            <summary>
+                                <span class="arrow"></span>
+                                Educational & Conceptual
+                            </summary>
+                            <ul>
+                                <li><a href="#project-critical-theory">Critical Theory Viz <span class="badge">Edu</span></a></li>
+                                <li><a href="#project-socrates-quest">Socrates' Quest <span class="badge">Game</span></a></li>
+                                <li><a href="#project-know-res">Knowledge & Research <span class="badge">Info</span></a></li>
+                            </ul>
+                        </details>
+                    </li>
+                     <li style="margin-top: 20px; border-top: 1px solid var(--border-color-strong); padding-top: 10px;"><a href="index.html">&larr; Back Home</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="content-pane">
+            <div id="overview" class="content-section">
+                <p class="breadcrumb">/portfolio/overview</p>
+                <h2>Projects & Explorations</h2>
+                <p>
+                    My projects blend together digital media, interactive tools, and educational experiments—each one a curious exploration at the intersection of technology, design, and social understanding.
+                    I build these digital playgrounds in collaboration with Anthropic's Claude to investigate how humans (including me) and technology interact, creating systems that reveal patterns in our collective experiences and behaviors.
+                </p>
+                <p>
+                    These works aren't just tools or websites; they're windows into how we communicate, learn, and connect in the digital age.
+                    They reflect my fascination with making complex concepts tangible through interactive experiences.
+                </p>
+                <p>Here are some of my favorite works so far—feel free to explore and interact with them.</p>
+            </div>
+
+            <div id="project-jstudio" class="content-section" style="display: none;">
+                <p class="breadcrumb">/portfolio/digital-journalism-media/journalism-studio-website</p>
+                <h2>Journalism Studio Website</h2>
+                <p>This project showcases a dynamic platform designed for journalism students, featuring curated projects, insights into digital journalism trends, and advanced reporting techniques. It serves as a comprehensive resource for aspiring journalists to explore data-driven storytelling, investigative methodologies, and modern media distribution strategies.</p>
+                <div class="technologies-used">
+                    <strong>Technologies Used:</strong>
+                    <span class="tech-item">HTML5</span>
+                    <span class="tech-item">CSS3</span>
+                    <span class="tech-item">JavaScript</span>
+                    <span class="tech-item">Responsive Design</span>
+                </div>
+                <p><a href="https://mertseven.com/jstudio/index.html" target="_blank" rel="noopener noreferrer">View Project</a></p>
+                <div class="project-iframe-container" data-iframe-src="https://mertseven.com/jstudio/index.html">
+                    <p class="iframe-loading-message">Loading live preview...</p>
+                </div>
+            </div>
+
+            <div id="project-fortune-wheel" class="content-section" style="display: none;">
+                <p class="breadcrumb">/portfolio/tools-utilities/fortune-wheel</p>
+                <h2>Fortune Wheel</h2>
+                <p>The Fortune Wheel is an interactive classroom tool designed for randomized participant selection. It features engaging spinning animations and flexible input methods, allowing names to be added individually, imported from a class list, or uploaded via file. This tool enhances classroom engagement by introducing an element of suspense and equitable selection.</p>
+                <div class="technologies-used">
+                    <strong>Technologies Used:</strong>
+                    <span class="tech-item">HTML5 Canvas</span>
+                    <span class="tech-item">JavaScript</span>
+                    <span class="tech-item">CSS3 Animations</span>
+                    <span class="tech-item">File API</span>
+                </div>
+                <p><a href="https://mertseven.com/wheel-html.html" target="_blank" rel="noopener noreferrer">View Project</a></p>
+                <div class="project-iframe-container" data-iframe-src="https://mertseven.com/wheel-html.html">
+                     <p class="iframe-loading-message">Loading live preview...</p>
+                </div>
+            </div>
+
+            <div id="project-critical-theory" class="content-section" style="display: none;">
+                <p class="breadcrumb">/portfolio/educational-conceptual/critical-theory-visualization</p>
+                <h2>Critical Theory Visualization</h2>
+                <p>This project offers an interactive visualization of the complex relationships and intellectual contributions within the Frankfurt School of critical theory. It aims to demystify intricate philosophical concepts and encourage deeper engagement with the foundational ideas that challenge societal norms and structures. (Part of the "Teaching Can Something" series).</p>
+                <div class="technologies-used">
+                    <strong>Technologies Used:</strong>
+                    <span class="tech-item">HTML5</span>
+                    <span class="tech-item">CSS3</span>
+                    <span class="tech-item">JavaScript (D3.js for visualization)</span>
+                    <span class="tech-item">SVG</span>
+                </div>
+                <p><a href="https://mertseven.com/critical_theory/index.html" target="_blank" rel="noopener noreferrer">View Project</a></p>
+                 <div class="project-iframe-container" data-iframe-src="https://mertseven.com/critical_theory/index.html">
+                     <p class="iframe-loading-message">Loading live preview...</p>
+                </div>
+            </div>
+
+            <div id="project-dj-workflow" class="content-section" style="display: none;">
+                <p class="breadcrumb">/portfolio/digital-journalism-media/digital-journalism-workflow</p>
+                <h2>Digital Journalism Workflow</h2>
+                <p>An insightful interactive infographic illustrating the modern digital journalism workflow. Users can explore various stages of content creation, from data acquisition and narrative structuring to multi-platform distribution, highlighting key tools and methodologies employed in contemporary news production.</p>
+                <div class="technologies-used">
+                    <strong>Technologies Used:</strong>
+                    <span class="tech-item">HTML5</span>
+                    <span class="tech-item">CSS3</span>
+                    <span class="tech-item">JavaScript</span>
+                    <span class="tech-item">Interactive UI/UX</span>
+                </div>
+                <p><a href="https://mertseven.com/digijournalism/index.html" target="_blank" rel="noopener noreferrer">View Project</a></p>
+                <div class="project-iframe-container" data-iframe-src="https://mertseven.com/digijournalism/index.html">
+                     <p class="iframe-loading-message">Loading live preview...</p>
+                </div>
+             </div>
+
+            <div id="project-socrates-quest" class="content-section" style="display: none;">
+                <p class="breadcrumb">/portfolio/educational-conceptual/socrates-quest-for-knowledge</p>
+                <h2>Socrates' Quest for Knowledge</h2>
+                <p>An educational game simulating philosophical discourse in ancient Athens. Players engage in Socratic dialogues, challenging their critical thinking and logical reasoning skills. The project aims to provide an interactive introduction to Socratic method and classical philosophy.</p>
+                <div class="technologies-used">
+                    <strong>Technologies Used:</strong>
+                    <span class="tech-item">HTML5</span>
+                    <span class="tech-item">CSS3</span>
+                    <span class="tech-item">JavaScript</span>
+                    <span class="tech-item">Game Logic</span>
+                </div>
+                <p><a href="https://mertseven.com/socrates/socrates.html" target="_blank" rel="noopener noreferrer">View Project</a></p>
+                <div class="project-iframe-container" data-iframe-src="https://mertseven.com/socrates/socrates.html">
+                    <p class="iframe-loading-message">Loading live preview...</p>
+                </div>
+            </div>
+
+            <div id="project-know-res" class="content-section" style="display: none;">
+                <p class="breadcrumb">/portfolio/educational-conceptual/knowledge-and-research</p>
+                <h2>Knowledge & Research</h2>
+                <p>This interactive module explores fundamental concepts of epistemology and research methodology. Through engaging content, it prompts users to reflect on the nature of knowledge, different forms of inquiry, and challenges in academic research, bridging ancient philosophical perspectives with modern intellectual dilemmas.</p>
+                <div class="technologies-used">
+                    <strong>Technologies Used:</strong>
+                    <span class="tech-item">HTML5</span>
+                    <span class="tech-item">CSS3</span>
+                    <span class="tech-item">JavaScript</span>
+                    <span class="tech-item">Conceptual Design</span>
+                </div>
+                <p><a href="https://mertseven.com/know_res/index.html" target="_blank" rel="noopener noreferrer">View Project</a></p>
+                <div class="project-iframe-container" data-iframe-src="https://mertseven.com/know_res/index.html">
+                    <p class="iframe-loading-message">Loading live preview...</p>
+                </div>
+            </div>
+
+            <div id="project-xray-viewer" class="content-section" style="display: none;">
+                <p class="breadcrumb">/portfolio/tools-utilities/x-ray-viewer</p>
+                <h2>X-Ray Viewer (Meta)</h2>
+                <p>The X-Ray Viewer is a meta-tool designed to visualize the underlying HTML structure of web elements upon hover. It provides an intuitive way for users to inspect the document object model (DOM), revealing nesting, styling application, and element properties in real-time, aiding in web development and debugging. (Note: This is a conceptual description of a tool you built; its live functionality would require integration.)</p>
+                <div class="technologies-used">
+                    <strong>Technologies Used:</strong>
+                    <span class="tech-item">JavaScript (DOM Manipulation)</span>
+                    <span class="tech-item">CSS3</span>
+                    <span class="tech-item">Browser Developer Tools Integration (Conceptual)</span>
+                </div>
+                <p><a href="#" onclick="alert('This describes a tool. Functionality would need to be integrated.'); return false;">About This Tool</a></p>
+                <div class="project-iframe-container" data-iframe-src="#">
+                   <p class="iframe-loading-message" style="display: none;"></p><!-- Ensure loading msg hidden -->
+                    <p class="iframe-unavailable-message">Live preview not applicable for this tool description.</p>
+                </div>
+            </div>
+
+            <div id="project-form-builder" class="content-section" style="display: none;">
+                <p class="breadcrumb">/portfolio/tools-utilities/form-builder</p>
+                <h2>Form Builder</h2>
+                <p>This project features a versatile form builder application, empowering users to design custom evaluation forms with dynamic criteria and scoring systems. It streamlines data collection and assessment processes, making it suitable for various analytical or evaluative tasks requiring structured input and customizable metrics.</p>
+                <div class="technologies-used">
+                    <strong>Technologies Used:</strong>
+                    <span class="tech-item">HTML5</span>
+                    <span class="tech-item">CSS3</span>
+                    <span class="tech-item">JavaScript (Dynamic Form Generation)</span>
+                    <span class="tech-item">Local Storage (Conceptual)</span>
+                </div>
+                <p><a href="https://mertseven.com/form-builder.html" target="_blank" rel="noopener noreferrer">View Project</a></p>
+                 <div class="project-iframe-container" data-iframe-src="https://mertseven.com/form-builder.html">
+                    <p class="iframe-loading-message">Loading live preview...</p>
+                </div>
+            </div>
+
+            <div id="project-dj-comparison" class="content-section" style="display: none;">
+                <p class="breadcrumb">/portfolio/digital-journalism-media/traditional-digital-journalism</p>
+                <h2>Traditional and Digital Journalism</h2>
+                <p>An analytical comparison illustrating the evolution and divergence between traditional and digital journalism paradigms. This project explores key distinctions in content creation, dissemination, and audience engagement, offering insights into the transformative impact of technology on news production and consumption.</p>
+                <div class="technologies-used">
+                    <strong>Technologies Used:</strong>
+                    <span class="tech-item">HTML5</span>
+                    <span class="tech-item">CSS3</span>
+                    <span class="tech-item">JavaScript (Interactive Elements)</span>
+                    <span class="tech-item">Information Architecture</span>
+                </div>
+                <p><a href="https://mertseven.com/digijournalism/journalism-lifecycle.html" target="_blank" rel="noopener noreferrer">View Project</a></p>
+                <div class="project-iframe-container" data-iframe-src="https://mertseven.com/digijournalism/journalism-lifecycle.html">
+                    <p class="iframe-loading-message">Loading live preview...</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <footer class="site-footer">
+<p>Designed by Mert Seven ♦ Hosted on GitHub Pages</p>
+    <p>
+        This website is open source. 
+        <a href="https://github.com/mertseven/mertseven.github.io" target="_blank" rel="noopener noreferrer">View source and fork on GitHub</a>.
+    </p>
+    <p style="margin-top: 10px;">
+        <a rel="license" href="http://creativecommons.org/licenses/by/4.0/" target="_blank">
+            <img alt="Creative Commons License" style="border-width:0; vertical-align: middle;" src="https://i.creativecommons.org/l/by/4.0/80x15.png" />
+        </a>
+        Licensed under <a rel="license" href="http://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer">Creative Commons Attribution 4.0</a>.
+    </p>    </footer>
+ </div> <!-- END projects-page-wrapper -->
+
+    <div id="search-terminal-overlay" class="search-terminal-overlay hidden">
+        <div class="search-terminal-content">
+            <div class="search-terminal-input-wrapper">
+                <svg class="search-terminal-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+                <input type="text" id="terminal-search-input" placeholder="Start typing..." autocomplete="off">
+            </div>
+            <div class="search-terminal-results" id="search-terminal-results-container">
+                <div class="results-category-title" id="projects-results-title" style="display:block;">PROJECTS</div>
+                <ul id="projects-search-results-list">
+                    <!-- Filtered projects will appear here -->
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dissertation - Mert Seven</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        /* Basic Defaults & CSS Variables (formerly in global style.css) */
+        :root {
+            --bg-color-page: #f4f4f4; /* Light gray background */
+            --bg-color-content: #ffffff; /* White content background */
+            --text-color-primary: #1a1a1a; /* Dark gray for text */
+            --text-color-secondary: #555555; /* Medium gray */
+            --border-color-strong: #c5c5c5; /* Stronger border */
+            --border-color-light: #e0e0e0; /* Lighter border */
+            --accent-electric: #007bff; /* A vibrant blue for accent */
+            --header-height-desktop: 0px; /* Header is removed, so no fixed height needed */
+
+            --font-family-main: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            --font-weight-regular: 400;
+            --font-weight-medium: 500;
+            --font-weight-bold: 700;
+            --font-weight-black: 900;
+        }
+
+        body {
+            font-family: var(--font-family-main);
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color-page);
+            color: var(--text-color-primary);
+            line-height: 1.6;
+        }
+
+        /* Basic Button Styles (formerly global) */
+        .btn {
+            display: inline-flex; /* For aligning icon and text */
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-family-main);
+            font-weight: var(--font-weight-medium);
+            text-decoration: none;
+            cursor: pointer;
+            border: 1px solid transparent;
+            padding: 10px 18px;
+            font-size: 0.95em;
+            border-radius: 5px;
+            transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+            white-space: nowrap;
+        }
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .btn-primary {
+            background-color: var(--accent-electric);
+            color: var(--bg-color-content); /* White text on accent */
+            border-color: var(--accent-electric);
+        }
+        .btn-primary:hover, .btn-primary:focus {
+            background-color: #0056b3; /* Darker shade of accent */
+            border-color: #0056b3;
+            box-shadow: 0 2px 8px rgba(0, 123, 255, 0.3);
+        }
+
+        .btn-secondary {
+            background-color: #6c757d; /* Bootstrap secondary color */
+            color: var(--bg-color-content);
+            border-color: #6c757d;
+        }
+        .btn-secondary:hover, .btn-secondary:focus {
+            background-color: #5a6268;
+            border-color: #545b62;
+            box-shadow: 0 2px 8px rgba(108, 117, 125, 0.3);
+        }
+        .btn svg {
+            vertical-align: middle; /* Better alignment for inline SVGs */
+        }
+
+
+        /* dissertation.css START */
+
+        .dissertation-page-wrapper {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            background-color: var(--bg-color-page);
+            padding-top: 0; /* Header is gone, no padding needed */
+        }
+
+        .main-content-dissertation {
+            flex-grow: 1;
+            width: 100%;
+            max-width: 1000px; /* Consistent max-width for content pages */
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
+
+        /* Page Header Section */
+        .page-header-section {
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+            border-bottom: 1.5px solid var(--border-color-strong);
+        }
+        .page-header-section h1 {
+            font-size: 2.8em;
+            font-weight: var(--font-weight-black);
+            color: var(--text-color-primary);
+            line-height: 1.2;
+            margin-bottom: 10px;
+        }
+
+        /* Dissertation Content Sections */
+        .dissertation-content-section {
+            padding: 25px 0;
+            margin-bottom: 40px; /* More space between sections */
+            border-bottom: 1px solid #d0d0d0; /* Lighter separator */
+        }
+        .dissertation-content-section:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .dissertation-section-title {
+            font-size: 1.9em; /* Prominent section titles */
+            font-weight: var(--font-weight-bold);
+            color: var(--text-color-primary);
+            margin-bottom: 20px;
+            line-height: 1.3;
+        }
+
+        .dissertation-details {
+            margin-bottom: 25px;
+            font-size: 1.05em;
+            line-height: 1.65;
+            color: #333; /* Slightly softer black for main text */
+        }
+        .dissertation-abstract {
+            margin-bottom: 20px;
+        }
+        .dissertation-keywords {
+            font-size: 0.9em;
+            color: #111; /* Darker for keywords */
+        }
+        .dissertation-keywords strong {
+            font-weight: var(--font-weight-bold); /* Bold for "Keywords:" */
+            color: var(--text-color-primary);
+        }
+
+        .dissertation-intro {
+            font-size: 1.1em;
+            line-height: 1.65;
+            margin-bottom: 25px;
+            color: #333;
+        }
+
+        .dissertation-download-btn {
+            margin-top: 15px;
+        }
+        .dissertation-download-btn svg {
+            margin-right: 10px;
+            margin-left: 0; /* Override default if any */
+        }
+
+        /* PDF Viewer Styles - High Contrast Adaptation */
+        .pdf-container-new {
+            margin-top: 25px;
+            border: 1px solid var(--border-color-strong);
+            padding: 20px;
+            background-color: var(--bg-color-content); /* White bg */
+        }
+
+        .pdf-controls-new {
+            display: flex;
+            gap: 10px; /* More space between controls */
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            align-items: center;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border-color-strong);
+        }
+        .pdf-controls-new .btn { /* Global .btn styles apply */
+            padding: 8px 15px;
+            font-size: 0.9em;
+            margin: 0;
+        }
+        .pdf-controls-new .btn svg {
+            margin-right: 8px; /* Standard icon spacing */
+            width: 15px; height: 15px;
+        }
+        .pdf-fullscreen-btn-new svg { /* Specific for this button */
+            margin-right: 8px;
+        }
+
+        .pdf-counter-new {
+            font-family: var(--font-family-main);
+            padding: 9px 15px; /* Align height with buttons */
+            border: 1px solid var(--border-color-strong);
+            font-weight: var(--font-weight-medium);
+            font-size: 0.9em;
+            background-color: var(--bg-color-content);
+            white-space: nowrap;
+        }
+
+        .pdf-viewer-new {
+            border: 1px solid var(--border-color-strong);
+            background-color: #f0f0f0; /* Light gray background for canvas area */
+            height: 650px; /* Increased default height */
+            margin-bottom: 20px;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start; /* Align top, canvas container handles scroll */
+        }
+        .pdf-canvas-container-new {
+            width: 100%; /* Take full width of parent */
+            height: 100%; /* Take full height of parent */
+            overflow: auto; /* Allow scrolling for zoomed canvas */
+            text-align: center; /* Center canvas if narrower than container */
+        }
+        #pdfCanvas {
+            display: block; /* Remove extra space below canvas */
+            border: 1px solid #ccc; /* Subtle border around the canvas itself */
+            margin: 0 auto; /* Center canvas if text-align isn't enough */
+        }
+
+        .pdf-loading-new {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: var(--font-family-main);
+            font-weight: var(--font-weight-medium);
+            text-align: center;
+            color: var(--text-color-primary);
+            background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent white */
+            padding: 20px;
+            border: 1px solid var(--border-color-strong);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 10; /* Above canvas */
+        }
+        .loading-indicator-new {
+            width: 28px; height: 28px;
+            border: 4px solid var(--text-color-primary);
+            border-top-color: transparent;
+            border-radius: 50%;
+            margin-top: 15px;
+            animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .pdf-thumbnails-new {
+            display: flex;
+            gap: 12px;
+            overflow-x: auto;
+            padding: 15px 5px; /* More padding */
+            border-top: 1px solid var(--border-color-strong);
+            margin-top: 20px;
+            background-color: #f0f0f0; /* Light gray for thumbnail bar */
+            scrollbar-width: thin;
+            scrollbar-color: var(--text-color-primary) #ccc;
+        }
+        .pdf-thumbnails-new::-webkit-scrollbar { height: 10px; }
+        .pdf-thumbnails-new::-webkit-scrollbar-track { background: #ccc; }
+        .pdf-thumbnails-new::-webkit-scrollbar-thumb { background-color: var(--text-color-primary); }
+
+        .pdf-thumbnail-new {
+            min-width: 80px; height: 110px;
+            border: 2px solid var(--border-color-strong);
+            background-color: var(--bg-color-content);
+            cursor: pointer;
+            transition: border-color 0.15s ease, transform 0.15s ease;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .pdf-thumbnail-new:hover {
+            border-color: var(--accent-electric);
+            transform: scale(1.05);
+        }
+        .pdf-thumbnail-new.active {
+            border-color: var(--accent-electric);
+            border-width: 3px;
+            box-shadow: 0 0 8px var(--accent-electric);
+        }
+        .thumbnail-page-num-new { /* Style kept from previous */
+            position: absolute; bottom: 0; left: 0; right: 0;
+            background: rgba(0, 0, 0, 0.75); color: white;
+            font-size: 0.7em; text-align: center; padding: 2px 0;
+            font-weight: var(--font-weight-medium);
+        }
+        .thumbnail-error { /* Style kept */
+            font-size: 0.7em; color: red; text-align: center; padding: 5px;
+        }
+
+        .pdf-download-link-container {
+            text-align: center;
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color-strong);
+        }
+
+        /* Fullscreen PDF Viewer Styles */
+        .fullscreen-mode-new {
+            position: fixed; top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            background-color: #333; /* Darker background for fullscreen immersion */
+            z-index: 9990;
+            display: none;
+            flex-direction: column;
+        }
+        .fullscreen-mode-new.active { display: flex; }
+
+        .fullscreen-controls-new {
+            display: flex; gap: 10px;
+            padding: 12px 20px;
+            background-color: var(--bg-color-content); /* White controls bar */
+            border-bottom: 1px solid var(--border-color-strong);
+            flex-wrap: wrap; align-items: center; flex-shrink: 0;
+        }
+        .fullscreen-controls-new .btn,
+        .fullscreen-controls-new .pdf-counter-new {
+            /* Styles are consistent with normal view controls */
+        }
+
+        .fullscreen-viewer-new {
+            flex-grow: 1;
+            overflow: auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 15px; /* Padding around canvas */
+        }
+        #fullscreenCanvas {
+            max-width: 100%; max-height: 100%;
+            display: block;
+            border: 1px solid #777; /* Border for canvas in fullscreen */
+            box-shadow: 0 0 15px rgba(0,0,0,0.3);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .main-content-dissertation { padding: 20px 15px; }
+            .page-header-section h1 { font-size: 2.2em; }
+            .dissertation-section-title { font-size: 1.6em; }
+            .pdf-viewer-new { height: 500px; }
+        }
+
+        @media (max-width: 480px) {
+            .page-header-section h1 { font-size: 1.8em; }
+            .dissertation-section-title { font-size: 1.4em; }
+            .pdf-viewer-new { height: 400px; }
+            .pdf-thumbnails-new { display: none; } /* Hide thumbnails on small mobile */
+            .pdf-controls-new, .fullscreen-controls-new {
+                gap: 5px; padding: 10px;
+            }
+            .pdf-controls-new .btn, .fullscreen-controls-new .btn,
+            .pdf-controls-new .pdf-counter-new, .fullscreen-controls-new .pdf-counter-new {
+                font-size: 0.8em; padding: 6px 10px;
+            }
+        }
+        /* dissertation.css END */
+    </style>
+</head>
+<body>
+  <div class="dissertation-page-wrapper">
+    <main class="main-content-dissertation">
+        <section class="page-header-section">
+            <h1>Doctoral Dissertation</h1>
+        </section>
+
+        <section id="dissertation-main" class="dissertation-content-section">
+            <h2 class="dissertation-section-title">Information in social epistemic structures: An analysis of conversations about Syrian refugees on social networks</h2>
+            <div class="dissertation-details">
+                <p class="dissertation-abstract">This research examines how individuals process and trust information about Syrian refugees on social media, focusing on the epistemology of testimony and misinformation dynamics. Through quantitative analysis of 608 respondents, the study reveals how social media environments affect information exchange and attitude formation in the context of migration communication.</p>
+                <p class="dissertation-keywords"><strong>Keywords:</strong> Epistemology of testimony, misinformation, uncertainty.</p>
+            </div>
+            <a href="https://mertseven.com/Seven_Tez.pdf" class="btn btn-primary dissertation-download-btn" download>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-arrow-down" viewBox="0 0 16 16"><path d="M8.5 6.5a.5.5 0 0 0-1 0v3.793L6.354 9.146a.5.5 0 1 0-.708.708l2 2a.5.5 0 0 0 .708 0l2-2a.5.5 0 0 0-.708-.708L8.5 10.293V6.5z"/><path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2zM9.5 1.5v2A1.5 1.5 0 0 0 11 5h2V3.5a.5.5 0 0 1 .5.5V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5v1.5z"/></svg>
+                Download Dissertation (PDF)
+            </a>
+        </section>
+
+        <section id="visual-booklet" class="dissertation-content-section">
+            <h2 class="dissertation-section-title">Visual Paper Booklet</h2>
+            <p class="dissertation-intro">A visual exploration of the key findings from my research on information processing and uncertainty in social networks, presented in an interactive format.</p>
+
+            <div class="pdf-container-new">
+                <div class="pdf-controls-new">
+                    <button class="btn btn-secondary pdf-nav-new" id="prevPage" title="Previous Page" disabled>« Prev</button>
+                    <span class="pdf-counter-new" id="pageNum">Page 0 of 0</span>
+                    <button class="btn btn-secondary pdf-nav-new" id="nextPage" title="Next Page" disabled>Next »</button>
+                    <button class="btn btn-secondary pdf-zoom-new" id="zoomIn" title="Zoom In">Zoom +</button>
+                    <button class="btn btn-secondary pdf-zoom-new" id="zoomOut" title="Zoom Out">Zoom −</button>
+                    <button class="btn btn-secondary pdf-zoom-new" id="zoomReset" title="Reset Zoom">Reset</button>
+                    <button class="btn btn-primary pdf-fullscreen-btn-new" id="fullscreenBtn" title="Toggle Fullscreen (F)">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrows-fullscreen" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M5.828 10.172a.5.5 0 0 0-.707 0l-4.096 4.096V11.5a.5.5 0 0 0-1 0v3.975a.5.5 0 0 0 .5.5H4.5a.5.5 0 0 0 0-1H1.732l4.096-4.096a.5.5 0 0 0 0-.707zm4.344 0a.5.5 0 0 1 .707 0l4.096 4.096V11.5a.5.5 0 1 1 1 0v3.975a.5.5 0 0 1-.5.5H11.5a.5.5 0 0 1 0-1h2.768l-4.096-4.096a.5.5 0 0 1 0-.707zm0-4.344a.5.5 0 0 0 .707 0l4.096-4.096V4.5a.5.5 0 1 0 1 0V.525a.5.5 0 0 0-.5-.5H11.5a.5.5 0 0 0 0 1h2.768l-4.096 4.096a.5.5 0 0 0 0 .707zm-4.344 0a.5.5 0 0 1-.707 0L1.025 1.732V4.5a.5.5 0 0 1-1 0V.525a.5.5 0 0 1 .5-.5H4.5a.5.5 0 0 1 0 1H1.732l4.096 4.096a.5.5 0 0 1 0 .707z"/></svg>
+                        Fullscreen
+                    </button>
+                </div>
+
+                <div class="pdf-viewer-new">
+                    <div class="pdf-loading-new" id="pdfLoading">
+                        <p>Loading Visual Booklet...</p>
+                        <div class="loading-indicator-new"></div>
+                    </div>
+                    <div class="pdf-canvas-container-new">
+                        <canvas id="pdfCanvas"></canvas>
+                    </div>
+                </div>
+
+                <div class="pdf-thumbnails-new" id="thumbnailContainer">
+                    <!-- Thumbnails will be created by JavaScript -->
+                </div>
+                 <div class="pdf-download-link-container">
+                    <a href="https://mertseven.com/Seven_VP.pdf" class="btn btn-primary dissertation-download-btn" download>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-arrow-down" viewBox="0 0 16 16"><path d="M8.5 6.5a.5.5 0 0 0-1 0v3.793L6.354 9.146a.5.5 0 1 0-.708.708l2 2a.5.5 0 0 0 .708 0l2-2a.5.5 0 0 0-.708-.708L8.5 10.293V6.5z"/><path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2zM9.5 1.5v2A1.5 1.5 0 0 0 11 5h2V3.5a.5.5 0 0 1 .5.5V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5v1.5z"/></svg>
+                        Download Booklet (PDF)
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Fullscreen PDF viewer Modal -->
+        <div class="fullscreen-mode-new" id="fullscreenMode">
+            <div class="fullscreen-controls-new">
+                <button class="btn btn-secondary pdf-nav-new" id="fullscreenPrev" title="Previous Page" disabled>« Prev</button>
+                <span class="pdf-counter-new" id="fullscreenPageNum">Page 0 of 0</span>
+                <button class="btn btn-secondary pdf-nav-new" id="fullscreenNext" title="Next Page" disabled>Next »</button>
+                <button class="btn btn-secondary pdf-zoom-new" id="fullscreenZoomIn" title="Zoom In">Zoom +</button>
+                <button class="btn btn-secondary pdf-zoom-new" id="fullscreenZoomOut" title="Zoom Out">Zoom −</button>
+                <button class="btn btn-secondary pdf-zoom-new" id="fullscreenZoomReset" title="Reset Zoom">Reset</button>
+                <button class="btn btn-primary pdf-fullscreen-btn-new" id="exitFullscreenBtn" title="Exit Fullscreen (Esc or F)">
+                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-fullscreen-exit" viewBox="0 0 16 16"><path d="M5.5 0a.5.5 0 0 1 .5.5v4A.5.5 0 0 1 5.5 5h-4a.5.5 0 0 1 0-1h3.5V.5a.5.5 0 0 1 .5-.5zm0 11a.5.5 0 0 1 .5.5v3.5h3.5a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5v-4a.5.5 0 0 1 .5-.5zm5 0a.5.5 0 0 1 .5.5v3.5h3.5a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5v-4a.5.5 0 0 1 .5-.5zm.5-11a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-.5.5h-4a.5.5 0 0 1 0-1h3.5V.5a.5.5 0 0 1 .5-.5z"/></svg>
+                    Exit Fullscreen
+                </button>
+            </div>
+            <div class="fullscreen-viewer-new">
+                <canvas id="fullscreenCanvas"></canvas>
+            </div>
+        </div>
+    </main>
+
+    <!-- Site footer and search terminal removed for self-contained page -->
+
+  </div> <!-- dissertation-page-wrapper end -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
+    <script>
+    // dissertation.js START
+    document.addEventListener('DOMContentLoaded', () => {
+        if (typeof pdfjsLib === 'undefined') {
+            console.error("PDF.js library is not loaded. PDF Viewer will not work.");
+            const loadingElement = document.getElementById('pdfLoading');
+            if (loadingElement) {
+                loadingElement.innerHTML = '<p style="color: red; font-weight: bold;">Error: PDF Viewer library (PDF.js) failed to load. Please check your internet connection or contact support if the issue persists.</p>';
+            }
+            const pdfContainer = document.querySelector('.pdf-container-new');
+            if(pdfContainer) {
+                const controls = pdfContainer.querySelector('.pdf-controls-new');
+                if(controls) controls.style.display = 'none';
+                const thumbnails = pdfContainer.querySelector('.pdf-thumbnails-new');
+                if(thumbnails) thumbnails.style.display = 'none';
+                const viewer = pdfContainer.querySelector('.pdf-viewer-new');
+                if(viewer && !loadingElement) { // If loading element itself failed
+                    viewer.innerHTML = '<p style="color: red; font-weight: bold; text-align:center; padding: 20px;">PDF Viewer cannot be initialized.</p>';
+                } else if (viewer && loadingElement) {
+                    viewer.style.alignItems = 'center'; // Center the error message
+                    viewer.style.justifyContent = 'center';
+                }
+            }
+            return;
+        }
+
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
+
+        let pdfDoc = null;
+        let pageNum = 1;
+        let pageRendering = false;
+        let pageNumPending = null;
+        let scale = 1.0;
+        const pdfUrl = 'https://mertseven.com/Seven_VP.pdf'; // Ensure this URL is correct. Change to relative if PDF is local.
+
+        const canvas = document.getElementById('pdfCanvas');
+        const ctx = canvas ? canvas.getContext('2d') : null;
+        const loadingElement = document.getElementById('pdfLoading');
+
+        const fullscreenMode = document.getElementById('fullscreenMode');
+        const fullscreenCanvas = document.getElementById('fullscreenCanvas');
+        const fullscreenCtx = fullscreenCanvas ? fullscreenCanvas.getContext('2d') : null;
+        let isFullscreen = false;
+
+        // Main controls
+        const prevButton = document.getElementById('prevPage');
+        const nextButton = document.getElementById('nextPage');
+        const pageCounter = document.getElementById('pageNum');
+        const zoomInButton = document.getElementById('zoomIn');
+        const zoomOutButton = document.getElementById('zoomOut');
+        const zoomResetButton = document.getElementById('zoomReset');
+        const fullscreenButton = document.getElementById('fullscreenBtn');
+        const thumbnailContainer = document.getElementById('thumbnailContainer');
+        const pdfViewerElement = document.querySelector('.pdf-viewer-new');
+
+        // Fullscreen controls
+        const exitFullscreenButton = document.getElementById('exitFullscreenBtn');
+        const fullscreenPrevButton = document.getElementById('fullscreenPrev');
+        const fullscreenNextButton = document.getElementById('fullscreenNext');
+        const fullscreenPageCounter = document.getElementById('fullscreenPageNum');
+        const fullscreenZoomInButton = document.getElementById('fullscreenZoomIn');
+        const fullscreenZoomOutButton = document.getElementById('fullscreenZoomOut');
+        const fullscreenZoomResetButton = document.getElementById('fullscreenZoomReset');
+
+        if (!canvas || !fullscreenCanvas) {
+            console.error("One or both canvas elements not found. PDF viewer cannot initialize.");
+            if (loadingElement) loadingElement.innerHTML = '<p style="color:red;">Error: Canvas element for PDF rendering is missing.</p>';
+            return;
+        }
+
+
+        function calculateOptimalScale(page, containerWidth, containerHeight) {
+            if (!page || !containerWidth || !containerHeight) return 1.0;
+            const viewport = page.getViewport({ scale: 1.0 });
+            let scaleToFitWidth = containerWidth / viewport.width;
+            let scaleToFitHeight = containerHeight / viewport.height;
+            
+            let optimalScale = scaleToFitWidth;
+            if ((viewport.height * optimalScale) > containerHeight) {
+                optimalScale = scaleToFitHeight;
+            }
+            return Math.max(0.25, optimalScale * 0.98); 
+        }
+                
+        function renderPage(num, targetIsFullscreen = isFullscreen) {
+            if (!pdfDoc) return;
+            pageRendering = true;
+            if (loadingElement && !targetIsFullscreen) loadingElement.style.display = 'flex';
+
+            pdfDoc.getPage(num).then(function(page) {
+                const targetCanvas = targetIsFullscreen ? fullscreenCanvas : canvas;
+                const targetCtx = targetIsFullscreen ? fullscreenCtx : ctx;
+                
+                const viewport = page.getViewport({ scale: scale });
+                targetCanvas.height = viewport.height;
+                targetCanvas.width = viewport.width;
+
+                const renderContext = { canvasContext: targetCtx, viewport: viewport };
+                const renderTask = page.render(renderContext);
+
+                renderTask.promise.then(function() {
+                    pageRendering = false;
+                    if (loadingElement && !targetIsFullscreen) loadingElement.style.display = 'none';
+                    if (pageNumPending !== null) {
+                        renderPage(pageNumPending, targetIsFullscreen);
+                        pageNumPending = null;
+                    }
+                    if (!targetIsFullscreen) updateActiveThumbnail(num);
+                }).catch(err => {
+                    console.error("Error rendering page: ", err);
+                    if (loadingElement && !targetIsFullscreen) loadingElement.innerHTML = '<p style="color:red;">Error rendering page.</p>';
+                    pageRendering = false;
+                });
+            }).catch(err => {
+                console.error("Error getting page: ", err);
+                if (loadingElement && !targetIsFullscreen) loadingElement.innerHTML = '<p style="color:red;">Error loading page data.</p>';
+                pageRendering = false;
+            });
+
+            pageCounter.textContent = `Page ${num} of ${pdfDoc.numPages}`;
+            fullscreenPageCounter.textContent = `Page ${num} of ${pdfDoc.numPages}`;
+            
+            const isFirst = num <= 1;
+            const isLast = num >= pdfDoc.numPages;
+
+            [prevButton, fullscreenPrevButton].forEach(btn => btn.disabled = isFirst);
+            [nextButton, fullscreenNextButton].forEach(btn => btn.disabled = isLast);
+        }
+
+        function queueRenderPage(num) {
+            if (pageRendering) {
+                pageNumPending = num;
+            } else {
+                renderPage(num, isFullscreen);
+            }
+        }
+        
+        function onPrevPage() { if (pageNum <= 1) return; pageNum--; queueRenderPage(pageNum); }
+        function onNextPage() { if (pageNum >= pdfDoc.numPages) return; pageNum++; queueRenderPage(pageNum); }
+        
+        function changeZoom(delta) {
+            const newScale = Math.max(0.25, Math.min(3.0, scale + delta));
+            if (newScale !== scale) { scale = newScale; queueRenderPage(pageNum); }
+        }
+
+        function resetZoomToFit() {
+            if (!pdfDoc) return;
+            pdfDoc.getPage(pageNum).then(function(page) {
+                const container = isFullscreen ? document.querySelector('.fullscreen-viewer-new') : document.querySelector('.pdf-canvas-container-new');
+                if (!container) return;
+                scale = calculateOptimalScale(page, container.clientWidth, container.clientHeight);
+                renderPage(pageNum, isFullscreen);
+            });
+        }
+
+        function toggleFullscreen() {
+            isFullscreen = !isFullscreen;
+            fullscreenMode.classList.toggle('active', isFullscreen);
+            document.body.style.overflow = isFullscreen ? 'hidden' : '';
+            resetZoomToFit(); 
+        }
+                
+        async function generateThumbnails() {
+            if (!pdfDoc || !thumbnailContainer) return;
+            thumbnailContainer.innerHTML = ''; 
+
+            for (let i = 1; i <= pdfDoc.numPages; i++) {
+                const thumbnailDiv = document.createElement('div');
+                thumbnailDiv.className = 'pdf-thumbnail-new';
+                thumbnailDiv.dataset.pageNum = i;
+                
+                const thumbCanvas = document.createElement('canvas');
+                const thumbNumSpan = document.createElement('span');
+                thumbNumSpan.className = 'thumbnail-page-num-new';
+                thumbNumSpan.textContent = i;
+                
+                thumbnailDiv.appendChild(thumbCanvas);
+                thumbnailDiv.appendChild(thumbNumSpan);
+
+                try {
+                    const page = await pdfDoc.getPage(i);
+                    const viewport = page.getViewport({ scale: 0.2 });
+                    thumbCanvas.width = viewport.width;
+                    thumbCanvas.height = viewport.height;
+                    await page.render({ canvasContext: thumbCanvas.getContext('2d'), viewport: viewport }).promise;
+                } catch (err) {
+                    console.error(`Error rendering thumbnail for page ${i}:`, err);
+                    thumbCanvas.parentElement.innerHTML = `<span class="thumbnail-error">Error</span><span class="thumbnail-page-num-new">${i}</span>`;
+                }
+                
+                thumbnailDiv.addEventListener('click', function() {
+                    pageNum = parseInt(this.dataset.pageNum);
+                    queueRenderPage(pageNum);
+                });
+                thumbnailContainer.appendChild(thumbnailDiv);
+            }
+            updateActiveThumbnail(pageNum);
+        }
+
+        function updateActiveThumbnail(currentNum) {
+            if(!thumbnailContainer) return;
+            const thumbnails = thumbnailContainer.querySelectorAll('.pdf-thumbnail-new');
+            thumbnails.forEach(thumb => thumb.classList.remove('active'));
+            const activeThumbnail = thumbnailContainer.querySelector(`.pdf-thumbnail-new[data-page-num="${currentNum}"]`);
+            if (activeThumbnail) {
+                activeThumbnail.classList.add('active');
+                activeThumbnail.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+            }
+        }
+
+        if (pdfViewerElement) {
+            pdfjsLib.getDocument(pdfUrl).promise.then(pdf => {
+                pdfDoc = pdf;
+                pageCounter.textContent = `Page ${pageNum} of ${pdfDoc.numPages}`;
+                fullscreenPageCounter.textContent = `Page ${pageNum} of ${pdfDoc.numPages}`;
+                generateThumbnails().then(() => {
+                    resetZoomToFit(); 
+                });
+            }).catch(error => {
+                console.error('Error loading PDF document:', error);
+                if (loadingElement) loadingElement.innerHTML = `<p style="color:red; font-weight:bold;">Failed to load PDF: ${error.message}. <br>Please ensure the file exists at <a href="${pdfUrl}" target="_blank" rel="noopener">${pdfUrl}</a> and is accessible (CORS might be an issue if on a different domain).</p>`;
+            });
+        }
+
+        // Event Listeners
+        if(prevButton) prevButton.addEventListener('click', onPrevPage);
+        if(nextButton) nextButton.addEventListener('click', onNextPage);
+        if(zoomInButton) zoomInButton.addEventListener('click', () => changeZoom(0.2));
+        if(zoomOutButton) zoomOutButton.addEventListener('click', () => changeZoom(-0.2));
+        if(zoomResetButton) zoomResetButton.addEventListener('click', resetZoomToFit);
+        if(fullscreenButton) fullscreenButton.addEventListener('click', toggleFullscreen);
+        if(exitFullscreenButton) exitFullscreenButton.addEventListener('click', toggleFullscreen);
+        
+        if(fullscreenPrevButton) fullscreenPrevButton.addEventListener('click', onPrevPage);
+        if(fullscreenNextButton) fullscreenNextButton.addEventListener('click', onNextPage);
+        if(fullscreenZoomInButton) fullscreenZoomInButton.addEventListener('click', () => changeZoom(0.2));
+        if(fullscreenZoomOutButton) fullscreenZoomOutButton.addEventListener('click', () => changeZoom(-0.2));
+        if(fullscreenZoomResetButton) fullscreenZoomResetButton.addEventListener('click', resetZoomToFit);
+
+        document.addEventListener('keydown', function(e) {
+            // Site-specific search input check is no longer needed as search is removed
+            // const activeSearchInput = document.getElementById('terminal-search-input'); 
+            // if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || (activeSearchInput && e.target === activeSearchInput) || !pdfDoc) return;
+            if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || !pdfDoc) return;
+            
+            let handled = false;
+            if (e.key === 'ArrowLeft') { onPrevPage(); handled = true; }
+            else if (e.key === 'ArrowRight') { onNextPage(); handled = true; }
+            else if (e.key.toLowerCase() === 'f') { toggleFullscreen(); handled = true; }
+            
+            if (e.key === 'Escape' && isFullscreen) { toggleFullscreen(); handled = true; }
+            
+            if(handled) e.preventDefault();
+        });
+
+        let resizeTimeout;
+        window.addEventListener('resize', () => {
+            if (!pdfDoc) return;
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => { 
+                resetZoomToFit();
+            }, 250);
+        });
+    });
+    // dissertation.js END
+    </script>
+</body>
+</html>

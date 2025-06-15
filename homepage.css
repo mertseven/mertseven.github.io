@@ -1,0 +1,311 @@
+/* homepage.css */
+
+.homepage-wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: var(--bg-color-page);
+}
+
+@media (max-width: 767px) { /* Mobile */
+    .homepage-wrapper { padding-top: 0; }
+}
+@media (min-width: 768px) { /* Tablet & Desktop */
+    .homepage-wrapper { padding-top: var(--header-height-desktop); }
+}
+
+.main-content-home {
+    flex-grow: 1;
+    width: 100%;
+}
+
+/* --- HIDE PREVIOUS STYLES --- */
+.hero-section-reimagined,
+.creative-strands-section,
+.the-current-section,
+.hero-section, /* Also hide original original styles if any were left */
+.core-explorations-section,
+.philosophy-section,
+.explorations-grid,
+.exploration-card {
+    display: none !important;
+}
+
+
+/* --- BRUTALIST BODY STYLES --- */
+.brutalist-body {
+    border-top: 1px solid var(--text-color-primary); /* Line below fixed header */
+}
+.brutalist-body section {
+    border-bottom: 1px solid var(--text-color-primary);
+    padding: 20px; /* Base padding for sections */
+}
+.brutalist-body section:last-of-type { /* No bottom border for the last section before footer */
+    border-bottom: none;
+}
+
+
+/* --- Brutalist Hero Section --- */
+.brutalist-hero {
+    display: flex;
+    flex-direction: column;
+    min-height: calc(70vh - var(--header-height-desktop)); /* Adjust as needed */
+    justify-content: center;
+}
+
+.hero-block-main, .hero-block-sub {
+    padding-top: 20px;
+    padding-right: 20px;
+    padding-left: 20px;
+}
+
+.hero-name {
+    font-size: 4em; /* Very large */
+    font-weight: var(--font-weight-black);
+    line-height: 1;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-color-primary);
+    margin: 0;
+    padding-bottom: 10px; /* Space before roles */
+}
+
+.hero-roles {
+    font-size: 1.8em;
+    font-weight: var(--font-weight-regular); /* Lighter than name */
+    line-height: 1.3;
+    text-transform: uppercase;
+    color: var(--text-color-primary);
+    margin-bottom: 25px;
+}
+.accent-text-brutalist {
+    font-weight: var(--font-weight-bold); /* Emphasize with weight */
+}
+
+.hero-statement-brutalist {
+    font-size: 1.1em;
+    font-weight: var(--font-weight-regular);
+    color: var(--text-color-primary);
+    line-height: 1.6;
+    margin-bottom: 30px;
+    max-width: 650px;
+}
+
+.code-highlight-brutalist {
+    font-family: var(--font-family-mono);
+    background-color: transparent;
+    padding: 0.1em 0.3em;
+    border: 1px solid var(--text-color-primary);
+    font-size: 0.9em;
+    display: inline-block; /* Helps with border */
+}
+
+.hero-actions-brutalist .btn-brutalist {
+    display: inline-block;
+    padding: 10px 20px;
+    margin: 10px 10px 10px 0;
+    font-size: 0.9em;
+    font-weight: var(--font-weight-bold);
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--text-color-primary);
+    border: 2px solid var(--text-color-primary);
+    background-color: var(--bg-color-page);
+    transition: background-color 0.15s ease, color 0.15s ease;
+}
+.hero-actions-brutalist .btn-brutalist:hover {
+    background-color: var(--text-color-primary);
+    color: var(--bg-color-page);
+}
+.hero-actions-brutalist .btn-brutalist.btn-brutalist-secondary {
+    background-color: var(--text-color-primary);
+    color: var(--bg-color-page);
+}
+.hero-actions-brutalist .btn-brutalist.btn-brutalist-secondary:hover {
+    background-color: var(--bg-color-page);
+    color: var(--text-color-primary);
+}
+
+/* --- Brutalist Section Title --- */
+.section-title-brutalist {
+    font-size: 1.5em; /* Smaller than hero, but strong */
+    font-weight: var(--font-weight-black);
+    text-transform: uppercase;
+    color: var(--text-color-primary);
+    margin: 0 0 20px 0;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--text-color-primary); /* Underline title */
+}
+
+/* --- Brutalist Explorations Section --- */
+/* .brutalist-explorations {}  -- Removed empty ruleset that was here */
+
+.explorations-header-block {
+    margin-bottom: 20px;
+}
+.explorations-grid-brutalist {
+    display: grid;
+    grid-template-columns: 1fr; /* Mobile: single column */
+    gap: 0; /* No gap, borders will separate */
+}
+.exploration-item-brutalist {
+    border: 1px solid var(--text-color-primary);
+    padding: 20px;
+    margin: -1px 0 0 -1px; /* Overlap borders for continuous grid look */
+}
+.exploration-item-brutalist h3 {
+    font-size: 1.2em;
+    font-weight: var(--font-weight-bold);
+    text-transform: uppercase;
+    color: var(--text-color-primary);
+    margin-bottom: 10px;
+}
+.exploration-item-brutalist p {
+    font-size: 0.95em;
+    color: var(--text-color-primary);
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+.link-brutalist {
+    font-weight: var(--font-weight-bold);
+    color: var(--text-color-primary);
+    text-decoration: underline;
+    font-size: 0.9em;
+    text-transform: uppercase;
+}
+.link-brutalist:hover {
+    background-color: var(--text-color-primary); /* Invert on hover */
+    color: var(--bg-color-page);
+    text-decoration: none;
+}
+
+
+/* --- Brutalist Philosophy Section --- */
+.brutalist-philosophy {
+    background-color: var(--text-color-primary); /* Invert for contrast */
+    color: var(--bg-color-page);
+}
+.philosophy-block-brutalist .section-title-brutalist {
+    color: var(--bg-color-page);
+    border-bottom-color: var(--bg-color-page);
+}
+.philosophy-block-brutalist p {
+    font-size: 1.05em;
+    line-height: 1.7;
+    margin-bottom: 20px;
+    max-width: 750px;
+}
+.philosophy-block-brutalist .code-highlight-brutalist {
+    border-color: var(--bg-color-page);
+    color: var(--bg-color-page); /* Ensure text is visible */
+}
+.philosophy-block-brutalist .code-highlight-brutalist:hover {
+    background-color: var(--bg-color-page);
+    color: var(--text-color-primary);
+}
+
+.quote-brutalist {
+    font-size: 1.2em;
+    font-style: italic;
+    line-height: 1.5;
+    margin: 20px 0 30px 0;
+    padding: 15px;
+    border: 1px solid var(--bg-color-page);
+    position: relative;
+}
+.quote-brutalist mark { /* Standard mark for brutalist style */
+    background-color: var(--bg-color-page);
+    color: var(--text-color-primary);
+    padding: 0.05em 0.2em;
+    font-weight: bold;
+    font-style: normal;
+}
+.cite-brutalist {
+    display: block;
+    font-size: 0.8em;
+    font-style: normal;
+    text-align: right;
+    margin-top: 10px;
+    font-weight: var(--font-weight-regular);
+}
+
+
+/* --- RESPONSIVE ADJUSTMENTS FOR BRUTALIST STYLE --- */
+
+@media (min-width: 768px) { /* Tablet */
+    .brutalist-body section {
+        padding: 40px;
+    }
+    .brutalist-hero {
+        flex-direction: row; /* Side by side on larger screens */
+        align-items: center;
+    }
+    .hero-block-main {
+        flex-basis: 40%; /* Adjust as needed */
+        padding-right: 30px;
+    }
+    .hero-block-sub {
+        flex-basis: 60%; /* Adjust as needed */
+    }
+    .hero-name {
+        font-size: 5em;
+    }
+    .hero-roles {
+        font-size: 2em;
+    }
+    .section-title-brutalist {
+        font-size: 1.8em;
+    }
+    .explorations-grid-brutalist {
+        grid-template-columns: repeat(2, 1fr); /* Two columns */
+    }
+    /* .exploration-item-brutalist.full-width-mobile:nth-child(3) {} -- Removed empty ruleset */
+}
+
+@media (min-width: 1024px) { /* Desktop */
+    .hero-name {
+        font-size: 6.5em; /* Even larger for desktop */
+        letter-spacing: 2px;
+    }
+    .hero-roles {
+        font-size: 2.5em;
+    }
+    .explorations-grid-brutalist {
+         /* Could go to 3 columns if content allows, or keep 2 and adjust width */
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    }
+    /* .exploration-item-brutalist.full-width-mobile {} -- Removed empty ruleset */
+}
+
+@media (max-width: 480px) { /* Small mobile */
+    .brutalist-body section {
+        padding: 15px;
+    }
+    .hero-name {
+        font-size: 3em;
+    }
+    .hero-roles {
+        font-size: 1.5em;
+    }
+    .hero-statement-brutalist {
+        font-size: 1em;
+    }
+    .hero-actions-brutalist {
+        display: flex;
+        flex-direction: column;
+    }
+    .hero-actions-brutalist .btn-brutalist {
+        width: 100%;
+        margin: 5px 0;
+        text-align: center;
+    }
+    .section-title-brutalist {
+        font-size: 1.3em;
+    }
+    .exploration-item-brutalist h3 {
+        font-size: 1.1em;
+    }
+    .quote-brutalist {
+        font-size: 1.1em;
+    }
+}

@@ -1,0 +1,527 @@
+/* publications.css */
+
+/* Page Wrapper & Main Content Area */
+.publications-page-wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: var(--bg-color-page);
+}
+
+@media (max-width: 767px) {
+    .publications-page-wrapper { padding-top: 0; }
+}
+@media (min-width: 768px) {
+    .publications-page-wrapper { padding-top: var(--header-height-desktop); }
+}
+
+.main-content-publications {
+    flex-grow: 1;
+    width: 100%;
+    max-width: 1200px; 
+    margin: 0 auto; 
+    padding: 30px 20px; 
+}
+
+/* Page Header Section */
+.page-header-section {
+    padding-bottom: 20px;
+    margin-bottom: 30px;
+    border-bottom: 1.5px solid var(--border-color-strong);
+}
+.page-header-section h1 {
+    font-size: 2.8em;
+    font-weight: var(--font-weight-black);
+    color: var(--text-color-primary);
+    line-height: 1.2;
+    margin-bottom: 10px;
+}
+.page-header-section p {
+    font-size: 1.1em;
+    color: #555555;
+    max-width: 800px;
+}
+
+/* Section Heading on Page (for "Peer-Reviewed..." and "Doctoral Dissertation") */
+.section-heading-on-page {
+    font-size: 2em;
+    font-weight: var(--font-weight-extrabold);
+    color: var(--text-color-primary);
+    margin-top: 40px; /* Space above these headings */
+    margin-bottom: 25px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #ccc;
+}
+.publications-content-section:first-of-type .section-heading-on-page {
+    margin-top: 0; /* No extra top margin for the very first one */
+}
+
+
+/* Publications Grid (existing styles are fine) */
+.publications-grid-new {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 30px;
+    padding-bottom: 40px;
+}
+/* Publication Card (existing styles are fine) */
+.publication-card-new {
+    background-color: var(--bg-color-content);
+    border: 1px solid var(--border-color-strong);
+    padding: 25px;
+    font-family: var(--font-family-main);
+    transition: transform 0.2s ease-out, background-color 0.25s ease-out, border-color 0.25s ease-out;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    position: relative; 
+    min-height: 280px; 
+}
+.publication-card-new:hover {
+    transform: translateY(-5px);
+    background-color: var(--text-color-primary); 
+    border-color: var(--accent-electric); 
+    color: var(--bg-color-page); 
+}
+.publication-year-new {
+    position: absolute;
+    top: -1px; 
+    right: -1px;
+    background-color: var(--text-color-primary);
+    color: var(--bg-color-page);
+    padding: 6px 12px;
+    font-size: 0.8em;
+    font-weight: var(--font-weight-bold);
+    border-bottom-left-radius: var(--border-radius-subtle);
+    border-left: 1px solid var(--border-color-strong);
+    border-bottom: 1px solid var(--border-color-strong);
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+.publication-card-new:hover .publication-year-new {
+    background-color: var(--accent-electric);
+    color: var(--text-color-on-accent); 
+    border-color: var(--accent-electric);
+}
+.publication-title-new {
+    font-size: 1.25em;
+    font-weight: var(--font-weight-bold);
+    margin: 0 0 10px 0;
+    padding-right: 80px; 
+    color: var(--text-color-primary);
+    line-height: 1.35;
+    transition: color 0.2s ease-out, text-decoration-color 0.2s ease-out;
+}
+.publication-card-new:hover .publication-title-new {
+    color: var(--bg-color-page); 
+    text-decoration: underline;
+    text-decoration-color: var(--accent-electric);
+}
+.publication-authors-new {
+    font-size: 0.9em;
+    color: #505050;
+    margin-bottom: 15px;
+    font-style: italic;
+    transition: color 0.2s ease-out;
+}
+.publication-card-new:hover .publication-authors-new {
+    color: #cccccc; 
+}
+.publication-abstract-new-wrapper {
+    font-size: 0.9em;
+    line-height: 1.5;
+    color: var(--text-color-primary); 
+    max-height: 0; 
+    overflow: hidden;
+    margin-bottom: 0; 
+    transition: max-height 0.3s ease-in-out, margin-bottom 0.3s ease-in-out, color 0.2s ease-out;
+}
+.publication-card-new:hover .publication-abstract-new-wrapper {
+    max-height: 100px; 
+    margin-bottom: 15px; 
+    color: var(--bg-color-page); 
+}
+.publication-keywords-new {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+.keyword-new {
+    background-color: var(--new-header-logo-bg); /* Salmon was used here, use your logo's orange if preferred, e.g., #ff4500 */
+    color: var(--new-header-logo-text); 
+    padding: 4px 10px;
+    font-size: 0.75em;
+    font-weight: var(--font-weight-medium);
+    border: 1px solid black; /* Match background */
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+.publication-card-new:hover .keyword-new {
+    background-color: var(--bg-color-page); 
+    color: var(--text-color-primary); 
+    border-color: var(--text-color-primary);
+}
+.keyword-new-none {
+    font-style: italic;
+    color: #777;
+    font-size: 0.8em;
+}
+.publication-card-new:hover .keyword-new-none {
+    color: #bbbbbb;
+}
+.publication-actions-new {
+    margin-top: auto; /* Pushes to bottom */
+    padding-top: 15px;
+    border-top: 1px solid #e0e0e0; /* Lighter border for separation */
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    transition: border-color 0.2s ease-out;
+}
+.publication-card-new:hover .publication-actions-new {
+    border-top-color: #555555; /* Darker separator on black card background */
+}
+
+.publication-actions-new .btn {
+    margin: 0;
+    font-size: 0.85em;
+    padding: 8px 15px; /* Consistent padding, adjust if needed */
+    text-decoration: none; /* Ensure no underline from general <a> */
+    text-transform: uppercase; /* Match brutalist button */
+    font-weight: var(--font-weight-bold); /* Match brutalist button */
+    border-width: 2px; /* Match brutalist button */
+    border-style: solid; /* Match brutalist button */
+    transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease; /* Match brutalist button */
+}
+
+/* Specific styling for the "Read More" button (which has .btn-secondary) */
+.publication-actions-new .btn.btn-secondary { /* More specific selector for default state */
+    background-color: var(--text-color-primary); /* Black background */
+    color: var(--bg-color-page); /* White text */
+    border-color: var(--text-color-primary); /* Black border */
+}
+
+.publication-actions-new .btn.btn-secondary:hover { /* Hover for default state */
+    background-color: var(--bg-color-page); /* White background */
+    color: var(--text-color-primary); /* Black text */
+    border-color: var(--text-color-primary); /* Black border */
+}
+
+
+/* Button behavior on card hover */
+.publication-card-new:hover .btn-primary {
+    background-color: var(--accent-electric);
+    color: var(--text-color-on-accent);
+    border-color: var(--accent-electric);
+    cursor: pointer;
+}
+
+.publication-card-new:hover .btn.btn-secondary { /* Read More button when card is hovered */
+    background-color: var(--bg-color-page); /* White background */
+    color: var(--text-color-primary); /* Black text */
+    border-color: var(--bg-color-page); /* White border (to be visible on black card bg) */
+}
+.publication-card-new:hover .btn.btn-secondary:hover { /* Read More button hover, when card is also hovered */
+    background-color: var(--accent-electric); /* Lime green on hover */
+    color: var(--text-color-on-accent); /* Black text */
+    border-color: var(--accent-electric); /* Lime green border */
+}
+
+/* Publication Modal Styles (existing styles are fine) */
+.publication-modal-new { /* ... existing styles ... */ }
+.publication-modal-content-new { /* ... existing styles ... */ }
+.publication-modal-close-btn-new { /* ... existing styles ... */ }
+/* ... all other existing modal styles ... */
+.publication-modal-new {
+    display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    background-color: rgba(0, 0, 0, 0.8); z-index: 2050; 
+    align-items: center; justify-content: center; padding: 20px; overflow-y: auto;
+}
+.publication-modal-content-new {
+    background-color: var(--bg-color-content); color: var(--text-color-primary);
+    border: 1px solid var(--border-color-strong); border-radius: 0; 
+    width: 100%; max-width: 800px; max-height: 90vh;
+    padding: 30px 40px; position: relative; display: flex; flex-direction: column;
+    box-shadow: 0 0 0 5px var(--accent-electric); 
+}
+.publication-modal-close-btn-new {
+    position: absolute; top: 10px; right: 15px; font-size: 2.2em;
+    font-weight: var(--font-weight-regular); color: var(--text-color-primary);
+    cursor: pointer; line-height: 1; padding: 0 5px;
+}
+.publication-modal-close-btn-new:hover { color: var(--new-header-logo-bg); }
+.publication-modal-header-new {
+    border-bottom: 1px solid var(--border-color-strong);
+    padding-bottom: 20px; margin-bottom: 25px;
+}
+.publication-modal-title-new {
+    font-size: 1.8em; font-weight: var(--font-weight-extrabold);
+    line-height: 1.3; margin-bottom: 10px;
+}
+.publication-modal-meta-new { font-size: 0.95em; color: #444444; }
+.publication-modal-meta-new .publication-modal-year::after {
+    content: " \00B7 "; margin: 0 8px;
+}
+.publication-modal-text-new { overflow-y: auto; padding-right: 10px; }
+.publication-modal-text-new .publication-modal-section h3 {
+    font-size: 1.1em; font-weight: var(--font-weight-bold);
+    margin-top: 25px; margin-bottom: 12px; color: var(--text-color-primary);
+    padding-bottom: 8px; border-bottom: 1px solid #ddd; 
+}
+.publication-modal-text-new .publication-modal-section:first-child h3 { margin-top: 0; }
+.publication-modal-text-new p { font-size: 1em; line-height: 1.65; margin-bottom: 18px; }
+.publication-modal-text-new .publication-keywords-new { margin-top: 5px; margin-bottom: 20px; }
+.publication-modal-citation-box {
+    margin-top: 20px; padding: 20px; background-color: #f8f8f8; 
+    border: 1px solid #ccc; border-left: 4px solid var(--new-header-logo-bg); 
+}
+.publication-modal-citation-box h4 {
+    font-size: 1.05em; font-weight: var(--font-weight-bold); margin: 0 0 12px 0;
+}
+.publication-modal-citation-box p {
+    font-size: 0.9em; font-family: var(--font-family-mono);
+    line-height: 1.6; margin-bottom: 15px; word-break: break-word;
+}
+.publication-modal-download-actions .btn,
+.publication-modal-citation-box .btn { margin-right: 10px; margin-bottom: 10px; }
+.publication-modal-text-new a { font-weight: var(--font-weight-medium); }
+.publication-modal-text-new a:hover {
+    background-color: var(--accent-electric); color: var(--text-color-on-accent);
+}
+
+
+/* --- DISSERTATION ACCORDION STYLES --- */
+.dissertation-accordion-container {
+    margin-bottom: 40px; /* Space below accordion section */
+    border-top: 1px solid #ccc; /* Separator above */
+    padding-top: 20px; /* Space above title within this section */
+}
+
+.dissertation-details-accordion {
+    border: 1px solid var(--border-color-strong);
+    margin-top: 10px; /* Space between section title and accordion */
+}
+
+.dissertation-accordion-summary {
+    display: flex; /* For aligning title, year, and icon */
+    align-items: center;
+    padding: 15px 20px;
+    font-size: 1.3em;
+    font-weight: var(--font-weight-bold);
+    color: var(--text-color-primary);
+    background-color: #f9f9f9; /* Light background for summary */
+    cursor: pointer;
+    list-style: none; /* Remove default marker */
+    border-bottom: 1px solid transparent; /* For transition */
+    position: relative;
+}
+.dissertation-details-accordion[open] > .dissertation-accordion-summary {
+    border-bottom-color: #e0e0e0; /* Border when open */
+    background-color: #f0f0f0;
+}
+.dissertation-accordion-summary::-webkit-details-marker { display: none; } /* Hide Chrome/Safari marker */
+
+.dissertation-accordion-summary .summary-title {
+    flex-grow: 1;
+}
+.dissertation-accordion-summary .summary-year {
+    font-size: 0.8em;
+    color: #555;
+    margin-left: 15px;
+    font-weight: var(--font-weight-regular);
+}
+.dissertation-accordion-summary .accordion-icon-placeholder {
+    width: 20px;
+    height: 20px;
+    margin-left: 15px;
+    transition: transform 0.2s ease-in-out;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23000000' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 12px; /* Adjust size of icon */
+    transform: rotate(90deg); /* Point down when closed */
+}
+.dissertation-details-accordion[open] > .dissertation-accordion-summary .accordion-icon-placeholder {
+    transform: rotate(-90deg); /* Point up when open */
+}
+
+.dissertation-accordion-content {
+    padding: 25px 20px;
+    border-top: 1px solid #e0e0e0; /* Separator from summary */
+}
+.dissertation-accordion-content .dissertation-main-details {
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px dashed #ccc;
+}
+.dissertation-accordion-content .dissertation-abstract {
+    font-size: 1em;
+    line-height: 1.65;
+    color: #333;
+    margin-bottom: 15px;
+}
+.dissertation-accordion-content .dissertation-keywords {
+    font-size: 0.9em;
+    color: #111;
+    margin-bottom: 20px;
+}
+.dissertation-accordion-content .dissertation-keywords strong {
+    font-weight: var(--font-weight-bold);
+}
+.dissertation-accordion-content .dissertation-download-btn-main {
+    margin-top: 10px;
+}
+.dissertation-accordion-content .dissertation-subsection-title {
+    font-size: 1.5em; /* Was 1.9em in dissertation.css, making it a sub-title here */
+    font-weight: var(--font-weight-bold);
+    color: var(--text-color-primary);
+    margin-top: 30px; /* Space before Visual Booklet title */
+    margin-bottom: 10px;
+}
+.dissertation-accordion-content .dissertation-intro {
+    font-size: 1.05em;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+
+/* PDF Viewer Styles (merged and prefixed from dissertation.css) */
+/* These target elements with IDs like #dissertationPdfCanvas, #dissertationPrevPage etc. */
+.pdf-container-new { /* General class, can be reused */
+    margin-top: 25px;
+    border: 1px solid var(--border-color-strong);
+    padding: 20px;
+    background-color: var(--bg-color-content);
+}
+.pdf-controls-new {
+    display: flex; gap: 10px; margin-bottom: 20px;
+    flex-wrap: wrap; align-items: center; padding-bottom: 15px;
+    border-bottom: 1px solid var(--border-color-strong);
+}
+.pdf-controls-new .btn { padding: 8px 15px; font-size: 0.9em; margin: 0; }
+.pdf-controls-new .btn svg { margin-right: 8px; width: 15px; height: 15px; }
+.pdf-fullscreen-btn-new svg { margin-right: 8px; }
+.pdf-counter-new {
+    font-family: var(--font-family-main); padding: 9px 15px;
+    border: 1px solid var(--border-color-strong); font-weight: var(--font-weight-medium);
+    font-size: 0.9em; background-color: var(--bg-color-content); white-space: nowrap;
+}
+.pdf-viewer-new {
+    border: 1px solid var(--border-color-strong); background-color: #f0f0f0;
+    height: 650px; margin-bottom: 20px; position: relative;
+    display: flex; justify-content: center; align-items: flex-start;
+}
+.pdf-canvas-container-new {
+    width: 100%; height: 100%; overflow: auto; text-align: center;
+}
+/* Specific canvas ID for dissertation booklet */
+#dissertationPdfCanvas { display: block; border: 1px solid #ccc; margin: 0 auto; }
+
+.pdf-loading-new { /* General class */
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    font-family: var(--font-family-main); font-weight: var(--font-weight-medium);
+    text-align: center; color: var(--text-color-primary);
+    background-color: rgba(255, 255, 255, 0.9); padding: 20px;
+    border: 1px solid var(--border-color-strong); display: flex;
+    flex-direction: column; align-items: center; z-index: 10;
+}
+.loading-indicator-new { /* General class */
+    width: 28px; height: 28px; border: 4px solid var(--text-color-primary);
+    border-top-color: transparent; border-radius: 50%; margin-top: 15px;
+    animation: spin 0.8s linear infinite;
+}
+@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+.pdf-thumbnails-new { /* General class */
+    display: flex; gap: 12px; overflow-x: auto; padding: 15px 5px;
+    border-top: 1px solid var(--border-color-strong); margin-top: 20px;
+    background-color: #f0f0f0; scrollbar-width: thin;
+    scrollbar-color: var(--text-color-primary) #ccc;
+}
+.pdf-thumbnails-new::-webkit-scrollbar { height: 10px; }
+.pdf-thumbnails-new::-webkit-scrollbar-track { background: #ccc; }
+.pdf-thumbnails-new::-webkit-scrollbar-thumb { background-color: var(--text-color-primary); }
+
+.pdf-thumbnail-new { /* General class */
+    min-width: 80px; height: 110px; border: 2px solid var(--border-color-strong);
+    background-color: var(--bg-color-content); cursor: pointer;
+    transition: border-color 0.15s ease, transform 0.15s ease;
+    position: relative; display: flex; align-items: center; justify-content: center;
+    overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+.pdf-thumbnail-new:hover { border-color: var(--accent-electric); transform: scale(1.05); }
+.pdf-thumbnail-new.active { border-color: var(--accent-electric); border-width: 3px; box-shadow: 0 0 8px var(--accent-electric); }
+.thumbnail-page-num-new {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    background: rgba(0, 0, 0, 0.75); color: white;
+    font-size: 0.7em; text-align: center; padding: 2px 0;
+    font-weight: var(--font-weight-medium);
+}
+.thumbnail-error { font-size: 0.7em; color: red; text-align: center; padding: 5px; }
+
+.pdf-download-link-container { /* General class */
+    text-align: center; margin-top: 25px; padding-top: 20px;
+    border-top: 1px solid var(--border-color-strong);
+}
+.dissertation-download-btn-booklet, .dissertation-download-btn-main {
+    /* Shared styles for dissertation download buttons */
+}
+
+/* Fullscreen PDF Viewer Styles (merged and prefixed) */
+.fullscreen-mode-new { /* General class */
+    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+    background-color: #333; z-index: 9990; display: none; flex-direction: column;
+}
+.fullscreen-mode-new.active { display: flex; }
+
+.fullscreen-controls-new { /* General class */
+    display: flex; gap: 10px; padding: 12px 20px;
+    background-color: var(--bg-color-content); border-bottom: 1px solid var(--border-color-strong);
+    flex-wrap: wrap; align-items: center; flex-shrink: 0;
+}
+.fullscreen-viewer-new { /* General class */
+    flex-grow: 1; overflow: auto; display: flex;
+    justify-content: center; align-items: center; padding: 15px;
+}
+/* Specific canvas ID for dissertation booklet in fullscreen */
+#dissertationFullscreenCanvas {
+    max-width: 100%; max-height: 100%; display: block;
+    border: 1px solid #777; box-shadow: 0 0 15px rgba(0,0,0,0.3);
+}
+
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .main-content-publications { padding: 20px 15px; }
+    .page-header-section h1 { font-size: 2.2em; }
+    .page-header-section p { font-size: 1em; }
+    .section-heading-on-page { font-size: 1.7em; }
+    .publications-grid-new { grid-template-columns: 1fr; gap: 20px; }
+    .dissertation-accordion-summary { font-size: 1.15em; padding: 12px 15px; }
+    .dissertation-accordion-content .dissertation-subsection-title { font-size: 1.4em; }
+    .pdf-viewer-new { height: 500px; }
+    .publication-modal-content-new { padding: 25px 20px; box-shadow: 0 0 0 3px var(--accent-electric); }
+    .publication-modal-title-new { font-size: 1.5em; }
+    .publication-card-new:hover .publication-abstract-new-wrapper { max-height: 120px; }
+}
+
+@media (max-width: 480px) {
+    .page-header-section h1 { font-size: 1.8em; }
+    .section-heading-on-page { font-size: 1.5em; }
+    .dissertation-accordion-summary { font-size: 1.05em; }
+    .dissertation-accordion-summary .summary-title { padding-right: 5px; } /* Ensure title doesn't overlap icon too much */
+    .dissertation-accordion-summary .accordion-icon-placeholder { margin-left: 10px; }
+    .dissertation-accordion-content .dissertation-subsection-title { font-size: 1.3em; }
+    .pdf-viewer-new { height: 400px; }
+    .pdf-thumbnails-new { display: none; } /* Hide booklet thumbnails on small mobile */
+    .pdf-controls-new, .fullscreen-controls-new { gap: 5px; padding: 10px; }
+    .pdf-controls-new .btn, .fullscreen-controls-new .btn,
+    .pdf-controls-new .pdf-counter-new, .fullscreen-controls-new .pdf-counter-new {
+        font-size: 0.8em; padding: 6px 10px;
+    }
+    .publication-title-new { font-size: 1.1em; }
+    .publication-modal-title-new { font-size: 1.3em; }
+    .publication-card-new:hover .publication-abstract-new-wrapper { max-height: 150px; }
+}
