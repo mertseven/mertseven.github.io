@@ -3,33 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>AR Location Finder</title>
+    <title>AR Indoor GPS Test</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <video id="camera-feed" autoplay playsinline muted></video>
 
     <div id="container">
-        <!-- SEARCH SECTION -->
-        <div id="search-section">
-            <h2>Find a Location</h2>
-            <input type="text" id="location-search-input" placeholder="Enter address or place name">
-            <button id="search-btn">Search</button>
-            <div id="search-results">
-                <!-- Search results will be populated here -->
+        <!-- TARGET SELECTION SECTION -->
+        <div id="search-section"> <!-- Re-used ID for target selection area -->
+            <!-- Title can be static or added by JS -->
+            <div id="search-results"> <!-- Studio selection buttons will be populated here -->
             </div>
-            <p id="current-target-display">Current Target: Ege University</p>
+            <p id="current-target-display">Target: Studio 1 Name</p>
         </div>
         <hr class="section-divider">
 
+        <!-- PERMISSION SECTION -->
         <div id="permission-section">
-            <p>Grant permissions to start AR guidance for <strong id="target-name-permission">Ege University</strong>.</p>
+            <p>Grant permissions to start AR guidance for <strong id="target-name-permission">Studio 1 Name</strong>.</p>
             <button id="start-btn">Start AR Guidance</button>
-            <p class="small-text">If compass is off, move phone in a figure-8 pattern.</p>
+            <p class="small-text">If compass seems off, move phone in a figure-8 pattern.</p>
         </div>
 
+        <!-- GUIDANCE SECTION -->
         <div id="guidance-section" style="display: none;">
-            <h2 id="guidance-target-name">Guiding to: Ege University</h2>
+            <h2 id="guidance-target-name">Guiding to: Studio 1 Name</h2>
             <div id="arrow-container">
                 <div id="arrow">⬆️</div>
             </div>
@@ -41,7 +40,7 @@
                 <p>My Heading: <span id="heading-val">---</span>°</p>
                 <p>Target Bearing: <span id="bearing-val">---</span>°</p>
             </div>
-            <button id="back-to-search-btn">Change Target</button>
+            <button id="back-to-search-btn">Change Studio</button> <!-- Ensure this ID matches JS -->
         </div>
     </div>
 
