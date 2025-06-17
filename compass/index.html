@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Find the University!</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="container">
+        <h1>Find Ege University!</h1>
+
+        <div id="permission-section">
+            <p>We need your location and device orientation to guide you.</p>
+            <button id="start-btn">Grant Permissions & Start</button>
+            <p class="small-text">If the compass is inaccurate, try moving your phone in a figure-8 pattern to calibrate it.</p>
+        </div>
+
+        <div id="guidance-section" style="display: none;">
+            <div id="arrow-container">
+                <div id="arrow">⬆️</div>
+            </div>
+            <div id="distance-info">Distance: --- m</div>
+            <div id="heading-info">Your Heading: --- °</div>
+            <div id="bearing-info">Target Bearing: --- °</div>
+            <div id="status-info">Status: Waiting for data...</div>
+            <div id="debug-info" style="font-size: 0.7em; margin-top:10px;"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

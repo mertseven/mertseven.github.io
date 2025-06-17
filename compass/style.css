@@ -1,0 +1,66 @@
+body {
+    font-family: sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    margin: 0;
+    background-color: #f0f0f0;
+    color: #333;
+    text-align: center;
+    transition: background-color 0.5s ease; /* For hot/cold effect */
+}
+
+#container {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    max-width: 90%;
+}
+
+#permission-section button {
+    padding: 10px 20px;
+    font-size: 1em;
+    cursor: pointer;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+.small-text {
+    font-size: 0.8em;
+    color: #666;
+    margin-top: 15px;
+}
+
+#arrow-container {
+    font-size: 5em; /* Make arrow large */
+    margin-bottom: 20px;
+    height: 80px; /* Give it some space */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#arrow {
+    transform-origin: center center;
+    transition: transform 0.2s linear; /* Smooth arrow rotation */
+}
+
+#guidance-section div {
+    margin-bottom: 10px;
+    font-size: 1.1em;
+}
+
+/* Hot/Cold Backgrounds */
+.status-here { background-color: #4CAF50 !important; color: white;} /* Green */
+.status-burning { background-color: #f44336 !important; color: white;} /* Red */
+.status-hot { background-color: #ff9800 !important; color: black;}   /* Orange */
+.status-warm { background-color: #ffeb3b !important; color: black;}   /* Yellow */
+.status-cool { background-color: #2196F3 !important; color: white;}   /* Blue */
+.status-cold { background-color: #00bcd4 !important; color: white;}   /* Cyan */
+.status-freezing { background-color: #607d8b !important; color: white;} /* Blue Grey */
