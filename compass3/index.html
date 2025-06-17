@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>AR Location Finder</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <video id="camera-feed" autoplay playsinline muted></video>
+
+    <div id="container">
+        <!-- SEARCH SECTION -->
+        <div id="search-section">
+            <h2>Find a Location</h2>
+            <input type="text" id="location-search-input" placeholder="Enter address or place name">
+            <button id="search-btn">Search</button>
+            <div id="search-results">
+                <!-- Search results will be populated here -->
+            </div>
+            <p id="current-target-display">Current Target: Ege University</p>
+        </div>
+        <hr class="section-divider">
+
+        <div id="permission-section">
+            <p>Grant permissions to start AR guidance for <strong id="target-name-permission">Ege University</strong>.</p>
+            <button id="start-btn">Start AR Guidance</button>
+            <p class="small-text">If compass is off, move phone in a figure-8 pattern.</p>
+        </div>
+
+        <div id="guidance-section" style="display: none;">
+            <h2 id="guidance-target-name">Guiding to: Ege University</h2>
+            <div id="arrow-container">
+                <div id="arrow">⬆️</div>
+            </div>
+            <div id="distance-info">Distance: --- m</div>
+            <div id="status-info">Status: Waiting for data...</div>
+            <hr>
+            <div id="debug-info">
+                <p>My Coords: <span id="coords-val">---</span></p>
+                <p>My Heading: <span id="heading-val">---</span>°</p>
+                <p>Target Bearing: <span id="bearing-val">---</span>°</p>
+            </div>
+            <button id="back-to-search-btn">Change Target</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

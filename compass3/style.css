@@ -1,0 +1,224 @@
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    margin: 0;
+    color: #333;
+    text-align: center;
+    overflow: hidden;
+}
+
+#camera-feed {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+}
+
+#container {
+    background-color: rgba(240, 240, 240, 0.88);
+    padding: 15px 20px;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.25);
+    max-width: 90%;
+    width: 330px; /* Max width for better mobile layout */
+    z-index: 1;
+    transition: background-color 0.5s ease;
+    border: 1px solid rgba(0,0,0,0.1);
+}
+
+h1, h2 {
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+h2 {
+    font-size: 1.3em;
+}
+
+/* Search Section Styles */
+#search-section {
+    margin-bottom: 15px;
+    text-align: left;
+}
+#search-section h2 {
+    text-align: center;
+    margin-bottom: 10px;
+}
+#location-search-input {
+    width: calc(100% - 22px);
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1em;
+}
+#search-btn {
+    width: 100%;
+    padding: 10px;
+    font-size: 1em;
+    font-weight: bold;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+#search-btn:hover {
+    background-color: #218838;
+}
+#search-results {
+    margin-top: 10px;
+    max-height: 150px;
+    overflow-y: auto;
+    border: 1px solid #eee;
+    border-radius: 4px;
+    background-color: white; /* Ensure results have solid background */
+}
+.result-item {
+    padding: 8px 10px;
+    cursor: pointer;
+    border-bottom: 1px solid #f0f0f0;
+    font-size: 0.9em;
+}
+.result-item:last-child {
+    border-bottom: none;
+}
+.result-item:hover {
+    background-color: #e9ecef;
+}
+#current-target-display {
+    text-align: center;
+    font-size: 0.85em;
+    color: #555;
+    margin-top: 10px;
+    font-style: italic;
+    min-height: 1.2em; /* Prevent layout jump */
+}
+
+hr.section-divider {
+    border: none;
+    border-top: 1px solid rgba(0,0,0,0.15);
+    margin: 20px 0;
+}
+
+/* Permission Section */
+#permission-section {
+    text-align: center;
+}
+#permission-section p {
+    margin-bottom: 10px;
+}
+#start-btn {
+    padding: 12px 25px;
+    font-size: 1em;
+    font-weight: bold;
+    cursor: pointer;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    margin-top: 5px; /* Reduced margin */
+    transition: background-color 0.2s ease;
+}
+#start-btn:hover {
+    background-color: #0056b3;
+}
+.small-text {
+    font-size: 0.75em;
+    color: #555;
+    margin-top: 10px;
+}
+
+/* Guidance Section Styles */
+#guidance-section {
+    text-align: center;
+}
+#guidance-section h2 {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+}
+#arrow-container {
+    font-size: 4.5em;
+    margin-bottom: 15px;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#arrow {
+    transform-origin: center center;
+    transition: transform 0.2s linear;
+    color: #FF5722;
+    text-shadow: 0px 0px 5px rgba(255, 255, 255, 0.7);
+}
+#guidance-section div, #guidance-section p {
+    margin-bottom: 8px;
+    font-size: 1em;
+}
+#status-info {
+    font-weight: bold;
+    min-height: 40px;
+}
+#debug-info {
+    font-size: 0.75em;
+    color: #444;
+    margin-top: 10px;
+    line-height: 1.4;
+    text-align: left; /* Align debug text left */
+}
+#debug-info p {
+    margin: 3px 0;
+}
+#back-to-search-btn {
+    width: 100%;
+    padding: 10px;
+    margin-top: 15px;
+    font-size: 0.9em;
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+#back-to-search-btn:hover {
+    background-color: #5a6268;
+}
+
+/* Text legibility on camera */
+#container h1, #container h2, #guidance-section div, #guidance-section p, #permission-section p {
+    color: #111;
+    text-shadow: 0px 1px 2px rgba(255, 255, 255, 0.6);
+}
+
+/* Hot/Cold Backgrounds for the #container div */
+.status-here { background-color: rgba(76, 175, 80, 0.9) !important; }
+.status-burning { background-color: rgba(244, 67, 54, 0.9) !important; }
+.status-hot { background-color: rgba(255, 152, 0, 0.9) !important; }
+.status-warm { background-color: rgba(255, 235, 59, 0.85) !important; }
+.status-cool { background-color: rgba(33, 150, 243, 0.9) !important; }
+.status-cold { background-color: rgba(0, 188, 212, 0.9) !important; }
+.status-freezing { background-color: rgba(96, 125, 139, 0.9) !important; }
+
+/* Adjust text color for statuses where container is dark/vibrant */
+.status-here *,
+.status-burning *,
+.status-cool *,
+.status-cold *,
+.status-freezing * {
+    color: white !important;
+    text-shadow: 0px 1px 2px rgba(0, 0, 0, 0.5) !important;
+}
+.status-warm * {
+    color: #333 !important;
+    text-shadow: 0px 1px 2px rgba(255, 255, 255, 0.5) !important;
+}
+.status-warm #arrow {
+    color: #D32F2F !important;
+}
