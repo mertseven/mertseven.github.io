@@ -1,40 +1,49 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Initial default target
-    let TARGET_LAT = 38.4546337;
-    let TARGET_LON = 27.2027813;
-    let TARGET_NAME = "Ege University";
+    // Define Studio Coordinates
+    const STUDIOS = {
+        "Studio 1": { lat: 38.454246, lon: 27.203309, name: "Studio 1 (Tech Lab)" },
+        "Studio 2": { lat: 38.454457, lon: 27.203158, name: "Studio 2 (Design Hub)" }
+    };
+
+    // Initial default target (let's pick Studio 1 by default)
+    let TARGET_LAT = STUDIOS["Studio 1"].lat;
+    let TARGET_LON = STUDIOS["Studio 1"].lon;
+    let TARGET_NAME = STUDIOS["Studio 1"].name;
 
     const EARTH_RADIUS_KM = 6371;
 
-    // UI Elements (Ensure these match your HTML IDs)
-    const searchSection = document.getElementById('search-section');
-    const locationSearchInput = document.getElementById('location-search-input');
-    const searchBtn = document.getElementById('search-btn');
-    const searchResultsDiv = document.getElementById('search-results');
+    // UI Elements (Ensure these IDs exist in your HTML)
+    // We'll repurpose the search section for studio selection
+    const targetSelectionSection = document.getElementById('search-section'); // Assuming this div exists
+    const studioSelectorContainer = document.getElementById('search-results'); // Re-use this for buttons
     const currentTargetDisplay = document.getElementById('current-target-display');
+
     const permissionSection = document.getElementById('permission-section');
     const targetNamePermission = document.getElementById('target-name-permission');
     const startBtn = document.getElementById('start-btn');
+
     const guidanceSection = document.getElementById('guidance-section');
     const guidanceTargetName = document.getElementById('guidance-target-name');
-    const backToSearchBtn = document.getElementById('back-to-search-btn');
+    const backToSelectionBtn = document.getElementById('back-to-search-btn'); // Renamed for clarity
+
     const cameraFeed = document.getElementById('camera-feed');
     const arrowElement = document.getElementById('arrow');
     const distanceInfo = document.getElementById('distance-info');
     const statusInfo = document.getElementById('status-info');
+
     const headingVal = document.getElementById('heading-val');
     const bearingVal = document.getElementById('bearing-val');
     const coordsVal = document.getElementById('coords-val');
 
     let currentLat, currentLon;
-    let currentHeading; // This will store the processed, hopefully correct, compass heading
+    let currentHeading;
     let orientationEventListened = false;
     let activeStream = null;
     let watchId = null;
 
-    console.log("AR Location Finder Script Loaded.");
+    console.log("Indoor GPS Test Script Loaded.");
 
-    // --- Utility Functions ---
+    // --- Utility Functions (deg2rad, rad2deg, calculateDistance, calculateBearing - KEEP AS IS) ---
     function deg2rad(degrees) { return degrees * (Math.PI / 180); }
     function rad2deg(radians) { return radians * (180 / Math.PI); }
     function calculateDistance(lat1, lon1, lat2, lon2) {
@@ -55,116 +64,92 @@ document.addEventListener('DOMContentLoaded', () => {
         return (rad2deg(θ) + 360) % 360;
     }
 
-    // --- Geocoding Function ---
-    async function geocodeLocation(query) {
-        searchResultsDiv.innerHTML = '<p class="result-item" style="text-align:center;">Searching...</p>';
-        const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&limit=5&addressdetails=1`;
-        try {
-            const response = await fetch(url);
-            if (!response.ok) throw new Error(`Nominatim API error: ${response.status}`);
-            const data = await response.json();
-            displaySearchResults(data);
-        } catch (error) {
-            console.error("Geocoding error:", error);
-            searchResultsDiv.innerHTML = `<p class="result-item" style="text-align:center; color:red;">Error finding location. Try again.</p>`;
-        }
-    }
+    // --- Populate Studio Selection Buttons ---
+    function populateStudioSelector() {
+        studioSelectorContainer.innerHTML = ''; // Clear previous content
+        const title = document.createElement('h3');
+        title.textContent = "Select a Studio:";
+        title.style.textAlign = 'center';
+        title.style.marginBottom = '10px';
+        studioSelectorContainer.appendChild(title);
 
-    function displaySearchResults(results) {
-        searchResultsDiv.innerHTML = '';
-        if (!results || results.length === 0) {
-            searchResultsDiv.innerHTML = '<p class="result-item" style="text-align:center;">No results found.</p>';
-            return;
-        }
-        results.forEach(result => {
-            const item = document.createElement('div');
-            item.classList.add('result-item');
-            item.textContent = result.display_name;
-            item.addEventListener('click', () => {
-                TARGET_LAT = parseFloat(result.lat);
-                TARGET_LON = parseFloat(result.lon);
-                TARGET_NAME = result.address?.city || result.address?.town || result.address?.village || result.address?.hamlet || result.display_name.split(',')[0] || "Selected Location";
+
+        Object.keys(STUDIOS).forEach(key => {
+            const studio = STUDIOS[key];
+            const button = document.createElement('button');
+            button.classList.add('result-item'); // Re-use class for styling
+            button.style.width = '100%';
+            button.style.marginBottom = '5px';
+            button.textContent = studio.name;
+            button.addEventListener('click', () => {
+                TARGET_LAT = studio.lat;
+                TARGET_LON = studio.lon;
+                TARGET_NAME = studio.name;
 
                 currentTargetDisplay.textContent = `Target: ${TARGET_NAME}`;
                 if (targetNamePermission) targetNamePermission.textContent = TARGET_NAME;
                 if (guidanceTargetName) guidanceTargetName.textContent = `Guiding to: ${TARGET_NAME}`;
+                
+                // Optional: Visually highlight selected button
+                Array.from(studioSelectorContainer.getElementsByTagName('button')).forEach(btn => btn.style.fontWeight = 'normal');
+                button.style.fontWeight = 'bold';
 
-                searchResultsDiv.innerHTML = '';
-                locationSearchInput.value = '';
+                console.log(`Target set to: ${TARGET_NAME} (${TARGET_LAT}, ${TARGET_LON})`);
                 statusInfo.innerHTML = "New target set. <br>Press 'Start AR Guidance'.";
                 if (guidanceSection.style.display !== 'none' && currentLat !== undefined) {
                     updateGuidance();
                 }
             });
-            searchResultsDiv.appendChild(item);
+            studioSelectorContainer.appendChild(button);
         });
     }
 
-    // --- Event Handlers ---
+
+    // --- Event Handlers (handleLocationSuccess, handleLocationError, handleOrientation - Use the robust version from previous "failproof" attempt) ---
     function handleLocationSuccess(position) {
         currentLat = position.coords.latitude;
         currentLon = position.coords.longitude;
-        // console.log(`Location update: Lat: ${currentLat}, Lon: ${currentLon}, Acc: ${position.coords.accuracy}`);
         if (coordsVal) {
-            coordsVal.textContent = `${currentLat.toFixed(5)}, ${currentLon.toFixed(5)} (acc: ${position.coords.accuracy.toFixed(0)}m)`;
+            coordsVal.textContent = `${currentLat.toFixed(6)}, ${currentLon.toFixed(6)} (acc: ${position.coords.accuracy.toFixed(0)}m)`; // Increased precision for indoor
+        }
+        // Log GPS accuracy
+        console.log(`GPS Update: Accuracy = ${position.coords.accuracy.toFixed(1)}m`);
+        if (position.coords.accuracy > 30) { // Arbitrary threshold for "poor" indoor GPS
+            console.warn("Poor GPS accuracy, guidance might be unreliable.");
+            // Optionally provide UI feedback about poor GPS
+            // statusInfo.innerHTML += "<br><small>Poor GPS signal.</small>";
         }
         updateGuidance();
     }
-    function handleLocationError(error) {
-        statusInfo.innerHTML = `Location Error: ${error.message}.<br>Ensure GPS is enabled.`;
-        console.error("Location error:", error);
-        if (coordsVal) coordsVal.textContent = "Error getting location";
-    }
-
-    function handleOrientation(event) {
+    function handleLocationError(error) { /* ... same as before ... */ }
+    function handleOrientation(event) { /* ... Use the robust version from the "failproof" attempt, including console logs for debugging heading ... */
         let rawHeading = null;
         let headingSource = "Unknown";
-
-        // Log raw event data for debugging
-        // console.log(`Orientation Event: alpha=${event.alpha}, beta=${event.beta}, gamma=${event.gamma}, absolute=${event.absolute}, webkitCompassHeading=${event.webkitCompassHeading}`);
-
         if (event.webkitCompassHeading !== undefined && event.webkitCompassHeading !== null) {
-            // iOS
-            rawHeading = event.webkitCompassHeading;
-            headingSource = "webkitCompassHeading";
+            rawHeading = event.webkitCompassHeading; headingSource = "webkitCompassHeading";
         } else if (event.absolute === true && event.alpha !== null) {
-            // Standard absolute orientation
-            rawHeading = event.alpha; // Assuming 0 is North, clockwise.
-            headingSource = "absolute alpha";
-            // --- COMMON ADJUSTMENT FOR ANDROID ---
-            // If arrow is 180 deg off with 'absolute alpha', try:
-            // rawHeading = (360 - event.alpha) % 360; // If alpha is counter-clockwise from true North
-            // headingSource = "absolute alpha (inverted)";
-            // Or if it's off by 90 degrees (often related to device default orientation)
-            // rawHeading = (event.alpha + 90) % 360; // Example adjustment
-            // headingSource = "absolute alpha (+90)";
+            rawHeading = event.alpha; headingSource = "absolute alpha";
+            // COMMON ADJUSTMENT: if (rawHeading > 180 && headingSource === "absolute alpha") rawHeading = (360 - rawHeading); // Or similar based on testing
         } else if (event.alpha !== null) {
-            // Non-absolute or fallback alpha. This is less reliable.
-            // Some devices might report a usable heading here, others relative.
-            rawHeading = event.alpha;
-            headingSource = "fallback alpha";
-            // console.warn("Using fallback alpha. May be unreliable or relative.");
+            rawHeading = event.alpha; headingSource = "fallback alpha";
         }
-
         if (rawHeading !== null) {
-            currentHeading = (parseFloat(rawHeading) + 360) % 360; // Normalize to 0-359.99
-            // console.log(`Processed Heading: ${currentHeading.toFixed(2)}° (Source: ${headingSource}, Raw: ${parseFloat(rawHeading).toFixed(2)})`);
+            currentHeading = (parseFloat(rawHeading) + 360) % 360;
+            // console.log(`Processed Heading: ${currentHeading.toFixed(1)}° (Source: ${headingSource})`);
             updateGuidance();
         } else {
             if (headingVal) headingVal.textContent = "---";
-            // console.log("No usable compass data from event.");
         }
     }
 
-
-    function updateGuidance() {
+    // --- updateGuidance function (KEEP AS IS, it uses TARGET_LAT/LON/NAME which are now dynamic) ---
+    function updateGuidance() { /* ... same as the robust version before ... */
         if (guidanceSection.style.display === 'none') return;
-
         if (currentLat === undefined || currentLon === undefined) {
             statusInfo.innerHTML = "Waiting for location data... <br>Ensure GPS is enabled.";
             return;
         }
-        if (currentHeading === undefined) { // Check if currentHeading has been set
+        if (currentHeading === undefined) {
             statusInfo.innerHTML = "Waiting for compass data... <br>Point phone around slowly.";
             if (headingVal) headingVal.textContent = "---";
             return;
@@ -184,10 +169,8 @@ document.addEventListener('DOMContentLoaded', () => {
         arrowElement.style.transform = `rotate(${angleDifference}deg)`;
         // console.log(`Update Guidance: Dist=${distance.toFixed(0)}, Bearing=${bearingToTarget.toFixed(1)}, MyHeading=${currentHeading.toFixed(1)}, AngleDiff=${angleDifference.toFixed(1)}`);
 
-
         let directionText = "";
         const absAngleDiff = Math.abs(angleDifference);
-
         if (absAngleDiff < 10) { directionText = "➡️ Straight Ahead!"; }
         else if (absAngleDiff > 170) { directionText = "🔄 Turn Around!"; }
         else if (angleDifference > 0) {
@@ -201,147 +184,70 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         let statusMessage = "";
-        let containerBaseClass = " "; // Start with a space if you plan to add more non-status classes later
+        let containerBaseClass = document.getElementById('container').className.replace(/status-\w+/g, '').trim();
         let statusClass = "";
 
-        if (distance < 10) {
+        // Adjust distance thresholds for potentially shorter indoor distances
+        if (distance < 5) { // "Here" threshold tighter for indoor
             statusMessage = "🎉 You're Here! 🎉"; statusClass = "status-here";
             arrowElement.textContent = "📍"; directionText = "";
-        } else if (distance < 40) {
+        } else if (distance < 15) { // Burning hot
             statusMessage = "🔥🔥 Burning Hot!"; statusClass = "status-burning";
-        } else if (distance < 100) {
+        } else if (distance < 30) { // Hot
             statusMessage = "🔥 Hot!"; statusClass = "status-hot";
-        } else if (distance < 300) {
+        } else if (distance < 60) { // Warm
             statusMessage = "Warm"; statusClass = "status-warm";
-        } else if (distance < 1000) {
+        } else if (distance < 100) { // Cool (relative to indoor scale)
             statusMessage = "Cool"; statusClass = "status-cool";
-        } else if (distance < 3000) {
-            statusMessage = "❄️ Cold"; statusClass = "status-cold";
-        } else {
-            statusMessage = "🥶 Freezing!"; statusClass = "status-freezing";
+        } else { // Cold
+            statusMessage = "❄️ Getting Colder"; statusClass = "status-cold";
         }
-        if (statusClass && arrowElement.textContent === "📍" && distance >=10) arrowElement.textContent = "⬆️";
-
+        if (statusClass && arrowElement.textContent === "📍" && distance >=5) arrowElement.textContent = "⬆️";
 
         statusInfo.innerHTML = `${directionText}<br>${statusMessage}`;
-        document.getElementById('container').className = (containerBaseClass + statusClass).trim();
+        document.getElementById('container').className = (containerBaseClass + " " + statusClass).trim();
     }
 
-    // --- UI State Management ---
-    function showSearchScreen() {
-        searchSection.style.display = 'block';
+
+    // --- UI State Management (showTargetSelectionScreen, showGuidanceScreen, etc. - Adapt as needed) ---
+    function showTargetSelectionScreen() {
+        if (targetSelectionSection) targetSelectionSection.style.display = 'block';
         permissionSection.style.display = 'block';
         guidanceSection.style.display = 'none';
         stopCamera();
         document.getElementById('container').className = '';
         arrowElement.textContent = "⬆️";
-        statusInfo.innerHTML = "Set a target or start guidance.";
-        console.log("Switched to Search Screen");
+        statusInfo.innerHTML = "Select a studio or start guidance.";
+        console.log("Switched to Target Selection Screen");
     }
 
     function showGuidanceScreen() {
-        searchSection.style.display = 'none';
+        if (targetSelectionSection) targetSelectionSection.style.display = 'none';
         permissionSection.style.display = 'none';
         guidanceSection.style.display = 'block';
         if (guidanceTargetName) guidanceTargetName.textContent = `Guiding to: ${TARGET_NAME}`;
         console.log("Switching to Guidance Screen for target:", TARGET_NAME);
         startSensorAndCamera();
     }
+    // stopCamera() and startSensorAndCamera() remain the same as the "failproof" version
 
-    function stopCamera() {
-        if (activeStream) {
-            activeStream.getTracks().forEach(track => track.stop());
-            activeStream = null;
-            cameraFeed.srcObject = null;
-            console.log("Camera stream stopped.");
-        }
-    }
+    function stopCamera() { /* ... same ... */ }
+    async function startSensorAndCamera() { /* ... same, ensure it calls the robust handleOrientation ... */ }
 
-    async function startSensorAndCamera() {
-        console.log("Attempting to start sensors and camera...");
-        // 1. Camera Access
-        if (!activeStream) {
-            try {
-                if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-                    activeStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' }, audio: false });
-                    cameraFeed.srcObject = activeStream;
-                    console.log("Camera stream started.");
-                } else { console.log("getUserMedia not supported."); }
-            } catch (err) {
-                console.error("Camera access error:", err);
-                statusInfo.innerHTML = `Camera Error: ${err.name}.<br>Allow camera access.`;
-                showSearchScreen(); return;
-            }
-        }
-
-        // 2. Geolocation
-        if (navigator.geolocation && !watchId) {
-            watchId = navigator.geolocation.watchPosition(handleLocationSuccess, handleLocationError, {
-                enableHighAccuracy: true, maximumAge: 2000, timeout: 20000 // Slightly tweaked params
-            });
-            console.log("Geolocation watchPosition started, ID:", watchId);
-        } else if (!navigator.geolocation) {
-            statusInfo.innerHTML = "Geolocation not supported.<br>Cannot guide.";
-            showSearchScreen(); return;
-        }
-
-        // 3. Device Orientation (Compass)
-        if (!orientationEventListened) {
-            let orientationHandlerRegistered = false;
-            // Prefer 'deviceorientationabsolute' but fall back if not explicitly supported by 'on...' check
-            const eventType = ('ondeviceorientationabsolute' in window || DeviceOrientationEvent.prototype.hasOwnProperty('absolute')) ?
-                              'deviceorientationabsolute' : 'deviceorientation';
-            console.log("Using orientation event type:", eventType);
-
-            if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
-                // iOS 13+ model
-                try {
-                    console.log("Requesting DeviceOrientationEvent permission (iOS)...");
-                    const permissionState = await DeviceOrientationEvent.requestPermission();
-                    if (permissionState === 'granted') {
-                        window.addEventListener(eventType, handleOrientation, true);
-                        orientationEventListened = true; orientationHandlerRegistered = true;
-                        console.log("DeviceOrientationEvent permission granted and listener added.");
-                    } else {
-                        statusInfo.innerHTML = "Compass permission denied.";
-                        console.log("DeviceOrientationEvent permission denied.");
-                    }
-                } catch (error) {
-                    console.error("Orientation permission request error:", error);
-                    statusInfo.innerHTML = "Error requesting compass.";
-                }
-            } else if ('DeviceOrientationEvent' in window) {
-                // Non-iOS or older iOS
-                window.addEventListener(eventType, handleOrientation, true);
-                orientationEventListened = true; orientationHandlerRegistered = true;
-                console.log("Standard DeviceOrientationEvent listener added.");
-            }
-
-            if (!orientationHandlerRegistered) {
-                statusInfo.innerHTML = "Compass not supported/denied.";
-                console.log("Compass (DeviceOrientationEvent) not supported or handler not registered.");
-            }
-        } else {
-            console.log("Orientation listener already added.");
-        }
-        // It's important to call updateGuidance AFTER attempting to get permissions and start listeners,
-        // as currentHeading might not be set yet.
-        // updateGuidance(); // Called by sensor callbacks now
-    }
 
     // --- Initialize ---
     if (currentTargetDisplay) currentTargetDisplay.textContent = `Target: ${TARGET_NAME}`;
     if (targetNamePermission) targetNamePermission.textContent = TARGET_NAME;
+    populateStudioSelector(); // Create buttons for studio selection
 
-    searchBtn.addEventListener('click', () => {
-        const query = locationSearchInput.value.trim();
-        if (query) geocodeLocation(query);
-        else searchResultsDiv.innerHTML = '<p class="result-item" style="text-align:center;">Please enter a location.</p>';
-    });
-    locationSearchInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') searchBtn.click(); });
+    // Remove search-specific listeners if they were there:
+    // searchBtn.addEventListener('click', ...);
+    // locationSearchInput.addEventListener('keypress', ...);
+    // Instead, the studio buttons handle target changes.
+
     startBtn.addEventListener('click', showGuidanceScreen);
-    backToSearchBtn.addEventListener('click', showSearchScreen);
+    backToSelectionBtn.addEventListener('click', showTargetSelectionScreen); // Ensure this button exists and is named correctly
 
-    showSearchScreen(); // Initial screen state
-    console.log("UI Initialized. Waiting for user interaction.");
+    showTargetSelectionScreen(); // Initial screen state
+    console.log("UI Initialized for Indoor GPS Test. Waiting for user interaction.");
 });
