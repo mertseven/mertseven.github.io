@@ -1,0 +1,141 @@
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; /* Center the container vertically */
+    min-height: 100vh;
+    margin: 0;
+    color: #333;
+    text-align: center;
+    overflow: hidden; /* Prevent scrollbars from video */
+}
+
+#camera-feed {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+}
+
+#container {
+    background-color: rgba(240, 240, 240, 0.85); /* Slightly off-white, semi-transparent */
+    padding: 15px 20px;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.25);
+    max-width: 90%;
+    width: 320px; /* Max width for better mobile layout */
+    z-index: 1;
+    transition: background-color 0.5s ease;
+    border: 1px solid rgba(0,0,0,0.1);
+}
+
+h1 {
+    font-size: 1.5em;
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+
+#permission-section button {
+    padding: 12px 25px;
+    font-size: 1em;
+    font-weight: bold;
+    cursor: pointer;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    margin-top: 10px;
+    transition: background-color 0.2s ease;
+}
+#permission-section button:hover {
+    background-color: #0056b3;
+}
+
+
+.small-text {
+    font-size: 0.75em;
+    color: #555;
+    margin-top: 15px;
+}
+
+#arrow-container {
+    font-size: 4.5em; /* Slightly smaller arrow */
+    margin-bottom: 15px;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#arrow {
+    transform-origin: center center;
+    transition: transform 0.2s linear;
+    color: #FF5722;
+    text-shadow: 0px 0px 5px rgba(255, 255, 255, 0.7);
+}
+
+#guidance-section div, #guidance-section p {
+    margin-bottom: 8px;
+    font-size: 1em;
+}
+
+#status-info {
+    font-weight: bold;
+    min-height: 40px; /* Space for two lines of text */
+}
+
+#debug-info {
+    font-size: 0.75em;
+    color: #444;
+    margin-top: 10px;
+    line-height: 1.4;
+}
+#debug-info p {
+    margin: 3px 0;
+}
+
+hr {
+    border: none;
+    border-top: 1px solid rgba(0,0,0,0.1);
+    margin: 10px 0;
+}
+
+
+/* Text legibility on camera */
+#container h1, #guidance-section div, #guidance-section p {
+    color: #111; /* Darker text for base readability */
+    text-shadow: 0px 1px 2px rgba(255, 255, 255, 0.6);
+}
+
+/* Hot/Cold Backgrounds for the #container div */
+.status-here { background-color: rgba(76, 175, 80, 0.9) !important; }
+.status-burning { background-color: rgba(244, 67, 54, 0.9) !important; }
+.status-hot { background-color: rgba(255, 152, 0, 0.9) !important; }
+.status-warm { background-color: rgba(255, 235, 59, 0.85) !important; } /* Lighter, needs dark text */
+.status-cool { background-color: rgba(33, 150, 243, 0.9) !important; }
+.status-cold { background-color: rgba(0, 188, 212, 0.9) !important; }
+.status-freezing { background-color: rgba(96, 125, 139, 0.9) !important; }
+
+/* Adjust text color for statuses where container is dark/vibrant */
+.status-here *,
+.status-burning *,
+.status-cool *,
+.status-cold *,
+.status-freezing * {
+    color: white !important;
+    text-shadow: 0px 1px 2px rgba(0, 0, 0, 0.5) !important;
+}
+
+/* For warm (yellow), ensure text remains dark */
+.status-warm * {
+    color: #333 !important; /* Dark text on yellow */
+    text-shadow: 0px 1px 2px rgba(255, 255, 255, 0.5) !important;
+}
+
+.status-warm #arrow {
+    color: #D32F2F !important; /* Darker red arrow on yellow */
+}

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Find the University! AR</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Video element for camera feed - must be behind other content -->
+    <video id="camera-feed" autoplay playsinline muted></video>
+
+    <div id="container">
+        <h1>Find Ege University!</h1>
+
+        <div id="permission-section">
+            <p>We need your location, device orientation, and camera access to guide you.</p>
+            <button id="start-btn">Grant Permissions & Start</button>
+            <p class="small-text">If the compass seems off, try moving your phone in a figure-8 pattern to calibrate it.</p>
+        </div>
+
+        <div id="guidance-section" style="display: none;">
+            <div id="arrow-container">
+                <div id="arrow">⬆️</div>
+            </div>
+            <div id="distance-info">Distance: --- m</div>
+            <div id="status-info">Status: Waiting for data...</div>
+            <hr>
+            <div id="debug-info">
+                <p>Your Heading: <span id="heading-val">---</span>°</p>
+                <p>Target Bearing: <span id="bearing-val">---</span>°</p>
+                <p>Coords: <span id="coords-val">---</span></p>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
