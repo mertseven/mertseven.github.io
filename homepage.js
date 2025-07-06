@@ -55,19 +55,19 @@ console.log("DOM fully loaded and parsed. Initializing script..."); // This line
     // --- 2. LIVING DOCUMENT & HISTORY LOGIC ---
     const logData = {
         'log-redesign': {
-            date: '2024-05-21',
+            date: '2025-07-07',
             description: 'This homepage was redesigned with a 3D element and a curated "Creative Strands" grid to better reflect the works presented.'
         },
         'log-sociogram': {
-            date: '2024-05-19',
+            date: '2025-07-01',
             description: 'Launched <a href="projects.html#project-sociogram-studio">Sociogram Studio</a>, a new interactive tool for visualizing and analyzing group dynamics directly in the browser.'
         },
         'log-kafka': {
-            date: '2024-05-21',
+            date: '2025-07-06',
             description: 'Launched <a href="projects.html#project-kafka">Project KAFKA</a>, an interactive essay that uses real-time hand tracking to deconstruct the user\'s own digital presence. The project explores media philosophy concepts from Kittler and Stiegler, turning the browser into a site for critical analysis.'
         },
         'log-living-doc': {
-            date: '2024-05-24',
+            date: '2025-07-07',
             description: 'Implemented this "Living Document" feature, embedding the site\'s history as interactive annotations rather than a static list.'
         }
     };
