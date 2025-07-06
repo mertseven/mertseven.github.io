@@ -1,0 +1,12 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden; 
+    background-color: #000;
+}
+
+canvas {
+    display: block;
+}
+
+/* All CSS related to the #player iframe has been removed. */
