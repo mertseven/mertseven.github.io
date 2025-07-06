@@ -16,324 +16,205 @@
 .main-content-contact {
     flex-grow: 1;
     width: 100%;
-    max-width: 1200px; /* Consistent max-width */
+    max-width: 1100px;
     margin: 0 auto;
-    padding: 30px 20px;
-    font-family: 'IBM Plex Mono', monospace; /* Base font for "terminal" elements */
+    padding: 30px 20px 60px 20px;
 }
 
-/* Page Header Section for Contact Page */
-.page-header-section-contact {
-    padding-bottom: 20px;
-    margin-bottom: 40px;
-    border-bottom: 1.5px solid var(--border-color-strong);
-    text-align: left; 
+/* --- Introduction Header (MODIFIED) --- */
+.profile-intro-header {
+    max-width: 900px; /* Widen slightly for image */
+    margin: 20px auto 50px auto;
+    display: flex;
+    align-items: center;
+    gap: 40px; /* Space between image and text */
 }
-.page-header-section-contact h1.typewriter {
+
+/* NEW: Styles for the profile image */
+.profile-image {
+    width: 160px;
+    height: 160px;
+    border-radius: 50%; /* Makes the image circular */
+    object-fit: cover; /* Prevents image from being squished */
+    border: 3px solid #e0e0e0;
+    flex-shrink: 0; /* Prevents image from shrinking */
+}
+
+/* NEW: Wrapper for the text */
+.profile-intro-text {
+    text-align: left;
+}
+.profile-intro-header h1 {
     font-size: 2.8em;
     font-weight: var(--font-weight-black);
-    color: var(--text-color-primary);
-    line-height: 1.2;
-    margin-bottom: 10px;
-    border-right: 4px solid var(--text-color-primary); 
-    display: inline-block; 
-    overflow: hidden;
-    white-space: nowrap;
-    letter-spacing: .05em; 
-    font-family: var(--font-family-main); /* Main font for this prominent title */
+    margin-bottom: 15px;
 }
-.page-header-section-contact p {
-    font-size: 1.1em;
-    color: #555;
-    font-family: var(--font-family-main); 
+.profile-intro-header p {
+    font-size: 1.1em; /* Slightly smaller to fit better */
+    line-height: 1.7;
+    color: #333;
 }
 
-/* Typewriter Animation */
-@keyframes typing-contact { from { width: 0 } to { width: 100% } }
-@keyframes blink-caret-contact {
-    from, to { border-color: transparent }
-    50% { border-color: var(--text-color-primary); }
-}
-.page-header-section-contact h1.typewriter-active { /* Class added by JS after typing */
-    animation: typing-contact 2s steps(20, end) 0.5s 1 normal both, 
-               blink-caret-contact 0.75s step-end infinite;
-}
 
-/* Main Layout Grid */
-.contact-layout-grid {
-    display: grid;
-    grid-template-columns: 2fr 1fr; /* Form takes more space by default */
-    gap: 40px;
+/* --- Dossier Container & Tabs (Unchanged) --- */
+.dossier-container {
+    border: 1px solid #d0d7de;
 }
-
-/* Shared Section Title Style within Contact Page */
-.contact-section-title {
-    font-size: 1.3em;
-    font-weight: var(--font-weight-bold);
-    text-transform: none; /* Modernized: No longer uppercase */
-    color: var(--text-color-primary);
-    margin-bottom: 20px;
-    padding-bottom: 8px;
-    border-bottom: 1px solid var(--border-color-strong);
-    letter-spacing: 0px; /* Modernized: Normal letter spacing */
-    font-family: var(--font-family-main); /* Use main site font */
+.dossier-tabs {
+    display: flex;
+    border-bottom: 1px solid #d0d7de;
+    background-color: #f6f8fa;
 }
-
-/* Contact Form Section */
-.contact-form-section {
-    /* Takes space from grid */
-}
-.contact-form-new {
-    border: 1px solid var(--border-color-strong);
-    padding: 30px;
-    background: var(--bg-color-content);
-}
-.form-field {
-    margin-bottom: 30px; 
-    position: relative;
-}
-.form-field label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: var(--font-weight-medium);
-    font-size: 0.95em; 
-    font-family: var(--font-family-main); 
-    color: var(--text-color-primary);
-}
-.form-field input[type="text"],
-.form-field input[type="email"],
-.form-field textarea {
-    width: 100%;
-    padding: 12px 10px;
-    border: 1px solid var(--border-color-strong);
-    font-family: 'IBM Plex Mono', monospace; /* Retain for input field feel */
-    font-size: 1em;
-    background: transparent;
-    color: var(--text-color-primary);
-    transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
-    border-radius: 0; 
-}
-.form-field textarea {
-    min-height: 150px;
-    resize: vertical;
-}
-.form-field input[type="text"]:focus,
-.form-field input[type="email"]:focus,
-.form-field textarea:focus {
-    outline: none;
-    border-color: var(--accent-electric); /* Site accent for focus */
-    background-color: #f0f0f0; 
-}
-.terminal-validation {
-    display: block; 
-    margin-top: 5px; 
-    font-size: 0.85em;
-    color: #D32F2F; 
-    opacity: 0; 
-    transition: opacity 0.2s ease;
-    font-family: var(--font-family-main);
-}
-.terminal-validation::before {
-    content: 'Error: '; 
-    font-weight: bold;
-}
-
-/* Submit Button Styling (using .btn-brutalist as a base) */
-.btn-brutalist.contact-submit-btn {
-    display: inline-block; /* Changed to inline-block to allow width:100% */
-    width: 100%; /* Make button full width of form */
+.dossier-tab-button {
     padding: 12px 20px;
-    font-size: 1em;
-    font-weight: var(--font-weight-bold);
-    text-transform: uppercase;
-    text-decoration: none;
-    color: var(--bg-color-page); 
-    background-color: var(--text-color-primary); 
-    border: 2px solid var(--text-color-primary); 
-    transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+    font-family: var(--font-family-main);
+    font-size: 0.95em;
+    font-weight: var(--font-weight-medium);
+    border: none;
+    border-right: 1px solid #d0d7de;
+    background-color: transparent;
     cursor: pointer;
-    font-family: var(--font-family-main);
-    text-align: center;
+    color: #555;
+    transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
 }
-.btn-brutalist.contact-submit-btn:hover {
-    background-color: #333; 
-    border-color: #333;
-    color: var(--bg-color-page);
+.dossier-tab-button:last-child {
+    border-right: none;
 }
-
-/* Form Success/Error Messages Container */
-#form-messages-container {
-    margin-top: 20px;
+.dossier-tab-button:hover {
+    background-color: #f0f2f4;
 }
-.terminal-success, .terminal-error {
-    padding: 15px;
-    margin-top: 0; /* Remove top margin if it's inside the container */
-    border: 1px solid var(--border-color-strong);
-    font-size: 0.9em;
-    line-height: 1.5;
-    font-family: var(--font-family-main);
-}
-.terminal-success {
-    color: #2E7D32; 
-    border-left: 3px solid #2E7D32;
-    background-color: #E8F5E9;
-}
-.terminal-error {
-    color: #D32F2F; 
-    border-left: 3px solid #D32F2F;
-    background-color: #FFEBEE;
-}
-.terminal-success p, .terminal-error p { margin: 0 0 5px 0; }
-.terminal-success p:last-child, .terminal-error p:last-child { margin-bottom: 0; }
-.terminal-success p:first-child, .terminal-error p:first-child {
-    font-weight: var(--font-weight-bold); 
+.dossier-tab-button.active {
+    background-color: var(--bg-color-content);
+    color: var(--text-color-primary);
+    font-weight: var(--font-weight-bold);
+    box-shadow: inset 0 -3px 0 0 var(--accent-electric);
 }
 
-/* Contact Sidebar Section */
-.contact-sidebar-section > div { /* Styles for .contact-details-box, .social-links-box, .map-box */
-    margin-bottom: 30px; /* Consistent spacing between sidebar boxes */
-    border: 1px solid var(--border-color-strong);
-    padding: 25px; /* More padding within boxes */
+.dossier-tab-content {
+    display: none;
+    padding: 30px;
     background-color: var(--bg-color-content);
 }
-.contact-sidebar-section > div:last-child {
-    margin-bottom: 0;
+.dossier-tab-content.active {
+    display: block;
 }
 
-.contact-details-box p {
-    margin-bottom: 10px;
-    line-height: 1.7;
-    font-size: 1em; /* Larger for better readability */
-    font-family: var(--font-family-main);
+/* Content specific to Contact Tab */
+.contact-layout-grid, .profile-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 40px;
 }
-.contact-details-box a {
-    font-weight: var(--font-weight-medium); /* Standard link weight */
-    /* Uses global link hover styles */
+.contact-section-title {
+    font-size: 1.2em;
+    font-weight: var(--font-weight-bold);
+    margin-bottom: 20px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #eee;
 }
-
-.social-links-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+.contact-sidebar-section > div {
+    margin-bottom: 30px;
 }
-.social-links-list li {
+.contact-details-box p, .social-links-list li {
     margin-bottom: 12px;
 }
-.social-links-list li:last-child {
-    margin-bottom: 0;
-}
-.social-links-list li a {
-    font-size: 1em;
-    font-weight: var(--font-weight-medium);
-    text-decoration: none;
-    display: inline-block; /* For better hover interaction */
-    font-family: var(--font-family-main);
-    /* Uses global link hover styles */
-}
-.social-links-list li a::before {
-    content: "→ "; 
-    margin-right: 6px;
-    color: var(--text-color-primary);
-}
 
-.map-embed-container {
-    border: 1px solid var(--border-color-strong);
-    overflow: hidden; 
-    height: 300px; 
+/* Profile Tab Styles */
+.profile-section-title {
+    font-size: 1.3em;
+    font-weight: var(--font-weight-bold);
+    margin-bottom: 20px;
 }
-.map-embed-container iframe {
-    border: none; 
-    width: 100%;
-    height: 100%;
+.profile-section-title.with-margin {
+    margin-top: 40px;
 }
+.profile-list {
+    list-style: none;
+    padding-left: 0;
+}
+.profile-list li {
+    margin-bottom: 18px;
+    padding-left: 20px;
+    position: relative;
+    line-height: 1.6;
+}
+.profile-list li::before {
+    content: '▪';
+    position: absolute;
+    left: 0;
+    top: 0;
+    color: var(--accent-electric);
+}
+.profile-list.compact li { margin-bottom: 12px; }
+.publication-list li { font-style: italic; color: #444; }
+.profile-note { margin: -10px 0 20px 0; font-size: 0.9em; color: #555; }
 
-/* Transmission Status Overlay */
-.transmission-status {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(10, 10, 10, 0.9); 
-    display: none; /* Controlled by JS adding .visible class */
-    align-items: center; justify-content: center;
-    z-index: 3000; 
-}
-.transmission-status.visible {
-    display: flex;
-}
-.status-content {
-    background: var(--text-color-primary); 
-    color: var(--bg-color-page); 
-    padding: 30px 40px;
-    border: 2px solid var(--bg-color-page); 
+/* CV Tab Styles */
+.cv-tab {
     text-align: center;
-    font-family: 'IBM Plex Mono', monospace; /* Retain for status feel */
+    padding: 50px 20px;
 }
-.status-text { 
-    margin: 0; 
-    font-size: 1.1em; 
-    font-family: var(--font-family-main);
+.cv-tab p {
+    font-size: 1.1em;
+    margin-bottom: 30px;
 }
-.status-animation {
-    width: 25px; height: 25px;
-    border: 3px solid var(--bg-color-page);
-    border-top-color: transparent;
-    border-radius: 50%;
-    margin: 20px auto 0;
-    animation: spin 0.8s linear infinite;
-}
-/* @keyframes spin is already defined in dissertation.css or can be global if needed */
-/* If not global, add it here: */
-@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-
-
-/* Responsive Design Adjustments */
-@media (max-width: 992px) { /* Tablet and below */
-    .contact-layout-grid {
-        grid-template-columns: 1fr; /* Stack form and sidebar */
-    }
-    .contact-sidebar-section {
-        margin-top: 40px; /* Space above sidebar when stacked */
-    }
+.cv-tab .btn-brutalist {
+    max-width: 300px;
 }
 
-@media (max-width: 768px) { /* Smaller tablets / Large mobiles */
-    .main-content-contact { 
-        padding: 25px 15px; /* Reduce padding */
+/* --- Form Styles (mostly unchanged) --- */
+.form-field { margin-bottom: 25px; }
+.form-field label { font-weight: var(--font-weight-medium); }
+.form-field input, .form-field textarea {
+    width: 100%; padding: 12px; border: 1px solid #ccc;
+    font-family: var(--font-family-mono); font-size: 1em;
+    transition: border-color 0.2s ease;
+}
+.form-field input:focus, .form-field textarea:focus {
+    outline: none; border-color: var(--accent-electric);
+}
+.terminal-validation { font-size: 0.85em; color: #D32F2F; }
+.btn-brutalist.contact-submit-btn {
+    width: 100%; padding: 12px; font-size: 1em;
+    background-color: var(--text-color-primary); color: var(--bg-color-page);
+    border: 2px solid var(--text-color-primary); cursor: pointer;
+}
+
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    /* NEW: Stacking the intro header on mobile */
+    .profile-intro-header {
+        flex-direction: column;
+        text-align: center;
+        gap: 25px;
     }
-     .page-header-section-contact {
-        margin-bottom: 30px;
+    .profile-intro-text {
+        text-align: center;
     }
-    .page-header-section-contact h1.typewriter { 
-        font-size: 2.4em; /* Adjust title size */
+    .dossier-tabs {
+        flex-wrap: wrap;
     }
-    .contact-form-new {
-        padding: 25px;
+    .dossier-tab-button {
+        flex-basis: 50%;
+        border-bottom: 1px solid #d0d7de;
     }
-    .contact-section-title {
-        font-size: 1.2em;
+    .contact-layout-grid, .profile-grid {
+        grid-template-columns: 1fr;
     }
 }
 
-@media (max-width: 600px) { /* Mobile */
-    .page-header-section-contact h1.typewriter { 
-        font-size: 2em; 
-        letter-spacing: .03em;
+@media (max-width: 480px) {
+    .profile-image {
+        width: 140px;
+        height: 140px;
     }
-    .contact-form-new {
-        padding: 20px;
+    .profile-intro-header h1 { font-size: 2.2em; }
+    .profile-intro-header p { font-size: 1.05em; }
+    .dossier-tab-button {
+        flex-basis: 100%;
     }
-    .form-field label {
-        font-size: 0.9em;
-    }
-    .form-field input[type="text"],
-    .form-field input[type="email"],
-    .form-field textarea {
-        font-size: 0.95em;
-        padding: 10px 8px;
-    }
-    .btn-brutalist.contact-submit-btn { /* Already full-width */
-        font-size: 0.95em;
-        padding: 12px 15px;
-    }
-    .contact-sidebar-section > div {
+    .dossier-tab-content {
         padding: 20px;
     }
 }

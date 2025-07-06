@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact - Mert Seven</title>
+    <title>About & Contact - Mert Seven</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800;900&display=swap" rel="stylesheet">
     <link href='https://fonts.googleapis.com/css?family=IBM+Plex+Mono' rel='stylesheet'>
@@ -46,93 +46,126 @@
     </header>
 
     <main class="main-content-contact">
-        <section class="page-header-section-contact">
-            <!-- Typewriter effect can be kept for the main page title if you like it -->
-            <h1 class="typewriter">GET IN TOUCH</h1> 
-            <p>Let's connect. I'm open to collaborations, inquiries, or discussions about digital crafting and new media scholarship.</p>
+        <!-- Introduction Header with Portrait -->
+        <section class="profile-intro-header">
+            <!-- NEW: Image added here -->
+            <img src="portrait.jpg" alt="A portrait of Mert Seven" class="profile-image">
+            
+            <!-- NEW: Text wrapped in a div for layout control -->
+            <div class="profile-intro-text">
+                <h1>Mert Seven, PhD</h1>
+ <p>
+        I am a new media scholar and digital crafter. I design and build interactive systems as a form of critical inquiry—turning abstract theories of digital culture into tangible, explorable experiences.
+    </p>
+    <p>
+        My work, including this website, is treated as a <strong>living artifact</strong>. It is a space for investigating how technology shapes our perception and knowledge. Grounded in sociology and a PhD in Communication Research, I approach new media not as a set of tools, but as a system of logic to be both used and questioned.  I am always open to discussing new projects, research collaborations, or speaking opportunities.
+        </p>            </div>
         </section>
 
-        <div class="contact-layout-grid">
-            <section class="contact-form-section">
-                <h2 class="contact-section-title">Send a Message</h2> <!-- Modernized -->
-                <form id="contactForm" class="contact-form-new" action="https://formspree.io/f/xeoobzjk" method="POST">
-                    <div class="form-field">
-                        <label for="name">Full Name</label> <!-- Modernized -->
-                        <input type="text" id="name" name="name" required placeholder="Your Name">
-                        <div class="terminal-validation"></div>
-                    </div>
+        <!-- Interactive Dossier Tabs (No changes here) -->
+        <div class="dossier-container">
+            <div class="dossier-tabs">
+                <button class="dossier-tab-button active" data-tab="tab-contact">Contact</button>
+                <button class="dossier-tab-button" data-tab="tab-academic">Academic Profile</button>
+                <button class="dossier-tab-button" data-tab="tab-cv">Full CV</button>
+            </div>
 
-                    <div class="form-field">
-                        <label for="email">Email Address</label> <!-- Modernized -->
-                        <input type="email" id="email" name="email" required placeholder="your.email@example.com">
-                        <div class="terminal-validation"></div>
-                    </div>
+            <div class="dossier-content">
+                <!-- Tab content remains the same... -->
+                <div id="tab-contact" class="dossier-tab-content active">
+                    <div class="contact-layout-grid">
+                        <section class="contact-form-section">
+                            <h2 class="contact-section-title">Send a Message</h2>
+                            <form id="contactForm" class="contact-form-new" action="https://formspree.io/f/xeoobzjk" method="POST">
+                                <div class="form-field">
+                                    <label for="name">Full Name</label>
+                                    <input type="text" id="name" name="name" required placeholder="Your Name">
+                                    <div class="terminal-validation"></div>
+                                </div>
+                                <div class="form-field">
+                                    <label for="email">Email Address</label>
+                                    <input type="email" id="email" name="email" required placeholder="your.email@example.com">
+                                    <div class="terminal-validation"></div>
+                                </div>
+                                <div class="form-field">
+                                    <label for="message">Message</label>
+                                    <textarea id="message" name="message" required placeholder="Compose your message..."></textarea>
+                                    <div class="terminal-validation"></div>
+                                </div>
+                                <button type="submit" class="btn-brutalist contact-submit-btn">Send Message</button>
+                            </form>
+                            <div id="form-messages-container"></div>
+                        </section>
 
-                    <div class="form-field">
-                        <label for="subject">Subject</label> <!-- Modernized -->
-                        <input type="text" id="subject" name="subject" required placeholder="Message Subject">
-                        <div class="terminal-validation"></div>
-                    </div>
-
-                    <div class="form-field">
-                        <label for="message">Message</label> <!-- Modernized -->
-                        <textarea id="message" name="message" required placeholder="Compose your message..."></textarea>
-                        <div class="terminal-validation"></div>
-                    </div>
-
-                    <button type="submit" class="btn-brutalist contact-submit-btn">Send Message</button> <!-- Modernized -->
-                </form>
-                <div id="form-messages-container">
-                    <!-- Success/Error messages will be injected here by JS -->
-                </div>
-            </section>
-
-            <aside class="contact-sidebar-section">
-                <div class="contact-details-box">
-                    <h2 class="contact-section-title">Contact Details</h2> <!-- Modernized -->
-                    <p><strong>Mert Seven, PhD</strong></p>
-                    <p>New Media and Communication Department</p>
-                    <p>Office: B206, Yaşar University</p>
-                    <p>Email: <a href="mailto:mert.seven@yasar.edu.tr">mert.seven@yasar.edu.tr</a></p>
-                    <p>Personal Email: <a href="mailto:mert.seven@yahoo.com">mert.seven@yahoo.com</a></p>
-                </div>
-
-                <div class="social-links-box">
-                    <h2 class="contact-section-title">Online Presence</h2> <!-- Modernized -->
-                    <ul class="social-links-list">
-                        <li><a href="https://scholar.google.com/citations?user=qBnYCMsAAAAJ&hl=en" target="_blank" rel="noopener noreferrer">Google Scholar</a></li>
-                        <li><a href="https://orcid.org/0000-0002-7958-2407" target="_blank" rel="noopener noreferrer">ORCID</a></li>
-                        <li><a href="https://on.soundcloud.com/HUA158qkwuKAbopF4K" target="_blank" rel="noopener noreferrer">Soundcloud</a></li>
-                        <li><a href="www.linkedin.com/in/mert-seven-b31621248" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
-                        <!-- Add more as needed -->
-                    </ul>
-                </div>
-
-                <div class="map-box">
-                    <h2 class="contact-section-title">Location</h2> <!-- Modernized -->
-                    <div class="map-embed-container">
-                        <iframe 
-                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3124.4240782824445!2d27.199708311418238!3d38.4547697717044!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14b97d34b9894483%3A0xccea44297ef6299!2sYa%C5%9Far%20University!5e0!3m2!1sen!2str!4v1749992219884!5m2!1sen!2str"
-                            width="100%" 
-                            height="300" 
-                            style="border:0;" 
-                            allowfullscreen="" 
-                            loading="lazy" 
-                            referrerpolicy="no-referrer-when-downgrade">
-                        </iframe>
+                        <aside class="contact-sidebar-section">
+                            <div class="contact-details-box">
+                                <h2 class="contact-section-title">Direct Details</h2>
+                                <p><strong>Email:</strong> <a href="mailto:mert.seven@yasar.edu.tr">mert.seven@yasar.edu.tr</a></p>
+                                <p><strong>Office:</strong> +90 232 570 84 68</p>
+                                <p><strong>Location:</strong> Yaşar University, İzmir, Türkiye</p>
+                            </div>
+                            <div class="social-links-box">
+                                <h2 class="contact-section-title">Online Presence</h2>
+                                <ul class="social-links-list">
+                                    <li><a href="https://github.com/mertseven" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+                                    <li><a href="https://scholar.google.com/citations?user=qBnYCMsAAAAJ&hl=en" target="_blank" rel="noopener noreferrer">Google Scholar</a></li>
+                                    <li><a href="https://orcid.org/0000-0002-7958-2407" target="_blank" rel="noopener noreferrer">ORCID</a></li>
+                                    <li><a href="https://www.linkedin.com/in/mert-seven-b31621248" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+                                    <li><a href="https://on.soundcloud.com/HUA158qkwuKAbopF4K" target="_blank" rel="noopener noreferrer">Soundcloud</a></li>                                </ul>
+                            </div>
+                        </aside>
                     </div>
                 </div>
-            </aside>
-        </div>
 
-        <div id="transmission-status" class="transmission-status">
-            <div class="status-content">
-                <p class="status-text">SENDING MESSAGE...</p> <!-- Modernized -->
-                <div class="status-animation"></div>
+                <div id="tab-academic" class="dossier-tab-content">
+                    <div class="profile-grid">
+                        <div class="profile-column">
+                            <h3 class="profile-section-title">Education</h3>
+                            <ul class="profile-list">
+                                <li><strong>PhD, Communication Research</strong> (2016-2024)<br>Ege University, Graduate School of Social Sciences</li>
+                                <li><strong>BA, Sociology (Full Scholarship)</strong> (2011-2015)<br>İzmir University of Economics, Faculty of Arts and Sciences</li>
+                            </ul>
+                        </div>
+                        <div class="profile-column">
+                             <h3 class="profile-section-title">Teaching & Course Design</h3>
+                             <ul class="profile-list compact">
+                                <li>New Media Graduation Project</li>
+                                <li>Journalism Studio</li>
+                                <li>Technology and Epistemology</li>
+                                <li>Mobile Applications in New Media</li>
+                                <li>Web Applications for New Media</li>
+                                <li>Interactive Media Applications</li>
+                                <li>Digital Culture Investigations</li>
+                                <li>Computational Thinking</li>
+                                <li>New Media and Communication Technologies</li>
+                             </ul>
+                        </div>
+
+                        <div class="profile-column">
+                             <h3 class="profile-section-title">Academic Experience</h3>
+                             <ul class="profile-list">
+                                <li><strong>Research Assistant</strong> (2018~)<br>Yaşar University, Dept. of New Media and Communication</li>
+                                <li><strong>Research Assistant</strong> (2017-2018)<br>Yaşar University, Dept. of New Media and Journalism</li>
+                             </ul>
+                        </div>
+                    </div>
+                     <h3 class="profile-section-title with-margin">Key Publications</h3>
+                     <p class="profile-note">For a complete list and access, please visit the <a href="publications.html">Research</a> page.</p>
+                     <ul class="profile-list publication-list">
+                        <li>Homophily studies in higher education: Bibliometric and methodological analysis... (2025)</li>
+                        <li>A bibliometric analysis of extended reality research trends in communication studies... (2024)</li>
+                        <li>The local shadow of a global ghost: An analysis on Halloween in Turkey (2023)</li>
+                        <li>The Decay of the Face in Co-Living: The Many Revelations and Concealings of Face Masks (2021)</li>
+                     </ul>
+                </div>
+                <div id="tab-cv" class="dossier-tab-content cv-tab">
+                    <p>My full, detailed Curriculum Vitae is available for download as a PDF document.</p>
+                    <a href="MertSeven_CV.pdf" class="btn-brutalist contact-submit-btn" download>Download Full CV (PDF)</a>
+                </div>
+
             </div>
         </div>
     </main>
-
     <footer class="site-footer">
 <p>Designed by Mert Seven ♦ Hosted on GitHub Pages</p>
     <p>
