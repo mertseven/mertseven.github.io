@@ -19,293 +19,492 @@
     width: 100%;
 }
 
-/* --- HIDE PREVIOUS STYLES --- */
-.hero-section-reimagined,
-.creative-strands-section,
-.the-current-section,
-.hero-section, /* Also hide original original styles if any were left */
-.core-explorations-section,
-.philosophy-section,
-.explorations-grid,
-.exploration-card {
+/* --- HIDE ALL PREVIOUS/OLD STYLES --- */
+.brutalist-hero, .brutalist-explorations, .brutalist-philosophy,
+.hero-section, .core-explorations-section, .explorations-grid, .exploration-card,
+.brutalist-body, .interactive-mosaic-body, .mosaic-grid, .mosaic-controls {
     display: none !important;
 }
 
 
-/* --- BRUTALIST BODY STYLES --- */
-.brutalist-body {
-    border-top: 1px solid var(--text-color-primary); /* Line below fixed header */
-}
-.brutalist-body section {
-    border-bottom: 1px solid var(--text-color-primary);
-    padding: 20px; /* Base padding for sections */
-}
-.brutalist-body section:last-of-type { /* No bottom border for the last section before footer */
-    border-bottom: none;
-}
-
-
-/* --- Brutalist Hero Section --- */
-.brutalist-hero {
+/* --- SECTION 1: REIMAGINED HERO --- */
+.hero-section-reimagined {
     display: flex;
     flex-direction: column;
-    min-height: calc(70vh - var(--header-height-desktop)); /* Adjust as needed */
+    align-items: center;
     justify-content: center;
+    min-height: calc(90vh - var(--header-height-desktop));
+    padding: 40px 20px;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    border-bottom: 1px solid var(--border-color-strong);
 }
 
-.hero-block-main, .hero-block-sub {
-    padding-top: 20px;
-    padding-right: 20px;
-    padding-left: 20px;
+.hero-content-left {
+    text-align: center;
+    margin-bottom: 40px;
 }
-
-.hero-name {
-    font-size: 4em; /* Very large */
+.hero-name-reimagined {
+    font-size: 4em;
     font-weight: var(--font-weight-black);
-    line-height: 1;
-    text-transform: uppercase;
-    letter-spacing: 1px;
     color: var(--text-color-primary);
+    line-height: 1.1;
+    letter-spacing: -1px;
     margin: 0;
-    padding-bottom: 10px; /* Space before roles */
 }
-
-.hero-roles {
-    font-size: 1.8em;
-    font-weight: var(--font-weight-regular); /* Lighter than name */
-    line-height: 1.3;
-    text-transform: uppercase;
-    color: var(--text-color-primary);
-    margin-bottom: 25px;
-}
-.accent-text-brutalist {
-    font-weight: var(--font-weight-bold); /* Emphasize with weight */
-}
-
-.hero-statement-brutalist {
-    font-size: 1.1em;
+.hero-roles-reimagined {
+    font-size: 1.5em;
     font-weight: var(--font-weight-regular);
-    color: var(--text-color-primary);
-    line-height: 1.6;
-    margin-bottom: 30px;
-    max-width: 650px;
+    color: #444;
+    margin: 10px 0 20px 0;
 }
-
-.code-highlight-brutalist {
+.hero-statement-reimagined {
+    font-size: 1.1em;
+    line-height: 1.6;
+    max-width: 600px;
+    margin: 0 auto 30px auto;
+    color: #111;
+}
+.code-highlight-reimagined {
     font-family: var(--font-family-mono);
-    background-color: transparent;
-    padding: 0.1em 0.3em;
-    border: 1px solid var(--text-color-primary);
+    background-color: #f0f0f0;
+    padding: 0.1em 0.4em;
+    border: 1px solid #ddd;
     font-size: 0.9em;
-    display: inline-block; /* Helps with border */
+    border-radius: 3px;
 }
 
-.hero-actions-brutalist .btn-brutalist {
+.hero-actions-reimagined .btn-reimagined {
     display: inline-block;
-    padding: 10px 20px;
-    margin: 10px 10px 10px 0;
+    padding: 12px 28px;
+    margin: 5px;
     font-size: 0.9em;
     font-weight: var(--font-weight-bold);
     text-transform: uppercase;
     text-decoration: none;
-    color: var(--text-color-primary);
-    border: 2px solid var(--text-color-primary);
-    background-color: var(--bg-color-page);
+    border: 2px solid var(--border-color-strong);
     transition: background-color 0.15s ease, color 0.15s ease;
-}
-.hero-actions-brutalist .btn-brutalist:hover {
     background-color: var(--text-color-primary);
     color: var(--bg-color-page);
 }
-.hero-actions-brutalist .btn-brutalist.btn-brutalist-secondary {
-    background-color: var(--text-color-primary);
-    color: var(--bg-color-page);
+.hero-actions-reimagined .btn-reimagined:hover {
+    background-color: #333;
+    border-color: #333;
 }
-.hero-actions-brutalist .btn-brutalist.btn-brutalist-secondary:hover {
+.hero-actions-reimagined .btn-reimagined.btn-secondary {
     background-color: var(--bg-color-page);
     color: var(--text-color-primary);
 }
+.hero-actions-reimagined .btn-reimagined.btn-secondary:hover {
+    background-color: #f0f0f0;
+}
 
-/* --- Brutalist Section Title --- */
-.section-title-brutalist {
-    font-size: 1.5em; /* Smaller than hero, but strong */
-    font-weight: var(--font-weight-black);
-    text-transform: uppercase;
+/* 3D Cube Styles */
+.hero-visual-right {
+    perspective: 1000px;
+    width: 200px;
+    height: 200px;
+}
+.cube-container {
+    width: 100%;
+    height: 100%;
+}
+.cube {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    animation: rotate-cube 20s infinite linear;
+}
+.cube:hover {
+    animation-play-state: paused;
+}
+.cube .face {
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    border: 1px solid var(--border-color-strong);
+    background: rgba(255, 255, 255, 0.95);
+    font-size: 1.2em;
+    font-weight: var(--font-weight-bold);
     color: var(--text-color-primary);
-    margin: 0 0 20px 0;
-    padding-bottom: 10px;
-    border-bottom: 1px solid var(--text-color-primary); /* Underline title */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 10px;
+}
+.face.front  { transform: rotateY(  0deg) translateZ(100px); }
+.face.back   { transform: rotateY(180deg) translateZ(100px); }
+.face.right  { transform: rotateY( 90deg) translateZ(100px); }
+.face.left   { transform: rotateY(-90deg) translateZ(100px); }
+.face.top    { transform: rotateX( 90deg) translateZ(100px); }
+.face.bottom { transform: rotateX(-90deg) translateZ(100px); }
+
+@keyframes rotate-cube {
+    from { transform: rotateX(0) rotateY(0); }
+    to   { transform: rotateX(360deg) rotateY(360deg); }
 }
 
-/* --- Brutalist Explorations Section --- */
-/* .brutalist-explorations {}  -- Removed empty ruleset that was here */
-
-.explorations-header-block {
-    margin-bottom: 20px;
+/* --- SECTION 2: CREATIVE STRANDS --- */
+.creative-strands-section {
+    padding: 60px 20px;
+    background-color: #f9f9f9;
+    border-bottom: 1px solid #e0e0e0;
 }
-.explorations-grid-brutalist {
+.section-title-reimagined {
+    font-size: 2.2em;
+    font-weight: var(--font-weight-extrabold);
+    text-align: center;
+    margin-bottom: 40px;
+    color: var(--text-color-primary);
+}
+.strands-grid {
     display: grid;
-    grid-template-columns: 1fr; /* Mobile: single column */
-    gap: 0; /* No gap, borders will separate */
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
 }
-.exploration-item-brutalist {
-    border: 1px solid var(--text-color-primary);
-    padding: 20px;
-    margin: -1px 0 0 -1px; /* Overlap borders for continuous grid look */
-}
-.exploration-item-brutalist h3 {
-    font-size: 1.2em;
-    font-weight: var(--font-weight-bold);
-    text-transform: uppercase;
-    color: var(--text-color-primary);
-    margin-bottom: 10px;
-}
-.exploration-item-brutalist p {
-    font-size: 0.95em;
-    color: var(--text-color-primary);
-    line-height: 1.6;
-    margin-bottom: 15px;
-}
-.link-brutalist {
-    font-weight: var(--font-weight-bold);
-    color: var(--text-color-primary);
-    text-decoration: underline;
-    font-size: 0.9em;
-    text-transform: uppercase;
-}
-.link-brutalist:hover {
-    background-color: var(--text-color-primary); /* Invert on hover */
-    color: var(--bg-color-page);
+.strand-card {
+    position: relative;
+    overflow: hidden;
+    border: 1px solid #ccc;
+    height: 250px;
     text-decoration: none;
+    display: block;
+}
+.strand-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+.strand-card:hover img {
+    transform: scale(1.05);
+}
+.strand-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+    padding: 40px 20px 20px 20px;
+    transition: background-color 0.3s ease;
+}
+.strand-card:hover .strand-overlay {
+    background: rgba(0,0,0,0.7);
+}
+.strand-overlay h3 {
+    color: white;
+    font-size: 1.4em;
+    font-weight: var(--font-weight-bold);
+    margin: 0;
+    transform: translateY(10px);
+    opacity: 0.9;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+.strand-card:hover .strand-overlay h3 {
+    transform: translateY(0);
+    opacity: 1;
 }
 
-
-/* --- Brutalist Philosophy Section --- */
-.brutalist-philosophy {
-    background-color: var(--text-color-primary); /* Invert for contrast */
+/* --- SECTION 3: PHILOSOPHY --- */
+.philosophy-section {
+    background-color: var(--text-color-primary);
+    color: var(--bg-color-page);
+    padding: 60px 20px;
+}
+.philosophy-content {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+}
+.philosophy-section .section-title-reimagined {
     color: var(--bg-color-page);
 }
-.philosophy-block-brutalist .section-title-brutalist {
-    color: var(--bg-color-page);
-    border-bottom-color: var(--bg-color-page);
-}
-.philosophy-block-brutalist p {
-    font-size: 1.05em;
-    line-height: 1.7;
-    margin-bottom: 20px;
-    max-width: 750px;
-}
-.philosophy-block-brutalist .code-highlight-brutalist {
-    border-color: var(--bg-color-page);
-    color: var(--bg-color-page); /* Ensure text is visible */
-}
-.philosophy-block-brutalist .code-highlight-brutalist:hover {
-    background-color: var(--bg-color-page);
-    color: var(--text-color-primary);
-}
-
-.quote-brutalist {
-    font-size: 1.2em;
+.quote-reimagined {
+    font-size: 1.3em;
+    line-height: 1.6;
+    margin: 0 auto 25px auto;
     font-style: italic;
-    line-height: 1.5;
-    margin: 20px 0 30px 0;
+    color: #ccc;
+}
+.quote-reimagined strong {
+    color: var(--accent-electric);
+    font-style: normal;
+}
+.philosophy-section p {
+    font-size: 1.1em;
+    line-height: 1.7;
+    color: #ddd;
+}
+
+/* --- INLINE LOG & HISTORY MODAL STYLES --- */
+.log-marker {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    background-color: rgba(57, 255, 20, 0.2);
+    border: 1px solid rgba(57, 255, 20, 0.4);
+    border-radius: 50%;
+    margin-left: 5px;
+    cursor: pointer;
+    vertical-align: super;
+    font-size: 0.6em;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+.log-marker:hover {
+    background-color: rgba(57, 255, 20, 0.5);
+    transform: scale(1.2);
+}
+
+.log-popover {
+    position: absolute;
+    z-index: 100;
+    background-color: var(--text-color-primary);
+    color: var(--bg-color-page);
+    border: 1px solid var(--accent-electric);
     padding: 15px;
-    border: 1px solid var(--bg-color-page);
+    max-width: 300px;
+    font-size: 0.9em;
+    line-height: 1.5;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
+    font-family: var(--font-family-main);
+    box-sizing: border-box; /* Ensures padding doesn't cause overflow */
+}
+.log-popover.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+.log-popover .popover-date {
+    font-family: var(--font-family-mono);
+    font-size: 0.85em;
+    color: #aaa;
+    margin-bottom: 8px;
+    display: block;
+}
+.log-popover .popover-description a {
+    color: var(--accent-electric);
+    text-decoration: underline;
+}
+.log-popover .popover-description a:hover {
+    background-color: var(--accent-electric);
+    color: var(--text-color-on-accent);
+}
+
+.history-modal-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 2050;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    opacity: 1;
+    transition: opacity 0.2s ease, visibility 0.2s ease;
+}
+.history-modal-overlay.hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+.history-modal-content {
+    background-color: var(--bg-color-content);
+    color: var(--text-color-primary);
+    width: 100%;
+    max-width: 700px;
+    max-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    padding: 30px 40px;
     position: relative;
 }
-.quote-brutalist mark { /* Standard mark for brutalist style */
-    background-color: var(--bg-color-page);
-    color: var(--text-color-primary);
-    padding: 0.05em 0.2em;
+.history-modal-content h2 {
+    font-size: 1.8em;
+    font-weight: var(--font-weight-bold);
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #e0e0e0;
+}
+.history-modal-close-btn {
+    position: absolute;
+    top: 10px; right: 15px;
+    font-size: 2em;
+    font-weight: lighter;
+    color: #888;
+    cursor: pointer;
+    background: none;
+    border: none;
+    line-height: 1;
+}
+.history-modal-close-btn:hover { color: var(--text-color-primary); }
+
+.history-modal-list {
+    overflow-y: auto;
+    padding-right: 15px;
+}
+.history-modal-item {
+    padding: 15px 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+.history-modal-item:last-child { border-bottom: none; }
+.history-modal-item .item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 8px;
+}
+.history-modal-item .item-title {
+    font-size: 1.1em;
     font-weight: bold;
-    font-style: normal;
 }
-.cite-brutalist {
-    display: block;
-    font-size: 0.8em;
-    font-style: normal;
-    text-align: right;
-    margin-top: 10px;
-    font-weight: var(--font-weight-regular);
+.history-modal-item .item-date {
+    font-family: var(--font-family-mono);
+    font-size: 0.9em;
+    color: #555;
+    white-space: nowrap;
+    padding-left: 15px;
+}
+.history-modal-item .item-description {
+    color: #333;
+    line-height: 1.6;
+}
+
+.footer-separator {
+    color: #ccc;
+    margin: 0 10px;
+}
+#view-history-link {
+    text-decoration: underline;
+    cursor: pointer;
 }
 
 
-/* --- RESPONSIVE ADJUSTMENTS FOR BRUTALIST STYLE --- */
-
-@media (min-width: 768px) { /* Tablet */
-    .brutalist-body section {
-        padding: 40px;
+/* --- RESPONSIVE ADJUSTMENTS --- */
+@media (min-width: 768px) {
+    .hero-section-reimagined {
+        flex-direction: row;
+        justify-content: space-between;
+        text-align: left;
+        min-height: calc(80vh - var(--header-height-desktop));
     }
-    .brutalist-hero {
-        flex-direction: row; /* Side by side on larger screens */
+    .hero-content-left {
+        text-align: left;
+        margin-bottom: 0;
+        flex-basis: 55%;
+        padding-right: 40px;
+    }
+    .hero-visual-right {
+        flex-basis: 45%;
+        display: flex;
+        justify-content: center;
         align-items: center;
     }
-    .hero-block-main {
-        flex-basis: 40%; /* Adjust as needed */
-        padding-right: 30px;
-    }
-    .hero-block-sub {
-        flex-basis: 60%; /* Adjust as needed */
-    }
-    .hero-name {
-        font-size: 5em;
-    }
-    .hero-roles {
-        font-size: 2em;
-    }
-    .section-title-brutalist {
-        font-size: 1.8em;
-    }
-    .explorations-grid-brutalist {
-        grid-template-columns: repeat(2, 1fr); /* Two columns */
-    }
-    /* .exploration-item-brutalist.full-width-mobile:nth-child(3) {} -- Removed empty ruleset */
+    .hero-name-reimagined { font-size: 5.5em; }
+    .hero-roles-reimagined { font-size: 1.8em; }
+    .hero-statement-reimagined { margin-left: 0; }
 }
 
-@media (min-width: 1024px) { /* Desktop */
-    .hero-name {
-        font-size: 6.5em; /* Even larger for desktop */
-        letter-spacing: 2px;
+@media (max-width: 480px) {
+    .hero-name-reimagined { font-size: 3em; }
+    .hero-roles-reimagined { font-size: 1.3em; }
+    .section-title-reimagined { font-size: 1.8em; }
+    .strands-grid { grid-template-columns: 1fr; }
+    .hero-visual-right { transform: scale(0.8); margin-top: -20px; }
+    
+    /* Good practice for modals on small screens */
+    .history-modal-content {
+        padding: 25px 20px;
     }
-    .hero-roles {
-        font-size: 2.5em;
-    }
-    .explorations-grid-brutalist {
-         /* Could go to 3 columns if content allows, or keep 2 and adjust width */
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    }
-    /* .exploration-item-brutalist.full-width-mobile {} -- Removed empty ruleset */
-}
-
-@media (max-width: 480px) { /* Small mobile */
-    .brutalist-body section {
-        padding: 15px;
-    }
-    .hero-name {
-        font-size: 3em;
-    }
-    .hero-roles {
+    .history-modal-content h2 {
         font-size: 1.5em;
     }
-    .hero-statement-brutalist {
-        font-size: 1em;
-    }
-    .hero-actions-brutalist {
-        display: flex;
+}
+
+/* --- WHAT'S NEW BANNER --- */
+.whats-new-banner {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    right: 20px;
+    max-width: 500px;
+    background-color: var(--text-color-primary);
+    color: var(--bg-color-page);
+    padding: 15px 20px;
+    border: 1px solid var(--accent-electric);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    z-index: 1500;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+
+    opacity: 0;
+    transform: translateY(20px);
+    visibility: hidden;
+    transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease;
+}
+
+.whats-new-banner.visible {
+    opacity: 1;
+    transform: translateY(0);
+    visibility: visible;
+}
+
+.whats-new-content p {
+    margin: 0;
+    font-size: 0.95em;
+    line-height: 1.5;
+}
+
+.whats-new-content a {
+    color: var(--accent-electric);
+    font-weight: bold;
+    text-decoration: underline;
+}
+.whats-new-content a:hover {
+    text-decoration: none;
+}
+
+.whats-new-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.whats-new-dismiss {
+    font-size: 1.5em;
+    font-weight: lighter;
+    color: #888;
+    background: none;
+    border: none;
+    cursor: pointer;
+    line-height: 1;
+    padding: 0 5px;
+}
+.whats-new-dismiss:hover {
+    color: var(--bg-color-page);
+}
+
+/* Responsive for mobile */
+@media (max-width: 600px) {
+    .whats-new-banner {
         flex-direction: column;
+        align-items: flex-start;
+        left: 10px;
+        right: 10px;
+        bottom: 10px;
     }
-    .hero-actions-brutalist .btn-brutalist {
+    .whats-new-actions {
+        margin-top: 10px;
         width: 100%;
-        margin: 5px 0;
-        text-align: center;
-    }
-    .section-title-brutalist {
-        font-size: 1.3em;
-    }
-    .exploration-item-brutalist h3 {
-        font-size: 1.1em;
-    }
-    .quote-brutalist {
-        font-size: 1.1em;
+        justify-content: flex-end;
     }
 }
