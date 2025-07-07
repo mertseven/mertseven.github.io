@@ -746,3 +746,82 @@ a:hover:not(.new-logo-area):not(.new-nav-item) {
     visibility: hidden !important;
     transition: opacity 0.2s ease-in-out, visibility 0s linear 0.2s !important;
 }
+
+/* --- PROJECT LAUNCH CONTAINER --- */
+.project-launch-container {
+    width: 100%;
+    height: 450px; /* Same height as your iframe containers */
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border: 1px solid var(--border-color-strong);
+    background-color: #1a1a1a;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.launch-bg-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: blur(4px) brightness(0.7);
+    transform: scale(1.1);
+}
+
+.launch-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 20px;
+    color: white;
+    background: rgba(0,0,0,0.4);
+}
+
+.launch-icon {
+    margin-bottom: 20px;
+}
+.launch-icon svg {
+    opacity: 0.8;
+}
+
+.launch-overlay h3 {
+    font-size: 1.6em;
+    font-weight: var(--font-weight-bold);
+    margin: 0 0 10px 0;
+}
+
+.launch-overlay p {
+    max-width: 400px;
+    font-size: 1em;
+    line-height: 1.5;
+    opacity: 0.9;
+    margin-bottom: 30px;
+}
+
+.launch-button {
+    display: inline-block;
+    padding: 12px 28px;
+    background-color: var(--accent-electric);
+    color: var(--text-color-on-accent);
+    border: 2px solid var(--accent-electric);
+    font-size: 1em;
+    font-weight: var(--font-weight-bold);
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.launch-button:hover {
+    background-color: transparent;
+    color: var(--accent-electric);
+    transform: scale(1.05);
+}
