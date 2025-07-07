@@ -1,0 +1,676 @@
+/* Neo-Brutalist Base styles & Global Visualization Styles */
+body {
+    font-family: 'Space Mono', monospace;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f0f0;
+    overflow: hidden; /* Applied to visualization pages */
+}
+
+.container {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+header {
+    background-color: #000;
+    color: #fff;
+    padding: 15px 20px;
+    box-shadow: 8px 8px 0px rgba(0, 0, 0, 0.8);
+    border: 3px solid #000;
+    position: relative;
+    z-index: 20;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.visualization-area {
+    flex: 1;
+    display: flex;
+    position: relative;
+    overflow: hidden;
+    background-color: #f0f0f0;
+}
+
+/* Controls panel styles */
+.controls-panel {
+    width: 290px; /* Standardized width */
+    padding: 20px;
+    background-color: #fff;
+    border-right: 3px solid #000;
+    overflow-y: auto;
+    z-index: 10;
+    height: calc(100vh - 71px); /* Header height (approx 54px + padding/border) */
+    box-shadow: 5px 0px 0px rgba(0, 0, 0, 0.2);
+}
+
+.search-container {
+    display: flex;
+    margin-bottom: 20px;
+}
+
+.search-container input {
+    flex: 1;
+    padding: 10px;
+    border: 3px solid #000;
+    font-family: 'Space Mono', monospace;
+    font-size: 14px;
+    background-color: #fff;
+}
+
+.search-container button {
+    padding: 10px 15px;
+    background-color: #ff3e3e;
+    color: white;
+    border: 3px solid #000;
+    cursor: pointer;
+    font-family: 'Space Mono', monospace;
+    font-weight: bold;
+    font-size: 14px;
+    text-transform: uppercase;
+    box-shadow: 3px 3px 0px #000;
+    transition: all 0.1s ease;
+}
+
+.search-container button:hover {
+    transform: translate(1px, 1px);
+    box-shadow: 2px 2px 0px #000;
+}
+
+.search-container button:active {
+    transform: translate(3px, 3px);
+    box-shadow: none;
+}
+
+.category-filters {
+    margin-top: 25px;
+}
+
+.category-filters h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 18px;
+    color: #000;
+    text-transform: uppercase;
+    border-bottom: 3px solid #000;
+    padding-bottom: 5px;
+}
+
+.category-button {
+    display: inline-block;
+    margin: 0 5px 8px 0;
+    padding: 8px 12px;
+    background-color: #fff;
+    border: 2px solid #000;
+    font-family: 'Space Mono', monospace;
+    font-size: 13px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 3px 3px 0px #000;
+    transition: all 0.1s ease;
+}
+
+.category-button:hover {
+    transform: translate(1px, 1px);
+    box-shadow: 2px 2px 0px #000;
+}
+
+.category-button.active {
+    background-color: #ff3e3e;
+    color: white;
+    border-color: #000;
+}
+
+.reset-button {
+    display: block;
+    margin-top: 15px;
+    padding: 10px 15px;
+    background-color: #000;
+    color: #fff;
+    border: 2px solid #000;
+    font-family: 'Space Mono', monospace;
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    box-shadow: 3px 3px 0px #666;
+    transition: all 0.1s ease;
+}
+
+.reset-button:hover {
+    transform: translate(1px, 1px);
+    box-shadow: 2px 2px 0px #666;
+}
+
+.reset-button:active {
+    transform: translate(3px, 3px);
+    box-shadow: none;
+}
+
+/* Slider styles */
+input[type="range"] {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 12px;
+    border-radius: 0;
+    background: #ddd;
+    border: 2px solid #000;
+    outline: none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 24px;
+    height: 24px;
+    border-radius: 0;
+    background: #ff3e3e;
+    cursor: pointer;
+    border: 2px solid #000;
+}
+
+input[type="range"]::-moz-range-thumb {
+    width: 24px;
+    height: 24px;
+    border-radius: 0;
+    background: #ff3e3e;
+    cursor: pointer;
+    border: 2px solid #000;
+}
+
+/* Control parameters styles (Collapsible) */
+.control-parameters.collapsible {
+    background-color: #fff;
+    margin-bottom: 20px;
+    border: 3px solid #000;
+    overflow: hidden;
+}
+
+.control-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 15px;
+    background-color: #000;
+    cursor: pointer;
+}
+
+.control-header h3 {
+    margin: 0;
+    font-size: 16px;
+    color: #fff;
+    text-transform: uppercase;
+}
+
+.toggle-button {
+    background: none;
+    border: none;
+    font-size: 16px;
+    color: #fff;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.control-content {
+    padding: 15px;
+    max-height: 0; /* Collapsed by default, JS will toggle .visible */
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+}
+
+.control-content.visible { /* JS will add/remove this class */
+    max-height: 500px; /* Adjust as needed, or use scrollHeight via JS */
+    transition: max-height 0.5s ease-in;
+}
+
+.control-parameters.collapsible.active .toggle-button { /* If using an 'active' class on parent */
+    transform: rotate(180deg);
+}
+
+
+.parameter-group {
+    margin-bottom: 15px;
+}
+
+.parameter-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 14px;
+    color: #000;
+    font-weight: bold;
+}
+
+.parameter-group input[type="range"] {
+    width: 100%;
+    margin-top: 5px;
+}
+
+/* Visualization SVG styles */
+#visualization {
+    flex: 1;
+    background-color: #f0f0f0;
+    /* Width and height are set dynamically by JS, considering controls panel */
+}
+
+.link {
+    stroke: #999; /* Default link color, can be overridden */
+    stroke-opacity: 0.6;
+    stroke-width: 1.5px; /* Default link width */
+}
+
+.node circle {
+    stroke: #000;
+    stroke-width: 2px;
+}
+
+.node-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    pointer-events: none;
+    fill: #000;
+    font-weight: bold;
+    text-shadow: 1px 1px 0px #fff, -1px -1px 0px #fff, 1px -1px 0px #fff, -1px 1px 0px #fff;
+    display: block !important; /* Always show labels */
+}
+
+/* Legend panel styles */
+.legend-panel {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    background-color: #fff;
+    padding: 15px;
+    border: 3px solid #000;
+    box-shadow: 5px 5px 0px rgba(0, 0, 0, 0.8);
+    z-index: 10;
+}
+
+.legend-panel h3 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 16px;
+    color: #000;
+    text-transform: uppercase;
+    border-bottom: 2px solid #000;
+    padding-bottom: 5px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.legend-color {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    margin-right: 8px;
+    border: 2px solid #000;
+}
+
+/* Node Category Color Definitions using CSS Variables */
+:root {
+  --concept-color: #ff3e3e;
+  --shared-concept-color: #ffb700; /* Yellowish-orange */
+  --philosopher-color: #2979ff;    /* Blue */
+  --scientist-color: #4caf50;      /* Green (for Newton in Enlightenment) */
+  --text-color: #00c853;           /* Green */
+  --event-color: #aa00ff;          /* Purple */
+  --movement-color: #ff6d00;       /* Orange */
+  --poet-color: #e91e63;           /* Pink */
+  --writer-color: #9c27b0;         /* Deep Purple */
+  --influence-color: #00bcd4;      /* Cyan */
+  --character-color: #8bc34a;      /* Light Green */
+  --field-color: #607d8b;          /* Blue Grey */
+  --critique-color: #795548;       /* Brown (for Leninism's 'critique' category) */
+  /* Add more as new categories emerge */
+}
+
+/* Applying colors to Legend items */
+.legend-color.concept { background-color: var(--concept-color); }
+.legend-color.shared_concept { background-color: var(--shared-concept-color); }
+.legend-color.philosopher { background-color: var(--philosopher-color); }
+.legend-color.scientist { background-color: var(--scientist-color); }
+.legend-color.text { background-color: var(--text-color); }
+.legend-color.event { background-color: var(--event-color); }
+.legend-color.movement { background-color: var(--movement-color); }
+.legend-color.poet { background-color: var(--poet-color); }
+.legend-color.writer { background-color: var(--writer-color); }
+.legend-color.influence { background-color: var(--influence-color); }
+.legend-color.character { background-color: var(--character-color); }
+.legend-color.field { background-color: var(--field-color); }
+.legend-color.critique { background-color: var(--critique-color); }
+
+
+/* Applying colors to Node circles */
+.node.concept circle { fill: var(--concept-color); }
+.node.shared_concept circle { fill: var(--shared-concept-color); }
+.node.philosopher circle { fill: var(--philosopher-color); }
+.node.scientist circle { fill: var(--scientist-color); }
+.node.text circle { fill: var(--text-color); }
+.node.event circle { fill: var(--event-color); }
+.node.movement circle { fill: var(--movement-color); }
+.node.poet circle { fill: var(--poet-color); }
+.node.writer circle { fill: var(--writer-color); }
+.node.influence circle { fill: var(--influence-color); }
+.node.character circle { fill: var(--character-color); }
+.node.field circle { fill: var(--field-color); }
+.node.critique circle { fill: var(--critique-color); }
+
+
+/* Popup styles */
+.popup {
+    display: none; /* Hidden by default, JS toggles .visible */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 450px;
+    max-width: 90%;
+    background-color: #fff;
+    border: 3px solid #000;
+    box-shadow: 8px 8px 0px rgba(0, 0, 0, 0.8);
+    z-index: 100;
+}
+
+.popup.visible { /* JS will add/remove this class */
+    display: block;
+}
+
+.popup-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    background-color: #000;
+    color: #fff;
+}
+
+.popup-header h2 {
+    margin: 0;
+    font-size: 20px;
+    text-transform: uppercase;
+}
+
+.close-button {
+    font-size: 24px;
+    color: #fff;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0;
+    line-height: 1;
+}
+
+.close-button:hover {
+    color: #ff3e3e;
+}
+
+.popup-content {
+    padding: 20px;
+    max-height: 60vh;
+    overflow-y: auto;
+}
+
+.popup-content p {
+    margin: 0 0 10px 0;
+    line-height: 1.5;
+    font-family: 'Space Mono', monospace;
+}
+#popup-category, #popup-years {
+    font-size: 0.9em;
+    color: #555;
+    margin-bottom: 15px;
+}
+
+
+#popup-connections h3 {
+    margin-top: 15px;
+    margin-bottom: 10px;
+    font-size: 16px;
+    text-transform: uppercase;
+    border-bottom: 2px solid #000;
+    padding-bottom: 5px;
+}
+
+#connections-list {
+    margin: 0;
+    padding-left: 20px;
+    list-style-type: disc;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.9em;
+}
+
+#connections-list li {
+    margin-bottom: 8px;
+    /* cursor: pointer; // Removed, as they are not clickable by default */
+    padding: 5px 0;
+    border-bottom: 1px solid #eee;
+}
+#connections-list li:last-child {
+    border-bottom: none;
+}
+
+/* Modal styles (for Info button) */
+.modal {
+    display: none; /* Hidden by default, JS toggles .visible */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 1000;
+    align-items: center; /* For centering modal content */
+    justify-content: center; /* For centering modal content */
+}
+
+.modal.visible { /* JS will add/remove this class */
+    display: flex; /* Use flex for centering */
+}
+
+.modal-content {
+    /* position: absolute; // Not needed with flex parent */
+    /* top: 50%; */
+    /* left: 50%; */
+    /* transform: translate(-50%, -50%); // Not needed with flex parent */
+    width: 700px; /* Increased width */
+    max-width: 90%;
+    max-height: 85vh; /* Adjusted max height */
+    background-color: #fff;
+    border: 3px solid #000;
+    box-shadow: 10px 10px 0px rgba(0, 0, 0, 0.8);
+    display: flex; /* For internal layout */
+    flex-direction: column; /* For internal layout */
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    background-color: #000;
+    color: #fff;
+    /* position: sticky; // Not ideal if modal itself scrolls */
+    /* top: 0; */
+    /* z-index: 10; */
+    flex-shrink: 0; /* Prevent header from shrinking */
+}
+
+.modal-header h2 {
+    margin: 0;
+    font-size: 20px;
+    text-transform: uppercase;
+}
+
+.modal-body {
+    padding: 25px;
+    font-family: 'Space Mono', monospace;
+    overflow-y: auto; /* Allow body to scroll if content overflows */
+    flex-grow: 1; /* Allow body to take available space */
+}
+
+.modal-body h3 {
+    margin-top: 20px;
+    margin-bottom: 10px;
+    font-size: 18px;
+    color: #000;
+    text-transform: uppercase;
+    border-bottom: 2px solid #000;
+    padding-bottom: 5px;
+}
+.modal-body h3:first-child {
+    margin-top: 0;
+}
+
+
+.modal-body p, .modal-body ul {
+    margin: 0 0 15px 0;
+    line-height: 1.6;
+}
+
+.modal-body ul {
+    padding-left: 25px;
+    list-style-type: disc;
+}
+
+.modal-body li {
+    margin-bottom: 10px;
+}
+
+.modal-body a {
+    color: #ff3e3e;
+    text-decoration: none;
+    font-weight: bold;
+    border-bottom: 2px solid transparent; /* Prepare for hover effect */
+}
+
+.modal-body a:hover {
+    background-color: transparent; /* Remove potential background if any */
+    color: #000; /* Change text color on hover */
+    border-bottom: 2px solid #000; /* Underline on hover */
+}
+
+/* Info button */
+.info-button {
+    position: absolute;
+    bottom: 20px;
+    left: 20px; /* Consistent with legend panel positioning rules */
+    width: 40px;
+    height: 40px;
+    background-color: #000;
+    color: white;
+    border: 3px solid #000; /* Consistent border */
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 3px 3px 0px rgba(0, 0, 0, 0.5);
+    transition: all 0.1s ease;
+    z-index: 10; /* Ensure it's above the SVG but below popups/modals if needed */
+}
+
+.info-button:hover {
+    transform: translate(1px, 1px);
+    box-shadow: 2px 2px 0px rgba(0, 0, 0, 0.5);
+}
+
+.info-button:active {
+    transform: translate(3px, 3px);
+    box-shadow: none;
+}
+
+
+/* Navigation dropdown (used in headers of visualization pages) */
+.nav-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.nav-dropdown-btn {
+  background-color: #ff3e3e;
+  color: #fff;
+  padding: 8px 15px; /* Slightly reduced padding to fit better */
+  font-family: 'Space Mono', monospace;
+  font-weight: bold;
+  font-size: 14px; /* Consistent with other buttons */
+  text-transform: uppercase;
+  border: 2px solid #fff;
+  box-shadow: 3px 3px 0px rgba(255, 255, 255, 0.3); /* Adjusted shadow */
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-width: 220px; /* Ensure enough width for "Other Visualizations ▼" */
+  transition: all 0.1s ease;
+}
+
+
+.nav-dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #000;
+  min-width: 220px; /* Match button width */
+  box-shadow: 5px 5px 0px rgba(255, 255, 255, 0.3);
+  z-index: 999;
+  border: 2px solid #fff;
+  right: 0; /* Align dropdown to the right of the button */
+}
+
+.nav-dropdown-content a {
+  color: #fff;
+  padding: 10px 15px; /* Consistent padding */
+  text-decoration: none;
+  display: block;
+  font-family: 'Space Mono', monospace;
+  font-size: 14px; /* Consistent font size */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  transition: background-color 0.2s;
+}
+.nav-dropdown-content a:last-child {
+    border-bottom: none;
+}
+
+.nav-dropdown-content a:hover {
+  background-color: #333;
+}
+
+.nav-dropdown:hover .nav-dropdown-content {
+  display: block;
+}
+
+.nav-dropdown:hover .nav-dropdown-btn,
+.nav-dropdown-btn:focus + .nav-dropdown-content, /* For keyboard/accessibility */
+.nav-dropdown-btn:active + .nav-dropdown-content { /* For click staying open briefly */
+  /* Keep shadow consistent or slightly alter on hover */
+  transform: translate(1px, 1px);
+  box-shadow: 2px 2px 0px rgba(255, 255, 255, 0.3);
+}
+
+
+/* Search/Filter Highlighting Classes (to be applied by JS) */
+.node.search-match circle {
+    stroke: #ffeb3b; /* Bright yellow highlight */
+    stroke-width: 4px;
+}
+.node.search-dimmed, .link.search-dimmed,
+.node.category-dimmed, .link.category-dimmed {
+    opacity: 0.2;
+}

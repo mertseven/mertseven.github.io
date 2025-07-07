@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leninism: A Network of Ideas</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Leninism: A Network of Ideas</h1>
+            <div class="nav-dropdown">
+                <button class="nav-dropdown-btn">Other Visualizations ▼</button>
+                <div class="nav-dropdown-content">
+                    <a href="index.html">Home</a>
+                    <a href="enlightenment.html">Enlightenment</a>
+                    <a href="romanticism.html">Romanticism</a>
+                    <a href="hegel.html">Hegel</a>
+                    <a href="marxism.html">Marxism</a>
+                    <a href="nietzsche.html">Nietzsche</a>
+                    <a href="bergson.html">Bergson</a>
+                    <a href="leninism.html">Leninism</a>
+                    <!-- Add more visualizations here as they are created -->
+                </div>
+            </div>
+        </header>
+        
+        <div class="visualization-area">
+            <div class="controls-panel">
+                <div class="search-container">
+                    <input type="text" id="search-input" placeholder="Search nodes...">
+                    <button id="search-button">Search</button>
+                </div>
+                
+                <div class="control-parameters collapsible">
+                    <div class="control-header">
+                        <h3>Visualization Controls</h3>
+                        <button class="toggle-button">▼</button>
+                    </div>
+                    <div class="control-content">
+                        <div class="parameter-group">
+                            <label for="link-strength">Link Strength:</label>
+                            <input type="range" id="link-strength" min="0.1" max="1" step="0.1" value="0.3">
+                        </div>
+                        <div class="parameter-group">
+                            <label for="charge-strength">Repulsion Force:</label>
+                            <input type="range" id="charge-strength" min="-1000" max="-100" step="50" value="-500">
+                        </div>
+                        <div class="parameter-group">
+                            <label for="node-size">Node Size:</label>
+                            <input type="range" id="node-size" min="5" max="20" step="1" value="10">
+                        </div>
+                        <div class="parameter-group">
+                            <label for="link-distance">Link Distance:</label>
+                            <input type="range" id="link-distance" min="50" max="300" step="10" value="150">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="category-filters">
+                    <h3>Filter by Category</h3>
+                    <button class="category-button" data-category="concept">Core Concepts</button>
+                    <button class="category-button" data-category="shared_concept">Shared Concepts</button>
+                    <button class="category-button" data-category="text">Key Texts</button>
+                    <button class="category-button" data-category="philosopher">Key Figures</button>
+                    <button class="category-button" data-category="influence">Influences</button>
+                    <button class="category-button" data-category="event">Events</button>
+                    <button class="category-button" data-category="movement">Movements</button>
+                    <button class="category-button" data-category="critique">Critiques</button>
+                    <button class="reset-button" id="reset-view">Reset View</button>
+                </div>
+            </div>
+            
+            <svg id="visualization"></svg>
+            
+            <div class="legend-panel">
+                <h3>Legend</h3>
+                <div class="legend-item"><span class="legend-color concept"></span> Core Concepts</div>
+                <div class="legend-item"><span class="legend-color shared_concept"></span> Shared Concepts</div>
+                <div class="legend-item"><span class="legend-color text"></span> Key Texts</div>
+                <div class="legend-item"><span class="legend-color philosopher"></span> Key Figures</div>
+                <div class="legend-item"><span class="legend-color influence"></span> Influences</div>
+                <div class="legend-item"><span class="legend-color event"></span> Events</div>
+                <div class="legend-item"><span class="legend-color movement"></span> Movements</div>
+                <div class="legend-item"><span class="legend-color critique"></span> Critiques</div>
+            </div>
+            
+            <button id="info-button" class="info-button">ⓘ</button>
+        </div>
+        
+        <div class="popup" id="node-popup">
+            <div class="popup-header">
+                <h2 id="popup-title"></h2>
+                <button class="close-button" id="close-popup">×</button>
+            </div>
+            <div class="popup-content">
+                <p id="popup-category"></p>
+                <p id="popup-years"></p> <!-- Added for consistency -->
+                <p id="popup-description"></p>
+                <div id="popup-connections">
+                    <h3>Connections:</h3>
+                    <ul id="connections-list"></ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="modal" id="info-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>About This Visualization</h2>
+                    <button class="close-button" id="close-modal">×</button>
+                </div>
+                <div class="modal-body">
+                    <h3>Leninism: A Network of Ideas</h3>
+                    <p>This interactive visualization maps the core concepts, key texts, historical events, and important figures that constitute Leninism as a distinct revolutionary theory and practice.</p>
+                    
+                    <h3>Key Themes</h3>
+                    <p>Leninism represents Vladimir Lenin's adaptation of Marxist theory to the conditions of early 20th century Russia and his practical experiences as a revolutionary.</p>
+                    <ul>
+                        <li><strong>Vanguard Party:</strong> Lenin's central innovation - a disciplined organization of professional revolutionaries that would bring class consciousness to workers "from without."</li>
+                        <li><strong>Imperialism:</strong> Lenin's theory of capitalism's evolution into its "highest stage," characterized by monopoly, finance capital, and colonial division.</li>
+                        <li><strong>Revolutionary Strategy:</strong> Lenin's practical approaches to organizing the working class, seizing power, and establishing a socialist state.</li>
+                        <li><strong>Democratic Centralism:</strong> The organizational principle combining democratic discussion with centralized authority and unity of action.</li>
+                    </ul>
+                    
+                    <h3>Historical Context</h3>
+                    <p>Leninism emerged in the context of early 20th century Russia, where conditions differed significantly from the industrialized Western European settings Marx had analyzed. Lenin developed Marxist theory to address the particular challenges of revolutionary struggle in less developed countries, ultimately leading to the Bolshevik Revolution of 1917.</p>
+                    
+                    <h3>How to Use This Visualization</h3>
+                    <ul>
+                        <li>Click on any node to see detailed information about that concept, person, or text.</li>
+                        <li>Use the search box to find specific nodes.</li>
+                        <li>Filter by category using the buttons on the left.</li>
+                        <li>Drag nodes to rearrange the network.</li>
+                        <li>Use the visualization controls to adjust the network parameters.</li>
+                        <li>Click "Reset View" to return to the original layout.</li>
+                    </ul>
+                    
+                    <h3>Related Visualizations</h3>
+                    <p>This visualization is part of a series exploring key philosophical movements and thinkers. For a more complete understanding, consider exploring the related visualizations:</p>
+                    <ul>
+                        <li><a href="enlightenment.html">Enlightenment</a></li>
+                        <li><a href="romanticism.html">Romanticism</a></li>
+                        <li><a href="hegel.html">Hegel</a> - The dialectical method that influenced both Marx and Lenin</li>
+                        <li><a href="marxism.html">Marxism</a> - The revolutionary theory developed by Karl Marx that forms the foundation of Lenin's thought</li>
+                        <li><a href="nietzsche.html">Nietzsche</a> - A radical critique of traditional values and morality that presents an alternative to Marxist thought</li>
+                        <li><a href="bergson.html">Bergson</a> - A contemporary philosophical approach that offers contrasting views on time and change</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="js/leninism-data.js"></script>
+    <script src="js/visualization-core.js"></script>
+    <script src="js/leninism-main.js"></script>
+</body>
+</html>

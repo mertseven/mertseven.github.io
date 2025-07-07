@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marxism: A Network of Ideas</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Marxism: A Network of Ideas</h1>
+            <div class="nav-dropdown">
+                <button class="nav-dropdown-btn">Other Visualizations ▼</button>
+                <div class="nav-dropdown-content">
+                    <a href="index.html">Home</a>
+                    <a href="enlightenment.html">Enlightenment</a>
+                    <a href="romanticism.html">Romanticism</a>
+                    <a href="hegel.html">Hegel</a>
+                    <a href="marxism.html">Marxism</a>
+                    <a href="nietzsche.html">Nietzsche</a>
+                    <a href="bergson.html">Bergson</a>
+                    <a href="leninism.html">Leninism</a>
+                    <!-- Add more visualizations here as they are created -->
+                </div>
+            </div>
+        </header>
+        
+        <div class="visualization-area">
+            <div class="controls-panel">
+                <div class="search-container">
+                    <input type="text" id="search-input" placeholder="Search nodes...">
+                    <button id="search-button">Search</button>
+                </div>
+                
+                <div class="control-parameters collapsible">
+                    <div class="control-header">
+                        <h3>Visualization Controls</h3>
+                        <button class="toggle-button">▼</button>
+                    </div>
+                    <div class="control-content">
+                        <div class="parameter-group">
+                            <label for="link-strength">Link Strength:</label>
+                            <input type="range" id="link-strength" min="0.1" max="1" step="0.1" value="0.3">
+                        </div>
+                        <div class="parameter-group">
+                            <label for="charge-strength">Repulsion Force:</label>
+                            <input type="range" id="charge-strength" min="-1000" max="-100" step="50" value="-500">
+                        </div>
+                        <div class="parameter-group">
+                            <label for="node-size">Node Size:</label>
+                            <input type="range" id="node-size" min="5" max="20" step="1" value="10">
+                        </div>
+                        <div class="parameter-group">
+                            <label for="link-distance">Link Distance:</label>
+                            <input type="range" id="link-distance" min="50" max="300" step="10" value="150">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="category-filters">
+                    <h3>Filter by Category</h3>
+                    <button class="category-button" data-category="concept">Concepts</button>
+                    <button class="category-button" data-category="shared_concept">Shared Concepts</button>
+                    <button class="category-button" data-category="philosopher">Philosophers</button>
+                    <button class="category-button" data-category="text">Texts</button>
+                    <button class="category-button" data-category="movement">Movements</button>
+                    <button class="category-button" data-category="event">Events</button> <!-- For Industrialization -->
+                    <button class="reset-button" id="reset-view">Reset View</button>
+                </div>
+            </div>
+            
+            <svg id="visualization"></svg>
+            
+            <div class="legend-panel">
+                <h3>Legend</h3>
+                <div class="legend-item"><span class="legend-color concept"></span> Concept</div>
+                <div class="legend-item"><span class="legend-color shared_concept"></span> Shared Concept</div> <!-- Corrected class name -->
+                <div class="legend-item"><span class="legend-color philosopher"></span> Philosopher</div>
+                <div class="legend-item"><span class="legend-color text"></span> Text</div>
+                <div class="legend-item"><span class="legend-color movement"></span> Movement</div>
+                <div class="legend-item"><span class="legend-color event"></span> Event</div>
+            </div>
+            
+            <button id="info-button" class="info-button">ⓘ</button>
+        </div>
+        
+        <div class="popup" id="node-popup">
+            <div class="popup-header">
+                <h2 id="popup-title"></h2>
+                <button class="close-button" id="close-popup">×</button>
+            </div>
+            <div class="popup-content">
+                <p id="popup-category"></p>
+                <p id="popup-years"></p> <!-- Added for consistency -->
+                <p id="popup-description"></p>
+                <div id="popup-connections">
+                    <h3>Connections:</h3>
+                    <ul id="connections-list"></ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="modal" id="info-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>About This Visualization</h2>
+                    <button class="close-button" id="close-modal">×</button>
+                </div>
+                <div class="modal-body">
+                    <h3>Marxism: A Network of Ideas</h3>
+                    <p>This interactive visualization maps the key concepts, philosophers, texts, and movements of Marxist thought, showing how they interconnect and influence each other.</p>
+                    
+                    <h3>Key Themes</h3>
+                    <ul>
+                        <li><strong>Dialectical Materialism:</strong> Marx's adaptation of Hegel's dialectics, bringing abstract ideas down to concrete material conditions.</li>
+                        <li><strong>Class Struggle:</strong> The theory that history moves forward through conflicts between economic classes—specifically the exploiters and exploited.</li>
+                        <li><strong>Alienation and Exploitation:</strong> The separation of workers from the products of their labor and the extraction of surplus value by capitalists.</li>
+                        <li><strong>Revolution:</strong> The inevitable overthrow of the bourgeoisie by the proletariat as class antagonisms intensify.</li>
+                    </ul>
+                    
+                    <h3>How to Use This Visualization</h3>
+                    <ul>
+                        <li>Click on any node to see detailed information about that concept, person, or text.</li>
+                        <li>Use the search box to find specific nodes.</li>
+                        <li>Filter by category using the buttons on the left.</li>
+                        <li>Drag nodes to rearrange the network.</li>
+                        <li>Use the visualization controls to adjust the network parameters.</li>
+                        <li>Click "Reset View" to return to the original layout.</li>
+                    </ul>
+                    
+                    <h3>Related Visualizations</h3>
+                    <p>This visualization is part of a series exploring key philosophical movements and thinkers. For a more complete understanding, consider exploring the related visualizations:</p>
+                    <ul>
+                        <li><a href="enlightenment.html">Enlightenment</a> - The philosophical movement that influenced Marx's rationalism and universalism</li>
+                        <li><a href="romanticism.html">Romanticism</a> - A cultural movement whose critique of industrial society informed Marx's thought</li>
+                        <li><a href="hegel.html">Hegel</a> - The philosopher whose dialectical method Marx transformed into dialectical materialism</li>
+                        <li><a href="nietzsche.html">Nietzsche</a> - A critic of bourgeois society who took a different path from Marx</li>
+                        <li><a href="bergson.html">Bergson</a> - A philosopher who developed alternative conceptions of time and change</li>
+                        <li><a href="leninism.html">Leninism</a> - The revolutionary theory developed by Lenin that adapted Marxism to conditions in Russia</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="js/marxism-data.js"></script>
+    <script src="js/visualization-core.js"></script>
+    <script src="js/marxism-main.js"></script>
+</body>
+</html>

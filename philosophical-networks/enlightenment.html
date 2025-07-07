@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Enlightenment: A Network of Ideas</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>The Enlightenment: A Network of Ideas</h1>
+            <div class="nav-dropdown">
+                <button class="nav-dropdown-btn">Other Visualizations ▼</button>
+                <div class="nav-dropdown-content">
+                    <a href="index.html">Home</a>
+                    <a href="enlightenment.html">Enlightenment</a>
+                    <a href="romanticism.html">Romanticism</a>
+                    <a href="marxism.html">Marxism</a>
+                    <a href="hegel.html">Hegel</a>
+                    <a href="nietzsche.html">Nietzsche</a>
+                    <a href="bergson.html">Bergson</a>
+                    <a href="leninism.html">Leninism</a>
+                    <!-- Add more visualizations here as they are created -->
+                </div>
+            </div>
+        </header>
+        
+        <div class="visualization-area">
+            <div class="controls-panel">
+                <div class="search-container">
+                    <input type="text" id="search-input" placeholder="Search nodes...">
+                    <button id="search-button">Search</button>
+                </div>
+                
+                <div class="control-parameters collapsible">
+                    <div class="control-header">
+                        <h3>Visualization Controls</h3>
+                        <button class="toggle-button">▼</button> 
+                    </div>
+                    <div class="control-content"> 
+                        <div class="parameter-group">
+                            <label for="link-strength">Link Strength:</label>
+                            <input type="range" id="link-strength" min="0.1" max="1" step="0.1" value="0.3">
+                        </div>
+                        <div class="parameter-group">
+                            <label for="charge-strength">Repulsion Force:</label>
+                            <input type="range" id="charge-strength" min="-1000" max="-100" step="50" value="-500">
+                        </div>
+                        <div class="parameter-group">
+                            <label for="node-size">Node Size:</label>
+                            <input type="range" id="node-size" min="5" max="20" step="1" value="10">
+                        </div>
+                        <div class="parameter-group">
+                            <label for="link-distance">Link Distance:</label>
+                            <input type="range" id="link-distance" min="50" max="300" step="10" value="150">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="category-filters">
+                    <h3>Filter by Category</h3>
+                    <button class="category-button" data-category="concept">Concepts</button>
+                    <button class="category-button" data-category="philosopher">Philosophers</button>
+                    <button class="category-button" data-category="scientist">Scientists</button> 
+                    <button class="category-button" data-category="text">Texts</button>
+                    <button class="category-button" data-category="event">Events</button>
+                    <button class="category-button" data-category="movement">Movements</button>
+                    <button class="reset-button" id="reset-view">Reset View</button>
+                </div>
+            </div>
+            
+            <svg id="visualization"></svg>
+            
+            <div class="legend-panel">
+                <h3>Legend</h3>
+                <div class="legend-item"><span class="legend-color concept"></span> Concept</div>
+                <div class="legend-item"><span class="legend-color philosopher"></span> Philosopher</div>
+                <div class="legend-item"><span class="legend-color scientist"></span> Scientist</div>
+                <div class="legend-item"><span class="legend-color text"></span> Text</div>
+                <div class="legend-item"><span class="legend-color event"></span> Event</div>
+                <div class="legend-item"><span class="legend-color movement"></span> Movement</div>
+            </div>
+            
+            <button id="info-button" class="info-button">ⓘ</button>
+        </div>
+        
+        <div class="popup" id="node-popup"> 
+            <div class="popup-header">
+                <h2 id="popup-title"></h2>
+                <button class="close-button" id="close-popup">×</button> <!-- Ensured this ID matches JS -->
+            </div>
+            <div class="popup-content">
+                <p id="popup-category"></p>
+                <p id="popup-years"></p> 
+                <p id="popup-description"></p>
+                <div id="popup-connections">
+                    <h3>Connections:</h3>
+                    <ul id="connections-list"></ul> <!-- Ensured this ID matches JS -->
+                </div>
+            </div>
+        </div>
+        
+        <div class="modal" id="info-modal"> 
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>About This Visualization</h2>
+                    <button class="close-button" id="close-modal">×</button> <!-- Ensured this ID matches JS -->
+                </div>
+                <div class="modal-body">
+                    <h3>The Enlightenment: A Network of Ideas</h3>
+                    <p>This interactive visualization maps the key concepts, thinkers, and events of the Enlightenment period (roughly 1650-1800), showing how they interconnect and influence each other.</p>
+                    
+                    <h3>Key Themes</h3>
+                    <ul>
+                        <li><strong>Reason and Rationality:</strong> The Enlightenment's central focus on human reason as the primary source of authority and legitimacy.</li>
+                        <li><strong>Social Contract Theory:</strong> Ideas about the relationship between individuals and the state developed by thinkers like Hobbes, Locke, and Rousseau.</li>
+                        <li><strong>Religious Tolerance:</strong> The push against religious dogmatism and for freedom of thought and belief.</li>
+                        <li><strong>Scientific Method:</strong> The application of empirical observation and experimentation to understand the natural world.</li>
+                    </ul>
+                    
+                    <h3>How to Use This Visualization</h3>
+                    <ul>
+                        <li>Click on any node to see detailed information about that concept, person, or event.</li>
+                        <li>Use the search box to find specific nodes.</li>
+                        <li>Filter by category using the buttons on the left.</li>
+                        <li>Drag nodes to rearrange the network.</li>
+                        <li>Use the visualization controls to adjust the network parameters.</li>
+                        <li>Click "Reset View" to return to the original layout.</li>
+                    </ul>
+                    
+                    <h3>Related Visualizations</h3>
+                    <p>This visualization is part of a series exploring key philosophical movements and thinkers. For a more complete understanding, consider exploring the related visualizations:</p>
+                    <ul>
+                        <li><a href="romanticism.html">Romanticism</a> - The philosophical and artistic movement that arose in reaction to Enlightenment rationality</li>
+                        <li><a href="hegel.html">Hegel</a> - A philosopher who synthesized aspects of Enlightenment thought while transcending its limitations</li>
+                        <li><a href="marxism.html">Marxism</a> - A philosophy that critiqued the Enlightenment's bourgeois individualism while embracing its emancipatory aspects</li>
+                        <li><a href="nietzsche.html">Nietzsche</a> - A radical critic of both Enlightenment rationalism and conventional morality</li>
+                        <li><a href="bergson.html">Bergson</a> - A thinker who challenged Enlightenment approaches to time and consciousness</li>
+                        <li><a href="leninism.html">Leninism</a> - A revolutionary theory that built on Marxist thought while addressing practical revolutionary strategy</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="js/enlightenment-data.js"></script> 
+    <script src="js/visualization-core.js"></script>   
+    <script src="js/enlightenment-main.js"></script>   
+</body>
+</html>

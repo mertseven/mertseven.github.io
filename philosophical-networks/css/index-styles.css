@@ -1,0 +1,132 @@
+/* Styles specific to index.html landing page */
+body {
+    font-family: 'Space Mono', monospace;
+    background-color: #1a1a1a; /* Dark background for landing page */
+    color: #f0f0f0; /* Light text */
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.landing-container {
+    width: 100%;
+    max-width: 900px;
+    padding: 30px;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+.landing-header {
+    margin-bottom: 40px;
+    border-bottom: 3px solid #ff3e3e;
+    padding-bottom: 20px;
+}
+
+.landing-header h1 {
+    font-size: 3em;
+    color: #fff;
+    margin: 0 0 10px 0;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.landing-header .subtitle {
+    font-size: 1.2em;
+    color: #ccc;
+    margin: 0;
+}
+
+.visualization-menu {
+    margin-bottom: 40px;
+}
+
+.visualization-menu h2 {
+    font-size: 1.8em;
+    color: #ff3e3e;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+}
+
+.visualization-menu ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+}
+
+.visualization-menu li {
+    margin: 0; /* Handled by gap */
+}
+
+.viz-link {
+    display: inline-block;
+    background-color: #ff3e3e;
+    color: #fff;
+    text-decoration: none;
+    padding: 12px 25px;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 1em;
+    border: 2px solid #000;
+    box-shadow: 5px 5px 0px rgba(0, 0, 0, 0.5);
+    transition: all 0.15s ease-out;
+}
+
+.viz-link:hover, .viz-link:focus {
+    background-color: #fff;
+    color: #ff3e3e;
+    border-color: #ff3e3e;
+    transform: translate(2px, 2px);
+    box-shadow: 3px 3px 0px rgba(0,0,0, 0.3);
+}
+
+.viz-link:active {
+    transform: translate(5px, 5px);
+    box-shadow: none;
+}
+
+.about-series {
+    background-color: #2a2a2a;
+    padding: 25px;
+    border: 3px solid #444;
+    box-shadow: 0 0 15px rgba(0,0,0,0.3);
+    text-align: left;
+    margin-bottom: 40px;
+}
+
+.about-series h3 {
+    font-size: 1.5em;
+    color: #ff3e3e;
+    margin-top: 0;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #555;
+    padding-bottom: 5px;
+}
+
+.about-series p {
+    margin-bottom: 15px;
+}
+
+.about-series ul {
+    padding-left: 20px;
+    margin-bottom: 0;
+}
+
+.about-series li {
+    margin-bottom: 8px;
+}
+
+.landing-footer {
+    margin-top: auto; /* Pushes footer to bottom if content is short */
+    padding-top: 20px;
+    font-size: 0.9em;
+    color: #888;
+    border-top: 1px solid #444;
+    width: 100%;
+}
