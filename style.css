@@ -548,14 +548,17 @@ a:hover:not(.new-logo-area):not(.new-nav-item) {
         height: auto;
         overflow: visible;
     }
+    
+    /* FIX: Removed conflicting height and max-height properties. 
+       The inline style in projects.html will now correctly handle the layout. */
     .main-container {
-        height: auto; 
-        overflow: visible; 
+        /* No specific rules needed here, will rely on base styles and inline styles. */
     }
     .sidebar, .content-pane {
-        height: auto;
-        max-height: calc(100vh - var(--header-height-desktop) - var(--footer-height-approx));
-        overflow-y: auto;
+        /* These properties were conflicting with the inline style.
+           height: auto;
+           max-height: calc(100vh - var(--header-height-desktop) - var(--footer-height-approx)); */
+        overflow-y: auto; /* This is redundant but harmless. */
     }
     .sidebar { width: 250px; }
 }
@@ -580,9 +583,6 @@ a:hover:not(.new-logo-area):not(.new-nav-item) {
         border-right: 1px solid var(--border-color-strong);
         height: 100%;
     }
-    /* .logo-main-text and .logo-sub-text are for old logo, can be removed if not reverting */
-    /* .logo-main-text { font-size: 2em; } */
-    /* .logo-sub-text { font-size: 1em; } */
 
     .new-main-nav {
         order: 2;
@@ -633,29 +633,28 @@ a:hover:not(.new-logo-area):not(.new-nav-item) {
         height: auto;
         overflow: visible;
     }
+
+    /* FIX: Removed conflicting height and max-height properties. */
     .main-container {
-        height: auto; 
-        overflow: visible; 
+        /* No specific rules needed here. */
     }
     .sidebar { 
         width: 280px; 
-        height: auto;
-        max-height: calc(100vh - var(--header-height-desktop) - var(--footer-height-approx));
+        /* These properties were conflicting.
+           height: auto;
+           max-height: calc(100vh - var(--header-height-desktop) - var(--footer-height-approx)); */
     }
 }
 
 @media (max-width: 480px) { /* Small mobile */
-    /* .logo-main-text, .logo-sub-text styles can be removed if not reverting to text logo */
     .new-logo-area .new-logo-image {
-        /* No specific override needed here if the general rule works well.
-           The image will scale to fit the 70px height of .new-logo-area,
-           respecting its aspect ratio. The parent's padding provides spacing. */
+        /* No specific override needed here. */
     }
     .new-nav-item { padding: 10px 15px; }
     .nav-item-title { font-size: 1.3em; }
     .nav-item-subtitle { font-size: 0.8em; }
-    .search-trigger-area .search-icon { width: 26px; height: 26px; } /* Slightly larger for easier tap */
-    
+    .search-trigger-area .search-icon { width: 26px; height: 26px; }
+
     .search-terminal-overlay { 
         padding-top: 5vh; 
         padding-left: 5px; padding-right: 5px;
