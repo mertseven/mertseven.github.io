@@ -3,18 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Research - Mert Seven</title> <!-- Updated Title -->
+    <title>Research - Mert Seven</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="publications.css"> <!-- Page-specific CSS (will include dissertation styles) -->
+    <link rel="stylesheet" href="publications.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800;900&display=swap" rel="stylesheet">
     <link rel="icon" href="images/ms-favicon.svg" type="image/svg+xml">
 </head>
 <body>
+
+  <!-- START: MOBILE OVERLAY AND NAV PANEL -->
+  <div class="content-overlay"></div>
+  <nav class="popout-nav">
+      <div class="nav-header">
+          <span class="title">Navigation</span>
+      </div>
+      <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="projects.html">Projects</a></li>
+          <li><a href="publications.html">Research</a></li>
+          <li><a href="contact.html">About & Contact</a></li>
+      </ul>
+  </nav>
+  <!-- END: MOBILE OVERLAY AND NAV PANEL -->
+
   <div class="publications-page-wrapper">
+    <!-- START: UNIFIED HEADER -->
     <header class="new-main-header">
         <a href="index.html" class="new-logo-area">
-    <img src="images/LOGO-BLUE.svg" alt="Mert Seven Logo" class="new-logo-image">
-</a>
+            <img src="images/LOGO-BLUE.svg" alt="Mert Seven Logo" class="new-logo-image">
+        </a>
+        <!-- Desktop Navigation -->
         <nav class="new-main-nav">
             <a href="index.html" class="new-nav-item">
                 <span class="nav-item-title">HOME</span>
@@ -24,38 +42,48 @@
                 <span class="nav-item-title">PROJECTS</span>
                 <span class="nav-item-subtitle">Portfolio / Works</span>
             </a>
-            <a href="publications.html" class="new-nav-item active"> <!-- Set active for this page -->
+            <a href="publications.html" class="new-nav-item">
                 <span class="nav-item-title">RESEARCH</span>
                 <span class="nav-item-subtitle">Papers / Thesis</span>
             </a>
-<a href="contact.html" class="new-nav-item">
-    <span class="nav-item-title">ABOUT & CONTACT</span>
-    <span class="nav-item-subtitle">Profile / Get in Touch</span>
-</a>            <!-- Removed separate Dissertation link -->
+            <a href="contact.html" class="new-nav-item">
+                <span class="nav-item-title">ABOUT & CONTACT</span>
+                <span class="nav-item-subtitle">Profile / Get in Touch</span>
+            </a>
         </nav>
+        <!-- Mobile Action Buttons -->
+        <div class="mobile-actions-area">
+             <button class="action-btn mobile-search-trigger" aria-label="Open Search">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            </button>
+            <button class="action-btn nav-trigger" aria-label="Open Navigation">
+                <div class="hamburger-icon">
+                    <span class="line line-1"></span>
+                    <span class="line line-2"></span>
+                    <span class="line line-3"></span>
+                </div>
+            </button>
+        </div>
+        <!-- Desktop Search Trigger -->
         <div class="search-trigger-area" id="search-bar-trigger" tabindex="0" title="Search Site (Ctrl+K)">
             <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <circle cx="11" cy="11" r="8"></circle>
                 <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
             </svg>
         </div>
-        <span class="kbd-shortcut-header-hint">CTRL K</span>
     </header>
+    <!-- END: UNIFIED HEADER -->
 
     <main class="main-content-publications">
+        <!-- Main content remains unchanged -->
         <section class="page-header-section">
             <h1>Research Output</h1>
             <p>A collection of my academic articles, research papers, conference presentations, and doctoral dissertation.</p>
         </section>
-
         <section id="publications-list-section" class="publications-content-section">
              <h2 class="section-heading-on-page">Peer-Reviewed Publications & Presentations</h2>
-            <div id="publications-grid" class="publications-grid-new">
-                <!-- Publication cards will be dynamically inserted here by publications.js -->
-            </div>
+            <div id="publications-grid" class="publications-grid-new"></div>
         </section>
-
-        <!-- DISSERTATION ACCORDION SECTION -->
         <section id="dissertation-accordion-container" class="dissertation-accordion-container">
             <h2 class="section-heading-on-page">Doctoral Dissertation</h2>
             <details class="dissertation-details-accordion" id="dissertationAccordion">
@@ -68,102 +96,43 @@
                     <div class="dissertation-main-details">
                         <p class="dissertation-abstract">This research examines how individuals process and trust information about Syrian refugees on social media, focusing on the epistemology of testimony and misinformation dynamics. Through quantitative analysis of 608 respondents, the study reveals how social media environments affect information exchange and attitude formation in the context of migration communication.</p>
                         <p class="dissertation-keywords"><strong>Keywords:</strong> Epistemology of testimony, misinformation, uncertainty.</p>
-                        <a href="https://mertseven.com/Seven_Tez.pdf" class="btn btn-primary dissertation-download-btn-main" download>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-arrow-down" viewBox="0 0 16 16"><path d="M8.5 6.5a.5.5 0 0 0-1 0v3.793L6.354 9.146a.5.5 0 1 0-.708.708l2 2a.5.5 0 0 0 .708 0l2-2a.5.5 0 0 0-.708-.708L8.5 10.293V6.5z"/><path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2zM9.5 1.5v2A1.5 1.5 0 0 0 11 5h2V3.5a.5.5 0 0 1 .5.5V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5v1.5z"/></svg>
-                            Download Full Dissertation (PDF)
-                        </a>
+                        <a href="https://mertseven.com/Seven_Tez.pdf" class="btn btn-primary dissertation-download-btn-main" download><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-arrow-down" viewBox="0 0 16 16"><path d="M8.5 6.5a.5.5 0 0 0-1 0v3.793L6.354 9.146a.5.5 0 1 0-.708.708l2 2a.5.5 0 0 0 .708 0l2-2a.5.5 0 0 0-.708-.708L8.5 10.293V6.5z"/><path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2zM9.5 1.5v2A1.5 1.5 0 0 0 11 5h2V3.5a.5.5 0 0 1 .5.5V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5v1.5z"/></svg> Download Full Dissertation (PDF)</a>
                     </div>
-
                     <h3 class="dissertation-subsection-title">Visual Paper Booklet</h3>
                     <p class="dissertation-intro">A visual exploration of the key findings from my research on information processing and uncertainty in social networks, presented in an interactive format.</p>
-
                     <div class="pdf-container-new" id="dissertation-pdf-viewer-container">
-                        <div class="pdf-controls-new">
-                            <button class="btn btn-secondary pdf-nav-new" id="dissertationPrevPage" title="Previous Page" disabled>« Prev</button>
-                            <span class="pdf-counter-new" id="dissertationPageNum">Page 0 of 0</span>
-                            <button class="btn btn-secondary pdf-nav-new" id="dissertationNextPage" title="Next Page" disabled>Next »</button>
-                            <button class="btn btn-secondary pdf-zoom-new" id="dissertationZoomIn" title="Zoom In">Zoom +</button>
-                            <button class="btn btn-secondary pdf-zoom-new" id="dissertationZoomOut" title="Zoom Out">Zoom −</button>
-                            <button class="btn btn-secondary pdf-zoom-new" id="dissertationZoomReset" title="Reset Zoom">Reset</button>
-                            <button class="btn btn-primary pdf-fullscreen-btn-new" id="dissertationFullscreenBtn" title="Toggle Fullscreen (F)">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrows-fullscreen" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M5.828 10.172a.5.5 0 0 0-.707 0l-4.096 4.096V11.5a.5.5 0 0 0-1 0v3.975a.5.5 0 0 0 .5.5H4.5a.5.5 0 0 0 0-1H1.732l4.096-4.096a.5.5 0 0 0 0-.707zm4.344 0a.5.5 0 0 1 .707 0l4.096 4.096V11.5a.5.5 0 1 1 1 0v3.975a.5.5 0 0 1-.5.5H11.5a.5.5 0 0 1 0-1h2.768l-4.096-4.096a.5.5 0 0 1 0-.707zm0-4.344a.5.5 0 0 0 .707 0l4.096-4.096V4.5a.5.5 0 1 0 1 0V.525a.5.5 0 0 0-.5-.5H11.5a.5.5 0 0 0 0 1h2.768l-4.096 4.096a.5.5 0 0 0 0 .707zm-4.344 0a.5.5 0 0 1-.707 0L1.025 1.732V4.5a.5.5 0 0 1-1 0V.525a.5.5 0 0 1 .5-.5H4.5a.5.5 0 0 1 0 1H1.732l4.096 4.096a.5.5 0 0 1 0 .707z"/></svg>
-                                Fullscreen
-                            </button>
-                        </div>
-                        <div class="pdf-viewer-new">
-                            <div class="pdf-loading-new" id="dissertationPdfLoading">
-                                <p>Loading Visual Booklet...</p>
-                                <div class="loading-indicator-new"></div>
-                            </div>
-                            <div class="pdf-canvas-container-new">
-                                <canvas id="dissertationPdfCanvas"></canvas>
-                            </div>
-                        </div>
+                        <div class="pdf-controls-new"><button class="btn btn-secondary pdf-nav-new" id="dissertationPrevPage" title="Previous Page" disabled>« Prev</button><span class="pdf-counter-new" id="dissertationPageNum">Page 0 of 0</span><button class="btn btn-secondary pdf-nav-new" id="dissertationNextPage" title="Next Page" disabled>Next »</button><button class="btn btn-secondary pdf-zoom-new" id="dissertationZoomIn" title="Zoom In">Zoom +</button><button class="btn btn-secondary pdf-zoom-new" id="dissertationZoomOut" title="Zoom Out">Zoom −</button><button class="btn btn-secondary pdf-zoom-new" id="dissertationZoomReset" title="Reset Zoom">Reset</button><button class="btn btn-primary pdf-fullscreen-btn-new" id="dissertationFullscreenBtn" title="Toggle Fullscreen (F)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrows-fullscreen" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M5.828 10.172a.5.5 0 0 0-.707 0l-4.096 4.096V11.5a.5.5 0 0 0-1 0v3.975a.5.5 0 0 0 .5.5H4.5a.5.5 0 0 0 0-1H1.732l4.096-4.096a.5.5 0 0 0 0-.707zm4.344 0a.5.5 0 0 1 .707 0l4.096 4.096V11.5a.5.5 0 1 1 1 0v3.975a.5.5 0 0 1-.5.5H11.5a.5.5 0 0 1 0-1h2.768l-4.096-4.096a.5.5 0 0 1 0-.707zm0-4.344a.5.5 0 0 0 .707 0l4.096-4.096V4.5a.5.5 0 1 0 1 0V.525a.5.5 0 0 0-.5-.5H11.5a.5.5 0 0 0 0 1h2.768l-4.096 4.096a.5.5 0 0 0 0 .707zm-4.344 0a.5.5 0 0 1-.707 0L1.025 1.732V4.5a.5.5 0 0 1-1 0V.525a.5.5 0 0 1 .5-.5H4.5a.5.5 0 0 1 0 1H1.732l4.096 4.096a.5.5 0 0 1 0 .707z"/></svg> Fullscreen</button></div>
+                        <div class="pdf-viewer-new"><div class="pdf-loading-new" id="dissertationPdfLoading"><p>Loading Visual Booklet...</p><div class="loading-indicator-new"></div></div><div class="pdf-canvas-container-new"><canvas id="dissertationPdfCanvas"></canvas></div></div>
                         <div class="pdf-thumbnails-new" id="dissertationThumbnailContainer"></div>
-                         <div class="pdf-download-link-container">
-                            <a href="https://mertseven.com/Seven_VP.pdf" class="btn btn-primary dissertation-download-btn-booklet" download>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-arrow-down" viewBox="0 0 16 16"><path d="M8.5 6.5a.5.5 0 0 0-1 0v3.793L6.354 9.146a.5.5 0 1 0-.708.708l2 2a.5.5 0 0 0 .708 0l2-2a.5.5 0 0 0-.708-.708L8.5 10.293V6.5z"/><path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2zM9.5 1.5v2A1.5 1.5 0 0 0 11 5h2V3.5a.5.5 0 0 1 .5.5V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5v1.5z"/></svg>
-                                Download Booklet (PDF)
-                            </a>
-                        </div>
+                         <div class="pdf-download-link-container"><a href="https://mertseven.com/Seven_VP.pdf" class="btn btn-primary dissertation-download-btn-booklet" download><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-arrow-down" viewBox="0 0 16 16"><path d="M8.5 6.5a.5.5 0 0 0-1 0v3.793L6.354 9.146a.5.5 0 1 0-.708.708l2 2a.5.5 0 0 0 .708 0l2-2a.5.5 0 0 0-.708-.708L8.5 10.293V6.5z"/><path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2zM9.5 1.5v2A1.5 1.5 0 0 0 11 5h2V3.5a.5.5 0 0 1 .5.5V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5v1.5z"/></svg> Download Booklet (PDF)</a></div>
                     </div>
-                    <!-- Fullscreen PDF viewer Modal for Dissertation Visual Booklet -->
                     <div class="fullscreen-mode-new" id="dissertationFullscreenMode">
-                        <div class="fullscreen-controls-new">
-                            <button class="btn btn-secondary pdf-nav-new" id="dissertationFullscreenPrev" title="Previous Page" disabled>« Prev</button>
-                            <span class="pdf-counter-new" id="dissertationFullscreenPageNum">Page 0 of 0</span>
-                            <button class="btn btn-secondary pdf-nav-new" id="dissertationFullscreenNext" title="Next Page" disabled>Next »</button>
-                            <button class="btn btn-secondary pdf-zoom-new" id="dissertationFullscreenZoomIn" title="Zoom In">Zoom +</button>
-                            <button class="btn btn-secondary pdf-zoom-new" id="dissertationFullscreenZoomOut" title="Zoom Out">Zoom −</button>
-                            <button class="btn btn-secondary pdf-zoom-new" id="dissertationFullscreenZoomReset" title="Reset Zoom">Reset</button>
-                            <button class="btn btn-primary pdf-fullscreen-btn-new" id="dissertationExitFullscreenBtn" title="Exit Fullscreen (Esc or F)">
-                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-fullscreen-exit" viewBox="0 0 16 16"><path d="M5.5 0a.5.5 0 0 1 .5.5v4A.5.5 0 0 1 5.5 5h-4a.5.5 0 0 1 0-1h3.5V.5a.5.5 0 0 1 .5-.5zm0 11a.5.5 0 0 1 .5.5v3.5h3.5a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5v-4a.5.5 0 0 1 .5-.5zm5 0a.5.5 0 0 1 .5.5v3.5h3.5a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5v-4a.5.5 0 0 1 .5-.5zm.5-11a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-.5.5h-4a.5.5 0 0 1 0-1h3.5V.5a.5.5 0 0 1 .5-.5z"/></svg>
-                                Exit Fullscreen
-                            </button>
-                        </div>
-                        <div class="fullscreen-viewer-new">
-                            <canvas id="dissertationFullscreenCanvas"></canvas>
-                        </div>
+                        <div class="fullscreen-controls-new"><button class="btn btn-secondary pdf-nav-new" id="dissertationFullscreenPrev" title="Previous Page" disabled>« Prev</button><span class="pdf-counter-new" id="dissertationFullscreenPageNum">Page 0 of 0</span><button class="btn btn-secondary pdf-nav-new" id="dissertationFullscreenNext" title="Next Page" disabled>Next »</button><button class="btn btn-secondary pdf-zoom-new" id="dissertationFullscreenZoomIn" title="Zoom In">Zoom +</button><button class="btn btn-secondary pdf-zoom-new" id="dissertationFullscreenZoomOut" title="Zoom Out">Zoom −</button><button class="btn btn-secondary pdf-zoom-new" id="dissertationFullscreenZoomReset" title="Reset Zoom">Reset</button><button class="btn btn-primary pdf-fullscreen-btn-new" id="dissertationExitFullscreenBtn" title="Exit Fullscreen (Esc or F)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-fullscreen-exit" viewBox="0 0 16 16"><path d="M5.5 0a.5.5 0 0 1 .5.5v4A.5.5 0 0 1 5.5 5h-4a.5.5 0 0 1 0-1h3.5V.5a.5.5 0 0 1 .5-.5zm0 11a.5.5 0 0 1 .5.5v3.5h3.5a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5v-4a.5.5 0 0 1 .5-.5zm5 0a.5.5 0 0 1 .5.5v3.5h3.5a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5v-4a.5.5 0 0 1 .5-.5zm.5-11a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-.5.5h-4a.5.5 0 0 1 0-1h3.5V.5a.5.5 0 0 1 .5-.5z"/></svg> Exit Fullscreen</button></div>
+                        <div class="fullscreen-viewer-new"><canvas id="dissertationFullscreenCanvas"></canvas></div>
                     </div>
-                </div> <!-- END dissertation-accordion-content -->
+                </div>
             </details>
         </section>
-        <!-- END DISSERTATION ACCORDION SECTION -->
-
-        <!-- Publication Modal (for other publications) -->
         <div id="publication-modal" class="publication-modal-new">
             <div class="publication-modal-content-new">
                 <span class="publication-modal-close-btn-new">×</span>
-                <div class="publication-modal-header-new">
-                    <h2 id="modal-title" class="publication-modal-title-new"></h2>
-                    <div id="modal-meta" class="publication-modal-meta-new"></div>
-                </div>
+                <div class="publication-modal-header-new"><h2 id="modal-title" class="publication-modal-title-new"></h2><div id="modal-meta" class="publication-modal-meta-new"></div></div>
                 <div id="modal-text" class="publication-modal-text-new"></div>
             </div>
         </div>
     </main>
 
     <footer class="site-footer">
-<p>Designed by Mert Seven ♦ Hosted on GitHub Pages</p>
-    <p>
-        This website is open source. 
-        <a href="https://github.com/mertseven/mertseven.github.io" target="_blank" rel="noopener noreferrer">View source and fork on GitHub</a>.
-    </p>
-    <p style="margin-top: 10px;">
-        <a rel="license" href="http://creativecommons.org/licenses/by/4.0/" target="_blank">
-            <img alt="Creative Commons License" style="border-width:0; vertical-align: middle;" src="https://i.creativecommons.org/l/by/4.0/80x15.png" />
-        </a>
-        Licensed under <a rel="license" href="http://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer">Creative Commons Attribution 4.0</a>.
+        <p>Designed by Mert Seven ♦ Hosted on GitHub Pages</p>
+        <p>This website is open source. <a href="https://github.com/mertseven/mertseven.github.io" target="_blank" rel="noopener noreferrer">View source and fork on GitHub</a>.</p>
+        <p style="margin-top: 10px;"><a rel="license" href="http://creativecommons.org/licenses/by/4.0/" target="_blank"><img alt="Creative Commons License" style="border-width:0; vertical-align: middle;" src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a> Licensed under <a rel="license" href="http://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer">Creative Commons Attribution 4.0</a>.</p>
     </footer>
   </div> <!-- END publications-page-wrapper -->
 
     <div id="search-terminal-overlay" class="search-terminal-overlay hidden">
         <div class="search-terminal-content">
             <div class="search-terminal-input-wrapper">
-                <svg class="search-terminal-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="11" cy="11" r="8"></circle>
-                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                </svg>
+                <svg class="search-terminal-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
                 <input type="text" id="terminal-search-input" placeholder="Start typing..." autocomplete="off">
             </div>
             <div class="search-terminal-results" id="search-terminal-results-container">

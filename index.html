@@ -10,12 +10,30 @@
     <link rel="icon" href="images/ms-favicon.svg" type="image/svg+xml">
 </head>
 <body>
+
+  <!-- START: MOBILE OVERLAY AND NAV PANEL -->
+  <div class="content-overlay"></div>
+  <nav class="popout-nav">
+      <div class="nav-header">
+          <span class="title">Navigation</span>
+      </div>
+      <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="projects.html">Projects</a></li>
+          <li><a href="publications.html">Research</a></li>
+          <li><a href="contact.html">About & Contact</a></li>
+      </ul>
+  </nav>
+  <!-- END: MOBILE OVERLAY AND NAV PANEL -->
+
   <div class="homepage-wrapper">
-    <!-- START: HEADER -->
+    <!-- START: UNIFIED HEADER -->
     <header class="new-main-header">
-<a href="index.html" class="new-logo-area">
-    <img src="images/LOGO-BLUE.svg" alt="Mert Seven Logo" class="new-logo-image">
-</a>        <nav class="new-main-nav">
+        <a href="index.html" class="new-logo-area">
+            <img src="images/LOGO-BLUE.svg" alt="Mert Seven Logo" class="new-logo-image">
+        </a>
+        <!-- Desktop Navigation -->
+        <nav class="new-main-nav">
             <a href="index.html" class="new-nav-item">
                 <span class="nav-item-title">HOME</span>
                 <span class="nav-item-subtitle">Main / Overview</span>
@@ -28,20 +46,33 @@
                 <span class="nav-item-title">RESEARCH</span>
                 <span class="nav-item-subtitle">Papers / Thesis</span>
             </a>
-<a href="contact.html" class="new-nav-item">
-    <span class="nav-item-title">ABOUT & CONTACT</span>
-    <span class="nav-item-subtitle">Profile / Get in Touch</span>
-                        </a>
+            <a href="contact.html" class="new-nav-item">
+                <span class="nav-item-title">ABOUT & CONTACT</span>
+                <span class="nav-item-subtitle">Profile / Get in Touch</span>
+            </a>
         </nav>
+        <!-- Mobile Action Buttons -->
+        <div class="mobile-actions-area">
+             <button class="action-btn mobile-search-trigger" aria-label="Open Search">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            </button>
+            <button class="action-btn nav-trigger" aria-label="Open Navigation">
+                <div class="hamburger-icon">
+                    <span class="line line-1"></span>
+                    <span class="line line-2"></span>
+                    <span class="line line-3"></span>
+                </div>
+            </button>
+        </div>
+        <!-- Desktop Search Trigger -->
         <div class="search-trigger-area" id="search-bar-trigger" tabindex="0" title="Search Site (Ctrl+K)">
             <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <circle cx="11" cy="11" r="8"></circle>
                 <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
             </svg>
         </div>
-        <span class="kbd-shortcut-header-hint">CTRL K</span>
     </header>
-    <!-- END: HEADER -->
+    <!-- END: UNIFIED HEADER -->
 
     <main class="main-content-home">
 
@@ -107,25 +138,37 @@
     </main>
 
     <footer class="site-footer">
-<p>Designed by Mert Seven ♦ Hosted on GitHub Pages</p>
-    <p>
-        This website is open source. 
-        <a href="https://github.com/mertseven/mertseven.github.io" target="_blank" rel="noopener noreferrer">View source and fork on GitHub</a>.
-        <span class="footer-separator">|</span>
-        <a href="#" id="view-history-link">View Site History</a>
-    </p>
-    <p style="margin-top: 10px;">
-        <a rel="license" href="http://creativecommons.org/licenses/by/4.0/" target="_blank">
-            <img alt="Creative Commons License" style="border-width:0; vertical-align: middle;" src="https://i.creativecommons.org/l/by/4.0/80x15.png" />
-        </a>
-        Licensed under <a rel="license" href="http://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer">Creative Commons Attribution 4.0</a>.
-    </p>
+        <p>Designed by Mert Seven ♦ Hosted on GitHub Pages</p>
+        <p>
+            This website is open source. 
+            <a href="https://github.com/mertseven/mertseven.github.io" target="_blank" rel="noopener noreferrer">View source and fork on GitHub</a>.
+            <span class="footer-separator">|</span>
+            <a href="#" id="view-history-link">View Site History</a>
+        </p>
+        <p style="margin-top: 10px;">
+            <a rel="license" href="http://creativecommons.org/licenses/by/4.0/" target="_blank">
+                <img alt="Creative Commons License" style="border-width:0; vertical-align: middle;" src="https://i.creativecommons.org/l/by/4.0/80x15.png" />
+            </a>
+            Licensed under <a rel="license" href="http://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer">Creative Commons Attribution 4.0</a>.
+        </p>
     </footer>
   </div> <!-- END homepage-wrapper -->
 
     <!-- Search Terminal (No Change) -->
     <div id="search-terminal-overlay" class="search-terminal-overlay hidden">
-        ...
+        <div class="search-terminal-content">
+            <div class="search-terminal-input-wrapper">
+                <svg class="search-terminal-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+                <input type="text" id="terminal-search-input" placeholder="Start typing..." autocomplete="off">
+            </div>
+            <div class="search-terminal-results" id="search-terminal-results-container">
+                <div class="results-category-title" id="projects-results-title" style="display:block;">NAVIGATE TO</div>
+                <ul id="projects-search-results-list"></ul>
+            </div>
+        </div>
     </div>
 
     <!-- NEW: Site History Modal -->

@@ -1,5 +1,75 @@
 document.addEventListener('DOMContentLoaded', () => {
-    console.log("DOM fully loaded and parsed. Initializing script..."); // Debug: Script start
+    console.log("DOM fully loaded and parsed. Initializing script...");
+
+    // --- START: NEW MOBILE MENU & SEARCH INTEGRATION ---
+    const body = document.body;
+    const mobileNavTrigger = document.querySelector('.nav-trigger');
+    const mobileSearchTrigger = document.querySelector('.mobile-search-trigger');
+    const overlay = document.querySelector('.content-overlay');
+
+    // Get references to existing search terminal functions
+    const searchTerminalOverlay = document.getElementById('search-terminal-overlay');
+    const terminalSearchInput = document.getElementById('terminal-search-input');
+    
+    // Check if the required elements for the search terminal exist
+    const canOpenSearch = searchTerminalOverlay && terminalSearchInput;
+
+    function openSearchTerminal() {
+        if (!canOpenSearch) return;
+        console.log("Opening search terminal.");
+        searchTerminalOverlay.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+        terminalSearchInput.value = '';
+        // The existing filterResults function will handle the rest
+        if (typeof filterResults === 'function') {
+            filterResults('');
+        }
+        terminalSearchInput.focus();
+    }
+
+    function closeSearchTerminal() {
+        if (!canOpenSearch) return;
+        console.log("Closing search terminal.");
+        searchTerminalOverlay.classList.add('hidden');
+        // Only restore body overflow if the mobile menu is also closed
+        if (!body.classList.contains('mobile-menu-open')) {
+            document.body.style.overflow = '';
+        }
+    }
+
+    function openMobileNav() {
+        closeSearchTerminal(); // Close search if it's open
+        body.classList.add('mobile-menu-open');
+        mobileNavTrigger.setAttribute('aria-expanded', 'true');
+    }
+
+    function closeAllPopups() {
+        body.classList.remove('mobile-menu-open');
+        if(mobileNavTrigger) mobileNavTrigger.setAttribute('aria-expanded', 'false');
+        closeSearchTerminal();
+    }
+
+    if (mobileNavTrigger && overlay) {
+        mobileNavTrigger.setAttribute('aria-expanded', 'false');
+        mobileNavTrigger.addEventListener('click', (e) => {
+            e.stopPropagation();
+            body.classList.contains('mobile-menu-open') ? closeAllPopups() : openMobileNav();
+        });
+    }
+    
+    if(mobileSearchTrigger) {
+        mobileSearchTrigger.addEventListener('click', (e) => {
+            e.stopPropagation();
+            closeAllPopups(); // Close nav menu first
+            openSearchTerminal(); // Then open search
+        });
+    }
+
+    if (overlay) {
+        overlay.addEventListener('click', closeAllPopups);
+    }
+    // --- END: NEW MOBILE MENU & SEARCH INTEGRATION ---
+
 
     // --- Sidebar Navigation & Iframe Logic (for projects.html) ---
     const sidebarLinks = document.querySelectorAll('.sidebar-nav a');
@@ -9,7 +79,6 @@ document.addEventListener('DOMContentLoaded', () => {
     let handleInitialLoadAndHashChange; 
 
     function showContentSection(targetId) {
-        // ... (your existing showContentSection function - unchanged)
         if (activeIframe) {
             const iframeContainer = activeIframe.closest('.project-iframe-container');
             activeIframe.src = 'about:blank';
@@ -65,7 +134,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (sidebarLinks.length > 0 && contentSections.length > 0) {
-        // ... (your existing sidebarLinks event listener logic - unchanged)
         console.log("Project page sidebar elements found. Initializing listeners.");
         sidebarLinks.forEach(link => {
             link.addEventListener('click', function(event) { 
@@ -86,7 +154,6 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
         handleInitialLoadAndHashChange = function() { 
-            // ... (your existing handleInitialLoadAndHashChange function - unchanged)
             console.log("Handling initial load or hash change for project page.");
             const hash = window.location.hash;
             let targetIdToShow = 'overview';
@@ -117,41 +184,47 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function setActiveHeaderNavLink() {
-        // ... (your existing setActiveHeaderNavLink function - unchanged)
         const currentPath = window.location.pathname.split('/').pop();
-        const navLinks = document.querySelectorAll('.new-main-nav .new-nav-item');
+        const navLinks = document.querySelectorAll('.new-main-nav .new-nav-item, .popout-nav a'); // Target both desktop and mobile nav links
+        
+        let foundActive = false;
         navLinks.forEach(link => {
             link.classList.remove('active');
             const linkHref = link.getAttribute('href');
-            if (currentPath === '' || currentPath === 'index.html') {
-                if (linkHref === 'index.html') link.classList.add('active');
-            } else if (linkHref && linkHref.includes(currentPath)) { // Ensure linkHref is not null
+            let linkPath = linkHref ? linkHref.split('/').pop() : '';
+
+            // Handle root case
+            if ((currentPath === '' || currentPath === 'index.html') && (linkPath === '' || linkPath === 'index.html')) {
                 link.classList.add('active');
+                foundActive = true;
+            } else if (linkHref && currentPath !== '' && currentPath !== 'index.html' && linkHref.includes(currentPath)) {
+                link.classList.add('active');
+                foundActive = true;
             }
         });
         console.log("Main header navigation active class set for:", currentPath);
     }
     setActiveHeaderNavLink();
 
-    // --- Search Terminal Logic ---
+
+    // --- Search Terminal Logic (functions moved up, but listeners remain here) ---
     const searchBarTrigger = document.getElementById('search-bar-trigger'); 
-    const searchTerminalOverlay = document.getElementById('search-terminal-overlay');
-    const terminalSearchInput = document.getElementById('terminal-search-input');
-    const searchResultsListGlobal = document.getElementById('projects-search-results-list'); // Renamed for clarity
-    const searchResultsTitleGlobal = document.getElementById('projects-results-title');     // Renamed for clarity
+    const searchResultsListGlobal = document.getElementById('projects-search-results-list'); 
+    const searchResultsTitleGlobal = document.getElementById('projects-results-title');     
     
     const isProjectsPageGlobal = window.location.pathname.includes('projects.html');
-    const isPublicationsPageGlobal = window.location.pathname.includes('publications.html'); // NEW FLAG
+    const isPublicationsPageGlobal = window.location.pathname.includes('publications.html');
 
-    let searchableDataGlobal = []; // Use a more generic name
+    let searchableDataGlobal = [];
+    let filterResults; // Declare here to be accessible globally within this scope
 
-    if (searchBarTrigger && searchTerminalOverlay && terminalSearchInput && searchResultsListGlobal && searchResultsTitleGlobal) {
+    if (searchBarTrigger && canOpenSearch && searchResultsListGlobal && searchResultsTitleGlobal) {
         console.log("Search terminal elements found. Initializing search.");
 
-        // --- MODIFIED DATA POPULATION ---
+        // Data Population
         if (isProjectsPageGlobal && document.querySelector('.sidebar-nav')) { 
             console.log("Populating search data for PROJECTS page.");
-            searchResultsTitleGlobal.textContent = "PROJECTS"; // Set title for projects
+            searchResultsTitleGlobal.textContent = "PROJECTS";
             document.querySelectorAll('.content-section').forEach(projectSectionElement => {
                 if (projectSectionElement.id === 'overview') return;
                 const id = projectSectionElement.id;
@@ -174,28 +247,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (overviewBreadcrumbEl) overviewBreadcrumb = overviewBreadcrumbEl.textContent.trim();
                 let overviewContentClone = overviewSection.cloneNode(true);
                 overviewContentClone.querySelectorAll('.breadcrumb, h2, figure, .project-iframe-container, p > a[target="_blank"], p > a[onclick]').forEach(el => el.remove());
-                searchableDataGlobal.unshift({ 
-                    type: 'project', id: 'overview', name: 'Overview', breadcrumb: overviewBreadcrumb, 
-                    href: '#overview', contentText: (overviewContentClone.textContent || "").replace(/\s+/g, ' ').trim().toLowerCase(), page: 'projects.html'
-                }); 
+                searchableDataGlobal.unshift({ type: 'project', id: 'overview', name: 'Overview', breadcrumb: overviewBreadcrumb, href: '#overview', contentText: (overviewContentClone.textContent || "").replace(/\s+/g, ' ').trim().toLowerCase(), page: 'projects.html' }); 
             }
-        } else if (isPublicationsPageGlobal && typeof publicationsData !== 'undefined' && Array.isArray(publicationsData)) { // NEW CONDITION
+        } else if (isPublicationsPageGlobal && typeof publicationsData !== 'undefined' && Array.isArray(publicationsData)) {
             console.log("Populating search data for PUBLICATIONS page.");
-            searchResultsTitleGlobal.textContent = "PUBLICATIONS"; // Set title for publications
+            searchResultsTitleGlobal.textContent = "PUBLICATIONS";
             publicationsData.forEach(pub => {
-                // Create a unique ID/slug for linking if needed, or use DOI
                 const slug = `pub-${pub.title.toLowerCase().replace(/[^\w\s]/gi, '').replace(/\s+/g, '-')}`;
-                searchableDataGlobal.push({
-                    type: 'publication',
-                    id: slug, // Use slug as ID
-                    name: pub.title,
-                    breadcrumb: `${pub.authors} (${pub.year})`,
-                    href: pub.doi && pub.doi !== 'in press' ? pub.doi : `publications.html#${slug}`, // Link to DOI or anchor
-                    target: pub.doi && pub.doi !== 'in press' ? '_blank' : '_self', // Open DOI in new tab
-                    contentText: `${pub.title} ${pub.authors} ${pub.abstract || ''} ${pub.keywords ? pub.keywords.join(' ') : ''}`.toLowerCase(),
-                    page: 'publications.html',
-                    data: pub // Keep original pub data for modal if needed
-                });
+                searchableDataGlobal.push({ type: 'publication', id: slug, name: pub.title, breadcrumb: `${pub.authors} (${pub.year})`, href: pub.doi && pub.doi !== 'in press' ? pub.doi : `publications.html#${slug}`, target: pub.doi && pub.doi !== 'in press' ? '_blank' : '_self', contentText: `${pub.title} ${pub.authors} ${pub.abstract || ''} ${pub.keywords ? pub.keywords.join(' ') : ''}`.toLowerCase(), page: 'publications.html', data: pub });
             });
         } else { 
             console.log("Populating search data for general navigation (index/other pages).");
@@ -203,28 +262,12 @@ document.addEventListener('DOMContentLoaded', () => {
             searchableDataGlobal = [
                  { type: 'navigation', id: 'nav-home', name: 'HOME', breadcrumb: 'Main / Overview', href: 'index.html', contentText: 'home main overview index', page: 'index.html' },
                  { type: 'navigation', id: 'nav-projects', name: 'PROJECTS', breadcrumb: 'Portfolio / Works', href: 'projects.html', contentText: 'projects portfolio works overview list', page: 'projects.html' },
-                 { type: 'navigation', id: 'nav-publications', name: 'PUBLICATIONS & DISSERTATION', breadcrumb: 'Research / Thesis', href: 'publications.html', contentText: 'publications articles research papers dissertation thesis academic', page: 'publications.html' },
-                 // { type: 'navigation', id: 'nav-dissertation', name: 'DISSERTATION', breadcrumb: 'Thesis / Academic', href: 'dissertation.html', contentText: 'dissertation thesis academic research', page: 'dissertation.html' }, // Already covered by publications link if dissertation is on that page
-                 { type: 'navigation', id: 'nav-contact', name: 'CONTACT', breadcrumb: 'Get in Touch', href: 'contact.html', contentText: 'contact get in touch email', page: 'contact.html' }, // Assuming you add a contact.html
+                 { type: 'navigation', id: 'nav-publications', name: 'RESEARCH', breadcrumb: 'Papers / Thesis', href: 'publications.html', contentText: 'publications articles research papers dissertation thesis academic', page: 'publications.html' },
+                 { type: 'navigation', id: 'nav-contact', name: 'ABOUT & CONTACT', breadcrumb: 'Profile / Get in Touch', href: 'contact.html', contentText: 'contact get in touch email profile', page: 'contact.html' },
             ];
         }
-        // --- END MODIFIED DATA POPULATION ---
 
-
-        function openSearchTerminal() { /* ... (unchanged) ... */ 
-            console.log("Opening search terminal.");
-            searchTerminalOverlay.classList.remove('hidden');
-            document.body.style.overflow = 'hidden';
-            terminalSearchInput.value = '';
-            filterResults(''); 
-            terminalSearchInput.focus();
-        }
-        function closeSearchTerminal() { /* ... (unchanged) ... */ 
-            console.log("Closing search terminal.");
-            searchTerminalOverlay.classList.add('hidden');
-            document.body.style.overflow = '';
-        }
-        function highlightText(text, query) { /* ... (unchanged) ... */ 
+        function highlightText(text, query) {
             if (!query || !text) return text || '';
             const trimmedQuery = query.trim();
             if (trimmedQuery === "") return text;
@@ -235,16 +278,10 @@ document.addEventListener('DOMContentLoaded', () => {
             } catch (e) { console.error("Error highlighting text:", e); return text; }
         }
 
-        function filterResults(query) {
+        filterResults = function(query) { // Assign to the previously declared variable
             const lowerQuery = query.toLowerCase().trim();
             searchResultsListGlobal.innerHTML = ''; 
-            let resultsToShow = [];
-
-            // Determine title based on page context (already handled by data population logic)
-            // searchResultsTitleGlobal.textContent = isProjectsPageGlobal ? "PROJECTS" : (isPublicationsPageGlobal ? "PUBLICATIONS" : "NAVIGATE TO");
-            // The title is set during data population to be more specific.
-
-            resultsToShow = (lowerQuery === '') ? searchableDataGlobal : searchableDataGlobal.filter(item => 
+            let resultsToShow = (lowerQuery === '') ? searchableDataGlobal : searchableDataGlobal.filter(item => 
                 item.name.toLowerCase().includes(lowerQuery) || 
                 (item.breadcrumb && item.breadcrumb.toLowerCase().includes(lowerQuery)) ||
                 (item.contentText && item.contentText.includes(lowerQuery))
@@ -287,9 +324,9 @@ document.addEventListener('DOMContentLoaded', () => {
                             if (item.page && item.page !== currentPageFilename) {
                                 targetUrl = item.page + item.href;
                             }
-                        } else if (item.target === '_blank') { // For external links like DOI
+                        } else if (item.target === '_blank') {
                             window.open(targetUrl, '_blank');
-                            return; // Don't change current window location
+                            return;
                         }
                         window.location.href = targetUrl;
                     });
@@ -299,7 +336,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const li = document.createElement('li');
                 li.innerHTML = `<span class="item-text" style="color: #808285; padding-left: 0;">${lowerQuery !== '' ? `No results for "${query}"` : 'Start typing to search...'}</span>`;
                 searchResultsListGlobal.appendChild(li);
-                searchResultsTitleGlobal.style.display = 'block'; // Show title even for "no results"
+                searchResultsTitleGlobal.style.display = 'block';
             }
         }
 
@@ -309,23 +346,34 @@ document.addEventListener('DOMContentLoaded', () => {
         terminalSearchInput.addEventListener('input', (e) => filterResults(e.target.value));
         terminalSearchInput.addEventListener('keyup', (e) => { if (e.target.value === '') filterResults(''); });
         searchTerminalOverlay.addEventListener('click', (e) => { if (e.target === searchTerminalOverlay) closeSearchTerminal(); });
-        document.addEventListener('keydown', (e) => { 
+        
+        // Combined Keydown Listener for global shortcuts
+        document.addEventListener('keydown', (e) => {
+            // Mobile Menu & Search Close
+            if (e.key === 'Escape') {
+                if (body.classList.contains('mobile-menu-open')) {
+                    closeAllPopups();
+                } else if (!searchTerminalOverlay.classList.contains('hidden')) {
+                    closeSearchTerminal();
+                }
+            }
+            // Search Open
             if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') { 
                 e.preventDefault(); 
-                if (searchTerminalOverlay.classList.contains('hidden')) openSearchTerminal(); 
-                else if (terminalSearchInput) terminalSearchInput.focus();
-            }
-            if (e.key === 'Escape' && !searchTerminalOverlay.classList.contains('hidden')) { 
-                closeSearchTerminal();
+                if (searchTerminalOverlay.classList.contains('hidden')) {
+                    openSearchTerminal();
+                } else if (terminalSearchInput) {
+                    terminalSearchInput.focus();
+                }
             }
         });
+
     } else {
         console.warn("Search terminal elements NOT fully found. Search functionality will be disabled.");
         if(!searchBarTrigger) console.warn("- Search bar trigger missing (expected ID: search-bar-trigger)");
     }
 
     if (!isProjectsPageGlobal) { 
-        // ... (your existing homepage smooth scroll logic - unchanged) ...
         console.log("Initializing homepage smooth scroll for anchors.");
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             const href = anchor.getAttribute('href');
