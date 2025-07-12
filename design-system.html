@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-CS83EW7TN6"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-CS83EW7TN6');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Design System - Mert Seven</title>
+    
+    <!-- Links to existing and new stylesheets -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="publications.css"> <!-- For publication card demo -->
+    <link rel="icon" href="images/ms-favicon.svg" type="image/svg+xml">
+
+    <style>
+        /* CSS specific to this design system page */
+        .main-content-ds {
+            width: 100%;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
+
+        .ds-section {
+            padding: 40px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .ds-section:last-child {
+            border-bottom: none;
+        }
+
+        .ds-section h2 {
+            font-size: 2.2em;
+            font-weight: var(--font-weight-extrabold);
+            margin-bottom: 25px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #ccc;
+        }
+        .ds-section h3 {
+            font-size: 1.5em;
+            font-weight: var(--font-weight-bold);
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+
+        /* Color Palette Display */
+        .color-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 20px;
+        }
+        .color-item {
+            font-family: var(--font-family-mono);
+            font-size: 0.9em;
+        }
+        .color-swatch {
+            width: 100%;
+            height: 80px;
+            border: 1px solid var(--border-color-strong);
+            margin-bottom: 8px;
+        }
+        .color-item p {
+            margin: 0;
+        }
+
+        /* Typography Display */
+        .font-demo {
+            padding: 15px;
+            border: 1px solid #eee;
+            margin-bottom: 10px;
+        }
+        .font-demo .label {
+            font-family: var(--font-family-mono);
+            font-size: 0.8em;
+            color: #555;
+            display: block;
+            margin-bottom: 5px;
+        }
+        .font-demo-inter-400 { font-weight: 400; font-size: 1.1em; }
+        .font-demo-inter-500 { font-weight: 500; font-size: 1.1em; }
+        .font-demo-inter-700 { font-weight: 700; font-size: 1.1em; }
+        .font-demo-inter-900 { font-weight: 900; font-size: 1.1em; }
+        .font-demo-mono { font-family: var(--font-family-mono); font-size: 1.1em; }
+
+        /* Component Showcase */
+        .component-showcase {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+            margin-top: 30px;
+            padding-bottom: 30px;
+            border-bottom: 1px dashed #ccc;
+        }
+        .component-showcase:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+        .showcase-description ul {
+            padding-left: 20px;
+            margin-top: 10px;
+        }
+        .showcase-description li {
+            margin-bottom: 8px;
+        }
+        .showcase-demo {
+            padding: 20px;
+            background-color: #f8f9fa;
+            border: 1px solid #e9ecef;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .showcase-demo--sidebar {
+            width: 280px;
+            padding: 20px;
+            border: 1px solid var(--border-color-strong);
+            justify-self: center;
+        }
+
+        /* Code Snippet Styling */
+        pre {
+            background-color: #f6f8fa;
+            border: 1px solid #d0d7de;
+            padding: 16px;
+            overflow-x: auto;
+            font-size: 0.85em;
+            line-height: 1.45;
+            font-family: var(--font-family-mono);
+            margin-top: 15px;
+        }
+        code {
+            font-family: var(--font-family-mono);
+        }
+        
+        @media (max-width: 768px) {
+            .component-showcase {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body class="homepage-wrapper"> <!-- Use existing wrapper for consistent layout -->
+
+  <!-- START: MOBILE OVERLAY AND NAV PANEL -->
+  <div class="content-overlay"></div>
+  <nav class="popout-nav">
+      <div class="nav-header">
+          <span class="title">Navigation</span>
+      </div>
+      <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="projects.html">Projects</a></li>
+          <li><a href="publications.html">Research</a></li>
+          <li><a href="contact.html">About & Contact</a></li>
+          <li><a href="design-system.html">Design System</a></li>
+      </ul>
+  </nav>
+  <!-- END: MOBILE OVERLAY AND NAV PANEL -->
+
+    <!-- START: UNIFIED HEADER (Reused from your site) -->
+    <header class="new-main-header">
+        <a href="index.html" class="new-logo-area">
+            <img src="images/LOGO-BLUE.svg" alt="Mert Seven Logo" class="new-logo-image">
+        </a>
+        <nav class="new-main-nav">
+            <a href="index.html" class="new-nav-item">
+                <span class="nav-item-title">HOME</span><span class="nav-item-subtitle">Main / Overview</span>
+            </a>
+            <a href="projects.html" class="new-nav-item">
+                <span class="nav-item-title">PROJECTS</span><span class="nav-item-subtitle">Portfolio / Works</span>
+            </a>
+            <a href="publications.html" class="new-nav-item">
+                <span class="nav-item-title">RESEARCH</span><span class="nav-item-subtitle">Papers / Thesis</span>
+            </a>
+            <a href="contact.html" class="new-nav-item">
+                <span class="nav-item-title">ABOUT & CONTACT</span><span class="nav-item-subtitle">Profile / Get in Touch</span>
+            </a>
+        </nav>
+        <div class="mobile-actions-area">
+             <button class="action-btn mobile-search-trigger" aria-label="Open Search">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            </button>
+            <button class="action-btn nav-trigger" aria-label="Open Navigation">
+                <div class="hamburger-icon"><span class="line line-1"></span><span class="line line-2"></span><span class="line line-3"></span></div>
+            </button>
+        </div>
+        <div class="search-trigger-area" id="search-bar-trigger" tabindex="0" title="Search Site (Ctrl+K)">
+            <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        </div>
+    </header>
+    <!-- END: UNIFIED HEADER -->
+
+    <main class="main-content-ds">
+        <section class="ds-section">
+            <h1 style="font-size: 3em; margin-bottom: 15px;">The Design Cookbook</h1>
+            <p style="font-size: 1.2em; color: #555;">The principles, patterns, and components that constitute the <code>mertseven.com</code> design system. This page is a living artifact, built using the very system it documents.</p>
+        </section>
+
+        <section class="ds-section">
+             <h2>1. Core Philosophy: Clarity and Craft</h2>
+    <p>This website's design follows the same principles as the projects it contains: it is built to be clear, functional, and thoughtful. The goal is to create a space where the work is easy to explore and the process behind it is transparent.</p>
+    
+    <h3>Function Over Form</h3>
+    <p>The minimalist, high-contrast palette isn't just an aesthetic choice; it's a functional one. By reducing visual noise, the design helps you focus on the content—the projects, research, and ideas. The single accent color is used sparingly to guide your eye to interactive elements and calls to action.</p>
+
+    <h3>Organized and Intuitive</h3>
+    <p>The site is built on a logical foundation of grids and clear hierarchies. Whether it's the project sidebar or the layout of a publication card, the structure is designed to be predictable and easy to navigate. This respects your time and makes finding information straightforward.</p>
+
+    <h3>Building as Thinking</h3>
+    <p>Interactivity is used as a tool for understanding, not as a decoration. Instead of just a link, you get a live preview of a project. Instead of just a static list, you get interactive markers that reveal the site's history. The aim is to turn abstract concepts and project descriptions into tangible, explorable experiences.</p>
+    
+    <h3>Transparent Craft</h3>
+    <p>This entire website is open-source. Just as academic research is shared for scrutiny and reuse, the structure of this site is available for anyone to view and learn from. This reflects a core belief in sharing knowledge and showing the work behind the work.</p>
+        </section>
+
+        <section class="ds-section">
+            <h2>2. Foundation</h2>
+            <h3>Color Palette</h3>
+            <p>The palette is strictly controlled to maintain high contrast and a consistent identity.</p>
+            <div class="color-grid">
+                <div class="color-item">
+                    <div class="color-swatch" style="background-color: #FFFFFF;"></div>
+                    <p><strong>Page Background</strong></p>
+                    <p>#FFFFFF</p>
+                </div>
+                <div class="color-item">
+                    <div class="color-swatch" style="background-color: #000000;"></div>
+                    <p><strong>Primary Text/UI</strong></p>
+                    <p>#000000</p>
+                </div>
+                <div class="color-item">
+                    <div class="color-swatch" style="background-color: #002fa7;"></div>
+                    <p><strong>Primary Accent</strong></p>
+                    <p>#002fa7</p>
+                </div>
+                <div class="color-item">
+                    <div class="color-swatch" style="background-color: #39FF14;"></div>
+                    <p><strong>Interactive Accent</strong></p>
+                    <p>#39FF14</p>
+                </div>
+                 <div class="color-item">
+                    <div class="color-swatch" style="background-color: #f8f9fa;"></div>
+                    <p><strong>Subtle UI BG</strong></p>
+                    <p>#f8f9fa</p>
+                </div>
+            </div>
+
+            <h3>Typography</h3>
+            <p>A dual-font system separates primary content from technical/code-related information.</p>
+            <div class="font-demo">
+                <span class="label">Primary Font: Inter (Regular 400)</span>
+                <p class="font-demo-inter-400">Used for body text and general UI content.</p>
+            </div>
+            <div class="font-demo">
+                <span class="label">Primary Font: Inter (Bold 700)</span>
+                <p class="font-demo-inter-700">Used for titles and important highlights.</p>
+            </div>
+             <div class="font-demo">
+                <span class="label">Primary Font: Inter (Black 900)</span>
+                <p class="font-demo-inter-900">Used for major headings to create strong impact.</p>
+            </div>
+            <div class="font-demo">
+                <span class="label">Monospace Font: SF Mono / Consolas</span>
+                <p class="font-demo-mono">For <code>code</code>, breadcrumbs, and technical details.</p>
+            </div>
+        </section>
+
+        <section class="ds-section">
+            <h2>3. Core UI Components</h2>
+            
+            <div class="component-showcase">
+                <div class="showcase-description">
+                    <h3>Publication Card</h3>
+                    <p>The primary component on the Research page, designed for high information density and interactive discovery.</p>
+                    <ul>
+                        <li>Entire card is a clickable target.</li>
+                        <li>Year is presented as a corner badge.</li>
+                        <li><strong>Key Interaction:</strong> On hover, the card inverts its colors, and the abstract slides into view. This rewards curiosity with more information.</li>
+                    </ul>
+                </div>
+                <div class="showcase-demo">
+                    <!-- Live demo of the publication card -->
+                    <div class="publication-card-new" style="cursor: default;">
+                        <div class="publication-year-new">2025</div>
+                        <h3 class="publication-title-new">Homophily studies in higher education</h3>
+                        <p class="publication-authors-new">Seven, M., Aysel, K.</p>
+                        <div class="publication-abstract-new-wrapper">
+                            <p class="publication-abstract-new">A bibliometric study investigating homophily in higher education, revealing patterns in how similar individuals form relationships...</p>
+                        </div>
+                        <div class="publication-keywords-new">
+                            <span class="keyword-new">Higher education</span><span class="keyword-new">Social networks</span>
+                        </div>
+                        <div class="publication-actions-new">
+                            <a class="btn btn-primary publication-action-link">View Publication</a>
+                            <button class="btn btn-secondary publication-action-link">Read More</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="component-showcase">
+                 <div class="showcase-description">
+                    <h3>Project Sidebar</h3>
+                    <p>A hierarchical navigation menu for the Projects page, built for clarity and quick scanning.</p>
+                    <ul>
+                        <li>Uses native <code>&lt;details&gt;</code> for collapsible sections.</li>
+                        <li>The <code>.active</code> class provides a strong visual indicator for the current project.</li>
+                        <li>Metadata <code>.badge</code> elements provide at-a-glance information.</li>
+                    </ul>
+                </div>
+                <div class="showcase-demo showcase-demo--sidebar">
+                    <!-- Live demo of the sidebar -->
+                     <nav class="sidebar-nav">
+                        <ul>
+                            <li><a href="#">Readme</a></li>
+                            <li>
+                                <details open>
+                                    <summary><span class="arrow"></span>Tools & Utilities</summary>
+                                    <ul>
+                                        <li><a href="#" class="active">Sociogram Studio <span class="badge">App</span></a></li>
+                                        <li><a href="#">Curriculum Whiteboard <span class="badge">App</span></a></li>
+                                        <li><a href="#">Fortune Wheel <span class="badge">Tool</span></a></li>
+                                    </ul>
+                                </details>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+
+            <div class="component-showcase">
+                <div class="showcase-description">
+                    <h3>Search Terminal</h3>
+                    <p>A fast, keyboard-driven universal search accessible via a trigger or the <code>Ctrl/Cmd + K</code> shortcut.</p>
+                    <ul>
+                        <li>Provides a consistent, site-wide search experience.</li>
+                        <li>Search data is context-aware (projects, publications, etc.).</li>
+                        <li>UI is a dark-themed overlay for focused interaction.</li>
+                    </ul>
+                    <p>Try it now by pressing <strong>Cmd + K</strong> (or Ctrl + K).</p>
+                </div>
+                <div class="showcase-demo">
+                    <img src="images/search-terminal.png" alt="Screenshot of the search terminal" style="width: 100%; max-width: 400px; border: 1px solid #ccc;">
+                </div>
+            </div>
+
+        </section>
+
+        <section class="ds-section">
+            <h2>4. Page Layouts & Patterns</h2>
+            <h3>Split-View Layout</h3>
+            <p>Used on the <strong>Projects</strong> page, this layout is ideal for information-dense pages. It features a fixed-width sidebar for navigation and a main, independently scrollable content area. On mobile, the layout stacks vertically for optimal readability.</p>
+<pre><code>&lt;div class="main-container"&gt;
+  &lt;aside class="sidebar"&gt;...&lt;/aside&gt;
+  &lt;main class="content-pane"&gt;...&lt;/main&gt;
+&lt;/div&gt;</code></pre>
+
+            <h3>Interactive PDF Viewer</h3>
+            <p>A mini-application embedded on the <strong>Research</strong> page to display the dissertation's visual paper. It is built with <code>pdf.js</code> and demonstrates the "interactive inquiry" philosophy by providing tools (zoom, fullscreen, thumbnails) for deeper exploration, rather than just a static download link.</p>
+
+            <h3>Living Document System</h3>
+            <p>A unique, brand-defining feature on the <strong>Homepage</strong>. Small, interactive markers are embedded directly in the text, revealing historical or contextual information in a popover on click. This transforms the site from a static portfolio into a dynamic artifact with a visible history.</p>
+
+        </section>
+
+    </main>
+
+    <!-- START: UNIFIED FOOTER (Reused from your site) -->
+    <footer class="site-footer">
+        <p>Designed by Mert Seven ♦ Hosted on GitHub Pages</p>
+        <p>This website is open source. <a href="https://github.com/mertseven/mertseven.github.io" target="_blank" rel="noopener noreferrer">View source and fork on GitHub</a>.</p>
+        <p style="margin-top: 10px;"><a rel="license" href="http://creativecommons.org/licenses/by/4.0/" target="_blank"><img alt="Creative Commons License" style="border-width:0; vertical-align: middle;" src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a> Licensed under <a rel="license" href="http://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer">Creative Commons Attribution 4.0</a>.</p>
+    </footer>
+    <!-- END: UNIFIED FOOTER -->
+    
+    <!-- Search Terminal Modal -->
+    <div id="search-terminal-overlay" class="search-terminal-overlay hidden">
+        <div class="search-terminal-content">
+            <div class="search-terminal-input-wrapper">
+                <svg class="search-terminal-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                <input type="text" id="terminal-search-input" placeholder="Start typing..." autocomplete="off">
+            </div>
+            <div class="search-terminal-results" id="search-terminal-results-container">
+                <div class="results-category-title" id="projects-results-title" style="display:block;">NAVIGATE TO</div>
+                <ul id="projects-search-results-list"></ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Reusing your existing script for header/search functionality -->
+    <script src="script.js"></script>
+</body>
+</html>
