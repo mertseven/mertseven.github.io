@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Collaborative Conflict Observatory</title>
+    <link rel="icon" href="images/ms-favicon.svg" type="image/svg+xml">
+
+    <!-- CesiumJS CSS -->
+    <link href="https://cesium.com/downloads/cesiumjs/releases/1.100/Build/Cesium/Widgets/widgets.css" rel="stylesheet">
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Space+Mono:wght@400&display=swap');
+        html, body, #cesiumContainer {
+            width: 100%; height: 100%; margin: 0; padding: 0; overflow: hidden;
+            font-family: 'Inter', sans-serif;
+            background: #000;
+        }
+
+        #controls-panel {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(38, 38, 38, 0.85);
+            backdrop-filter: blur(5px);
+            border: 1px solid #555;
+            color: #fff;
+            padding: 20px;
+            max-width: 350px;
+            z-index: 100;
+            border-radius: 5px;
+        }
+        #controls-panel h1 { font-size: 1.5em; margin: 0 0 15px 0; }
+        #controls-panel p { font-size: 0.9em; line-height: 1.6; margin-bottom: 15px; color: #eee; }
+        .control-group { margin-bottom: 15px; }
+        .control-group label { display: block; margin-bottom: 5px; font-weight: bold; font-size: 0.9em; }
+        .control-group select { width: 100%; padding: 8px; background: #555; color: #fff; border: 1px solid #777; border-radius: 3px; }
+        
+        #togetherjs-button {
+            padding: 10px 20px;
+            font-size: 1em;
+            font-weight: bold;
+            background: #007acc;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            border-radius: 3px;
+        }
+        #togetherjs-button:hover { background: #0099ff; }
+        
+        #loading-indicator {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #fff;
+            background: rgba(0,0,0,0.7);
+            padding: 20px;
+            border-radius: 5px;
+            z-index: 200;
+            font-family: 'Space Mono', monospace;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div id="cesiumContainer"></div>
+    <div id="loading-indicator">Initializing...</div>
+
+    <div id="controls-panel">
+        <h1>Conflict Observatory</h1>
+        <p>A collaborative tool for exploring global conflict data from ACLED. Use the filters to refine the data, and click "Start Collaborating" to explore the globe with others in real-time.</p>
+        <div class="control-group">
+            <label for="event-type-filter">Filter by Event Type:</label>
+            <select id="event-type-filter">
+                <option value="">All Events</option>
+                <option value="Battles">Battles</option>
+                <option value="Riots">Riots</option>
+                <option value="Protests">Protests</option>
+                <option value="Explosions/Remote violence">Explosions</option>
+            </select>
+        </div>
+        <button id="togetherjs-button" onclick="TogetherJS(this); return false;">Start Collaborating</button>
+    </div>
+
+    <!-- TogetherJS -->
+    <script src="https://togetherjs.com/togetherjs-min.js"></script>
+    
+    <!-- CesiumJS -->
+    <script src="https://cesium.com/downloads/cesiumjs/releases/1.100/Build/Cesium/Cesium.js"></script>
+
+    <script>
+        // --- CONFIGURATION ---
+        // IMPORTANT: Replace these placeholders with your NEW, regenerated keys.
+        // Do not use the keys you posted publicly.
+        const CESIUM_ION_TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIxMjNiMDM0Yi01NmRkLTQ0ZDctYTMwYi1hZjhkZDViMWExNTkiLCJpZCI6MzIxMDk3LCJpYXQiOjE3NTI0Mjg5MjJ9.pltn_TUmg84dWPwInyBbD0kSSXeg8hWnfaemalftMro';
+        const ACLED_API_KEY = 'FGAb7FY1H8zZiNtlEPGf';
+        const ACLED_USER_EMAIL = 'mert.seven@yasar.edu.tr';
+        
+        // --- INITIALIZATION ---
+        Cesium.Ion.defaultAccessToken = CESIUM_ION_TOKEN;
+        
+        const viewer = new Cesium.Viewer('cesiumContainer', {
+            timeline: false,
+            animation: false,
+            geocoder: false,
+            homeButton: false,
+            sceneModePicker: false,
+            baseLayerPicker: false,
+            navigationHelpButton: false,
+            infoBox: true,
+            selectionIndicator: true
+        });
+        viewer.scene.globe.enableLighting = true;
+        const entities = viewer.entities;
+        const loadingIndicator = document.getElementById('loading-indicator');
+
+        // --- FETCH ACLED DATA ---
+        async function fetchAcledData() {
+            loadingIndicator.innerText = "Fetching live ACLED data...";
+            // Fetching data for the last 30 days for demonstration
+            const today = new Date();
+            const thirtyDaysAgo = new Date(new Date().setDate(today.getDate() - 30));
+            const formattedDate = `${thirtyDaysAgo.getFullYear()}-${String(thirtyDaysAgo.getMonth() + 1).padStart(2, '0')}-${String(thirtyDaysAgo.getDate()).padStart(2, '0')}`;
+            
+            const apiUrl = `https://api.acleddata.com/acled/read?key=${ACLED_API_KEY}&email=${ACLED_USER_EMAIL}&event_date=${formattedDate}&event_date_where=>&limit=2000`;
+
+            try {
+                const response = await fetch(apiUrl);
+                if (!response.ok) {
+                    throw new Error(`ACLED API Error: ${response.statusText}. Please check your API key and email.`);
+                }
+                const json = await response.json();
+                if (!json.success || !json.data) {
+                    throw new Error(json.message || "ACLED API returned an error.");
+                }
+                return json.data;
+            } catch (error) {
+                console.error("Failed to fetch ACLED data:", error);
+                loadingIndicator.innerText = `Error: ${error.message}`;
+                return [];
+            }
+        }
+
+        // --- VISUALIZATION ---
+        function createDataPoints(data) {
+            viewer.entities.removeAll(); // Clear existing points
+            
+            const eventTypeColors = {
+                'Battles': Cesium.Color.fromCssColorString('#E74C3C'),
+                'Riots': Cesium.Color.fromCssColorString('#E67E22'),
+                'Protests': Cesium.Color.fromCssColorString('#F1C40F'),
+                'Explosions/Remote violence': Cesium.Color.fromCssColorString('#9B59B6'),
+                'default': Cesium.Color.fromCssColorString('#3498DB')
+            };
+
+            data.forEach(event => {
+                const color = eventTypeColors[event.event_type] || eventTypeColors.default;
+                entities.add({
+                    id: `event-${event.data_id}`,
+                    position: Cesium.Cartesian3.fromDegrees(parseFloat(event.longitude), parseFloat(event.latitude)),
+                    point: {
+                        pixelSize: 8,
+                        color: color,
+                        outlineColor: Cesium.Color.WHITE,
+                        outlineWidth: 1,
+                        translucencyByDistance: new Cesium.NearFarScalar(1.5e2, 1.0, 8.0e6, 0.4)
+                    },
+                    description: `
+                        <div style="font-family: Inter, sans-serif; padding: 10px;">
+                            <h3 style="font-size: 1.2em; border-bottom: 1px solid #ccc; padding-bottom: 5px; margin-bottom: 10px;">${event.event_type}</h3>
+                            <p><strong>Date:</strong> ${event.event_date}</p>
+                            <p><strong>Location:</strong> ${event.location}, ${event.country}</p>
+                            <p><strong>Fatalities:</strong> ${event.fatalities}</p>
+                            <p><strong>Notes:</strong> ${event.notes}</p>
+                        </div>
+                    `
+                });
+            });
+            loadingIndicator.style.display = 'none';
+        }
+
+        // --- FILTERING ---
+        let allData = [];
+        const filterSelect = document.getElementById('event-type-filter');
+        filterSelect.addEventListener('change', () => {
+            const selectedType = filterSelect.value;
+            loadingIndicator.style.display = 'block';
+            loadingIndicator.innerText = "Filtering data...";
+            // Use setTimeout to allow the loading indicator to render before the filtering work blocks the main thread
+            setTimeout(() => {
+                const dataToDisplay = !selectedType ? allData : allData.filter(event => event.event_type === selectedType);
+                createDataPoints(dataToDisplay);
+            }, 10);
+        });
+
+        // --- TOGETHER.JS INTEGRATION ---
+        TogetherJS.config({
+            sync_on_mouseup: true,
+            sync_on_keydown: true,
+            sync_on_mousemove: false,
+            on: { 'ready': () => console.log("TogetherJS is ready!") }
+        });
+
+        viewer.camera.moveEnd.addEventListener(() => {
+            if (TogetherJS.running) {
+                TogetherJS.send({ type: 'camera-sync', position: viewer.camera.position, direction: viewer.camera.direction, up: viewer.camera.up });
+            }
+        });
+
+        viewer.selectedEntityChanged.addEventListener((selectedEntity) => {
+             if (TogetherJS.running && selectedEntity) {
+                 TogetherJS.send({ type: 'select-entity', entityId: selectedEntity.id });
+             }
+        });
+
+        TogetherJS.hub.on('camera-sync', (msg) => {
+            viewer.camera.flyTo({
+                destination: msg.position,
+                orientation: { direction: msg.direction, up: msg.up },
+                duration: 0.5
+            });
+        });
+        
+        TogetherJS.hub.on('select-entity', (msg) => {
+            const entity = viewer.entities.getById(msg.entityId);
+            if (entity) { viewer.selectedEntity = entity; }
+        });
+        
+        // --- MAIN EXECUTION ---
+        async function main() {
+            allData = await fetchAcledData();
+            if(allData.length > 0) {
+                 createDataPoints(allData);
+            }
+        }
+
+        main();
+
+    </script>
+</body>
+</html>
