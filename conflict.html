@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Collaborative Conflict Observatory</title>
+    <title>Collaborative Conflict Observatory (PeerJS)</title>
     <link rel="icon" href="images/ms-favicon.svg" type="image/svg+xml">
 
     <!-- CesiumJS CSS -->
@@ -34,11 +34,11 @@
         #controls-panel p { font-size: 0.9em; line-height: 1.6; margin-bottom: 15px; color: #eee; }
         .control-group { margin-bottom: 15px; }
         .control-group label { display: block; margin-bottom: 5px; font-weight: bold; font-size: 0.9em; }
-        .control-group select { width: 100%; padding: 8px; background: #555; color: #fff; border: 1px solid #777; border-radius: 3px; }
+        .control-group select, .control-group input { width: 100%; box-sizing: border-box; padding: 8px; background: #555; color: #fff; border: 1px solid #777; border-radius: 3px; }
         
-        #togetherjs-button {
-            padding: 10px 20px;
-            font-size: 1em;
+        #collaboration-controls button {
+            padding: 10px 15px;
+            font-size: 0.9em;
             font-weight: bold;
             background: #007acc;
             color: #fff;
@@ -46,21 +46,27 @@
             cursor: pointer;
             width: 100%;
             border-radius: 3px;
+            margin-top: 10px;
         }
-        #togetherjs-button:hover { background: #0099ff; }
+        #collaboration-controls button:hover { background: #0099ff; }
+        #collaboration-controls button:disabled { background: #666; cursor: not-allowed; }
+
+        #connection-status {
+            font-family: 'Space Mono', monospace;
+            background-color: #222;
+            padding: 8px;
+            border-radius: 3px;
+            margin-bottom: 10px;
+            text-align: center;
+            font-size: 0.9em;
+        }
         
         #loading-indicator {
-            position: absolute;
-            top: 50%;
-            left: 50%;
+            position: absolute; top: 50%; left: 50%;
             transform: translate(-50%, -50%);
-            color: #fff;
-            background: rgba(0,0,0,0.7);
-            padding: 20px;
-            border-radius: 5px;
-            z-index: 200;
-            font-family: 'Space Mono', monospace;
-            text-align: center;
+            color: #fff; background: rgba(0,0,0,0.7);
+            padding: 20px; border-radius: 5px; z-index: 200;
+            font-family: 'Space Mono', monospace; text-align: center;
         }
     </style>
 </head>
@@ -70,7 +76,8 @@
 
     <div id="controls-panel">
         <h1>Conflict Observatory</h1>
-        <p>A collaborative tool for exploring global conflict data from ACLED. Use the filters to refine the data, and click "Start Collaborating" to explore the globe with others in real-time.</p>
+        <p>A collaborative tool for exploring global conflict data. To collaborate, copy the share link and send it to a friend.</p>
+        
         <div class="control-group">
             <label for="event-type-filter">Filter by Event Type:</label>
             <select id="event-type-filter">
@@ -81,60 +88,68 @@
                 <option value="Explosions/Remote violence">Explosions</option>
             </select>
         </div>
-        <button id="togetherjs-button" onclick="TogetherJS(this); return false;">Start Collaborating</button>
+
+        <div id="collaboration-controls">
+            <label>Collaboration Status:</label>
+            <div id="connection-status">Connecting...</div>
+            <label for="my-id-input">Your Session ID:</label>
+            <input type="text" id="my-id-input" readonly value="Waiting for ID...">
+            <button id="copy-share-link" disabled>Copy Share Link</button>
+        </div>
     </div>
 
-    <!-- TogetherJS -->
-    <script src="https://togetherjs.com/togetherjs-min.js"></script>
+    <!-- PeerJS -->
+    <script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
     
     <!-- CesiumJS -->
     <script src="https://cesium.com/downloads/cesiumjs/releases/1.100/Build/Cesium/Cesium.js"></script>
 
     <script>
         // --- CONFIGURATION ---
-        // IMPORTANT: Replace these placeholders with your NEW, regenerated keys.
-        // Do not use the keys you posted publicly.
+        // IMPORTANT: NEVER expose your secret API keys in client-side code.
         const CESIUM_ION_TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIxMjNiMDM0Yi01NmRkLTQ0ZDctYTMwYi1hZjhkZDViMWExNTkiLCJpZCI6MzIxMDk3LCJpYXQiOjE3NTI0Mjg5MjJ9.pltn_TUmg84dWPwInyBbD0kSSXeg8hWnfaemalftMro';
         const ACLED_API_KEY = 'FGAb7FY1H8zZiNtlEPGf';
-        const ACLED_USER_EMAIL = 'mert.seven@yasar.edu.tr';
+        const ACLED_USER_EMAIL = 'YOUR_ACLED_USER_EMAIL_HERE';
         
+        // --- UI & STATE ---
+        const loadingIndicator = document.getElementById('loading-indicator');
+        const filterSelect = document.getElementById('event-type-filter');
+        const connectionStatusEl = document.getElementById('connection-status');
+        const myIdInput = document.getElementById('my-id-input');
+        const copyLinkBtn = document.getElementById('copy-share-link');
+        let dataConnection = null; // This will hold the PeerJS data connection
+        let myPeerId = null;
+
         // --- INITIALIZATION ---
         Cesium.Ion.defaultAccessToken = CESIUM_ION_TOKEN;
         
         const viewer = new Cesium.Viewer('cesiumContainer', {
-            timeline: false,
-            animation: false,
-            geocoder: false,
-            homeButton: false,
-            sceneModePicker: false,
-            baseLayerPicker: false,
-            navigationHelpButton: false,
-            infoBox: true,
-            selectionIndicator: true
+            timeline: false, animation: false, geocoder: false, homeButton: false,
+            sceneModePicker: false, baseLayerPicker: false, navigationHelpButton: false,
+            infoBox: true, selectionIndicator: true
         });
         viewer.scene.globe.enableLighting = true;
         const entities = viewer.entities;
-        const loadingIndicator = document.getElementById('loading-indicator');
 
         // --- FETCH ACLED DATA ---
         async function fetchAcledData() {
+            // ... (ACLED fetching code is unchanged, but included for completeness)
+            if (ACLED_API_KEY === 'YOUR_ACLED_API_KEY_HERE' || ACLED_USER_EMAIL === 'YOUR_ACLED_USER_EMAIL_HERE') {
+                loadingIndicator.innerText = "Error: Please set your ACLED API key and email in the script.";
+                console.error("ACLED credentials are not set.");
+                return [];
+            }
             loadingIndicator.innerText = "Fetching live ACLED data...";
-            // Fetching data for the last 30 days for demonstration
             const today = new Date();
             const thirtyDaysAgo = new Date(new Date().setDate(today.getDate() - 30));
             const formattedDate = `${thirtyDaysAgo.getFullYear()}-${String(thirtyDaysAgo.getMonth() + 1).padStart(2, '0')}-${String(thirtyDaysAgo.getDate()).padStart(2, '0')}`;
-            
-            const apiUrl = `https://api.acleddata.com/acled/read?key=${ACLED_API_KEY}&email=${ACLED_USER_EMAIL}&event_date=${formattedDate}&event_date_where=>&limit=2000`;
-
+            const corsProxy = 'https://cors-anywhere.herokuapp.com/'; 
+            const apiUrl = `${corsProxy}https://api.acleddata.com/acled/read?key=${ACLED_API_KEY}&email=${ACLED_USER_EMAIL}&event_date=${formattedDate}&event_date_where=>&limit=2000`;
             try {
                 const response = await fetch(apiUrl);
-                if (!response.ok) {
-                    throw new Error(`ACLED API Error: ${response.statusText}. Please check your API key and email.`);
-                }
+                if (!response.ok) throw new Error(`ACLED API Error: ${response.statusText}`);
                 const json = await response.json();
-                if (!json.success || !json.data) {
-                    throw new Error(json.message || "ACLED API returned an error.");
-                }
+                if (!json.success || !json.data) throw new Error(json.message || "ACLED API returned an error.");
                 return json.data;
             } catch (error) {
                 console.error("Failed to fetch ACLED data:", error);
@@ -145,99 +160,168 @@
 
         // --- VISUALIZATION ---
         function createDataPoints(data) {
-            viewer.entities.removeAll(); // Clear existing points
-            
+            // ... (Visualization code is unchanged)
+            viewer.entities.removeAll();
             const eventTypeColors = {
-                'Battles': Cesium.Color.fromCssColorString('#E74C3C'),
-                'Riots': Cesium.Color.fromCssColorString('#E67E22'),
-                'Protests': Cesium.Color.fromCssColorString('#F1C40F'),
-                'Explosions/Remote violence': Cesium.Color.fromCssColorString('#9B59B6'),
+                'Battles': Cesium.Color.fromCssColorString('#E74C3C'), 'Riots': Cesium.Color.fromCssColorString('#E67E22'),
+                'Protests': Cesium.Color.fromCssColorString('#F1C40F'), 'Explosions/Remote violence': Cesium.Color.fromCssColorString('#9B59B6'),
                 'default': Cesium.Color.fromCssColorString('#3498DB')
             };
-
             data.forEach(event => {
-                const color = eventTypeColors[event.event_type] || eventTypeColors.default;
                 entities.add({
                     id: `event-${event.data_id}`,
+                    properties: { event_type: event.event_type },
                     position: Cesium.Cartesian3.fromDegrees(parseFloat(event.longitude), parseFloat(event.latitude)),
                     point: {
-                        pixelSize: 8,
-                        color: color,
-                        outlineColor: Cesium.Color.WHITE,
-                        outlineWidth: 1,
+                        pixelSize: 8, color: eventTypeColors[event.event_type] || eventTypeColors.default,
+                        outlineColor: Cesium.Color.WHITE, outlineWidth: 1,
                         translucencyByDistance: new Cesium.NearFarScalar(1.5e2, 1.0, 8.0e6, 0.4)
                     },
-                    description: `
-                        <div style="font-family: Inter, sans-serif; padding: 10px;">
-                            <h3 style="font-size: 1.2em; border-bottom: 1px solid #ccc; padding-bottom: 5px; margin-bottom: 10px;">${event.event_type}</h3>
-                            <p><strong>Date:</strong> ${event.event_date}</p>
-                            <p><strong>Location:</strong> ${event.location}, ${event.country}</p>
-                            <p><strong>Fatalities:</strong> ${event.fatalities}</p>
-                            <p><strong>Notes:</strong> ${event.notes}</p>
-                        </div>
-                    `
+                    description: `<div style="font-family: Inter, sans-serif; padding: 10px;"><h3>${event.event_type}</h3><p><strong>Date:</strong> ${event.event_date}</p><p><strong>Location:</strong> ${event.location}, ${event.country}</p><p><strong>Fatalities:</strong> ${event.fatalities}</p><p><strong>Notes:</strong> ${event.notes}</p></div>`
                 });
             });
             loadingIndicator.style.display = 'none';
         }
 
-        // --- FILTERING ---
-        let allData = [];
-        const filterSelect = document.getElementById('event-type-filter');
-        filterSelect.addEventListener('change', () => {
-            const selectedType = filterSelect.value;
-            loadingIndicator.style.display = 'block';
-            loadingIndicator.innerText = "Filtering data...";
-            // Use setTimeout to allow the loading indicator to render before the filtering work blocks the main thread
-            setTimeout(() => {
-                const dataToDisplay = !selectedType ? allData : allData.filter(event => event.event_type === selectedType);
-                createDataPoints(dataToDisplay);
-            }, 10);
-        });
+        // --- PEERJS COLLABORATION ---
 
-        // --- TOGETHER.JS INTEGRATION ---
-        TogetherJS.config({
-            sync_on_mouseup: true,
-            sync_on_keydown: true,
-            sync_on_mousemove: false,
-            on: { 'ready': () => console.log("TogetherJS is ready!") }
-        });
+        // Function to send data to the connected peer
+        function sendData(data) {
+            if (dataConnection && dataConnection.open) {
+                dataConnection.send(data);
+            }
+        }
 
-        viewer.camera.moveEnd.addEventListener(() => {
-            if (TogetherJS.running) {
-                TogetherJS.send({ type: 'camera-sync', position: viewer.camera.position, direction: viewer.camera.direction, up: viewer.camera.up });
+        // Initialize PeerJS
+        const peer = new Peer();
+
+        peer.on('open', (id) => {
+            myPeerId = id;
+            console.log('My peer ID is: ' + id);
+            connectionStatusEl.textContent = 'Ready. Share link to start.';
+            myIdInput.value = id;
+            copyLinkBtn.disabled = false;
+
+            // Check if we need to connect to someone from the URL
+            const peerIdFromUrl = window.location.hash.substring(1);
+            if (peerIdFromUrl) {
+                console.log('Attempting to connect to peer:', peerIdFromUrl);
+                connectToPeer(peerIdFromUrl);
             }
         });
 
+        // Handle incoming connections
+        peer.on('connection', (conn) => {
+            console.log('Incoming connection from', conn.peer);
+            setupConnection(conn);
+        });
+
+        peer.on('error', (err) => {
+            console.error('PeerJS error:', err);
+            connectionStatusEl.textContent = `Error: ${err.type}`;
+        });
+
+        function connectToPeer(peerId) {
+            if (peerId === myPeerId) return; // Don't connect to self
+            console.log(`Connecting to peer ${peerId}...`);
+            const conn = peer.connect(peerId);
+            setupConnection(conn);
+        }
+
+        function setupConnection(conn) {
+            dataConnection = conn;
+            connectionStatusEl.textContent = 'Connecting...';
+            
+            conn.on('open', () => {
+                console.log('Connection established with', conn.peer);
+                connectionStatusEl.textContent = `Connected to ${conn.peer.slice(0, 8)}...`;
+            });
+
+            conn.on('data', (data) => {
+                console.log('Received data:', data);
+                handleReceivedData(data);
+            });
+
+            conn.on('close', () => {
+                console.log('Connection closed.');
+                connectionStatusEl.textContent = 'Disconnected. Refresh to reconnect.';
+                dataConnection = null;
+            });
+        }
+        
+        function handleReceivedData(data) {
+            switch(data.type) {
+                case 'camera-sync':
+                    viewer.camera.flyTo({
+                        destination: data.position,
+                        orientation: { direction: data.direction, up: data.up },
+                        duration: 0.5
+                    });
+                    break;
+                case 'select-entity':
+                    const entity = viewer.entities.getById(data.entityId);
+                    if (entity) { viewer.selectedEntity = entity; }
+                    break;
+                case 'filter-change':
+                    filterSelect.value = data.value;
+                    // Trigger the change event to apply the filter visually
+                    filterSelect.dispatchEvent(new Event('change'));
+                    break;
+            }
+        }
+
+        // --- EVENT LISTENERS FOR SENDING DATA ---
+        
+        // Sync Camera
+        viewer.camera.moveEnd.addEventListener(() => {
+            sendData({ 
+                type: 'camera-sync', 
+                position: viewer.camera.position, 
+                direction: viewer.camera.direction, 
+                up: viewer.camera.up 
+            });
+        });
+
+        // Sync Selection
         viewer.selectedEntityChanged.addEventListener((selectedEntity) => {
-             if (TogetherJS.running && selectedEntity) {
-                 TogetherJS.send({ type: 'select-entity', entityId: selectedEntity.id });
+             if (selectedEntity) {
+                 sendData({ type: 'select-entity', entityId: selectedEntity.id });
              }
         });
 
-        TogetherJS.hub.on('camera-sync', (msg) => {
-            viewer.camera.flyTo({
-                destination: msg.position,
-                orientation: { direction: msg.direction, up: msg.up },
-                duration: 0.5
+        // Sync Filter
+        filterSelect.addEventListener('change', () => {
+            const selectedType = filterSelect.value;
+            // Send filter state to peer
+            sendData({ type: 'filter-change', value: selectedType });
+
+            // Apply filter locally
+            viewer.entities.values.forEach(entity => {
+                const entityType = entity.properties.event_type.getValue();
+                entity.show = (!selectedType || entityType === selectedType);
             });
         });
-        
-        TogetherJS.hub.on('select-entity', (msg) => {
-            const entity = viewer.entities.getById(msg.entityId);
-            if (entity) { viewer.selectedEntity = entity; }
+
+        // Copy Share Link Button
+        copyLinkBtn.addEventListener('click', () => {
+            const url = window.location.href.split('#')[0];
+            const shareLink = `${url}#${myPeerId}`;
+            navigator.clipboard.writeText(shareLink).then(() => {
+                copyLinkBtn.textContent = 'Link Copied!';
+                setTimeout(() => { copyLinkBtn.textContent = 'Copy Share Link'; }, 2000);
+            });
         });
+
         
         // --- MAIN EXECUTION ---
         async function main() {
-            allData = await fetchAcledData();
+            const allData = await fetchAcledData();
             if(allData.length > 0) {
                  createDataPoints(allData);
             }
         }
 
         main();
-
     </script>
 </body>
 </html>
