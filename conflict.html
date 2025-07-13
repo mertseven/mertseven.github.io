@@ -109,7 +109,7 @@
         // IMPORTANT: NEVER expose your secret API keys in client-side code.
         const CESIUM_ION_TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIxMjNiMDM0Yi01NmRkLTQ0ZDctYTMwYi1hZjhkZDViMWExNTkiLCJpZCI6MzIxMDk3LCJpYXQiOjE3NTI0Mjg5MjJ9.pltn_TUmg84dWPwInyBbD0kSSXeg8hWnfaemalftMro';
         const ACLED_API_KEY = 'FGAb7FY1H8zZiNtlEPGf';
-        const ACLED_USER_EMAIL = 'YOUR_ACLED_USER_EMAIL_HERE';
+        const ACLED_USER_EMAIL = 'mert.seven@yasar.edu.tr';
         
         // --- UI & STATE ---
         const loadingIndicator = document.getElementById('loading-indicator');
@@ -131,12 +131,10 @@
         viewer.scene.globe.enableLighting = true;
         const entities = viewer.entities;
 
-        // --- FETCH ACLED DATA ---
+        // --- FETCH ACLED DATA --- (No changes here)
         async function fetchAcledData() {
-            // ... (ACLED fetching code is unchanged, but included for completeness)
             if (ACLED_API_KEY === 'YOUR_ACLED_API_KEY_HERE' || ACLED_USER_EMAIL === 'YOUR_ACLED_USER_EMAIL_HERE') {
                 loadingIndicator.innerText = "Error: Please set your ACLED API key and email in the script.";
-                console.error("ACLED credentials are not set.");
                 return [];
             }
             loadingIndicator.innerText = "Fetching live ACLED data...";
@@ -158,9 +156,8 @@
             }
         }
 
-        // --- VISUALIZATION ---
+        // --- VISUALIZATION --- (No changes here)
         function createDataPoints(data) {
-            // ... (Visualization code is unchanged)
             viewer.entities.removeAll();
             const eventTypeColors = {
                 'Battles': Cesium.Color.fromCssColorString('#E74C3C'), 'Riots': Cesium.Color.fromCssColorString('#E67E22'),
@@ -184,46 +181,31 @@
         }
 
         // --- PEERJS COLLABORATION ---
-
-        // Function to send data to the connected peer
         function sendData(data) {
             if (dataConnection && dataConnection.open) {
                 dataConnection.send(data);
             }
         }
 
-        // Initialize PeerJS
         const peer = new Peer();
 
         peer.on('open', (id) => {
             myPeerId = id;
-            console.log('My peer ID is: ' + id);
             connectionStatusEl.textContent = 'Ready. Share link to start.';
             myIdInput.value = id;
             copyLinkBtn.disabled = false;
-
-            // Check if we need to connect to someone from the URL
             const peerIdFromUrl = window.location.hash.substring(1);
-            if (peerIdFromUrl) {
-                console.log('Attempting to connect to peer:', peerIdFromUrl);
-                connectToPeer(peerIdFromUrl);
-            }
+            if (peerIdFromUrl) connectToPeer(peerIdFromUrl);
         });
 
-        // Handle incoming connections
-        peer.on('connection', (conn) => {
-            console.log('Incoming connection from', conn.peer);
-            setupConnection(conn);
-        });
-
+        peer.on('connection', (conn) => setupConnection(conn));
         peer.on('error', (err) => {
             console.error('PeerJS error:', err);
             connectionStatusEl.textContent = `Error: ${err.type}`;
         });
 
         function connectToPeer(peerId) {
-            if (peerId === myPeerId) return; // Don't connect to self
-            console.log(`Connecting to peer ${peerId}...`);
+            if (peerId === myPeerId) return;
             const conn = peer.connect(peerId);
             setupConnection(conn);
         }
@@ -231,20 +213,10 @@
         function setupConnection(conn) {
             dataConnection = conn;
             connectionStatusEl.textContent = 'Connecting...';
-            
-            conn.on('open', () => {
-                console.log('Connection established with', conn.peer);
-                connectionStatusEl.textContent = `Connected to ${conn.peer.slice(0, 8)}...`;
-            });
-
-            conn.on('data', (data) => {
-                console.log('Received data:', data);
-                handleReceivedData(data);
-            });
-
+            conn.on('open', () => connectionStatusEl.textContent = `Connected to ${conn.peer.slice(0, 8)}...`);
+            conn.on('data', (data) => handleReceivedData(data));
             conn.on('close', () => {
-                console.log('Connection closed.');
-                connectionStatusEl.textContent = 'Disconnected. Refresh to reconnect.';
+                connectionStatusEl.textContent = 'Disconnected.';
                 dataConnection = null;
             });
         }
@@ -252,10 +224,15 @@
         function handleReceivedData(data) {
             switch(data.type) {
                 case 'camera-sync':
+                    // **FIXED**: Reconstruct Cesium.Cartesian3 objects from the plain data
                     viewer.camera.flyTo({
-                        destination: data.position,
-                        orientation: { direction: data.direction, up: data.up },
-                        duration: 0.5
+                        destination: new Cesium.Cartesian3(data.position.x, data.position.y, data.position.z),
+                        orientation: {
+                            direction: new Cesium.Cartesian3(data.direction.x, data.direction.y, data.direction.z),
+                            up: new Cesium.Cartesian3(data.up.x, data.up.y, data.up.z)
+                        },
+                        duration: 0.5,
+                        easingFunction: Cesium.EasingFunction.QUARTIC_IN_OUT
                     });
                     break;
                 case 'select-entity':
@@ -264,7 +241,6 @@
                     break;
                 case 'filter-change':
                     filterSelect.value = data.value;
-                    // Trigger the change event to apply the filter visually
                     filterSelect.dispatchEvent(new Event('change'));
                     break;
             }
@@ -274,28 +250,28 @@
         
         // Sync Camera
         viewer.camera.moveEnd.addEventListener(() => {
-            sendData({ 
-                type: 'camera-sync', 
-                position: viewer.camera.position, 
-                direction: viewer.camera.direction, 
-                up: viewer.camera.up 
-            });
+            // **FIXED**: Convert complex Cesium objects to plain JavaScript objects before sending
+            const cameraData = {
+                position: { x: viewer.camera.position.x, y: viewer.camera.position.y, z: viewer.camera.position.z },
+                direction: { x: viewer.camera.direction.x, y: viewer.camera.direction.y, z: viewer.camera.direction.z },
+                up: { x: viewer.camera.up.x, y: viewer.camera.up.y, z: viewer.camera.up.z }
+            };
+
+            sendData({ type: 'camera-sync', ...cameraData });
         });
 
         // Sync Selection
         viewer.selectedEntityChanged.addEventListener((selectedEntity) => {
              if (selectedEntity) {
-                 sendData({ type: 'select-entity', entityId: selectedEntity.id });
+                 sendData({ type: 'select-entity', entityId: selectedEntity.id }); // This is a string, which is fine
              }
         });
 
         // Sync Filter
         filterSelect.addEventListener('change', () => {
             const selectedType = filterSelect.value;
-            // Send filter state to peer
-            sendData({ type: 'filter-change', value: selectedType });
-
-            // Apply filter locally
+            sendData({ type: 'filter-change', value: selectedType }); // This is a string, which is fine
+            
             viewer.entities.values.forEach(entity => {
                 const entityType = entity.properties.event_type.getValue();
                 entity.show = (!selectedType || entityType === selectedType);
@@ -316,9 +292,7 @@
         // --- MAIN EXECUTION ---
         async function main() {
             const allData = await fetchAcledData();
-            if(allData.length > 0) {
-                 createDataPoints(allData);
-            }
+            if(allData.length > 0) createDataPoints(allData);
         }
 
         main();
