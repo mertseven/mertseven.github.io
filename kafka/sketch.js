@@ -58,7 +58,7 @@ const history_book_text = "In the discourse network of 1800, the book was the un
 const history_1900_critique = "Around 1900, the invention of the phonograph and cinematograph shattered this monopoly. For the first time, sound and image could be stored directly, bypassing the symbolic bottleneck of writing. This was a physical, not just a cultural, revolution. Reality itself could now be recorded on a time axis.";
 
 // --- Transition Nodes ---
-let transition_node_1 = { rect: [490, 310, 300, 100], text: "[ LOOK CLOSER ]" };
+let transition_node_1 = { rect: [490, 310, 300, 100], text: "[ COME CLOSER ]" };
 let transition_node_2 = { rect: [900, 550, 300, 100], text: "[ EXECUTE ]" };
 let transition_node_5 = { rect: [50, 600, 300, 100], text: "[ ANALYZE SUBJECT ]" };
 let transition_node_6 = { rect: [440, 550, 400, 100], text: "[ POISON OR CURE? ]" };
