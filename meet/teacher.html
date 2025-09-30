@@ -45,7 +45,7 @@
         let receivedAnswers = [];
         let connections = [];
         let voteCounts = {};
-        let isVotingActive = false; // <-- New state variable
+        let isVotingActive = false;
 
         function saveAnswers() {
             localStorage.setItem('icebreakerAnswers', JSON.stringify(receivedAnswers));
@@ -83,7 +83,6 @@
             connections.push(conn);
             statusEl.textContent = `A student has connected!`;
 
-            // If voting is already active, immediately send them the voting info
             if (isVotingActive) {
                 const candidates = receivedAnswers.map((ans, index) => ({ id: index, nickname: ans.nickname, emojis: ans.q2 }));
                 conn.send({ type: 'start-vote', payload: candidates });
@@ -91,9 +90,11 @@
             
             conn.on('data', function(data) {
                 if (data.type === 'answer') {
-                    // Check for duplicate nickname before adding
-                    const isDuplicate = receivedAnswers.some(ans => ans.nickname.trim().toLowerCase() === data.payload.nickname.trim().toLowerCase());
-                    if (!isDuplicate) {
+                    // FIX: Safely check for duplicate nicknames, handling undefined values.
+                    const isDuplicate = receivedAnswers.some(ans => 
+                        (ans.nickname || '').trim().toLowerCase() === (data.payload.nickname || '').trim().toLowerCase()
+                    );
+                    if (!isDuplicate && data.payload.nickname) { // Ensure nickname is not empty
                         receivedAnswers.push(data.payload);
                         saveAnswers();
                         renderAnswers();
@@ -122,7 +123,8 @@
             receivedAnswers.forEach((answer, index) => {
                 const card = document.createElement('div');
                 card.className = 'answer-card';
-                const nickname = answer.nickname.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+                // FIX: Provide a fallback for nickname to prevent crash.
+                const nickname = (answer.nickname || 'Anonymous').replace(/</g, "&lt;").replace(/>/g, "&gt;");
                 card.innerHTML = `
                     <h3>Answer #${index + 1} - ${nickname}</h3>
                     <p><strong>Explain the internet to someone from 1920:</strong><br>${answer.q1 || ''}</p>
@@ -137,7 +139,7 @@
         }
 
         startVotingBtn.addEventListener('click', () => {
-            isVotingActive = true; // <-- Set voting state to active
+            isVotingActive = true;
             const candidates = receivedAnswers.map((ans, index) => ({
                 id: index,
                 nickname: ans.nickname,
@@ -172,9 +174,10 @@
 
             sortedVotes.forEach(([id, count]) => {
                 const answer = receivedAnswers[id];
+                // FIX: Add a check to ensure the answer exists before trying to display it.
                 if (answer) {
                     const resultEl = document.createElement('p');
-                    resultEl.innerHTML = `<strong>${answer.nickname.replace(/</g, "&lt;")}</strong>: ${count} vote(s)`;
+                    resultEl.innerHTML = `<strong>${(answer.nickname || 'Anonymous').replace(/</g, "&lt;")}</strong>: ${count} vote(s)`;
                     resultsListEl.appendChild(resultEl);
                 }
             });
@@ -187,7 +190,7 @@
             }
             let csvContent = "data:text/csv;charset=utf-8,Nickname,Explain Internet,Last Emojis,Why New Media,Superpower,Time Machine,Learning Method\n";
             receivedAnswers.forEach(answer => {
-                const row = `"${answer.nickname}","${answer.q1}","${answer.q2}","${answer.q3}","${answer.q4}","${answer.q5}","${answer.q6}"`;
+                const row = `"${answer.nickname || ''}","${answer.q1 || ''}","${answer.q2 || ''}","${answer.q3 || ''}","${answer.q4 || ''}","${answer.q5 || ''}","${answer.q6 || ''}"`;
                 csvContent += row + "\n";
             });
 

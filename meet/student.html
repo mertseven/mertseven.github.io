@@ -138,10 +138,13 @@
                 candidates.forEach(candidate => {
                     const div = document.createElement('div');
                     div.style.cssText = 'display: flex; align-items: center; margin-bottom: 0.75rem;';
+                    // FIX: Safely handle nickname and emojis in case they are undefined.
+                    const nickname = candidate.nickname || 'Anonymous';
+                    const emojis = candidate.emojis || '';
                     div.innerHTML = `
                         <input type="checkbox" id="candidate-${candidate.id}" value="${candidate.id}" style="width: 1.25rem; height: 1.25rem; margin-right: 0.75rem;">
                         <label for="candidate-${candidate.id}" style="font-size: 1.1rem;">
-                            <strong>${candidate.nickname.replace(/</g, "&lt;")}</strong> - (${candidate.emojis.replace(/</g, "&lt;")})
+                            <strong>${nickname.replace(/</g, "&lt;")}</strong> - (${emojis.replace(/</g, "&lt;")})
                         </label>
                     `;
                     candidatesListEl.appendChild(div);
