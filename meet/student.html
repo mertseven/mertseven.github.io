@@ -73,9 +73,9 @@
         if (!teacherId) {
             statusEl.textContent = 'ERROR: Teacher ID not found. Please scan the QR code again.';
         } else {
-            const submissionFlag = `submitted_to_${teacherId}`; // Flag is specific to this session
+            const submissionFlag = `submitted_to_${teacherId}`;
             const hasSubmitted = localStorage.getItem(submissionFlag);
-            let conn; // Make conn accessible in the scope
+            let conn;
 
             const peer = new Peer();
             peer.on('open', function(id) {
@@ -93,6 +93,9 @@
                     conn.on('data', function(data) {
                         if (data.type === 'start-vote') {
                             displayVotingScreen(data.payload);
+                        } else if (data.type === 'reset') {
+                            localStorage.removeItem(submissionFlag);
+                            location.reload();
                         }
                     });
                 });
@@ -107,7 +110,7 @@
                     q5: document.getElementById('q5').value, q6: document.getElementById('q6').value
                 };
                 conn.send({ type: 'answer', payload: answers });
-                localStorage.setItem(submissionFlag, 'true'); // Set flag after submitting
+                localStorage.setItem(submissionFlag, 'true');
                 statusEl.textContent = 'Awesome! Your answers have been sent. Waiting for voting to begin...';
                 answerFormEl.style.display = 'none';
             });
@@ -131,14 +134,13 @@
             function displayVotingScreen(candidates) {
                 mainHeaderEl.textContent = 'Vote for your favorite 3 answers!';
                 statusEl.style.display = 'none';
-                answerFormEl.style.display = 'none'; // Hide answer form if it wasn't already
+                answerFormEl.style.display = 'none';
                 votingAreaEl.style.display = 'block';
-                candidatesListEl.innerHTML = ''; // Clear previous candidates if any
+                candidatesListEl.innerHTML = '';
 
                 candidates.forEach(candidate => {
                     const div = document.createElement('div');
                     div.style.cssText = 'display: flex; align-items: center; margin-bottom: 0.75rem;';
-                    // FIX: Safely handle nickname and emojis in case they are undefined.
                     const nickname = candidate.nickname || 'Anonymous';
                     const emojis = candidate.emojis || '';
                     div.innerHTML = `

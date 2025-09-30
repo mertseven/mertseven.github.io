@@ -20,8 +20,11 @@
         <div id="qrcode"></div>
 
         <h2>Live Answers</h2>
-        <button id="export-btn">Export Answers as CSV</button>
-        <button id="start-voting-btn" style="display: none; background-color: #16A34A; margin-top: 1rem;">Start Voting</button>
+        <div style="display: flex; flex-wrap: wrap; gap: 1rem; margin-bottom: 1rem;">
+            <button id="export-btn">Export Answers as CSV</button>
+            <button id="start-voting-btn" style="display: none; background-color: #16A34A;">Start Voting</button>
+            <button id="clear-btn" style="background-color: #DC2626; display: none;">Clear All Answers</button>
+        </div>
         <div id="answers-list">
             <p>No answers received yet...</p>
         </div>
@@ -39,6 +42,7 @@
         const answersListEl = document.getElementById('answers-list');
         const exportBtn = document.getElementById('export-btn');
         const startVotingBtn = document.getElementById('start-voting-btn');
+        const clearBtn = document.getElementById('clear-btn');
         const votingResultsContainer = document.getElementById('voting-results-container');
         const resultsListEl = document.getElementById('results-list');
 
@@ -57,6 +61,7 @@
                 receivedAnswers = JSON.parse(savedAnswers);
                 if(receivedAnswers.length > 0) {
                     startVotingBtn.style.display = 'block';
+                    clearBtn.style.display = 'block';
                 }
                 renderAnswers();
             }
@@ -90,17 +95,17 @@
             
             conn.on('data', function(data) {
                 if (data.type === 'answer') {
-                    // FIX: Safely check for duplicate nicknames, handling undefined values.
                     const isDuplicate = receivedAnswers.some(ans => 
                         (ans.nickname || '').trim().toLowerCase() === (data.payload.nickname || '').trim().toLowerCase()
                     );
-                    if (!isDuplicate && data.payload.nickname) { // Ensure nickname is not empty
+                    if (!isDuplicate && data.payload.nickname) {
                         receivedAnswers.push(data.payload);
                         saveAnswers();
                         renderAnswers();
                         statusEl.textContent = `${receivedAnswers.length} answer(s) received!`;
                         if (receivedAnswers.length > 0) {
                             startVotingBtn.style.display = 'block';
+                            clearBtn.style.display = 'block';
                         }
                     }
                 } else if (data.type === 'vote') {
@@ -123,7 +128,6 @@
             receivedAnswers.forEach((answer, index) => {
                 const card = document.createElement('div');
                 card.className = 'answer-card';
-                // FIX: Provide a fallback for nickname to prevent crash.
                 const nickname = (answer.nickname || 'Anonymous').replace(/</g, "&lt;").replace(/>/g, "&gt;");
                 card.innerHTML = `
                     <h3>Answer #${index + 1} - ${nickname}</h3>
@@ -156,6 +160,38 @@
             startVotingBtn.textContent = "Voting in Progress";
         });
 
+        clearBtn.addEventListener('click', () => {
+            if (clearBtn.dataset.confirm) {
+                receivedAnswers = [];
+                voteCounts = {};
+                isVotingActive = false;
+                localStorage.removeItem('icebreakerAnswers');
+                renderAnswers();
+                votingResultsContainer.style.display = 'none';
+                resultsListEl.innerHTML = '<p>Waiting for votes...</p>';
+                startVotingBtn.style.display = 'none';
+                startVotingBtn.disabled = false;
+                startVotingBtn.textContent = "Start Voting";
+                clearBtn.style.display = 'none';
+                statusEl.textContent = "All answers cleared. Ready for a new session.";
+                connections.forEach(conn => conn.send({ type: 'reset' }));
+                delete clearBtn.dataset.confirm;
+                clearBtn.textContent = 'Clear All Answers';
+                clearBtn.style.backgroundColor = '#DC2626';
+            } else {
+                clearBtn.dataset.confirm = 'true';
+                clearBtn.textContent = 'Are you sure? Click again to clear.';
+                clearBtn.style.backgroundColor = '#F59E0B';
+                setTimeout(() => {
+                    if (clearBtn.dataset.confirm) {
+                        delete clearBtn.dataset.confirm;
+                        clearBtn.textContent = 'Clear All Answers';
+                        clearBtn.style.backgroundColor = '#DC2626';
+                    }
+                }, 3000);
+            }
+        });
+
         function tallyVotes(voteArray) {
             voteArray.forEach(id => {
                 voteCounts[id] = (voteCounts[id] || 0) + 1;
@@ -166,15 +202,12 @@
         function renderVoteResults() {
             resultsListEl.innerHTML = '';
             const sortedVotes = Object.entries(voteCounts).sort((a, b) => b[1] - a[1]);
-
             if (sortedVotes.length === 0) {
                 resultsListEl.innerHTML = '<p>Waiting for votes...</p>';
                 return;
             }
-
             sortedVotes.forEach(([id, count]) => {
                 const answer = receivedAnswers[id];
-                // FIX: Add a check to ensure the answer exists before trying to display it.
                 if (answer) {
                     const resultEl = document.createElement('p');
                     resultEl.innerHTML = `<strong>${(answer.nickname || 'Anonymous').replace(/</g, "&lt;")}</strong>: ${count} vote(s)`;
@@ -188,12 +221,11 @@
                 alert('There are no answers to export!');
                 return;
             }
-            let csvContent = "data:text/csv;charset=utf-8,Nickname,Explain Internet,Last Emojis,Why New Media,Superpower,Time Machine,Learning Method\n";
+            let csvContent = "data:text/csv;charset=utf-8,Nickname,Explain Internet,Last Esmojis,Why New Media,Superpower,Time Machine,Learning Method\n";
             receivedAnswers.forEach(answer => {
                 const row = `"${answer.nickname || ''}","${answer.q1 || ''}","${answer.q2 || ''}","${answer.q3 || ''}","${answer.q4 || ''}","${answer.q5 || ''}","${answer.q6 || ''}"`;
                 csvContent += row + "\n";
             });
-
             const encodedUri = encodeURI(csvContent);
             const link = document.createElement("a");
             link.setAttribute("href", encodedUri);
