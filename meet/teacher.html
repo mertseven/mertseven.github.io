@@ -1,0 +1,117 @@
+<!-- teacher.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Icebreaker Session - Teacher Dashboard</title>
+    <link rel="stylesheet" href="neue-style.css">
+    <!-- Required JS Libraries -->
+    <script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
+    <script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Class Icebreaker</h1>
+        <div id="status">Connecting to the network...</div>
+        
+        <h2>Session QR Code</h2>
+        <p>Ask your students to scan this QR code with their phones to join the session.</p>
+        <div id="qrcode"></div>
+
+        <h2>Live Answers</h2>
+        <button id="export-btn">Export Answers as CSV</button>
+        <div id="answers-list">
+            <p>No answers received yet...</p>
+        </div>
+    </div>
+
+    <script>
+        const statusEl = document.getElementById('status');
+        const answersListEl = document.getElementById('answers-list');
+        const exportBtn = document.getElementById('export-btn');
+        let receivedAnswers = [];
+
+        function saveAnswers() {
+            localStorage.setItem('icebreakerAnswers', JSON.stringify(receivedAnswers));
+        }
+
+        function loadAnswers() {
+            const savedAnswers = localStorage.getItem('icebreakerAnswers');
+            if (savedAnswers) {
+                receivedAnswers = JSON.parse(savedAnswers);
+                renderAnswers();
+            }
+        }
+        
+        const peer = new Peer();
+
+        peer.on('open', function(id) {
+            statusEl.textContent = `CONNECTION OPEN! Students can now join.`;
+            const baseUrl = window.location.href.substring(0, window.location.href.lastIndexOf('/') + 1);
+            const studentPageUrl = baseUrl + 'student.html?id=' + id;
+            
+            new QRCode(document.getElementById("qrcode"), {
+                text: studentPageUrl,
+                width: 256,
+                height: 256,
+                colorDark : "#000000",
+                colorLight : "#ffffff",
+                correctLevel : QRCode.CorrectLevel.H
+            });
+        });
+
+        peer.on('connection', function(conn) {
+            statusEl.textContent = `A student has connected! Waiting for their answer...`;
+            conn.on('data', function(data) {
+                receivedAnswers.push(data);
+                saveAnswers();
+                renderAnswers();
+                statusEl.textContent = `${receivedAnswers.length} answer(s) received!`;
+            });
+        });
+
+        function renderAnswers() {
+            answersListEl.innerHTML = '';
+            if (receivedAnswers.length === 0) {
+                answersListEl.innerHTML = '<p>No answers received yet...</p>';
+                return;
+            }
+
+            receivedAnswers.forEach((answer, index) => {
+                const card = document.createElement('div');
+                card.className = 'answer-card';
+                card.innerHTML = `
+                    <h3>Answer #${index + 1}</h3>
+                    <p><strong>If you had a superpower, what would it be?</strong><br>${answer.q1}</p>
+                    <p><strong>If you had a time machine, where would you go?</strong><br>${answer.q2}</p>
+                    <p><strong>How do you learn best?</strong><br>${answer.q3}</p>
+                `;
+                answersListEl.appendChild(card);
+            });
+        }
+
+        exportBtn.addEventListener('click', () => {
+            if (receivedAnswers.length === 0) {
+                alert('There are no answers to export!');
+                return;
+            }
+            let csvContent = "data:text/csv;charset=utf-8,Superpower,Time Machine,Learning Method\n";
+            receivedAnswers.forEach(answer => {
+                const row = `"${answer.q1}","${answer.q2}","${answer.q3}"`;
+                csvContent += row + "\n";
+            });
+
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", "class_icebreaker_answers.csv");
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        });
+        
+        loadAnswers();
+    </script>
+</body>
+</html>

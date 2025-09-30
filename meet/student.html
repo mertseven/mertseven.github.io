@@ -1,0 +1,66 @@
+<!-- student.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Icebreaker Session - Answer</title>
+    <link rel="stylesheet" href="neue-style.css">
+    <script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to the Game!</h1>
+        <div id="status">Connecting to the teacher...</div>
+
+        <form id="answer-form" style="display: none;">
+            <div class="question-block">
+                <label for="q1">If you had a superpower, what would it be?</label>
+                <textarea id="q1" name="q1" required></textarea>
+            </div>
+            <div class="question-block">
+                <label for="q2">If you had a time machine, what year would you go to and why?</label>
+                <textarea id="q2" name="q2" required></textarea>
+            </div>
+            <div class="question-block">
+                <label for="q3">How do you learn best? (e.g., by reading, listening, doing, discussing?)</label>
+                <textarea id="q3" name="q3" required></textarea>
+            </div>
+            <button type="submit">Send My Answers!</button>
+        </form>
+    </div>
+
+    <script>
+        const statusEl = document.getElementById('status');
+        const formEl = document.getElementById('answer-form');
+
+        const params = new URLSearchParams(window.location.search);
+        const teacherId = params.get('id');
+
+        if (!teacherId) {
+            statusEl.textContent = 'ERROR: Teacher ID not found. Please scan the QR code again.';
+        } else {
+            const peer = new Peer();
+            peer.on('open', function(id) {
+                const conn = peer.connect(teacherId);
+                conn.on('open', function() {
+                    statusEl.textContent = 'Connected! Please answer the questions below.';
+                    formEl.style.display = 'block';
+                });
+
+                formEl.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const answers = {
+                        q1: document.getElementById('q1').value,
+                        q2: document.getElementById('q2').value,
+                        q3: document.getElementById('q3').value
+                    };
+                    conn.send(answers);
+                    statusEl.textContent = 'Awesome! Your answers have been sent.';
+                    formEl.style.display = 'none';
+                });
+            });
+        }
+    </script>
+</body>
+</html>

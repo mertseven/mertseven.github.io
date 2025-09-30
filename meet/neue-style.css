@@ -1,0 +1,154 @@
+/* neue-style.css */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+:root {
+    --bg-color: #F3F4F6; /* Light Gray */
+    --text-color: #111827; /* Almost Black */
+    --accent-color: #4F46E5; /* Indigo */
+    --border-color: #111827;
+    --shadow-color: #000000;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: 'Inter', sans-serif;
+    display: grid;
+    place-items: center;
+    min-height: 100vh;
+    padding: 1rem;
+    line-height: 1.6;
+}
+
+.container {
+    width: 100%;
+    max-width: 700px;
+    background-color: #FFFFFF;
+    border: 2px solid var(--border-color);
+    border-radius: 0.75rem;
+    padding: 2.5rem;
+    box-shadow: 8px 8px 0px var(--shadow-color);
+}
+
+h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 1rem;
+    letter-spacing: -0.05em;
+}
+
+h2 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    border-bottom: 2px solid var(--border-color);
+    padding-bottom: 0.5rem;
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+p, label {
+    font-size: 1rem;
+    color: #4B5563; /* Medium Gray */
+}
+
+#qrcode {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 2rem auto;
+    padding: 1rem;
+    border: 2px solid var(--border-color);
+    border-radius: 0.5rem;
+}
+
+#status {
+    text-align: center;
+    background-color: var(--text-color);
+    color: #FFFFFF;
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.answer-card {
+    border: 2px solid #E5E7EB; /* Lighter border for cards */
+    padding: 1.5rem;
+    margin-top: 1rem;
+    border-radius: 0.5rem;
+}
+
+.answer-card h3 {
+    margin: 0 0 1rem 0;
+    font-weight: 600;
+}
+
+.answer-card p {
+    margin: 0.5rem 0;
+    font-size: 0.95rem;
+}
+
+.answer-card p strong {
+    color: var(--text-color);
+}
+
+
+/* Form Elements */
+textarea {
+    width: 100%;
+    background-color: #FFFFFF;
+    border: 2px solid #D1D5DB; /* Gray border */
+    color: var(--text-color);
+    font-family: inherit;
+    font-size: 1rem;
+    padding: 0.75rem;
+    margin-top: 0.5rem;
+    border-radius: 0.5rem;
+    resize: vertical;
+    transition: all 0.2s ease;
+}
+
+textarea:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.3);
+}
+
+.question-block {
+    margin-bottom: 1.5rem;
+}
+
+button {
+    background-color: var(--accent-color);
+    color: #FFFFFF;
+    border: 2px solid var(--border-color);
+    border-radius: 0.5rem;
+    padding: 0.8rem 1.5rem;
+    font-family: inherit;
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: block;
+    width: 100%;
+    margin-top: 1.5rem;
+    box-shadow: 4px 4px 0px var(--shadow-color);
+    transition: all 0.15s ease-out;
+}
+
+button:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0px var(--shadow-color);
+}
+
+button:active {
+    transform: translate(4px, 4px);
+    box-shadow: none;
+}
+
+button#export-btn {
+    background-color: var(--text-color);
+    color: #FFFFFF;
+    margin-bottom: 1.5rem;
+}
