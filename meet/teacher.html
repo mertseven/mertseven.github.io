@@ -12,11 +12,11 @@
 </head>
 <body>
     <div class="container">
-        <h1>Meet the Class!</h1>
+        <h1>Class Icebreaker</h1>
         <div id="status">Connecting to the network...</div>
         
         <h2>Session QR Code</h2>
-        <p>Scan this QR code with your phones to join the session.</p>
+        <p>Ask your students to scan this QR code with their phones to join the session.</p>
         <div id="qrcode"></div>
 
         <h2>Live Answers</h2>
@@ -87,11 +87,6 @@
         peer.on('connection', function(conn) {
             connections.push(conn);
             statusEl.textContent = `A student has connected!`;
-
-            if (isVotingActive) {
-                const candidates = receivedAnswers.map((ans, index) => ({ id: index, nickname: ans.nickname, emojis: ans.q2 }));
-                conn.send({ type: 'start-vote', payload: candidates });
-            }
             
             conn.on('data', function(data) {
                 if (data.type === 'answer') {
@@ -110,6 +105,12 @@
                     }
                 } else if (data.type === 'vote') {
                     tallyVotes(data.payload);
+                } else if (data.type === 'request-state') {
+                    // --- NEW LOGIC: Respond to state requests ---
+                    if (isVotingActive) {
+                        const candidates = receivedAnswers.map((ans, index) => ({ id: index, nickname: ans.nickname, emojis: ans.q2 }));
+                        conn.send({ type: 'start-vote', payload: candidates });
+                    }
                 }
             });
 
@@ -221,11 +222,12 @@
                 alert('There are no answers to export!');
                 return;
             }
-            let csvContent = "data:text/csv;charset=utf-8,Nickname,Explain Internet,Last Esmojis,Why New Media,Superpower,Time Machine,Learning Method\n";
+            let csvContent = "data:text/csv;charset=utf-8,Nickname,Explain Internet,Last Emojis,Why New Media,Superpower,Time Machine,Learning Method\n";
             receivedAnswers.forEach(answer => {
                 const row = `"${answer.nickname || ''}","${answer.q1 || ''}","${answer.q2 || ''}","${answer.q3 || ''}","${answer.q4 || ''}","${answer.q5 || ''}","${answer.q6 || ''}"`;
                 csvContent += row + "\n";
             });
+
             const encodedUri = encodeURI(csvContent);
             const link = document.createElement("a");
             link.setAttribute("href", encodedUri);

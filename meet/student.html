@@ -81,8 +81,6 @@
             peer.on('open', function(id) {
                 conn = peer.connect(teacherId);
 
-                // --- FIX: Set up the message listener immediately ---
-                // This ensures we catch messages even if they arrive before the 'open' event.
                 conn.on('data', function(data) {
                     if (data.type === 'start-vote') {
                         displayVotingScreen(data.payload);
@@ -92,11 +90,12 @@
                     }
                 });
 
-                // Now, define what happens when the connection is fully established.
                 conn.on('open', function() {
                     if (hasSubmitted) {
                         statusEl.textContent = 'Welcome back! Waiting for voting to begin...';
                         answerFormEl.style.display = 'none';
+                        // --- NEW LOGIC: Request the current state from the teacher ---
+                        conn.send({ type: 'request-state' });
                     } else {
                         statusEl.textContent = 'Connected! Please answer the questions below.';
                         answerFormEl.style.display = 'block';
