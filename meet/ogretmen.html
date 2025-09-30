@@ -47,8 +47,13 @@
 
         peer.on('open', function(id) {
             durumEl.textContent = `BAĞLANTI AÇIK! Öğrenciler katılabilir.`;
-            const ogrenciSayfasiUrl = window.location.href.replace('ogretmen.html', 'ogrenci.html') + '?id=' + id;
             
+            // --- DÜZELTİLMİŞ KOD BAŞLANGICI ---
+            // Adres çubuğundaki URL ne olursa olsun doğru linki oluşturur.
+            const baseUrl = window.location.href.substring(0, window.location.href.lastIndexOf('/') + 1);
+            const ogrenciSayfasiUrl = baseUrl + 'ogrenci.html?id=' + id;
+            // --- DÜZELTİLMİŞ KOD SONU ---
+
             new QRCode(document.getElementById("qrcode"), {
                 text: ogrenciSayfasiUrl,
                 width: 256,
