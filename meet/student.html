@@ -14,18 +14,42 @@
         <div id="status">Connecting to the teacher...</div>
 
         <form id="answer-form" style="display: none;">
+
             <div class="question-block">
-                <label for="q1">If you had a superpower, what would it be?</label>
+                <label for="nickname">What is your nickname? (If you don't have one, make one up!)</label>
+                <input type="text" id="nickname" name="nickname" required style="width: 100%; font-size: 1rem; padding: 0.75rem; margin-top: 0.5rem; border-radius: 0.5rem; border: 2px solid #D1D5DB; font-family: inherit;">
+            </div>
+
+            <div class="question-block">
+                <label for="q1">If you had to explain the internet to someone from the year 1920, what would you say?</label>
                 <textarea id="q1" name="q1" required></textarea>
             </div>
+
             <div class="question-block">
-                <label for="q2">If you had a time machine, what year would you go to and why?</label>
-                <textarea id="q2" name="q2" required></textarea>
+                <label for="q2">Put the last three emojis you used.</label>
+                <input type="text" id="q2" name="q2" required style="width: 100%; font-size: 1rem; padding: 0.75rem; margin-top: 0.5rem; border-radius: 0.5rem; border: 2px solid #D1D5DB; font-family: inherit;">
             </div>
+
             <div class="question-block">
-                <label for="q3">How do you learn best? (e.g., by reading, listening, doing, discussing?)</label>
+                <label for="q3">Why did you choose to study New Media and Communication?</label>
                 <textarea id="q3" name="q3" required></textarea>
             </div>
+
+            <div class="question-block">
+                <label for="q4">If you had a superpower, what would it be?</label>
+                <textarea id="q4" name="q4" required></textarea>
+            </div>
+
+            <div class="question-block">
+                <label for="q5">If you had a time machine, what year would you go to and why?</label>
+                <textarea id="q5" name="q5" required></textarea>
+            </div>
+
+            <div class="question-block">
+                <label for="q6">How do you learn best? (e.g., by reading, listening, doing, discussing?)</label>
+                <textarea id="q6" name="q6" required></textarea>
+            </div>
+
             <button type="submit">Send My Answers!</button>
         </form>
     </div>
@@ -33,6 +57,19 @@
     <script>
         const statusEl = document.getElementById('status');
         const formEl = document.getElementById('answer-form');
+
+        // Use a simple inline style for the text inputs to avoid CSS complexity
+        document.querySelectorAll('input[type="text"]').forEach(input => {
+            input.addEventListener('focus', () => {
+                input.style.borderColor = '#4F46E5';
+                input.style.boxShadow = '0 0 0 3px rgba(79, 70, 229, 0.3)';
+                input.style.outline = 'none';
+            });
+            input.addEventListener('blur', () => {
+                input.style.borderColor = '#D1D5DB';
+                input.style.boxShadow = 'none';
+            });
+        });
 
         const params = new URLSearchParams(window.location.search);
         const teacherId = params.get('id');
@@ -51,9 +88,13 @@
                 formEl.addEventListener('submit', function(e) {
                     e.preventDefault();
                     const answers = {
+                        nickname: document.getElementById('nickname').value,
                         q1: document.getElementById('q1').value,
                         q2: document.getElementById('q2').value,
-                        q3: document.getElementById('q3').value
+                        q3: document.getElementById('q3').value,
+                        q4: document.getElementById('q4').value,
+                        q5: document.getElementById('q5').value,
+                        q6: document.getElementById('q6').value
                     };
                     conn.send(answers);
                     statusEl.textContent = 'Awesome! Your answers have been sent.';
@@ -64,3 +105,4 @@
     </script>
 </body>
 </html>
+

@@ -81,11 +81,15 @@
             receivedAnswers.forEach((answer, index) => {
                 const card = document.createElement('div');
                 card.className = 'answer-card';
+                const nickname = answer.nickname.replace(/</g, "&lt;").replace(/>/g, "&gt;");
                 card.innerHTML = `
-                    <h3>Answer #${index + 1}</h3>
-                    <p><strong>If you had a superpower, what would it be?</strong><br>${answer.q1}</p>
-                    <p><strong>If you had a time machine, where would you go?</strong><br>${answer.q2}</p>
-                    <p><strong>How do you learn best?</strong><br>${answer.q3}</p>
+                    <h3>Answer #${index + 1} - ${nickname}</h3>
+                    <p><strong>Explain the internet to someone from 1920:</strong><br>${answer.q1 || ''}</p>
+                    <p><strong>Last three emojis used:</strong><br>${answer.q2 || ''}</p>
+                    <p><strong>Why study New Media and Communication?</strong><br>${answer.q3 || ''}</p>
+                    <p><strong>Superpower:</strong><br>${answer.q4 || ''}</p>
+                    <p><strong>Time Machine:</strong><br>${answer.q5 || ''}</p>
+                    <p><strong>Learning Method:</strong><br>${answer.q6 || ''}</p>
                 `;
                 answersListEl.appendChild(card);
             });
@@ -96,9 +100,9 @@
                 alert('There are no answers to export!');
                 return;
             }
-            let csvContent = "data:text/csv;charset=utf-8,Superpower,Time Machine,Learning Method\n";
+            let csvContent = "data:text/csv;charset=utf-8,Nickname,Explain Internet,Last Emojis,Why New Media,Superpower,Time Machine,Learning Method\n";
             receivedAnswers.forEach(answer => {
-                const row = `"${answer.q1}","${answer.q2}","${answer.q3}"`;
+                const row = `"${answer.nickname}","${answer.q1}","${answer.q2}","${answer.q3}","${answer.q4}","${answer.q5}","${answer.q6}"`;
                 csvContent += row + "\n";
             });
 
@@ -115,3 +119,4 @@
     </script>
 </body>
 </html>
+
