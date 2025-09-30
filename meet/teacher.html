@@ -21,8 +21,16 @@
 
         <h2>Live Answers</h2>
         <button id="export-btn">Export Answers as CSV</button>
+        <button id="start-voting-btn" style="display: none; background-color: #16A34A; margin-top: 1rem;">Start Voting</button>
         <div id="answers-list">
             <p>No answers received yet...</p>
+        </div>
+
+        <div id="voting-results-container" style="display: none;">
+            <h2>Voting Results</h2>
+            <div id="results-list">
+                <p>Waiting for votes...</p>
+            </div>
         </div>
     </div>
 
@@ -30,7 +38,14 @@
         const statusEl = document.getElementById('status');
         const answersListEl = document.getElementById('answers-list');
         const exportBtn = document.getElementById('export-btn');
+        const startVotingBtn = document.getElementById('start-voting-btn');
+        const votingResultsContainer = document.getElementById('voting-results-container');
+        const resultsListEl = document.getElementById('results-list');
+
         let receivedAnswers = [];
+        let connections = [];
+        let voteCounts = {};
+        let isVotingActive = false; // <-- New state variable
 
         function saveAnswers() {
             localStorage.setItem('icebreakerAnswers', JSON.stringify(receivedAnswers));
@@ -40,6 +55,9 @@
             const savedAnswers = localStorage.getItem('icebreakerAnswers');
             if (savedAnswers) {
                 receivedAnswers = JSON.parse(savedAnswers);
+                if(receivedAnswers.length > 0) {
+                    startVotingBtn.style.display = 'block';
+                }
                 renderAnswers();
             }
         }
@@ -62,12 +80,35 @@
         });
 
         peer.on('connection', function(conn) {
-            statusEl.textContent = `A student has connected! Waiting for their answer...`;
+            connections.push(conn);
+            statusEl.textContent = `A student has connected!`;
+
+            // If voting is already active, immediately send them the voting info
+            if (isVotingActive) {
+                const candidates = receivedAnswers.map((ans, index) => ({ id: index, nickname: ans.nickname, emojis: ans.q2 }));
+                conn.send({ type: 'start-vote', payload: candidates });
+            }
+            
             conn.on('data', function(data) {
-                receivedAnswers.push(data);
-                saveAnswers();
-                renderAnswers();
-                statusEl.textContent = `${receivedAnswers.length} answer(s) received!`;
+                if (data.type === 'answer') {
+                    // Check for duplicate nickname before adding
+                    const isDuplicate = receivedAnswers.some(ans => ans.nickname.trim().toLowerCase() === data.payload.nickname.trim().toLowerCase());
+                    if (!isDuplicate) {
+                        receivedAnswers.push(data.payload);
+                        saveAnswers();
+                        renderAnswers();
+                        statusEl.textContent = `${receivedAnswers.length} answer(s) received!`;
+                        if (receivedAnswers.length > 0) {
+                            startVotingBtn.style.display = 'block';
+                        }
+                    }
+                } else if (data.type === 'vote') {
+                    tallyVotes(data.payload);
+                }
+            });
+
+            conn.on('close', () => {
+                connections = connections.filter(c => c.peer !== conn.peer);
             });
         });
 
@@ -92,6 +133,50 @@
                     <p><strong>Learning Method:</strong><br>${answer.q6 || ''}</p>
                 `;
                 answersListEl.appendChild(card);
+            });
+        }
+
+        startVotingBtn.addEventListener('click', () => {
+            isVotingActive = true; // <-- Set voting state to active
+            const candidates = receivedAnswers.map((ans, index) => ({
+                id: index,
+                nickname: ans.nickname,
+                emojis: ans.q2
+            }));
+
+            connections.forEach(conn => {
+                conn.send({ type: 'start-vote', payload: candidates });
+            });
+
+            statusEl.textContent = "Voting has started!";
+            votingResultsContainer.style.display = 'block';
+            startVotingBtn.disabled = true;
+            startVotingBtn.textContent = "Voting in Progress";
+        });
+
+        function tallyVotes(voteArray) {
+            voteArray.forEach(id => {
+                voteCounts[id] = (voteCounts[id] || 0) + 1;
+            });
+            renderVoteResults();
+        }
+
+        function renderVoteResults() {
+            resultsListEl.innerHTML = '';
+            const sortedVotes = Object.entries(voteCounts).sort((a, b) => b[1] - a[1]);
+
+            if (sortedVotes.length === 0) {
+                resultsListEl.innerHTML = '<p>Waiting for votes...</p>';
+                return;
+            }
+
+            sortedVotes.forEach(([id, count]) => {
+                const answer = receivedAnswers[id];
+                if (answer) {
+                    const resultEl = document.createElement('p');
+                    resultEl.innerHTML = `<strong>${answer.nickname.replace(/</g, "&lt;")}</strong>: ${count} vote(s)`;
+                    resultsListEl.appendChild(resultEl);
+                }
             });
         }
 
