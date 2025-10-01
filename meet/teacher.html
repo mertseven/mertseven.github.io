@@ -67,15 +67,18 @@
             }
         }
         
-        // --- IMPROVED CONNECTION LOGIC ---
-        // We are providing a list of reliable STUN servers from Google 
-        // to help establish peer-to-peer connections more reliably across different networks.
+        // --- MAX-COMPATIBILITY CONNECTION LOGIC ---
+        // Added a public TURN server to act as a relay for restrictive networks (like university Wi-Fi).
         const peer = new Peer({
             config: {
                 'iceServers': [
                     { urls: 'stun:stun.l.google.com:19302' },
                     { urls: 'stun:stun1.l.google.com:19302' },
-                    { urls: 'stun:stun2.l.google.com:19302' }
+                    {
+                        urls: 'turn:openrelay.metered.ca:80',
+                        username: 'openrelayproject',
+                        credential: 'openrelayproject'
+                    }
                 ]
             }
         });
