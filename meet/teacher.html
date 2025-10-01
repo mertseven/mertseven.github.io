@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meet the Class - The Dashboard</title>
+    <title>Icebreaker Session - Teacher Dashboard</title>
     <link rel="stylesheet" href="neue-style.css">
     <!-- Required JS Libraries -->
     <script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
@@ -12,11 +12,11 @@
 </head>
 <body>
     <div class="container">
-        <h1>Meet the Class! NMED 1201 Edition</h1>
+        <h1>Class Icebreaker</h1>
         <div id="status">Connecting to the network...</div>
         
         <h2>Session QR Code</h2>
-        <p>Scan this QR code with your phones to join the session.</p>
+        <p>Ask your students to scan this QR code with their phones to join the session.</p>
         <div id="qrcode"></div>
 
         <h2>Live Answers</h2>
@@ -67,7 +67,18 @@
             }
         }
         
-        const peer = new Peer();
+        // --- IMPROVED CONNECTION LOGIC ---
+        // We are providing a list of reliable STUN servers from Google 
+        // to help establish peer-to-peer connections more reliably across different networks.
+        const peer = new Peer({
+            config: {
+                'iceServers': [
+                    { urls: 'stun:stun.l.google.com:19302' },
+                    { urls: 'stun:stun1.l.google.com:19302' },
+                    { urls: 'stun:stun2.l.google.com:19302' }
+                ]
+            }
+        });
 
         peer.on('open', function(id) {
             statusEl.textContent = `CONNECTION OPEN! Students can now join.`;
