@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Icebreaker Session - Teacher Dashboard</title>
+    <title>Meet the Class - The Dashboard</title>
     <link rel="stylesheet" href="neue-style.css">
     <!-- Required JS Libraries -->
     <script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
@@ -12,11 +12,11 @@
 </head>
 <body>
     <div class="container">
-        <h1>Class Icebreaker</h1>
+        <h1>Meet the Class!</h1>
         <div id="status">Connecting to the network...</div>
         
         <h2>Session QR Code</h2>
-        <p>Ask your students to scan this QR code with their phones to join the session.</p>
+        <p>Scan this QR code with your phones to join the session.</p>
         <div id="qrcode"></div>
 
         <h2>Live Answers</h2>
@@ -106,7 +106,6 @@
                 } else if (data.type === 'vote') {
                     tallyVotes(data.payload);
                 } else if (data.type === 'request-state') {
-                    // --- NEW LOGIC: Respond to state requests ---
                     if (isVotingActive) {
                         const candidates = receivedAnswers.map((ans, index) => ({ id: index, nickname: ans.nickname, emojis: ans.q2 }));
                         conn.send({ type: 'start-vote', payload: candidates });
@@ -138,6 +137,7 @@
                     <p><strong>Superpower:</strong><br>${answer.q4 || ''}</p>
                     <p><strong>Time Machine:</strong><br>${answer.q5 || ''}</p>
                     <p><strong>Learning Method:</strong><br>${answer.q6 || ''}</p>
+                    <p><strong>Something interesting about yourself:</strong><br>${answer.q7 || ''}</p>
                 `;
                 answersListEl.appendChild(card);
             });
@@ -222,9 +222,9 @@
                 alert('There are no answers to export!');
                 return;
             }
-            let csvContent = "data:text/csv;charset=utf-8,Nickname,Explain Internet,Last Emojis,Why New Media,Superpower,Time Machine,Learning Method\n";
+            let csvContent = "data:text/csv;charset=utf-8,Nickname,Explain Internet,Last Emojis,Why New Media,Superpower,Time Machine,Learning Method,Interesting Fact\n";
             receivedAnswers.forEach(answer => {
-                const row = `"${answer.nickname || ''}","${answer.q1 || ''}","${answer.q2 || ''}","${answer.q3 || ''}","${answer.q4 || ''}","${answer.q5 || ''}","${answer.q6 || ''}"`;
+                const row = `"${answer.nickname || ''}","${answer.q1 || ''}","${answer.q2 || ''}","${answer.q3 || ''}","${answer.q4 || ''}","${answer.q5 || ''}","${answer.q6 || ''}","${answer.q7 || ''}"`;
                 csvContent += row + "\n";
             });
 
