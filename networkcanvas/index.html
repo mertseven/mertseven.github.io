@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CS83EW7TN6"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-CS83EW7TN6');
+</script>
+  <meta charset="UTF-8">
+  <title>Network Canvas</title>
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  
+</head>
+<body>
+  <div id="welcome-modal" class="modal">
+    <div class="modal-content">
+      <h2>Welcome to Network Canvas!</h2>
+      <p>Network Canvas is an interactive, web-based tool designed to visualize and analyze social networks. Go beyond simple org charts and see the real relationships, influence, and group structures that define how your teams and organizations *actually* work.</p>
+      <p>By mapping patterns of preference and communication, you can make smarter, data-driven decisions to improve collaboration, leadership, and overall effectiveness.</p>
+      <h3>Core Features:</h3>
+      <ul>
+        <li><strong>Interactive Network Visualization</strong>: See your network come to life.</li>
+        <li><strong>Comprehensive Sociometric Analysis</strong>: Automatically calculates key metrics.</li>
+        <li><strong>Powerful Filtering</strong>: Dynamically filter the network by any demographic attribute.</li>
+        <li><strong>Automated Community Detection</strong>: Instantly identify hidden social circles.</li>
+      </ul>
+      <div class="modal-actions">
+        <button id="close-welcome-modal-btn" class="primary">Get Started</button>
+      </div>
+    </div>
+  </div>
+  <div id="title-bar">
+    <h1>Network Canvas</h1>
+    <div>
+      <button id="save-btn"><svg viewBox="0 0 24 24"><path d="M15,9H5V5H15M12,19A3,3 0 0,1 9,16A3,3 0 0,1 12,13A3,3 0 0,1 15,16A3,3 0 0,1 12,19M17,3H5C3.89,3 3,3.9 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V7L17,3Z" /></svg>Save</button>
+      <label for="load-file-input" class="button-like-label"><svg viewBox="0 0 24 24"><path d="M9,16V10H5L12,3L19,10H15V16H9M5,20V18H19V20H5Z" /></svg>Load</label>
+      <input type="file" id="load-file-input" accept=".json" style="display: none;">
+      <button id="theme-toggle-btn"><svg viewBox="0 0 24 24"><path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20V4Z" /></svg></button>
+    </div>
+  </div>
+  <nav>
+    <div id="view-toolbar">
+      <div class="toolbar-button active" data-tab="dashboard">
+        <svg viewBox="0 0 24 24"><path d="M13,3V9H21V3M13,21H21V11H13M3,21H11V15H3M3,13H11V3H3V13Z" /></svg>
+        <span>Dashboard</span>
+      </div>
+      <div class="toolbar-button" data-tab="data">
+        <svg viewBox="0 0 24 24"><path d="M3,3H21V21H3V3M5,5V12H12V5H5M14,5V8H20V5H14M14,10V13H20V10H14M5,14V20H12V14H5Z" /></svg>
+        <span>Data</span>
+      </div>
+      <div class="toolbar-button" data-tab="demographics">
+        <svg viewBox="0 0 24 24"><path d="M12,3A4,4 0 0,1 16,7A4,4 0 0,1 12,11A4,4 0 0,1 8,7A4,4 0 0,1 12,3M18,10.5C19.94,10.5 21.5,12.06 21.5,14A1.5,1.5 0 0,1 20,15.5A1.5,1.5 0 0,1 18.5,14C18.5,13.17 17.83,12.5 17,12.5C16.17,12.5 15.5,13.17 15.5,14A1.5,1.5 0 0,1 14,15.5A1.5,1.5 0 0,1 12.5,14C12.5,12.06 14.06,10.5 16,10.5H18M12,13C7.58,13 4,15.08 4,17.5V20H20V17.5C20,15.08 16.42,13 12,13Z" /></svg>
+        <span>Demographics</span>
+      </div>
+      <div class="toolbar-button" data-tab="metrics">
+        <svg viewBox="0 0 24 24"><path d="M2,2H4V20H22V22H2V2M7,10H9V18H7V10M11,6H13V18H11V6M15,12H17V18H15V12Z" /></svg>
+        <span>Metrics</span>
+      </div>
+      <div class="toolbar-button" data-tab="graph">
+        <svg viewBox="0 0 24 24"><path d="M3.5,18.5C4.9,18.5 6,17.4 6,16C6,14.6 4.9,13.5 3.5,13.5C2.1,13.5 1,14.6 1,16C1,17.4 2.1,18.5 3.5,18.5M3.5,6.5C4.9,6.5 6,5.4 6,4C6,2.6 4.9,1.5 3.5,1.5C2.1,1.5 1,2.6 1,4C1,5.4 2.1,6.5 3.5,6.5M11.5,11.5C12.9,11.5 14,10.4 14,9C14,7.6 12.9,6.5 11.5,6.5C10.1,6.5 9,7.6 9,9C9,10.4 10.1,11.5 11.5,11.5M20.5,18.5C21.9,18.5 23,17.4 23,16C23,14.6 21.9,13.5 20.5,13.5C19.1,13.5 18,14.6 18,16C18,17.4 19.1,18.5 20.5,18.5M5.5,6L9.5,8.5M5.5,16.5L9.5,9.5M13.5,8.5L18.5,15.5" /></svg>
+        <span>Graph</span>
+      </div>
+      
+      <div class="toolbar-button" data-tab="group-metrics">
+        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15H9v-5H7v5H5V9h6v8zm2-2h2v2h-2v-2zm0-4h2v2h-2v-2zm0-4h2v2h-2V7z" /></svg>
+        <span>Group Metrics</span>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <section id="dashboard" class="tab active">
+      <div class="tab-content-wrapper">
+        <div id="dashboard-grid">
+          <div class="dashboard-card" id="cohesion-card">
+            <h3>Network Cohesion</h3>
+            <div class="widget-content" id="cohesion-widget">--</div>
+          </div>
+          <div class="dashboard-card" id="stats-card">
+            <h3>At a Glance</h3>
+            <div class="widget-content" id="stats-widget">--</div>
+          </div>
+          <div class="dashboard-card" id="key-players-card">
+            <h3>Key Players</h3>
+            <div class="widget-content" id="key-players-widget">--</div>
+          </div>
+          <div class="dashboard-card" id="at-risk-card">
+            <h3>At-Risk Individuals</h3>
+            <div class="widget-content" id="at-risk-widget">--</div>
+          </div>
+          <div class="dashboard-card" id="community-card">
+            <h3>Community Distribution</h3>
+            <div class="widget-content" id="community-widget">--</div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section id="data" class="tab">
+      <div class="tab-content-wrapper">
+        <div class="controls">
+          <button id="add-row-btn"><svg viewBox="0 0 24 24"><path d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" /></svg>Add Row</button>
+          <button id="clear-table-btn"><svg viewBox="0 0 24 24"><path d="M19.36,2.72L20.78,4.14L15.06,9.85L16.48,11.27L22.2,5.56L23.61,6.97C23.22,7.36 22.83,7.75 22.44,8.14L6.09,22.45L1.5,23.94L3,19.35L17.3,4.97C17.7,4.57 18.09,4.18 18.48,3.79L19.9,5.21L14.18,10.93L12.77,9.5L18.48,3.8L19.36,2.72M5.91,19.35L7.33,20.77L5.21,22.89L3.79,21.47L5.91,19.35Z" /></svg>Clear Table</button>
+          <label for="csv-file-input" class="button-like-label"><svg viewBox="0 0 24 24"><path d="M9,16V10H5L12,3L19,10H15V16H9M5,20V18H19V20H5Z" /></svg>Import CSV</label>
+          <input type="file" id="csv-file-input" accept=".csv" style="display: none;">
+          
+          <button id="analyze-btn" class="primary"><svg viewBox="0 0 24 24"><path d="M21,11H15.54L14.13,8.21L11.46,14.83L9.46,10.64L8.05,13.42L6,12L3,16H21V11Z" /></svg>GET ANALYSIS</button>
+        </div>
+        <table id="data-table">
+          <thead>
+            <tr>
+              <th class="sortable" data-column="code">Code <span class="sort-indicator"></span></th>
+              <th class="sortable" data-column="name">Name <span class="sort-indicator"></span></th>
+              <th class="sortable" data-column="mp1" title="Most Preferred 1">MP1 <span class="sort-indicator"></span></th>
+              <th class="sortable" data-column="mp2" title="Most Preferred 2">MP2 <span class="sort-indicator"></span></th>
+              <th class="sortable" data-column="mp3" title="Most Preferred 3">MP3 <span class="sort-indicator"></span></th>
+              <th class="sortable" data-column="lp1" title="Least Preferred 1">LP1 <span class="sort-indicator"></span></th>
+              <th class="sortable" data-column="lp2" title="Least Preferred 2">LP2 <span class="sort-indicator"></span></th>
+              <th class="sortable" data-column="lp3" title="Least Preferred 3">LP3 <span class="sort-indicator"></span></th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+        <p class="hint">Enter unique codes for each individual. Nominations (MP/LP) should use these codes. Action column contains delete button.</p>
+      </div>
+    </section>
+
+    <section id="demographics" class="tab">
+      <div class="tab-content-wrapper">
+        <div class="controls">
+          <button id="add-demographic-column-btn"><svg viewBox="0 0 24 24"><path d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" /></svg>Add Demographic</button>
+          <label for="demographics-csv-file-input" class="button-like-label"><svg viewBox="0 0 24 24"><path d="M9,16V10H5L12,3L19,10H15V16H9M5,20V18H19V20H5Z" /></svg>Import CSV</label>
+          <input type="file" id="demographics-csv-file-input" accept=".csv" style="display: none;">
+        </div>
+        <div style="overflow-x: auto;"> <!-- Wrapper for horizontal scrolling on smaller screens -->
+          <table id="demographics-table">
+            <thead>
+              <!-- Demographics Header will be dynamically generated here -->
+            </thead>
+            <tbody>
+              <!-- Demographics Body will be dynamically generated here -->
+            </tbody>
+          </table>
+        </div>
+        <p class="hint">Add custom attributes for each person. This data can then be used for filtering and coloring the network graph.</p>
+      </div>
+    </section>
+
+    <section id="metrics" class="tab">
+      <div class="tab-content-wrapper">
+        <div class="controls-header">
+          <h2>Network Metrics</h2>
+          <div>
+            <button id="export-metrics-csv-btn"><svg viewBox="0 0 24 24"><path d="M5,20H19V18H5M19,9H15V3H9V9H5L12,16L19,9Z" /></svg>Download as CSV</button>
+          </div>
+        </div>
+        <p class="hint">Centrality scores are normalized (0-1). Higher values indicate more central positions. Cliques are based on positive preferences only.</p>
+        <table id="metrics-table">
+          <thead>
+            <tr>
+              <th class="sortable" data-column="id">Code <span class="sort-indicator"></span></th>
+              <th class="sortable" data-column="label">Name <span class="sort-indicator"></span></th>
+              <th class="sortable" data-column="preferencesReceived">Pref. Rcvd. <span class="sort-indicator"></span></th>
+              <th class="sortable" data-column="nonPreferencesReceived">Non-Pref. Rcvd. <span class="sort-indicator"></span></th>
+              <th class="sortable" data-column="preferencesGiven">Pref. Given <span class="sort-indicator"></span></th>
+              <th class="sortable" data-column="nonPreferencesGiven">Non-Pref. Given <span class="sort-indicator"></span></th>
+              <th class="sortable" data-column="totalDegree">Total Degree <span class="sort-indicator"></span></th>
+              <th class="sortable" data-column="positiveReciprocal">Positive Recip. <span class="sort-indicator"></span></th>
+              <th class="sortable" data-column="socialPreferenceScore">Social Pref. Score <span class="sort-indicator"></span></th>
+              <th class="sortable" data-column="status">Status (Approx.) <span class="sort-indicator"></span></th>
+              <th class="sortable" data-column="betweenness">Betweenness C. <span class="sort-indicator"></span></th>
+              <th class="sortable" data-column="eigenvector">Eigenvector C. <span class="sort-indicator"></span></th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="graph" class="tab">
+      <div class="graph-top-controls">
+        <div class="control-group">
+          <label for="node-color-mode">Mode:</label>
+          <select id="node-color-mode">
+            <option value="status">Sociometric Status</option>
+            <option value="community">Community</option>
+            
+            <option value="preferencesReceived">Most Preferred Count</option>
+            <option value="nonPreferencesReceived">Least Preferred Count</option>
+            <option value="degree">Total Degree</option>
+            <option value="betweenness">Betweenness Centrality</option>
+            <option value="default">Default Color</option>
+          </select>
+        </div>
+        <div class="control-group">
+          <label for="node-label-select">Labels:</label>
+          <select id="node-label-select">
+            <option value="name">Name</option>
+            <option value="code">Code</option>
+          </select>
+        </div>
+        <div class="control-group">
+          <label for="node-label-size">Label Size:</label>
+          <input type="range" id="node-label-size" min="6" max="20" value="10" step="1">
+          <span id="node-label-size-value">10</span>px
+        </div>
+        
+        <button id="download-graph-btn"><svg viewBox="0 0 24 24"><path d="M19,19H5V5H12V3H5C3.89,3 3,3.89 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V12H19V19M14,3V5H17.59L7.76,14.83L9.17,16.24L19,6.41V10H21V3H14Z" /></svg>Download as Image</button>
+        <button id="fullscreen-graph-btn"><svg viewBox="0 0 24 24"><path d="M5,5H10V7H7V10H5V5M14,5H19V10H17V7H14V5M17,14H19V19H14V17H17V14M10,17H7V14H5V19H10V17Z" /></svg>Toggle Fullscreen</button>
+        <button id="reset-graph-btn"><svg viewBox="0 0 24 24"><path d="M12,5V1L7,6L12,11V7A6,6 0 0,1 18,13A6,6 0 0,1 12,19A6,6 0 0,1 6,13H4A8,8 0 0,0 12,21A8,8 0 0,0 20,13A8,8 0 0,0 12,5Z" /></svg>Reset Graph</button>
+        <button id="clear-highlight-btn" style="display:none;"><svg viewBox="0 0 24 24"><path d="M17.65,6.35C16.2,4.9 14.21,4 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20C15.73,20 18.84,17.45 19.73,14H17.65C16.83,16.33 14.61,18 12,18A6,6 0 0,1 6,12A6,6 0 0,1 12,6C13.66,6 15.14,6.69 16.22,7.78L13,11H20V4L17.65,6.35Z" /></svg>Clear Highlight</button>
+        <button id="exit-ego-view-btn" style="display:none;"><svg viewBox="0 0 24 24"><path d="M1.29,1.29L2.71,2.71L11,11L2.71,19.29L1.29,20.71L11,12.41L19.29,20.71L20.71,19.29L12.41,11L20.71,2.71L19.29,1.29L11,9.59L1.29,1.29Z" /></svg>Exit Ego View</button>
+      </div>
+
+      <div class="graph-main-area">
+        <div class="graph-legend-container">
+          <h4 id="legend-title">Legend</h4>
+          <div id="legend-content"></div>
+          <div id="filter-panel">
+            <div class="filter-panel-header">
+                <h4>Demographic Filters</h4>
+                <button id="sidebar-toggle-btn" class="small"><svg viewBox="0 0 24 24"><path d="M15.41,16.58L10.83,12L15.41,7.41L14,6L8,12L14,18L15.41,16.58Z"/></svg></button>
+                <button id="reset-filters-btn" class="small"><svg viewBox="0 0 24 24"><path d="M17.65,6.35C16.2,4.9 14.21,4 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20C15.73,20 18.84,17.45 19.73,14H17.65C16.83,16.33 14.61,18 12,18A6,6 0 0,1 6,12A6,6 0 0,1 12,6C13.66,6 15.14,6.69 16.22,7.78L13,11H20V4L17.65,6.35Z" /></svg>Reset</button>
+              </div>
+            <div id="filter-controls-container">
+              <!-- Dynamic filter controls will be injected here -->
+            </div>
+            <div class="filter-panel-footer">
+              <button id="apply-filters-btn" class="primary"><svg viewBox="0 0 24 24"><path d="M9,20.42L2.79,14.21L4.21,12.79L9,17.59L20.79,5.79L22.21,7.21L9,20.42Z" /></svg>Apply Filters</button>
+              <button id="invert-filters-btn" class="small"><svg viewBox="0 0 24 24"><path d="M16.89,15.5L15.41,16.91L12,13.5L8.59,16.91L7.11,15.5L10.5,12.11L7.11,8.5L8.59,7.09L12,10.5L15.41,7.09L16.89,8.5L13.5,11.91L16.89,15.5M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2Z" /></svg>Invert Selection</button>
+            </div>
+          </div>
+          <hr class="legend-divider">
+          <div id="mode-explanation">
+            <h4>Mode Explanations</h4>
+            <div id="explanation-content"></div>
+          </div>
+          <hr class="legend-divider">
+          <div id="clique-analysis-area">
+            <h4>Clique Analysis (Positive Ties)</h4>
+            <div class="control-group">
+              <label for="min-clique-size">Min. Size:</label>
+              <input type="number" id="min-clique-size" value="3" min="2" style="width:50px;">
+            </div>
+            <div class="control-group">
+              <label for="clique-selector">Select Clique:</label>
+              <select id="clique-selector" disabled>
+                <option value="">-- Analyze Data First --</option>
+              </select>
+            </div>
+            <p id="clique-count-info"></p>
+          </div>
+        </div>
+        <div id="d3-sociogram-container">
+          <svg id="sociogram-svg"></svg>
+          <div class="control-group" id="search-container">
+            <label for="node-search-input">Find Node:</label>
+            <input type="text" id="node-search-input" placeholder="Type a name or ID...">
+            <button id="clear-search-btn" class="small"><svg viewBox="0 0 24 24"><path d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z" /></svg></button>
+            <div id="search-results-container"></div>
+          </div>
+          <div id="deleted-nodes-pills-container" class="pills-container"></div>
+          <div id="active-filters-pills-container"></div>
+        </div>
+      </div>
+
+      <div class="graph-bottom-controls">
+        <div class="control-group">
+          <label for="link-distance">Link Distance:</label>
+          <input type="range" id="link-distance" min="30" max="400" value="160">
+          <span id="link-distance-value">160</span>
+        </div>
+        <div class="control-group">
+          <label for="charge-strength">Charge Strength:</label>
+          <input type="range" id="charge-strength" min="-2000" max="-50" value="-500" step="10">
+          <span id="charge-strength-value">-500</span>
+        </div>
+        <div class="control-group">
+          <label for="collide-radius-factor">Node Padding:</label>
+          <input type="range" id="collide-radius-factor" min="1.0" max="5.0" value="2.2" step="0.1">
+          <span id="collide-radius-factor-value">2.2</span>
+        </div>
+        <hr class="controls-divider">
+        <div class="control-group">
+          <input type="checkbox" id="show-positive-links" checked>
+          <label for="show-positive-links">Show Positive Links</label>
+        </div>
+        <div class="control-group">
+          <input type="checkbox" id="show-negative-links" checked>
+          <label for="show-negative-links">Show Negative Links</label>
+        </div>
+        <div class="control-group">
+          <label for="min-prefs-filter">Min Prefs. Rcvd:</label>
+          <input type="number" id="min-prefs-filter" value="0" min="0" style="width: 60px;">
+        </div>
+      </div>
+    </section>
+
+    
+
+    <section id="group-metrics" class="tab">
+      <div class="tab-content-wrapper">
+        <div id="group-metrics-dashboard">
+          <h2>Group Metrics Dashboard</h2>
+          <p>This section will display various group-level metrics for all available demographic categories.</p>
+          <!-- Metrics will be dynamically loaded here -->
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <div id="status-bar">
+    <div id="status-message" class="status-section">Ready</div>
+    <div id="status-node-count" class="status-section">Nodes: 0</div>
+    <div id="status-link-count" class="status-section">Links: 0</div>
+    <div class="status-section-spring"></div>
+    <div id="status-version" class="status-section">Network Canvas v1.0</div>
+  </div>
+
+  <div id="graph-tooltip"></div>
+
+  
+
+  <div id="context-menu"></div>
+  <div id="notification-container"></div>
+  <script type="module" src="js/export.js"></script>
+  <script type="module" src="js/deleted-nodes-ui.js"></script>
+  <script type="module" src="js/search.js"></script>
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>

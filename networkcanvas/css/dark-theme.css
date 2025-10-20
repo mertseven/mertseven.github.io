@@ -1,0 +1,21 @@
+/* css/dark-theme.css */
+
+body.dark-theme {
+    --bg-primary: #1e1e1e;
+    --bg-secondary: #2d2d2d;
+    --bg-tertiary: #3c3c3c;
+    --text-color: #e0e0e0;
+    --text-color-secondary: #b0b0b0;
+    --border-color: #444;
+    --accent-primary: #007acc;
+    --accent-primary-hover: #0095f7;
+    --accent-secondary: #e53935;
+    --accent-secondary-hover: #ff6f60;
+    --status-popular: #4caf50;
+    --status-rejected: #f44336;
+    --status-controversial: #ff9800;
+    --status-neglected: #9e9e9e;
+    --status-average: #607d8b;
+    --pos: #4caf50;
+    --neg: #f44336;
+}

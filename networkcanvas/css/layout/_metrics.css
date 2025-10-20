@@ -1,0 +1,12 @@
+/* css/layout/_metrics.css */
+
+#metrics .controls-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+#metrics #metrics-table {
+    width: 100%;
+}

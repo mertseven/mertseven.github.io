@@ -1,0 +1,32 @@
+/* css/components/_tooltips.css */
+
+#graph-tooltip {
+  position: absolute;
+  display: none;
+  padding: 8px 12px;
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-color-dark);
+  border-radius: 4px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+  font-size: 13px;
+  z-index: 1010; /* Higher than context menu */
+  pointer-events: none; /* Tooltip should not intercept mouse events */
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+  max-width: 250px;
+}
+
+#graph-tooltip.visible {
+  display: block;
+  opacity: 1;
+}
+
+#graph-tooltip h4 {
+  margin: 0 0 5px 0;
+  font-size: 14px;
+  color: var(--accent-primary);
+}
+
+#graph-tooltip p {
+  margin: 0 0 3px 0;
+}

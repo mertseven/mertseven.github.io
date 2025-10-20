@@ -1,0 +1,50 @@
+/* css/components/_toolbar.css */
+
+#view-toolbar {
+    display: flex;
+    background-color: var(--bg-secondary); /* Use card background color */
+    border-bottom: 1px solid var(--border-color);
+    padding: 0 16px;
+    gap: 16px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Same elevation as title bar */
+}
+
+.toolbar-button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 16px; /* Taller tabs */
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    border-bottom: 2px solid transparent; /* Inactive state */
+    position: relative;
+    top: 1px; /* Align with bottom border */
+}
+
+.toolbar-button:hover {
+    background-color: var(--bg-tertiary); /* Subtle hover */
+}
+
+.toolbar-button.active {
+    border-bottom: 2px solid var(--primary-action); /* Blue indicator for active tab */
+    color: var(--primary-action);
+}
+
+.toolbar-button.active svg {
+    fill: var(--primary-action);
+}
+
+.toolbar-button svg {
+    width: 24px;
+    height: 24px;
+    fill: var(--text-secondary); /* Use secondary text color for icons */
+    margin-bottom: 4px;
+}
+
+.toolbar-button span {
+    font-size: 0.875rem; /* 14px */
+    font-weight: 500; /* Medium weight for tab labels */
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}

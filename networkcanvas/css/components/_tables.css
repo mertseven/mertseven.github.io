@@ -1,0 +1,104 @@
+table {
+  border-collapse: collapse;
+  width: 100%;
+  max-width: 100%;
+  margin-top: 1.5rem;
+  background-color: var(--bg-secondary); /* Solid background */
+  border-spacing: 0;
+  box-shadow: 4px 4px 0px var(--accent-primary); /* Brutalist shadow */
+}
+
+th, td {
+  border: none;
+  border-bottom: 1px solid var(--border-color); /* Stark border */
+  padding: 12px 15px;
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+th {
+  background-color: var(--bg-tertiary);
+  color: var(--text-primary);
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  letter-spacing: 0.5px;
+}
+
+td {
+  color: var(--text-secondary);
+}
+
+/* Style for editable cells in the data entry table */
+td[contenteditable="true"] {
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
+  outline: none;
+  border-radius: 0; /* Sharp corners */
+  transition: background-color 0.2s, box-shadow 0.2s;
+  font-family: 'Roboto Mono', monospace; /* Monospace for data entry */
+}
+
+td[contenteditable="true"]:focus {
+  background-color: var(--bg-tertiary);
+  box-shadow: 0 0 0 2px var(--accent-primary); /* Brutalist focus ring */
+  position: relative; /* Ensures shadow is not clipped */
+  z-index: 1;
+}
+
+/* Zebra-striping for data entry table body */
+#data-table tbody tr:nth-child(even) td[contenteditable="true"] {
+    background-color: var(--bg-tertiary); /* Lighter shade for even rows */
+}
+
+#data-table tbody tr:nth-child(even) td[contenteditable="true"]:focus {
+    background-color: var(--bg-tertiary);
+}
+
+/* Remove bottom border from the last row */
+tr:last-child td {
+    border-bottom: none;
+}
+
+tr:hover td {
+    background-color: var(--bg-tertiary);
+}
+
+/* --- Sorting Styles --- */
+.sortable {
+  cursor: pointer;
+  position: relative;
+  user-select: none;
+}
+
+.sortable:hover {
+  background-color: #e0e0e0;
+}
+
+.sort-indicator {
+  display: inline-block;
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  margin-left: 8px;
+  vertical-align: middle;
+  opacity: 0.6;
+  transition: all 0.2s;
+}
+
+.sortable:hover .sort-indicator {
+  opacity: 1;
+}
+
+/* Ascending */
+th.sorted-asc .sort-indicator {
+  border-bottom: 5px solid var(--text-primary);
+  opacity: 1;
+}
+
+/* Descending */
+th.sorted-desc .sort-indicator {
+  border-top: 5px solid var(--text-primary);
+  opacity: 1;
+}

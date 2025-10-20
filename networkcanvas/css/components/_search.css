@@ -1,0 +1,54 @@
+/* Search Component Styles */
+
+#search-container {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 100; /* Make sure it's above the SVG but below modals */
+    background-color: var(--bg-primary-alpha);
+    padding: 5px;
+    border-radius: var(--border-radius);
+    backdrop-filter: blur(5px);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+#node-search-input {
+    width: 200px; /* Or any desired width */
+}
+
+#search-results-container {
+    display: none; /* Hidden by default */
+    position: absolute;
+    top: 100%; /* Position it right below the input */
+    left: 0;
+    width: 100%;
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-top: none;
+    border-radius: 0 0 var(--border-radius) var(--border-radius);
+    box-shadow: var(--shadow-md);
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 1000; /* Ensure it's on top of other elements */
+}
+
+.search-result-item {
+    padding: 8px 12px;
+    cursor: pointer;
+    border-bottom: 1px solid var(--border-color-light);
+    font-size: 0.9em;
+}
+
+.search-result-item:last-child {
+    border-bottom: none;
+}
+
+.search-result-item:hover {
+    background-color: var(--accent-primary-faded);
+}
+
+.search-result-item .result-id {
+    font-size: 0.8em;
+    color: var(--text-color-secondary);
+    margin-left: 8px;
+}

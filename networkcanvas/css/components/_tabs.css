@@ -1,0 +1,51 @@
+nav {
+  background-color: var(--bg-secondary); /* Solid background */
+  border-bottom: 1px solid var(--border-color); /* Stark border */
+  padding: 0 1rem; /* Add some horizontal padding */
+  backdrop-filter: none; /* Remove glassmorphism */
+  -webkit-backdrop-filter: none; /* Remove glassmorphism */
+  box-shadow: 0 2px 0px var(--accent-primary); /* Brutalist shadow */
+}
+
+nav ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+}
+
+nav li {
+  padding: 12px 20px; 
+  cursor: pointer;
+  color: var(--text-secondary);
+  border-bottom: 2px solid transparent;
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  font-size: 0.9rem;
+  font-weight: 500;
+  position: relative;
+  top: 1px; /* Align with the bottom border */
+}
+
+nav li.active {
+  color: var(--text-primary);
+  background-color: var(--bg-primary);
+  border-bottom-color: var(--bg-primary);
+  border-top: 2px solid var(--accent-primary);
+  border-top-left-radius: 0; /* Sharp corners */
+  border-top-right-radius: 0; /* Sharp corners */
+  font-weight: 700;
+  box-shadow: 2px -2px 0px var(--accent-primary); /* Brutalist shadow */
+}
+
+nav li:not(.active):hover {
+  background-color: var(--bg-tertiary);
+  border-bottom-color: var(--bg-tertiary);
+  color: var(--text-primary);
+  border-top-left-radius: 0; /* Sharp corners */
+  border-top-right-radius: 0; /* Sharp corners */
+}
+
+nav li a {
+  text-decoration: none;
+  color: inherit;
+}

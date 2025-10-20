@@ -1,0 +1,16 @@
+Code,Department,Age,Gender
+S01,Sales,18-25,Female
+S02,Engineering,26-35,Male
+S03,Sales,26-35,Male
+S04,Marketing,36-45,Female
+S05,Engineering,18-25,Male
+S06,Human Resources,46-55,Female
+S07,Sales,36-45,Male
+S08,Marketing,26-35,Female
+S09,Engineering,46-55,Male
+S10,Human Resources,18-25,Female
+S11,Sales,26-35,Female
+S12,Marketing,46-55,Male
+S13,Engineering,36-45,Female
+S14,Sales,18-25,Male
+S15,Marketing,26-35,Female

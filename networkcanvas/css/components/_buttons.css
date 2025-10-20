@@ -1,0 +1,121 @@
+/* css/components/_buttons.css */
+
+/* Default button style (Material Text Button) */
+button, .button-like-label {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center; /* Center content */
+    gap: 8px;
+    padding: 0 16px; /* Horizontal padding */
+    height: 36px; /* Standard height */
+    background-color: transparent;
+    color: var(--primary-action);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.875rem; /* 14px */
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    transition: background-color 0.2s ease;
+    -webkit-tap-highlight-color: transparent; /* Remove tap highlight on mobile */
+    position: relative;
+    overflow: hidden; /* For ripple effect */
+}
+
+/* Ripple Effect */
+button::after, .button-like-label::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 5px;
+    height: 5px;
+    background: rgba(255, 255, 255, 0.5);
+    opacity: 0;
+    border-radius: 100%;
+    transform: scale(1, 1) translate(-50%);
+    transform-origin: 50% 50%;
+}
+
+@keyframes ripple {
+    0% {
+        transform: scale(0, 0);
+        opacity: 1;
+    }
+    20% {
+        transform: scale(25, 25);
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        transform: scale(40, 40);
+    }
+}
+
+button:focus:not(:active)::after, .button-like-label:focus:not(:active)::after {
+    animation: ripple 1s ease-out;
+}
+
+
+button:hover, .button-like-label:hover {
+    background-color: rgba(0, 0, 0, 0.04); /* Subtle hover for text buttons */
+}
+
+button:active, .button-like-label:active {
+    background-color: rgba(0, 0, 0, 0.12);
+}
+
+button svg, .button-like-label svg {
+    width: 18px;
+    height: 18px;
+    fill: currentColor;
+}
+
+/* Primary Button (Material Contained Button) */
+button.primary {
+    background-color: var(--primary-action);
+    color: #FFFFFF;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+}
+
+button.primary:hover {
+    background-color: #1565C0; /* Slightly darker blue on hover */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.16), 0 2px 4px rgba(0,0,0,0.23);
+}
+
+/* Danger Button (Contained style with danger color) */
+button.danger {
+    background-color: var(--neg);
+    color: #FFFFFF;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+}
+
+button.danger:hover {
+    background-color: #D32F2F; /* Darker red */
+}
+
+/* Outlined style for file inputs */
+.button-like-label {
+    background-color: transparent;
+    color: var(--primary-action);
+    border: 1px solid var(--border-color);
+}
+
+.button-like-label:hover {
+    background-color: rgba(0, 0, 0, 0.04);
+    border-color: var(--primary-action);
+}
+
+
+button.small {
+    padding: 0 8px;
+    height: 32px;
+    font-size: 0.8rem;
+    gap: 4px;
+}
+
+button.small svg {
+    width: 16px;
+    height: 16px;
+}

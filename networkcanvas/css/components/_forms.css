@@ -1,0 +1,139 @@
+/* css/components/_forms.css */
+
+.controls {
+  margin-bottom: 1.5rem;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.control-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    position: relative; /* For positioning underlines */
+}
+
+.control-group label {
+    color: var(--text-secondary);
+    font-size: 0.9em;
+    font-weight: 500;
+}
+
+/* Styling for Selects and Inputs (Material Filled Style) */
+.control-group select,
+.control-group input[type="text"],
+.control-group input[type="number"] {
+    padding: 12px 12px 8px 12px;
+    background-color: var(--bg-tertiary);
+    color: var(--text-primary);
+    border: none;
+    border-bottom: 1px solid var(--text-secondary);
+    border-radius: 4px 4px 0 0; /* Top corners rounded */
+    transition: border-color 0.2s, box-shadow 0.2s;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+.control-group select:focus,
+.control-group input[type="text"]:focus,
+.control-group input[type="number"]:focus {
+    outline: none;
+    border-bottom: 2px solid var(--primary-action);
+    padding-bottom: 7px; /* Adjust for thicker border */
+}
+
+/* Styling for Range Inputs (Sliders) */
+.control-group input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 120px;
+    height: 4px;
+    background: var(--bg-tertiary);
+    border-radius: 2px;
+    outline: none;
+    cursor: pointer;
+}
+
+.control-group input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    background: var(--primary-action);
+    border-radius: 50%; /* Circular thumb */
+    cursor: pointer;
+    border: none;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+}
+
+.control-group input[type="range"]::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    background: var(--primary-action);
+    border-radius: 50%;
+    cursor: pointer;
+    border: none;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+}
+
+/* Styling for Checkboxes */
+.control-group input[type="checkbox"] {
+    -webkit-appearance: none;
+    appearance: none;
+    background-color: var(--bg-secondary);
+    margin: 0;
+    font: inherit;
+    color: currentColor;
+    width: 18px;
+    height: 18px;
+    border: 2px solid var(--text-secondary);
+    border-radius: 3px;
+    transform: translateY(-0.075em);
+    display: grid;
+    place-content: center;
+    cursor: pointer;
+}
+
+.control-group input[type="checkbox"]::before {
+    content: "";
+    width: 10px;
+    height: 10px;
+    transform: scale(0);
+    transition: 120ms transform ease-in-out;
+    box-shadow: inset 1em 1em var(--primary-action);
+    /* Checkmark shape */
+    clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+}
+
+.control-group input[type="checkbox"]:checked {
+    background-color: var(--primary-action);
+    border-color: var(--primary-action);
+}
+
+.control-group input[type="checkbox"]:checked::before {
+    transform: scale(1);
+    box-shadow: inset 1em 1em white;
+}
+
+/* General span for value display */
+.control-group span {
+    font-size: 0.9em;
+    min-width: 25px; 
+    text-align: right;
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+.controls-divider {
+    width: 100%;
+    border: none;
+    border-top: 1px solid var(--border-color);
+    margin: 10px 0;
+}
+
+.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}

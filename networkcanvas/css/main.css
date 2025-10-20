@@ -1,0 +1,28 @@
+/* css/main.css */
+
+@import url('base/_variables.css');
+@import url('base/_global.css');
+
+@import url('components/_buttons.css');
+@import url('components/_tables.css');
+@import url('components/_forms.css');
+@import url('components/_tabs.css');
+@import url('components/_titlebar.css');
+@import url('components/_statusbar.css');
+@import 'components/_toolbar.css';
+@import 'components/_context-menu.css';
+@import 'components/_tooltips.css';
+@import 'components/_notifications.css';
+@import 'components/_deleted-nodes.css';
+@import 'components/_search.css';
+@import 'components/_modal.css';
+@import url('pages/_tutorial.css');
+
+@import url('layout/_graph.css');
+@import url('layout/_data.css');
+@import url('layout/_metrics.css');
+
+@import url('layout/_group-metrics.css');
+@import url('layout/_dashboard.css');
+
+@import url('dark-theme.css');

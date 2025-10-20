@@ -1,0 +1,40 @@
+:root {
+  /* Material Design - Light Theme */
+  --bg-primary: #ECEFF1;       /* Blue Grey 50 - Main background */
+  --bg-secondary: #FFFFFF;     /* White - Card backgrounds */
+  --bg-tertiary: #CFD8DC;      /* Blue Grey 100 - Hovers, borders */
+  --text-primary: #263238;     /* Blue Grey 900 - Primary text */
+  --text-secondary: #546E7A;   /* Blue Grey 600 - Secondary text */
+  --border-color: #B0BEC5;     /* Blue Grey 200 - Subtle borders */
+  --accent-primary: #546E7A;   /* Blue Grey 600 - Primary accent */
+  --accent-secondary: #FFAB40; /* Amber A400 - Secondary accent */
+  --primary-action: #1976D2;   /* Blue 700 - Primary buttons */
+  
+  --pos: #22c55e; /* Green 500 */
+  --neg: #ef4444; /* Red 500 */
+
+  --status-popular: #22c55e; /* Green */
+  --status-rejected: #ef4444; /* Red */
+  --status-controversial: #f97316; /* Orange */
+  --status-neglected: #38bdf8; /* Light Blue */
+  --status-average: #9ca3af;  /* Gray */
+  --highlight-color: #FFAB40; /* Using the new Amber accent */
+
+  /* Font */
+  font-family: 'Roboto', 'Arial', sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+body.dark-theme {
+  /* Material Design - Dark Theme */
+  --bg-primary: #121212;       /* Standard Material dark background */
+  --bg-secondary: #1E1E1E;     /* Standard Material dark card/surface */
+  --bg-tertiary: #272727;      /* Darker hover state */
+  --text-primary: #FFFFFF;     /* White text */
+  --text-secondary: #B0B0B0;   /* Grey for secondary text */
+  --border-color: #3A3A3A;     /* Darker border */
+  --accent-primary: #82B1FF;   /* Light Blue A100 - Primary accent */
+  --accent-secondary: #FFD180; /* Light Amber A100 - Secondary accent */
+  --primary-action: #82B1FF;   /* Light Blue A100 - Primary buttons */
+}
