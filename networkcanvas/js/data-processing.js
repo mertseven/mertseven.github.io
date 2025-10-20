@@ -5,8 +5,8 @@ import * as state from './state.js';
 import { findMaximalCliques, calculateBetweennessCentrality, calculateEigenvectorCentrality, createAppGraphToJsNetworkX, findTriangles } from './graph_algorithms.js';
 import { showNotification } from './notifications.js';
 import { reprocessDataAndRedrawAll } from './app.js';
-import Graph from 'https://esm.sh/graphology';
-import louvain from 'https://esm.sh/graphology-communities-louvain';
+import Graph from 'https://jspm.dev/graphology';
+import louvain from 'https://jspm.dev/graphology-communities-louvain';
 
 // --- Helper Math Functions ---
 function calculateMean(arr) {
