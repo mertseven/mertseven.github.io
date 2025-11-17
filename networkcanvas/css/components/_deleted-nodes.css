@@ -1,44 +1,44 @@
 /* Styles for the soft-deleted nodes container and pills */
 
 #deleted-nodes-pills-container {
-    position: absolute;
-    bottom: 10px;
-    left: 10px;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 5px;
-    max-width: 250px;
-    z-index: 10;
-    max-height: 150px;
-    overflow-y: auto;
-    padding: 5px;
-    background-color: rgba(0,0,0,0.1);
-    border-radius: var(--border-radius);
-    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 5px;
+  max-width: 250px;
+  z-index: 10;
+  max-height: 150px;
+  overflow-y: auto;
+  padding: 5px;
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: var(--border-radius);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
 .deleted-node-pill {
-    display: flex;
-    align-items: center;
-    background-color: var(--bg-secondary);
-    color: var(--text-color-secondary);
-    padding: 4px 8px;
-    border-radius: var(--border-radius);
-    font-size: 0.85em;
-    cursor: pointer;
-    transition: background-color 0.2s;
-    box-shadow: var(--shadow-sm);
-    border: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  background-color: var(--bg-secondary);
+  color: var(--text-color-secondary);
+  padding: 4px 8px;
+  border-radius: var(--border-radius);
+  font-size: 0.85em;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border-color);
 }
 
 .deleted-node-pill:hover {
-    background-color: var(--bg-tertiary);
-    color: var(--text-color-primary);
+  background-color: var(--bg-tertiary);
+  color: var(--text-color-primary);
 }
 
 .deleted-node-pill .restore-icon {
-    margin-right: 6px;
-    font-weight: bold;
-    transform: rotate(45deg);
+  margin-right: 6px;
+  font-weight: bold;
+  transform: rotate(45deg);
 }

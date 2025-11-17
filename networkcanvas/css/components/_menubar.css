@@ -1,136 +1,54 @@
-/* css/components/_menubar.css */
+/* css/components/_menubar.css -> Styles for the new vertical sidebar */
 
-:root {
-    --menubar-height: 30px;
-    --menubar-bg: #ffffff;
-    --menubar-border-color: #cccccc;
-    --menubar-item-hover-bg: #e5e5e5;
-    --menubar-item-active-bg: #dcdcdc;
-    --dropdown-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    --dropdown-bg: #ffffff;
-    --dropdown-border-color: #c0c0c0;
-    --dropdown-item-hover-bg: var(--accent-primary);
-    --dropdown-item-hover-text: white;
-    --dropdown-separator-color: #e0e0e0;
+#sidebar {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 240px;
+  flex-shrink: 0; /* Prevent sidebar from shrinking */
+  height: 100%;
+  background-color: var(--bg-primary); /* Light Gray background */
+  border-right: 1px solid var(--border-color);
+  padding: 1rem 0;
+  box-sizing: border-box;
 }
 
-body.dark-mode {
-    --menubar-bg: #2c2c2c;
-    --menubar-border-color: #404040;
-    --menubar-item-hover-bg: #3a3a3a;
-    --menubar-item-active-bg: #484848;
-    --dropdown-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-    --dropdown-bg: #2c2c2c;
-    --dropdown-border-color: #454545;
-    --dropdown-item-hover-bg: var(--accent-primary);
-    --dropdown-item-hover-text: white;
-    --dropdown-separator-color: #4a4a4a;
+#sidebar .nav-group {
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
-#menubar {
-    display: flex;
-    align-items: center;
-    background-color: var(--menubar-bg);
-    height: var(--menubar-height);
-    border-bottom: 1px solid var(--menubar-border-color);
-    padding: 0 10px;
-    font-size: 14px;
-    user-select: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 1000;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+#sidebar .nav-item a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0.75rem 1rem;
+  margin: 0.25rem 1rem; /* Margin for inset appearance */
+  border-radius: 6px;
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition:
+    color 0.2s,
+    background-color 0.2s;
 }
 
-body {
-    padding-top: var(--menubar-height); /* Push content down */
+#sidebar .nav-item a:hover {
+  color: var(--text-primary);
+  background-color: var(--bg-tertiary);
 }
 
-.menubar-item {
-    position: relative;
-    padding: 0 10px;
-    line-height: var(--menubar-height);
-    cursor: pointer;
-    transition: background-color 0.1s ease;
+#sidebar .nav-item.active a {
+  color: var(--text-primary);
+  background-color: var(--bg-secondary); /* White background for active item */
+  font-weight: 600;
 }
 
-.menubar-item:hover {
-    background-color: var(--menubar-item-hover-bg);
-}
-
-.menubar-item.active {
-    background-color: var(--menubar-item-active-bg);
-}
-
-.menubar-dropdown {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    background-color: var(--dropdown-bg);
-    border: 1px solid var(--dropdown-border-color);
-    border-radius: 4px;
-    box-shadow: var(--dropdown-shadow);
-    min-width: 220px;
-    padding: 5px 0;
-    z-index: 1001;
-    list-style: none;
-    margin: 0;
-}
-
-.menubar-item.active .menubar-dropdown {
-    display: block;
-}
-
-.dropdown-item,
-.dropdown-submenu-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 8px 15px;
-    font-size: 14px;
-    cursor: pointer;
-    white-space: nowrap;
-}
-
-.dropdown-item:hover,
-.dropdown-submenu-item:hover {
-    background-color: var(--dropdown-item-hover-bg);
-    color: var(--dropdown-item-hover-text);
-}
-
-.dropdown-item .shortcut {
-    color: #888;
-    font-size: 12px;
-}
-
-.dropdown-item:hover .shortcut {
-    color: white;
-}
-
-.dropdown-separator {
-    height: 1px;
-    background-color: var(--dropdown-separator-color);
-    margin: 5px 0;
-}
-
-/* Submenu styles */
-.dropdown-submenu {
-    position: relative;
-}
-
-.dropdown-submenu .submenu-arrow {
-    margin-left: 10px;
-}
-
-.dropdown-submenu .menubar-dropdown {
-    top: -6px; /* Align with parent item */
-    left: 100%;
-    display: none;
-}
-
-.dropdown-submenu:hover > .menubar-dropdown {
-    display: block;
+#sidebar .nav-item svg {
+  width: 20px;
+  height: 20px;
+  /* The color of the SVG should be controlled by the parent `a` tag's color property */
+  fill: currentColor;
 }

@@ -1,70 +1,71 @@
 /* css/layout/_dashboard.css */
 
 #dashboard-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 1.5rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
 }
 
 .dashboard-card {
-    background-color: var(--bg-secondary);
-    padding: 1rem 1.5rem;
-    border-radius: 8px;
-    /* No shadow needed as it's on the main tab card */
+  background-color: var(--bg-secondary);
+  padding: 1rem 1.5rem;
+  border-radius: 8px;
+  /* No shadow needed as it's on the main tab card */
 }
 
 .dashboard-card h3 {
-    margin-top: 0;
-    margin-bottom: 1rem;
-    font-size: 1rem;
-    font-weight: 500;
-    color: var(--text-secondary);
-    border-bottom: 1px solid var(--border-color);
-    padding-bottom: 0.75rem;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
+  margin-top: 0;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 .widget-content .stat-item {
-    display: flex;
-    justify-content: space-between;
-    padding: 0.5rem 0;
-    border-bottom: 1px solid var(--bg-tertiary);
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--bg-tertiary);
 }
 
 .widget-content .stat-value {
-    font-weight: 500;
-    font-size: 1.1rem;
-    color: var(--text-primary);
+  font-weight: 500;
+  font-size: 1.1rem;
+  color: var(--text-primary);
 }
 
-.player-list ol, .player-list ul {
-    margin: 0;
-    padding-left: 1.5rem;
+.player-list ol,
+.player-list ul {
+  margin: 0;
+  padding-left: 1.5rem;
 }
 
 .player-list li {
-    padding: 4px 0;
+  padding: 4px 0;
 }
 
 .community-list {
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
 }
 
 .community-item {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 }
 
 .community-item .community-bar {
-    background-color: var(--primary-action);
-    color: white;
-    padding: 4px 8px;
-    border-radius: 4px;
-    font-size: 0.8rem;
-    font-weight: 500;
-    white-space: nowrap;
+  background-color: var(--primary-action);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  white-space: nowrap;
 }

@@ -4,25 +4,29 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 16px; /* Consistent padding */
-  height: 64px; /* Standard Material App Bar height */
+  padding: 0 24px; /* More spacious padding */
+  height: 64px;
   background-color: var(--bg-secondary);
   border-bottom: 1px solid var(--border-color);
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Material elevation shadow (dp2) */
+  box-shadow: none; /* Removed shadow for a flat design */
   position: relative;
   z-index: 100;
 }
 
 #title-bar h1 {
   margin: 0;
-  font-size: 1.25rem; /* Material title size */
-  font-weight: 500; /* Medium weight for titles */
-  font-family: 'Roboto', sans-serif; /* Ensure Roboto is used */
+  font-size: 1.25rem;
+  font-weight: 600; /* Slightly bolder for more emphasis */
   color: var(--text-primary);
   text-align: left;
 }
 
 #title-bar > div {
-    display: flex;
-    gap: 8px; /* Space between buttons */
+  display: flex;
+  gap: 8px; /* Space between buttons */
+}
+
+#logo {
+  height: 32px; /* Increased size for better visibility */
+  margin-right: 12px; /* More space between logo and title */
 }

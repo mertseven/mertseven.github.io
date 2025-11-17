@@ -1,67 +1,56 @@
+/* css/components/_tables.css */
+
 table {
   border-collapse: collapse;
   width: 100%;
   max-width: 100%;
-  margin-top: 1.5rem;
-  background-color: var(--bg-secondary); /* Solid background */
+  margin-top: 1rem;
+  background-color: var(--bg-secondary);
   border-spacing: 0;
-  box-shadow: 4px 4px 0px var(--accent-primary); /* Brutalist shadow */
+  box-shadow: none; /* Removed shadow */
 }
 
-th, td {
-  border: none;
-  border-bottom: 1px solid var(--border-color); /* Stark border */
+th,
+td {
+  border: 1px solid var(--border-color);
   padding: 12px 15px;
-  text-align: center;
+  text-align: left; /* Align text to the left */
   font-size: 0.9rem;
 }
 
 th {
-  background-color: var(--bg-tertiary);
-  color: var(--text-primary);
-  font-weight: 700;
-  text-transform: uppercase;
-  font-size: 0.8rem;
-  letter-spacing: 0.5px;
+  background-color: transparent; /* Cleaner header */
+  color: var(--text-secondary); /* Less prominent header text */
+  font-weight: 500;
+  text-transform: none; /* Removed uppercase */
+  font-size: 0.85rem;
 }
 
 td {
-  color: var(--text-secondary);
+  color: var(--text-primary);
 }
 
-/* Style for editable cells in the data entry table */
+
+
+tr:hover td {
+  background-color: var(--bg-tertiary);
+}
+
+/* Style for editable cells */
 td[contenteditable="true"] {
   background-color: var(--bg-secondary);
   color: var(--text-primary);
   outline: none;
-  border-radius: 0; /* Sharp corners */
-  transition: background-color 0.2s, box-shadow 0.2s;
-  font-family: 'Roboto Mono', monospace; /* Monospace for data entry */
+  transition:
+    background-color 0.2s,
+    box-shadow 0.2s;
 }
 
 td[contenteditable="true"]:focus {
-  background-color: var(--bg-tertiary);
-  box-shadow: 0 0 0 2px var(--accent-primary); /* Brutalist focus ring */
-  position: relative; /* Ensures shadow is not clipped */
+  background-color: var(--bg-secondary);
+  box-shadow: 0 0 0 2px var(--primary-action); /* Modern focus ring */
+  position: relative;
   z-index: 1;
-}
-
-/* Zebra-striping for data entry table body */
-#data-table tbody tr:nth-child(even) td[contenteditable="true"] {
-    background-color: var(--bg-tertiary); /* Lighter shade for even rows */
-}
-
-#data-table tbody tr:nth-child(even) td[contenteditable="true"]:focus {
-    background-color: var(--bg-tertiary);
-}
-
-/* Remove bottom border from the last row */
-tr:last-child td {
-    border-bottom: none;
-}
-
-tr:hover td {
-    background-color: var(--bg-tertiary);
 }
 
 /* --- Sorting Styles --- */
@@ -72,7 +61,7 @@ tr:hover td {
 }
 
 .sortable:hover {
-  background-color: #e0e0e0;
+  background-color: var(--bg-tertiary);
 }
 
 .sort-indicator {

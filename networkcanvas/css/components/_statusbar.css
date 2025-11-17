@@ -1,55 +1,55 @@
 /* css/components/_statusbar.css */
 
 :root {
-    --statusbar-height: 25px;
-    --statusbar-bg: #f0f0f0;
-    --statusbar-border-color: #cccccc;
-    --statusbar-text-color: #333333;
+  --statusbar-height: 25px;
+  --statusbar-bg: #f0f0f0;
+  --statusbar-border-color: #cccccc;
+  --statusbar-text-color: #333333;
 }
 
 body.dark-mode {
-    --statusbar-bg: #2c2c2c;
-    --statusbar-border-color: #404040;
-    --statusbar-text-color: #dddddd;
+  --statusbar-bg: #2c2c2c;
+  --statusbar-border-color: #404040;
+  --statusbar-text-color: #dddddd;
 }
 
 #status-bar {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: var(--statusbar-height);
-    background-color: var(--statusbar-bg);
-    border-top: 1px solid var(--statusbar-border-color);
-    display: flex;
-    align-items: center;
-    padding: 0 10px;
-    font-size: 12px;
-    color: var(--statusbar-text-color);
-    z-index: 1000;
-    user-select: none;
-    box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: var(--statusbar-height);
+  background-color: var(--statusbar-bg);
+  border-top: 1px solid var(--statusbar-border-color);
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+  font-size: 12px;
+  color: var(--statusbar-text-color);
+  z-index: 1000;
+  user-select: none;
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
 }
 
 body {
-    /* Add padding to the bottom to prevent content from being hidden behind the status bar */
-    padding-bottom: var(--statusbar-height);
+  /* Add padding to the bottom to prevent content from being hidden behind the status bar */
+  padding-bottom: var(--statusbar-height);
 }
 
 .status-section {
-    padding: 0 10px;
-    border-right: 1px solid var(--statusbar-border-color);
-    white-space: nowrap;
+  padding: 0 10px;
+  border-right: 1px solid var(--statusbar-border-color);
+  white-space: nowrap;
 }
 
 .status-section:first-child {
-    padding-left: 0;
+  padding-left: 0;
 }
 
 .status-section:last-child {
-    border-right: none;
+  border-right: none;
 }
 
 .status-section-spring {
-    flex-grow: 1;
+  flex-grow: 1;
 }
