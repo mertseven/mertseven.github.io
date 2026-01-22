@@ -3,6 +3,18 @@
 // Publications Data (already provided)
 const publicationsData = [
     {
+        title: "Prompting Future Journalists to Prompt: An Experiential Study on GenAI, Critical Literacy, and Reflective Practice in Data News",
+        authors: "Seven, M., Ozan, Ö., Emirtekin, E.",
+        year: 2025,
+        abstract: "This study investigates the integration of Generative AI in journalism education, focusing on critical literacy and reflective practice. It explores how future journalists engage with AI tools for data news creation, highlighting the importance of human-AI collaboration and the development of critical prompting skills.",
+        doi: "https://doi.org/10.34190/icair.5.1.4358",
+        keywords: ["Generative AI", "Journalism education", "Critical AI literacy", "Phenomenology", "Human-AI collaboration", "Reflective practice", "New Media Technologies"],
+        downloadable: {
+            pdf: "", 
+            citation: "Seven, M., Ozan, Ö., & Emirtekin, E. (2025). Prompting Future Journalists to Prompt: An Experiential Study on GenAI, Critical Literacy, and Reflective Practice in Data News. 5th International Conference on AI Research (ICAIR), 5(1). https://doi.org/10.34190/icair.5.1.4358"
+        }
+    },
+    {
         title: "Homophily studies in higher education: Bibliometric and methodological analysis of the literature",
         authors: "Seven, M., Aysel, K.",
         year: 2025,
