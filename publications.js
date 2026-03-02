@@ -15,7 +15,7 @@ const publicationsData = [
         }
     },
     {
-        title: "Homophily studies in higher education: Bibiometric and methodological analysis of the literature",
+        title: "Homophily studies in higher education: Bibliometric and methodological analysis of the literature",
         authors: "Seven, M., Aysel, K.",
         year: 2025,
         abstract: "A bibliometric study investigating homophily in higher education, revealing patterns in how similar individuals form relationships within university settings and their impact on educational networks.",
