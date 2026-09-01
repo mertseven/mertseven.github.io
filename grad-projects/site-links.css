@@ -1,0 +1,297 @@
+.source-link {
+  display: inline-block;
+  margin-top: 25px;
+  padding: 12px 16px;
+  background: var(--ink);
+  color: var(--paper);
+  text-decoration: none;
+  font-weight: 600;
+  transition: background .2s, transform .2s;
+}
+
+.source-link:hover {
+  background: var(--blue);
+  transform: translateY(-2px);
+}
+
+.site-pending {
+  margin-top: 25px;
+  color: #74736c;
+  font-size: 12px;
+}
+
+.project-card .card-meta {
+  padding-bottom: 14px;
+}
+
+.channel-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 24px;
+}
+
+.channel-links a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  min-width: 112px;
+  padding: 10px 12px;
+  border: 1px solid var(--ink);
+  color: var(--ink);
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 600;
+  transition: background .2s, color .2s, transform .2s;
+}
+
+.channel-links a:hover,
+.channel-links a:focus-visible {
+  background: var(--ink);
+  color: var(--paper);
+  transform: translateY(-2px);
+}
+
+.channel-links.compact {
+  min-height: 43px;
+  margin: 0 0 34px;
+}
+
+.channel-links.compact a {
+  min-width: 0;
+  padding: 8px 10px;
+  border-color: var(--line);
+  font-size: 11px;
+}
+
+.dialog-info .channel-links {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+.dialog-info .channel-links a {
+  width: 100%;
+}
+
+.footer-meta {
+  display: grid;
+  gap: 8px;
+  align-items: start;
+}
+
+.footer-external {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  width: min(100%, 250px);
+  padding-bottom: 6px;
+  border-bottom: 1px solid rgba(242, 240, 232, .35);
+  color: var(--paper);
+  text-decoration: none;
+  transition: color .2s, border-color .2s;
+}
+
+.footer-external span {
+  color: var(--acid);
+  font-size: 17px;
+  transition: transform .2s;
+}
+
+.footer-external:hover,
+.footer-external:focus-visible {
+  color: var(--acid);
+  border-color: var(--acid);
+}
+
+.footer-external:hover span,
+.footer-external:focus-visible span {
+  transform: translate(3px, -3px);
+}
+
+/* Responsive hardening: keep every section inside the viewport. */
+html,
+body {
+  max-width: 100%;
+  overflow-x: clip;
+}
+
+img,
+svg {
+  max-width: 100%;
+}
+
+.collaboration,
+.sequence,
+.sequence-list,
+.method,
+.method-track {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.sequence-list li {
+  max-width: 100%;
+}
+
+/* The methodology now wraps instead of creating a desktop scrollbar. */
+.method-track {
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  overflow-x: visible;
+  row-gap: 22px;
+}
+
+.method-track span {
+  white-space: normal;
+}
+
+@media (max-width: 1100px) {
+  .collaboration {
+    grid-template-columns: minmax(250px, 3fr) minmax(0, 7fr);
+    gap: 4vw;
+  }
+
+  .sequence-list li {
+    width: 82%;
+  }
+
+  .sequence-list li:nth-child(even) {
+    margin-left: 18%;
+  }
+
+  .sequence-list .note,
+  .sequence-list .result {
+    width: 100%;
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 850px) {
+  .collaboration {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .actors {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    position: static;
+  }
+
+  .sequence-list {
+    border: 0;
+    background: none;
+  }
+
+  .sequence-list li,
+  .sequence-list li:nth-child(even),
+  .sequence-list li:nth-child(3),
+  .sequence-list li:nth-child(5),
+  .sequence-list .note,
+  .sequence-list .result {
+    width: calc(100% - 8px);
+    max-width: calc(100% - 8px);
+    margin-left: 0;
+    margin-right: 8px;
+  }
+
+  .sequence-list li::after {
+    display: none;
+  }
+
+  .method-track {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 14px;
+  }
+
+  .method-track b {
+    width: max-content;
+    transform: rotate(90deg);
+    transform-origin: center;
+    margin-left: 9px;
+  }
+}
+
+@media (max-width: 560px) {
+  .hero {
+    min-height: calc(100svh - 76px);
+  }
+
+  .hero h1 {
+    font-size: clamp(58px, 17vw, 92px);
+    letter-spacing: -.075em;
+  }
+
+  .hero-footer {
+    align-items: center;
+    gap: 16px;
+  }
+
+  .hero-footer p {
+    max-width: none;
+    flex: 1;
+  }
+
+  .manifesto-copy {
+    font-size: clamp(31px, 9vw, 48px);
+  }
+
+  .filters {
+    flex-wrap: nowrap;
+    margin-left: -20px;
+    margin-right: -20px;
+    padding: 0 20px 8px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .filters::-webkit-scrollbar {
+    display: none;
+  }
+
+  .filter {
+    flex: 0 0 auto;
+  }
+
+  .actors {
+    gap: 6px;
+  }
+
+  .actors span {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .sequence-list li {
+    grid-template-columns: 30px minmax(0, 1fr);
+    gap: 10px;
+    padding: 16px;
+  }
+
+  .sequence p,
+  .dialog-description,
+  .card-meta h3 {
+    overflow-wrap: anywhere;
+  }
+
+  dialog {
+    width: calc(100vw - 24px);
+    max-width: calc(100vw - 24px);
+    max-height: calc(100dvh - 24px);
+  }
+
+  .dialog-hero {
+    min-height: 240px;
+  }
+
+  .channel-links.compact {
+    gap: 6px;
+  }
+
+  .channel-links.compact a {
+    flex: 1 1 auto;
+    justify-content: center;
+    gap: 8px;
+  }
+}

@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Yaşar Üniversitesi Yeni Medya ve İletişim Bölümü 2025–2026 bitirme projeleri vitrini.">
+  <title>NMED Showcase — Sahadan Yeni Medyaya</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="site-links.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="#top" aria-label="NMED Showcase ana sayfa">
+      <span class="brand-mark">N/M</span><span>Graduation Showcase</span>
+    </a>
+    <nav aria-label="Ana navigasyon">
+      <a href="#projects">Projeler</a>
+      <a href="#collaboration">İşbirliği modeli</a>
+      <a href="#about">Hakkında</a>
+    </nav>
+    <span class="year">2025—26</span>
+  </header>
+
+  <main id="top">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-kicker"><span></span> Yeni Medya ve İletişim · Bitirme Projeleri</div>
+      <h1 id="hero-title">Sahadan<br><em>yeni medyaya.</em></h1>
+      <div class="hero-footer">
+        <p>İzmir’i araştıran, kamusal meseleleri görünür kılan ve dijital mecralarda harekete geçiren öğrenci projeleri.</p>
+        <a class="circle-link" href="#projects" aria-label="Projeleri keşfet">↓</a>
+      </div>
+      <div class="orbit orbit-a" aria-hidden="true"></div>
+      <div class="orbit orbit-b" aria-hidden="true"></div>
+    </section>
+
+    <section class="manifesto" id="about">
+      <p class="eyebrow">Bir bitirme projesinden fazlası</p>
+      <p class="manifesto-copy">Öğrenciler bir yıl boyunca <strong>akademik bilgi</strong> ile <strong>saha bilgisini</strong> buluşturdu; gerçek meseleleri araştırmaya, kimliğe, mecraya ve kamusal içeriğe dönüştürdü.</p>
+      <div class="stats" aria-label="Showcase özeti">
+        <div><strong>12</strong><span>proje</span></div>
+        <div><strong>8</strong><span>tema</span></div>
+        <div><strong>1</strong><span>yıllık üretim</span></div>
+        <div><strong>∞</strong><span>kamusal etki</span></div>
+      </div>
+    </section>
+
+    <section class="projects-section" id="projects">
+      <div class="section-heading">
+        <div><p class="eyebrow">2025—2026 seçkisi</p><h2>Projeler</h2></div>
+        <p class="result-count" aria-live="polite"><span id="visible-count">9</span> proje gösteriliyor</p>
+      </div>
+      <div class="filters" role="group" aria-label="Projeleri temaya göre filtrele">
+        <button class="filter active" data-filter="all">Tümü</button>
+        <button class="filter" data-filter="kent">Kent hakkı</button>
+        <button class="filter" data-filter="erisim">Erişilebilirlik</button>
+        <button class="filter" data-filter="ekoloji">Ekoloji</button>
+        <button class="filter" data-filter="toplum">Toplum & sağlık</button>
+        <button class="filter" data-filter="medya">Dijital kültür</button>
+      </div>
+      <div class="project-grid" id="project-grid"></div>
+    </section>
+
+    <section class="collaboration" id="collaboration">
+      <div class="collab-intro">
+        <p class="eyebrow">İzmir Kent Konseyi × NMED</p>
+        <h2>Ortak akıl,<br>ortak saha.</h2>
+        <p>Üniversitenin üretim kapasitesi ile Kent Konseyi’nin saha bilgisini bir araya getiren, bir akademik yıla yayılan işbirliği modeli.</p>
+      </div>
+
+      <div class="sequence" aria-label="Kent Konseyi işbirliği süreç diyagramı">
+        <div class="actors" aria-hidden="true">
+          <span>Üniversite</span><span>Öğrenciler</span><span>Kent Konseyi</span><span>Çalışma Grupları</span>
+        </div>
+        <ol class="sequence-list">
+          <li data-from="0" data-to="2"><span class="step">01</span><div><strong>İlk temas</strong><p>Bölüm, Kent Konseyi’ni ziyaret eder; ortak kesişimler ve karşılıklı ihtiyaçlar konuşulur.</p></div></li>
+          <li data-from="2" data-to="1"><span class="step">02</span><div><strong>Sahayı tanıma</strong><p>Kent Konseyi üniversitede yapısını, meclislerini, çalışma gruplarını ve öncelikli konuları öğrencilere aktarır.</p></div></li>
+          <li data-from="0" data-to="2"><span class="step">03</span><div><strong>Proje hattı</strong><p>Hocalar bitirme projesinin sorunsallaştırma → araştırma → kimlik → mecra → içerik → entegrasyon yapısını paylaşır.</p></div></li>
+          <li class="note"><span class="step">04</span><div><strong>Eşleşme & ortak takip</strong><p>Öğrenciler seçtikleri konu alanıyla kesişen çalışma gruplarıyla eşleşir. WhatsApp Community ortak takip hattını kurar.</p></div></li>
+          <li data-from="1" data-to="3"><span class="step">05</span><div><strong>Bir yıllık saha çalışması</strong><p>Düzenli görüşmeler, yönlendirmeler ve geri bildirimlerle saha bilgisi üretim sürecine taşınır.</p></div></li>
+          <li class="result"><span class="step">06</span><div><strong>Konsolidasyon</strong><p>Akademik bilgi + saha bilgisi; web, video, sosyal medya ve katılımcı deneyimlere dönüşür.</p></div></li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="method">
+      <p class="eyebrow">Üretim metodolojisi</p>
+      <div class="method-track">
+        <span>Sorunsallaştır</span><b>→</b><span>Araştır</span><b>→</b><span>Kimlik kazandır</span><b>→</b><span>Mecra üret</span><b>→</b><span>İçerik üret</span><b>→</b><span>Entegre et</span>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div><span class="brand-mark">N/M</span><p>Yeni Medya ve İletişim<br>Bitirme Projeleri Showcase</p></div>
+    <div class="footer-meta">
+      <p>Yaşar Üniversitesi · İzmir<br>2025—2026</p>
+      <a class="footer-external" href="https://newmedia.yasar.edu.tr/" target="_blank" rel="noopener">Yeni Medya ve İletişim <span aria-hidden="true">↗</span></a>
+      <a class="footer-external" href="https://www.yasar.edu.tr/" target="_blank" rel="noopener">Yaşar Üniversitesi <span aria-hidden="true">↗</span></a>
+    </div>
+    <a href="#top">Başa dön ↑</a>
+  </footer>
+
+  <dialog id="project-dialog" aria-labelledby="dialog-title">
+    <button class="dialog-close" aria-label="Projeyi kapat">×</button>
+    <div id="dialog-content"></div>
+  </dialog>
+  <script src="script.js"></script>
+</body>
+</html>
