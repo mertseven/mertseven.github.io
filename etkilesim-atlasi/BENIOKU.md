@@ -1,0 +1,451 @@
+# Etkileşim Atlası
+
+İnteraktif medyayı mümkün kılan JavaScript kütüphanelerinin haritası ve
+onlarla yapılmış gazetecilik işlerinin müzesi. Öğrencilere gösterilmek üzere.
+
+**Yayınlanan sürüm:** https://claude.ai/code/artifact/603b663f-cc3f-44dd-844e-8bc6db8c306d
+> ⚠️ **Bu bağlantı çok eski.** En baştaki siyah boşluklu, dither'lı müzeyi
+> gösteriyor. Holmdel planı, gündüz ışığı, vatoz, rehber, kapılar — hiçbiri
+> orada yok. Yayınlamak açık duran en büyük madde.
+
+---
+
+## Nerede kaldık
+
+**Durum: hâlâ inşa hâlinde.** İki yarı da çalışıyor ve sınandı:
+
+| | |
+|---|---|
+| Atlas | 162 kart, **sıfır çakışma**, arama ("ses" → 16/162), 6 tur durağı, eksen sözlüğü, 10 küme, 28 canlı demo. Konsol temiz |
+| Müze | Omurga baştan sona yürünüyor, rampa sıçraması 0,091 m, 8 kanat/4 kat erişilebilir, duvarlar geçilmiyor, afiş ve konsol tıklaması çalışıyor |
+| Başarım | 998×720 tuvalde toplam **3,33 ms** iş; dönerken en kötü kare 19 ms |
+| Dosya | 292 kB, tek parça, derleme bağımlılığı yok |
+
+**Dokuz turun tamamı müzeye gitti.** İlk turdaki altı açık maddeden müzeye ait
+üçü bitti (kadraj, canlı demolar, kompozisyon), atlasa ait üçü **hiç el
+sürülmeden** duruyor: mobil, klavye gezinmesi, 134 kütüphaneye "neden demo yok"
+etiketi. Sıradaki iş muhtemelen müzede değil.
+
+**Önerilen sıra:** (1) yayınla — ama önce artifact sürümünü CSP altında ayrıca
+sına, son dokuz turda çok şey değişti; (2) atlas tarafındaki üç madde, özellikle
+"neden demo yok" etiketi (işin dürüstlük çerçevesindeki tek boşluk); (3) mobil;
+(4) sizin makinenizde `atlas.mLog()` ölçümü.
+
+---
+
+## Sınarken düşülen tuzaklar
+
+Bunlar saatler yedi, yazıyorum:
+
+- **Önizleme paneli gizliyken `requestAnimationFrame` donuyor.** Kare çalışmıyor,
+  dolayısıyla `mFrame` çalışmıyor, dolayısıyla kamera `player`/`mYaw`'dan
+  **güncellenmiyor**. `mTeleport` + `mLook` sonrası ışın hâlâ eski kameradan
+  gidiyor ve tıklama testleri sahte biçimde başarısız oluyor. Çare: araya gerçek
+  bir kare sokmak (ekran görüntüsü almak bir kare pompalıyor).
+- **`atlas.mProfile(1)` sahneyi çizer ama `mFrame`'i çalıştırmaz** — yani kamerayı
+  güncellemez. Kare zorlamak için yeterli değil.
+- **Sayaçtaki ve `mQuality()`'deki değerler üstel ortalama.** Herhangi bir
+  takılmadan sonra ~20 kare boyunca kirli kalıyorlar. Yerleşmeden inanmayın:
+  bir ölçümde "sahne 11,65 ms" gördüm, yerleşince 1,58 çıktı.
+- **Gömülü/sanal ortamlarda fare kilidi reddediliyor** (`WrongDocumentError`).
+  O ortamlarda sürükle-bak devreye giriyor; kilit varsayarak test yazmayın.
+- **Birbirine kilitli sayılar:** kapı genişliği (2 m) → kanat başına yuva (26) →
+  pano oranı (altıda bir) → afiş yuvası (22) → en kalabalık bölüm (22 iş).
+  Birini değiştirirseniz zinciri baştan sayın.
+
+---
+
+## Bu klasörde ne var
+
+```
+derle.py                          parçaları birleştirir → iki çıktı üretir
+etkilesim-atlasi.html             Artifact'a yayınlanan hâli (doctype/head yok)
+etkilesim-atlasi-standalone.html  dışarıda çalışan tam belge (çift tıkla açılır)
+src/                              asıl kaynak — düzenlemeler BURADA yapılır
+veri/                             ham araştırma verisi
+```
+
+**Derleme:** `python derle.py` — başka hiçbir şey gerekmez, bağımlılık yok.
+
+> `etkilesim-atlasi.html` bir **çıktıdır**. Doğrudan düzenlemeyin; `src/` içindeki
+> parçayı düzenleyip yeniden derleyin, yoksa değişiklik bir sonraki derlemede silinir.
+
+---
+
+## Kaynak parçaları
+
+Sıra önemli: hepsi **tek bir IIFE** içinde birleşir. `_p2.js` açar, `_p7.js` kapatır.
+
+| Dosya | İçerik |
+|---|---|
+| `_p1.html` | İskelet, bütün CSS, ray (sol panel), sahne, müze arayüzü, modal, joystick |
+| `_p2.js`   | 10 grup, 13 eksen + açıklamaları, **162 kütüphane**, t-SNE çözücü |
+| `_p3.js`   | 44 prosedürel glyph (her kütüphanenin işini taklit eden çizimler) |
+| `_p4b.js`  | Kart manzarası: yerleşim, çakışma ayrıştırma, sürükleme, mini harita, künye |
+| `_p5.js`   | Küme bölgeleri, CDN yükleyici, **28 canlı kütüphane demosu** |
+| `_p6.js`   | Tur (6 durak), karşılaştırma paneli, eksen sözlüğü |
+| `_p8.js`   | **118 gazetecilik işi** (digijournalism kataloğu) |
+| `_p9.js`   | **Vatoz**: kanat kinematiği, kuyruk filamenti, deri dokusu, geometri |
+| `_p7.js`   | Müze: Holmdel planı (omurga + üç ışık avlusu), ışık/hava geçişi, gezinme, modal |
+
+---
+
+## Ürünün iki yarısı
+
+**1. Atlas (kart manzarası).** 162 kütüphane, 16 boyutlu özellik vektöründen
+t-SNE ile bir düzleme serilir; kartlar çakışmayacak şekilde ayrıştırılır.
+Her kart iki kutu: üstte kütüphanenin işini yapan canlı çizim, altta açıklama.
+28 kartta kütüphanenin **kendisi** cdnjs/jsDelivr'den yüklenip kartın içinde çalışır.
+Yanındaki "kanat" düğmesi aynı demoyu etkileşimli olarak açar.
+
+**2. Müze — Bell Labs Holmdel Complex.** Saarinen'in 1962 binası örnek alındı:
+bina boyunca tek bir **omurga** (200 m koridor) ve onu noktalayan **üç tam
+yükseklikte ışık avlusu** (her biri 34 m). Omurga her avludan bir köprüyle geçer,
+kuyular köprünün iki yanında açılır; her katta avluya bakan galeriler vardır.
+Cephe baştan sona cam, avluların tepesi camlı çatı — sahne gündüz.
+
+Avlular bilerek uzun: koridor 98 m, avlu 102 m. Yürüyüşün yarısından çoğu dört
+katlı boşluğun altında geçsin diye.
+
+Dört kat × omurganın iki yanı = sekiz kanat, sayfanın sekiz bölümüne denk gelir.
+Kanat başına 30 yuva; **her beşinci yuva afişe değil canlı bir panoya** ayrılır
+(aşağı bakın), kalan 24'e 118 işin o bölüme düşeni sığar — en kalabalığı 22.
+İşler yuvalara baştan değil **bütün boya yayılarak** dağıtılır, yoksa 7 işlik bir
+bölüm koridorun ilk çeyreğinde bitip gerisini boş bırakıyor.
+
+Kanat tabelası ve o kanadın üç canlı demosu avlu kenarlarındaki **dolu ayaklara**
+asılıdır. Avluya ayrıca **dizin pankartları** sarkar: o taraftaki dört kanadın
+adı, kendi renginde, kat yüksekliğine denk gelen bantlar hâlinde.
+
+> Pankartlar kuyunun **dış** kenarında (x=±15, z=cz±14). Önce x=±10,5 ve
+> z=cz±9'daydılar — yani tam rampanın x aralığının (6,2–11,8) ve çapraz köprünün
+> z aralığının içinde; ikisinin de içinden geçiyorlardı. Ayrıca `DoubleSide`
+> değil, **sırt sırta iki tek yüzlü düzlem**: çift yüzlüyken arkadan bakınca
+> yazı ters okunuyordu.
+
+**Rehber ekranı.** `Tab` dört katı ve sekiz kanadı, renkleriyle ve iş sayılarıyla
+listeler; bulunduğunuz kat ve kanat işaretlidir. 200 m'lik bir binada "nerede ne
+var" sorusunun cevabı daha önce yalnız avlunun ortasında duruyordu.
+
+Katlar arası bağlantı uç avlulardaki rampalardır; kat kat taraf değiştirir (zikzak).
+Sahne tek bir "boyama" geçişinden geçer: yumuşak parlaklık, sıcak-soğuk ayrımı,
+köşelerde hafif kararma ve çok ince bir kâğıt dokusu.
+
+**Orta avluda bir vatoz.** Sağ kuyu bir akvaryuma çevrildi: 13 × 34 m taban,
+24,8 m derinlik, içinde 2,4 m kanat açıklığında bir **benekli kartal vatozu**
+süzülüyor (4–13 m yükseklikte). Kuyunun kenarında bir **konsol** var; tıklayınca
+hayvanın parametrelerini değiştiren bir panel açılıyor. Ayrıntı aşağıda.
+
+**Mekânı canlı tutan altı şey.** İlk hâli doğru ama soğuk ve basıktı; sebebi
+teşhis edildi ve tek tek karşılandı:
+
+| Sorun | Çare |
+|---|---|
+| Tavan koyu kirişlerle bir "kapak" gibiydi | Kirişler **aydınlatma bandına** çevrildi (sıcak beyaz) |
+| Hiç renk yoktu | Bölüm renkleri (`--cat-*`) **korkuluk kapaklarına ve koridor duvarının üst kenarına** taşındı |
+| Boşluğun yüksekliği okunmuyordu | Avluya **sarkan dizin pankartları** (3 m → 24 m) |
+| Zemin bomboş beyazdı | İki **döşeme kılavuz çizgisi** + duvar dibinde banklar |
+| Bina bomboştu | Prosedürel **bitkiler** (saksı + dokuz yaprak, instance'lı) |
+| Hiçbir şey kıpırdamıyordu | **Canlı panolar**: `_p3.js`'in glyph'leri, donmuş kare değil, yaklaşınca her karede yeniden çiziliyor |
+
+---
+
+## Kritik teknik kararlar (bunları bozmayın)
+
+**IIFE zorunlu.** Kod tepe seviyede `const N`, `const X` gibi adlar kullanıyor.
+cdnjs'ten yüklenen UMD kütüphaneleri de aynı kapsamda kendi adlarını tanımlıyor ve
+`Identifier 'N' has already been declared` hatasıyla o kütüphaneyi öldürüyor.
+Her şey kapalı bir kapsamda. Konsoldan kurcalamak için `window.atlas` var.
+
+**CSP (Artifact ortamı).** Yalnız cdnjs, jsDelivr/npm ve code.jquery.com'dan
+**script** yüklenebilir. Dış görsel, stil dosyası, iframe, fetch — hepsi yasak.
+Bu yüzden: Swiper ve MapLibre'ın CSS'i elle yazıldı; projelerin ekran görüntüsü
+yok, tasarlanmış afişler var. `standalone` sürümde bu kısıt yoktur.
+
+**Renk düzeni: saf beyaz ve saf siyah yok.** Ghibli arka planlarında en koyu
+değer bile ılık bir zeytindir. Burada da öyle: `matDark` `#4A4F43`, kâğıt
+`#F7F1E1`, mürekkep `#343A30`. Ayrımı asıl yapan tek satır `HemisphereLight`:
+**tepesi sıcak (`#FFF6E8`), yeri soğuk (`#B6C2BC`)** — yukarı bakan yüzler ılık
+krem, aşağı bakanlar (tavanlar) mavi-yeşil gölgede kalıyor. Yönlü ışıklar bunun
+üstüne az miktarda biniyor (`.42` ve `.22`); daha fazlası döşemeyi beyaza patlatıp
+her şeyi sepyaya çeviriyor, denendi.
+
+**Katları avludan okutan şey korkulukların üstündeki kapak çizgisidir** — o
+kapaklar bölüm rengini taşır. Kaldırırsanız kompozisyon dağılır.
+
+**Müzenin bölüm renkleri atlasınkinden ayrı** (`CAT_MUSEUM`). Atlas kartlarında
+10 kümenin t-SNE haritasında bir bakışta ayrılması gerekiyor — orada parlak ve
+doygun olmaları işlevsel. Müzede aynı renkler mekânı soğutuyordu; burada aynı
+anahtarların susturulmuş, topraklı kardeşleri var. Bir anahtar tabloda yoksa
+atlasın `--cat-*` rengine düşer.
+
+**Tekrar eden yapı instance'lı.** 200 m × 4 kat bir cam kaydı ızgarası, kolonlar,
+çatı kirişleri, rampa dilimleri, aydınlatma bantları, banklar, saksılar, yapraklar
+— mesh başına bir çizim çağrısıyla kalkmıyordu. `instanced()` hepsini dokuza
+indiriyor; sahnede ~1050 nesne var. Liste öğesi `[x, y, z, yaw, pitch, ölçek]`.
+
+**Canlı panolar bedava hareket.** 48 pano var; aynı anda en yakın **beşi** her
+karede yeniden çiziliyor (`syncGlyphs`). Canvas 2D, CDN yok, kütüphane yüklenmiyor
+— `LIBS[i].glyph` ve `LIBS[i].seed` zaten atlas tarafında var, `drawGlyph` zaten
+zamana bağlı. Uzaktakiler boş kalmasın diye kurulurken birer kare çizilir.
+
+**Işık ve hava geçişi.** Sahne bir render hedefine **bir kez** çizilir, sonra
+tam ekran bir shader'dan geçer (`GFS`). Üç iş yapar: yumuşak parlaklık (12 örnekli
+ucuz bloom), sıcak-soğuk ayrımı (aydınlıklar altına, gölgeler maviye), köşelerde
+hafif kararma ve çok ince bir doku. Kenar yumuşatma render hedefini ekrandan
+`SS`=1,5 kat büyük çizip küçülterek geliyor — WebGL1'de render hedefinde MSAA yok.
+Ağır gelirse ilk kısılacak yer `SS`.
+
+**Gökyüzü elle boyanmış bir canvas** (`skyTexture`), sahneye equirect arka plan
+olarak veriliyor — böylece kamerayla gider, kırpılmaz, sise girmez. Cam paneller
+saydam (`opacity .17`), yani gökyüzü gerçekten camdan görünür.
+
+**Işık huzmeleri** (`shaftTexture`) toplamalı karıştırmayla çizilen düzlemler.
+Derinlik **yazmıyor** ama derinlik **sınıyor**: döşemenin arkasına geçince
+kesiliyor, önüne geçince parlıyor. Katı geometri kullanıp toplamalı karıştırınca
+kenarları çizgi gibi duruyordu; kenarları eriten şey dokunun alfası.
+
+**Vatoz: matematiği hazırdı, çizicisi değildi.** Kaynak bağımsız bir canvas
+eskizi. O eskizin **çizicisi** 2B'ydi (ham piksel tamponuna toplamalı nokta
+serpme) ama **matematiği zaten 3B**: `buildSpan()` her açıklık istasyonu için
+gerçek bir z sapması ve yay uzunluğu korunmuş bir y üretiyor. Taşınan şey o
+matematik; yerine `BufferGeometry` bağlandı. Yeniden yazılan bir şey yok.
+
+- **Simülasyon kendi biriminde koşuyor.** Gövde 110 "piksel" ve bütün sürükleme,
+  itki, dönüş katsayıları ona göre ayarlı. Metreye çevirmek ayarın tamamını
+  bozardı; çıktı tek bir çarpanla (`S`) dünyaya haritalanıyor.
+- **`createManta(TH, cfg)` kendi kapsamında.** Eskiz tepe seviyede `TAU`, `rnd`,
+  `mx`, `sq`, `ex`, `clamp`, `T`, `P`, `rgb` gibi adlar tanımlıyor ve bunların
+  **dokuzu** atlasın adlarıyla çakışıyordu. IIFE kuralı (yukarıda) tam da bunun
+  içindi; modül bir fonksiyon kapsamına alınınca hepsi çözüldü.
+- **Kanat gezen bir dalga.** Her açıklık istasyonu bir öncekinden geç çırpar.
+  Yüzey **uzamaz**: `yc` dizisi her karede yay uzunluğunu koruyarak kuruluyor —
+  kanat bükülür, gerilmez. İtki eğik yüzeydeki normal kuvvetin integrali ve iki
+  vuruşta da pozitif; hayvan hamle atıp süzülüyor, çırpma frekansının iki katında.
+- **Kuyruk bir tractrix.** Düğüm başına hız integrasyonu, kısıt izdüşümünün enerji
+  enjekte etmesi yüzünden serbest ucu kare hızında çınlatıyordu. Bunun yerine
+  kuyruk, kökün kendi geçmiş yörüngesini yay uzunluğuna göre yeniden örnekliyor:
+  gövdenin geçtiği yerde duruyor, dolayısıyla titreyemez.
+- **Desen deriye sabit.** Eskizde benekler anlık deforme y'den okunuyordu; nokta
+  bulutunda kimse fark etmez, ama bir örgüde desen derinin üstünde kayar. Burada
+  deforme olmamış açıklık koordinatı kullanılıyor.
+- **Gövde ortada dolgun.** Yassı bir levha yandan bakınca çizgiye dönüyordu;
+  kalınlık üsteli bir düşüşle (2.4) merkezde toplanıyor.
+
+**Vatoz için avluda yapılan yer açma.** Orta avlunun **sağ** kuyusunda çapraz
+köprü ve sarkan pankart yok — olsaydı hayvan içlerinden geçerdi. İkisi de sol
+kuyuda duruyor. Ayrıca **giriş katında kuyuların tabanı** eklendi (eskiden avlu
+dipsiz bir çukurdu): artık altına girip yukarı, camlı çatıya karşı silüetine
+bakabiliyorsunuz. Galerilerden boşluğa düşme hâlâ engelli.
+
+**Başarım: nerede yanıyordu.** Site takılmaya başlamıştı. Ölçüldü, sebepleri
+bulundu ve tek tek kapatıldı. Bunları geri almayın:
+
+| Neydi | Neden pahalıydı | Ne yapıldı |
+|---|---|---|
+| Müze açıkken **atlas döngüsü dönmeye devam ediyordu** | 160 kartın glyph çizimi, bağlantılar, mini harita, her karede bir `innerHTML` yazımı ve canlı demo bütçesi — hepsi görünmeyen bir ekran için | `frame()` başında `if(museumOn) return` |
+| Müzede **22 m içindeki her canlı eser** bağlanıyordu | Orta avluda altısı birden; her biri kendi kütüphanesini kendi döngüsünde çalıştırıyor | En yakın **üçü**, ağırlardan (`HEAVY`: WebGL/model) yalnız biri. 30 m'ye kadar bağlı kalma payı var ki sınırda gidip gelmesin |
+| Canlı eser dokuları **1024×1024** ve **her karede** yükleniyordu | 4 MB × 5 eser = **20 MB/kare** | Doku 512×512, yükleme iki karede bir. Eser düzlemi 2,7 m ve 10 m'den bakılıyor; fark görünmüyor |
+| Kenar yumuşatma sabit `SS`=1,5 | Maliyet pencere alanıyla **kare** büyüyor: 1,5 kat = 2,25 kat piksel | Sabit **1,25**. Uyarlanır denetleyici **kaldırıldı** — aşağıdaki nota bakın |
+| 1038 nesnenin **matrisi her karede** yeniden hesaplanıyordu | Yapının tamamı hareketsiz | Bir kez hesaplanıp `matrixAutoUpdate=false`. Vatoz hariç |
+| Her döşeme, duvar, korkuluk, kiriş, çerçeve **ayrı bir nesneydi** | three her karede 1000'den fazla nesneyi tek tek kırpıp sıralıyordu — ve bu maliyet **pencere boyutundan bağımsız** | `mergeStatic()`: malzeme başına tek örgü. **Nesne 1038 → 285, çizim çağrısı 250 → 65** |
+
+**Asıl sınav kamerayı döndürmektir.** Yürümek bir kare kaybını affeder, dönüş
+affetmez: göz dönüşü birebir takip eder, 45 fps'nin altı "kare kare" okunur.
+360° dönerken ölçülen en kötü kare:
+
+| | en kötü kare |
+|---|---|
+| başta | **45,5 ms** |
+| birleştirme + bütçe sonrası | **19,0 ms** |
+
+Aynı anda: sahne çizimi 3,5 → 0,38 ms, doku yükü 1,19 → 0,31 ms, kendi iş
+süremiz 4,1 ms (yani 16,7 ms'lik bütçede bol pay).
+
+> **Uyarı:** ölçümler 647×397'lik bir tuvalde alındı. Bu boyutta sahne
+> **piksel değil çizim çağrısı sınırlı** — birleştirme bu yüzden bu kadar
+> işe yaradı. Büyük ekranda denge tersine döner ve asıl kaldıraç `ssNow`.
+
+**Uyarlanır çözünürlük kaldırıldı — iyi bir fikir değildi.** Hikâyesi kayda
+değer, çünkü aynı hataya düşmek kolay:
+
+Denetleyici kare aralığına bakıp ölçeği düşürüyordu. Ama kare aralığı **vsync'e
+kilitli**: 60 Hz'de 16,7 ms'nin altına inemez, dolayısıyla "boşta kapasite var"
+diye bir sinyal hiç üretmez. Yazdığım geri-çıkma eşiği 13 ms'ydi — asla
+sağlanamayacak bir koşul. Sonra tek yönlü yaptım; bu sefer şu oldu: sayfa
+açılırken kütüphaneler indirilip ayrıştırılırken kareler zaten yavaş, denetleyici
+bunu "makine yetmiyor" sanıp hemen düşürüyor ve **bir daha geri çıkmıyor**.
+Kullanıcı kalıcı bulanıklık yiyor.
+
+Üstüne: çözünürlük düşürmek **yalnız GPU sınırlıysa** işe yarar. CPU sınırlıysanız
+hiçbir şey kazandırmaz, sadece bulanıklaştırır. Ölçmeden otomatikleştirilecek bir
+şey değildi. Şimdi sabit 1,25; elle `atlas.mQuality(1.0)` hızlandırır,
+`atlas.mQuality(1.5)` keskinleştirir.
+
+**Kamera baştan yazıldı.** Dört ayrı hata vardı ve **hiçbiri kare hızıyla ilgili
+değildi** — "buggy" hissinin gerçek kaynağı bunlardı:
+
+| Neydi | Şimdi |
+|---|---|
+| Fare kilidi **çift tıklamayla** açılıyordu; kimse tahmin edemez. Kilit yoksa düğmeyi basılı tutup sürüklemek gerekiyordu | **Tek tıkla** kilit, ekranda "Bakmak için tıklayın" daveti |
+| **Escape sizi müzeden atıyordu**: tarayıcı kilidi bırakıyor, tuş işleyicimiz de `exitMuseum()` çağırıyordu | Escape yalnız fareyi bırakır; çıkmak için bir daha basılır |
+| **Nişangâh yoktu** — neye tıkladığınız görünmüyordu | Nişangâh var, tıklanabilir bir şeyin üstünde büyüyüp renk değiştirir |
+| "Bakmak için tıklayın" daveti **hiç gitmiyordu** (kilit açılmayan ortamlarda bütün deneyim boyunca ekranda kalıyordu) | İlk bakıştan, ilk adımdan ya da 14 saniyeden sonra sönerek gider |
+| 7 pikselden küçük sürüklemeler "tıklama" sayılıyordu; küçüğü yanlışlıkla modal açıyor, büyüğü hiçbir şey yapmıyordu | Kilitliyken bakış ve seçme **hiç karışmaz**: fare bakar, tıklama nişangâhın altındakini seçer |
+
+Ayrıca iki duyarlılık tek değere indi (`SENS`) ve bakışa ~40 ms zaman sabitli
+hafif bir yumuşatma kondu: 60 fps'te fark edilmez, kare hızı düştüğünde sertliği
+alır.
+
+**Kilit her ortamda mümkün değil.** Gömülü çerçevede tarayıcı `WrongDocumentError`
+ile reddediyor. O yüzden tıklama aynı anda **sürükle-bak** için de hazırlanıyor:
+kilit açılırsa bakış `movementX`'ten gider, açılmazsa sürükleyerek bakmak çalışır
+ve kısa dokunuş seçer. Hiçbir durumda kilitlenip kalınmaz.
+
+**Başarım sayacı ve yavaş kare kaydı.** Üç tur boyunca körlemesine optimize
+ettim, çünkü ölçüm sizin makinenizde değil benimkindeydi. Bu onu bitiriyor:
+
+- Müzede **`` ` `` tuşu** sayacı açıp kapatır (`atlas.mMeter()` de olur).
+- Sayaç: fps, kare ve iş süresi, ölçek, çizim çağrısı, canlı demo sayısı ve
+  **aşama aşama** dağılım — sahne, geçiş, vatoz, pano, afiş, hareket.
+- 33 ms'yi aşan her kare bağlamıyla kaydediliyor: nerede duruyordunuz, dönüyor
+  muydunuz, kaç demo çalışıyordu, hangi aşama ne kadar sürdü.
+- `atlas.mLog()` özeti verir (adet, ortanca, en kötü, dönerken kaçı, aşama
+  ortalamaları, son 10 kayıt). `atlas.mLogTemizle()` sıfırlar.
+
+Ölçülen (998×720 tuval, koridor, iki canlı demo, yerleşmiş): sahne 1,58 ·
+vatoz 1,56 · pano 0,12 · geçiş 0,06 · afiş 0,004 — **toplam 3,33 ms**, yani
+16,7 ms'lik bütçede beş kat pay. Sıradaki kaldıraç vatozun kanat normalleri
+(`computeVertexNormals`, iki karede bire indirilebilir).
+
+**Koridor bölmelerinde kapılar var, ve duvarlar artık çarpıştırılıyor.**
+Uzun süre iki ayrı hata birlikte durdu: bölme duvarı bandın boyunca
+**kesintisizdi** (koridordan kanada geçmenin meşru bir yolu yoktu) ve hareket
+kodu **yalnız zemini sınıyordu** (duvarlar hiç sınanmıyordu). Sonuç: rampaya
+ulaşmak için duvarın içinden geçiliyordu.
+
+Şimdi her bandın iki ucunda 2 m'lik kapı boşluğu var — bilerek uçlarda, yani
+tam avlu ağızlarında, rampaların başladığı yerde. Boşluğun kenarında koyu
+söveler var ki duvar "kesilmiş" değil "kapılı" okunsun. `crossesWall()` hareketi
+sınıyor: bölmeler eksene dik olduğu için sınama ucuz (32 parça, hareket
+x=±SPINE_X'i kesiyor mu, kestiği z kapıda mı).
+
+> Kapılar duvarı kısaltınca kanat başına yuva 30'dan **26'ya** indi. Pano oranı
+> beşte birden **altıda bire** çekildi: 22 afiş yuvası kalıyor, en kalabalık
+> bölüm de tam 22 iş. Bu sayılar birbirine kilitli — kapı genişliğini
+> değiştirirseniz yuva sayımını da yapın.
+
+**Yürüyüş.** Fizik motoru yok. Her karede ayağın altındaki döşeme aranır
+(`floorAt`), yükseklik yumuşatılır. Rampalar bu sayede kendiliğinden çalışır ve
+boşluğa adım atılamaz.
+
+**Standalone farkı.** Artifact sarmalayıcısı doctype, `<meta charset>` ve
+`body{margin:0}` sağlıyor. Dışarıda bunlar `derle.py` tarafından ekleniyor.
+`body{margin:0}` olmadan `100dvh` ızgarası taşar; charset olmadan Türkçe bozulur.
+
+---
+
+## Veri nereden geldi
+
+**Kütüphaneler (162).** Editoryal yargı. Ağırlık, yıldız, yıl **yaklaşık**.
+13 eksenlik vektörler elle yazıldı; arayüzde de böyle söyleniyor.
+
+**Projeler (118).** `mertseven.com/digijournalism` kataloğundan, ham HTML
+ayrıştırılarak. 124 bağlantının hepsi tarandı (`veri/link-taramasi.tsv`):
+
+- **80 canlı**
+- **38 engelli** — NYT, Bloomberg, Washington Post otomatik erişimi kesiyor.
+  WaPo'nunki Akamai "Access Denied"; gerçek tarayıcıyla doğrulandı. **Ölü değil.**
+- **6 ölü** — kataloğa alınmadı: Al Jazeera *Syria's Refugees*, NatGeo *Megaregions*,
+  Adam Westbrook *The Divorce*, SRF *Gotthard 360*, The Intercept *Best of luck with
+  the wall*, LA Times Data Desk.
+
+**Kütüphane ataması tahmin değil.** 61 canlı sayfanın kaynak kodu indirilip
+26 imza arandı (`d3.min.js`, `THREE.WebGLRenderer`, `L.map(`, `scrollama`…).
+**19 projede** kanıt çıktı. Arayüzde "bununla yapıldı" değil **"sayfa kaynağında
+tespit edildi"** diye yazıyor, üçüncü taraf betiği uyarısıyla. Bu çerçeveyi koruyun.
+
+---
+
+## Neyin doğrulandığı
+
+Holmdel planı tarayıcıda sınandı (`atlas.mFloorAt` ile, yürüyüş kurallarının
+aynısıyla):
+
+- Omurga baştan sona (z=93 → −100, 193 m) **kesintisiz**; üç avludan da geçiliyor,
+  hiç yükseklik sıçraması yok. (Sondaki engellenen adımlar bina duvarı.)
+- Rampalar pürüzsüz: kat 0 → kat 1 tırmanışında en büyük adım **0,091 m**.
+- Kuyuya yanlışlıkla **düşülemiyor**: koridordan avluya doğru yürüyüş kenarda duruyor.
+- Giriş noktasından **sekiz kanadın ve dört katın hepsine** yürüyerek ulaşılıyor
+  (ızgara taraması: 40 818 erişilebilir hücre).
+- Müzedeki **canlı demolar yaklaşınca bağlanıyor** (avlunun ortasında 5 demo aynı
+  anda çalışıyordu) — bu daha önce test edilmemişti.
+- **Canlı panolar** çalışıyor: 48 pano, aynı anda 5'i çiziliyor.
+
+> Not: `floorAt` artık yalnız yukarı değil, **iki yönde de** 1,8 m'lik bir bantla
+> çalışıyor. Eskiden "altındaki en yüksek döşeme" aranıyordu; bu, altında rampa
+> olan bir galeri kenarından boşluğa adım atılmasına izin veriyordu.
+
+---
+
+## Bilinen eksikler / sıradakiler
+
+1. **İnce ayar.** Katların okunması, renk, ışık ve hareket çözüldü. Kalan iş
+   zevk meselesi: bitki yoğunluğu, pankart sayısı, renk doygunluğu, tavan tonu.
+   Hepsi birer sabit — fazla gelirse çıkarmak kolay.
+2. **Joystick gerçek telefonda denenmedi.** Kod yolu hazır (`pointer:coarse`
+   algılanınca çıkıyor, dikeyde "telefonu yan çevirin" uyarısı var).
+3. **Büyük ekranda ölçüm yok.** Başarım işi yapıldı (yukarıdaki tablo) ama
+   ölçümler 647×397'lik bir tuvalde alındı. Hâlâ takılıyorsa sırayla:
+   `atlas.mQuality(1.0)` (en büyük kaldıraç), `syncGlyphs`'teki 5 sınırı,
+   canlı eser bütçesindeki 3, bitki sayısı, `uBloom`. Sayı bildirmek için
+   `atlas.mProfile()`.
+4. **Mobilde atlas tarafı** (kart + kanat modeli) telefonda dar kalıyor.
+5. **Klavyeyle gezinme** atlas tarafında yok.
+6. Kalan 134 kütüphanenin canlı demosu yok; bir kısmı yapısal olarak imkânsız
+   (kamera, medya dosyası, derleme adımı isteyenler) — bunlara "neden olmadığını"
+   söyleyen bir etiket iyi olur.
+7. **Vatoz kontrol paneli DOM üstü.** Konsola tıklayınca açılıyor ama panel bir
+   ekran arayüzü; mekânın içinde okunan fiziksel bir gösterge değil. İstenirse
+   kaydırakların değerleri konsolun eğik yüzüne de yazdırılabilir.
+8. **Vatoz tek.** `createManta` birden çok çağrılabilir ama sürü davranışı
+   (birbirinden kaçınma) taşınmadı — eskizdeki `rays` döngüsü tek hayvana indi.
+9. **Yayınlanan Artifact bu sürümden eski.** Yukarıdaki bağlantı hâlâ en eski
+   (siyah boşluklu, dither'lı) müzeyi gösteriyor.
+10. **Dither'lı sürümün yedeği** `src/yedek/_p7-dither.js.yedek` dosyasında duruyor.
+   Klasörde sürüm denetimi olmadığı için alındı; geri dönmeyecekseniz silin.
+
+---
+
+## Faydalı kancalar
+
+Tarayıcı konsolunda:
+
+```js
+atlas.enterMuseum()            // müzeye gir
+atlas.mTeleport(kat, yan, z)   // kat 0-3; yan -1/+1 (kanat) ya da 0 (omurga); z isteğe bağlı
+atlas.mLook(yaw, pitch)        // bakış açısını kur — kadraj ayarlarken
+atlas.mStats()                 // döşeme/rampa/afiş/nesne sayısı, çalışan demo, konum
+atlas.mFloorAt(x, z, curY)     // ayağın altındaki döşeme; güzergâh sınamak için
+atlas.manta()                  // vatozun hızı, itkisi, dünya konumu, yönü
+atlas.mPanel(true|false)       // vatoz kontrol panelini aç/kapa
+atlas.mProfile(n)              // her aşamanın gerçek maliyeti (ms), çizim çağrısı, üçgen
+atlas.mQuality(1.0 … 1.5)      // çözünürlük ölçeği; argümansız okur (fps, kare/iş ms, boyutlar)
+atlas.mMeter(true|false)       // ekrandaki başarım sayacı (` tuşu da açıp kapatır)
+atlas.mLog() / mLogTemizle()   // yavaş karelerin bağlamlı dökümü
+atlas.mAim()                   // nişangâhın altında ne var
+atlas.mGuide(true|false)       // rehber ekranı (Tab da açar)
+atlas.mCanStep(ax,az,bx,bz,y)  // bu adım atılabilir mi — zemin VE duvar
+atlas.mOpen(i)                 // i numaralı projenin modalını aç
+```
+
+Atlas tarafı:
+
+```js
+atlas.goStop(n)                // tur durağı  (BENİOKU uzun süre "goStation"
+                               //  yazıyordu; öyle bir kanca hiç olmadı)
+atlas.overlaps(0)              // kartlar çakışıyor mu (0 olmalı)
+atlas.fitAll() / atlas.centerOn(i)
+atlas.select(i) / atlas.toggleWing(i)
+atlas.LIBS / atlas.cards / atlas.view
+```

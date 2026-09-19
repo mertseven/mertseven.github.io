@@ -1,0 +1,1064 @@
+[
+ {
+  "cat": "maps",
+  "title": "Aljazeera: Where would 10.8 million displaced Syrians fit?",
+  "url": "http://projects.aljazeera.com/2013/syrias-refugees/",
+  "live": "OLU",
+  "tech": []
+ },
+ {
+  "cat": "maps",
+  "title": "Berliner Morgenpost: Europakarte",
+  "url": "http://interaktiv.morgenpost.de/europakarte/",
+  "live": "CANLI",
+  "tech": [],
+  "tech_all": []
+ },
+ {
+  "cat": "maps",
+  "title": "Buzzfeed: Spies in the skies",
+  "url": "https://www.buzzfeed.com/peteraldhous/spies-in-the-skies",
+  "live": "CANLI",
+  "tech": [],
+  "tech_all": [
+   "React"
+  ]
+ },
+ {
+  "cat": "maps",
+  "title": "The Guardian: Brexit full results and analysis",
+  "url": "https://www.theguardian.com/politics/ng-interactive/2016/jun/23/eu-referendum-live-results-and-analysis",
+  "live": "CANLI",
+  "tech": [],
+  "tech_all": []
+ },
+ {
+  "cat": "maps",
+  "title": "The Guardian: Where can you afford to buy a house",
+  "url": "https://www.theguardian.com/society/ng-interactive/2015/sep/02/unaffordable-country-where-can-you-afford-to-buy-a-house",
+  "live": "CANLI",
+  "tech": [],
+  "tech_all": []
+ },
+ {
+  "cat": "maps",
+  "title": "Kiln: Shipmap",
+  "url": "http://shipmap.org/",
+  "live": "CANLI",
+  "tech": [
+   "Leaflet"
+  ],
+  "tech_all": [
+   "Leaflet",
+   "WebGL"
+  ]
+ },
+ {
+  "cat": "maps",
+  "title": "LA Times: Every Kobe Shot Ever",
+  "url": "http://graphics.latimes.com/kobe-every-shot-ever/",
+  "live": "CANLI",
+  "tech": [
+   "Leaflet",
+   "Carto"
+  ],
+  "tech_all": [
+   "Leaflet",
+   "jQuery",
+   "Carto"
+  ]
+ },
+ {
+  "cat": "maps",
+  "title": "LA Times: Who gives money to Bernie Sanders?",
+  "url": "http://www.latimes.com/projects/la-na-pol-sanders-donors/",
+  "live": "CANLI",
+  "tech": [
+   "Carto"
+  ],
+  "tech_all": [
+   "jQuery",
+   "Carto"
+  ]
+ },
+ {
+  "cat": "maps",
+  "title": "National Geographic: Four Million Commutes Reveal new U.S. 'Megaregions'",
+  "url": "http://news.nationalgeographic.com/2016/11/us-commutes-reveal-new-economic-megaregions-map/",
+  "live": "OLU",
+  "tech": []
+ },
+ {
+  "cat": "maps",
+  "title": "New York Times: The Best and Worst places to grow up",
+  "url": "http://www.nytimes.com/interactive/2015/05/03/upshot/the-best-and-worst-places-to-grow-up-how-your-area-compares.html",
+  "live": "ENGELLI",
+  "tech": []
+ },
+ {
+  "cat": "maps",
+  "title": "New York Times: How North Carolina Voted",
+  "url": "http://www.nytimes.com/interactive/2016/11/08/us/elections/north-carolina-presidential-election-precinct-maps.html",
+  "live": "ENGELLI",
+  "tech": []
+ },
+ {
+  "cat": "maps",
+  "title": "New York Times: How Trump Reshaped the Election Map",
+  "url": "http://www.nytimes.com/interactive/2016/11/08/us/elections/how-trump-pushed-the-election-map-to-the-right.html",
+  "live": "ENGELLI",
+  "tech": []
+ },
+ {
+  "cat": "maps",
+  "title": "New York Times: Mapping Segregation",
+  "url": "http://www.nytimes.com/interactive/2015/07/08/us/census-race-map.html",
+  "live": "ENGELLI",
+  "tech": []
+ },
+ {
+  "cat": "maps",
+  "title": "New York Times: Inside Raqqa",
+  "url": "http://www.nytimes.com/interactive/2015/11/21/world/middleeast/inside-raqqa-capital-of-isis.html",
+  "live": "ENGELLI",
+  "tech": []
+ },
+ {
+  "cat": "maps",
+  "title": "Politibot: Así se ha desplomado el PSE",
+  "url": "https://politibot.es/interactivo/caida-pse-pais-vasco-25s/",
+  "live": "CANLI",
+  "tech": [],
+  "tech_all": [
+   "jQuery",
+   "Canvas"
+  ]
+ },
+ {
+  "cat": "maps",
+  "title": "Pudding: The shape of slavery",
+  "url": "https://pudding.cool/2017/01/shape-of-slavery/",
+  "live": "CANLI",
+  "tech": [
+   "D3.js"
+  ],
+  "tech_all": [
+   "D3.js"
+  ]
+ },
+ {
+  "cat": "maps",
+  "title": "SPLC: Hate Map",
+  "url": "https://www.splcenter.org/hate-map",
+  "live": "CANLI",
+  "tech": [],
+  "tech_all": [
+   "jQuery",
+   "Canvas"
+  ]
+ },
+ {
+  "cat": "maps",
+  "title": "Washington Post: How Trump Redrew the Electoral Map",
+  "url": "https://www.washingtonpost.com/graphics/politics/2016-election/election-results-from-coast-to-coast/",
+  "live": "ENGELLI",
+  "tech": []
+ },
+ {
+  "cat": "maps",
+  "title": "Zeit Online: A nation divided",
+  "url": "http://www.zeit.de/feature/mauerfall-das-geteilte-land",
+  "live": "CANLI",
+  "tech": [
+   "Scrollama"
+  ],
+  "tech_all": [
+   "Scrollama"
+  ]
+ },
+ {
+  "cat": "storytelling",
+  "title": "Adam Westbrook: The Divorce",
+  "url": "http://journal.adamwestbrook.co.uk/thedivorce/",
+  "live": "OLU",
+  "tech": []
+ },
+ {
+  "cat": "storytelling",
+  "title": "Berliner Morgenpost: M29",
+  "url": "http://interaktiv.morgenpost.de/m29/",
+  "live": "CANLI",
+  "tech": [],
+  "tech_all": [
+   "jQuery"
+  ]
+ },
+ {
+  "cat": "storytelling",
+  "title": "Bloomberg: What's causing global warming",
+  "url": "http://www.bloomberg.com/graphics/2015-whats-warming-the-world/",
+  "live": "ENGELLI",
+  "tech": []
+ },
+ {
+  "cat": "storytelling",
+  "title": "Dyslexia",
+  "url": "http://geon.github.io/programming/2016/03/03/dsxyliea",
+  "live": "CANLI",
+  "tech": [],
+  "tech_all": [
+   "jQuery"
+  ]
+ },
+ {
+  "cat": "storytelling",
+  "title": "FiveThirtyEight: Gun Deaths",
+  "url": "http://fivethirtyeight.com/features/gun-deaths/",
+  "live": "CANLI",
+  "tech": [],
+  "tech_all": []
+ },
+ {
+  "cat": "storytelling",
+  "title": "Poor Millennials",
+  "url": "http://highline.huffingtonpost.com/articles/en/poor-millennials/",
+  "live": "CANLI",
+  "tech": [
+   "Three.js"
+  ],
+  "tech_all": [
+   "Three.js",
+   "jQuery",
+   "React"
+  ]
+ },
+ {
+  "cat": "storytelling",
+  "title": "National Geographic: MUAC",
+  "url": "https://www.lucasinfografia.com/MUAC",
+  "live": "CANLI",
+  "tech": [],
+  "tech_all": [
+   "jQuery"
+  ]
+ },
+ {
+  "cat": "storytelling",
+  "title": "New York Times: Michael Phelps vs. Himself",
+  "url": "http://www.nytimes.com/interactive/2016/08/09/sports/olympics/2016-08-09-olympics-phelps-vs-phelps.html",
+  "live": "ENGELLI",
+  "tech": []
+ },
+ {
+  "cat": "storytelling",
+  "title": "New York Times: Snowfall",
+  "url": "http://www.nytimes.com/projects/2012/snow-fall/",
+  "live": "CANLI",
+  "tech": [],
+  "tech_all": [
+   "jQuery"
+  ]
+ },
+ {
+  "cat": "storytelling",
+  "title": "Pitch Interactive: Out of Sight, out of Mind",
+  "url": "http://drones.pitchinteractive.com/",
+  "live": "CANLI",
+  "tech": [
+   "D3.js",
+   "GSAP"
+  ],
+  "tech_all": [
+   "D3.js",
+   "jQuery",
+   "GSAP"
+  ]
+ },
+ {
+  "cat": "storytelling",
+  "title": "The Guardian: Usain Bolt Replay",
+  "url": "https://www.theguardian.com/sport/ng-interactive/2016/aug/20/how-usain-bolt-secured-the-triple-treble-with-jamaica-in-the-4x100m",
+  "live": "CANLI",
+  "tech": [],
+  "tech_all": []
+ },
+ {
+  "cat": "storytelling",
+  "title": "The Guardian: Donald Trump's first 100 days",
+  "url": "https://www.theguardian.com/us-news/ng-interactive/2017/jan/20/donald-trump-first-100-days-president-daily-updates",
+  "live": "CANLI",
+  "tech": [],
+  "tech_all": []
+ },
+ {
+  "cat": "storytelling",
+  "title": "The Guardian: NSA files: Decoded",
+  "url": "https://www.theguardian.com/world/interactive/2013/nov/01/snowden-nsa-files-surveillance-revelations-decoded",
+  "live": "CANLI",
+  "tech": [
+   "Video.js"
+  ],
+  "tech_all": [
+   "jQuery",
+   "Video.js"
+  ]
+ },
+ {
+  "cat": "storytelling",
+  "title": "Wall Street Journal: Blue Feed, Red Feed",
+  "url": "http://graphics.wsj.com/blue-feed-red-feed/",
+  "live": "CANLI",
+  "tech": [],
+  "tech_all": [
+   "jQuery"
+  ]
+ },
+ {
+  "cat": "storytelling",
+  "title": "Washington Post: Raising Barriers",
+  "url": "https://www.washingtonpost.com/graphics/world/border-barriers/global-illegal-immigration-prevention/",
+  "live": "ENGELLI",
+  "tech": []
+ },
+ {
+  "cat": "storytelling",
+  "title": "Quartz: Map of the internet",
+  "url": "http://qz.com/se/map-of-the-internet/",
+  "live": "CANLI",
+  "tech": [],
+  "tech_all": []
+ },
+ {
+  "cat": "immersive",
+  "title": "National Geographic: The New New York Skyline",
+  "url": "http://www.nationalgeographic.com/new-york-city-skyline-tallest-midtown-manhattan/",
+  "live": "CANLI",
+  "tech": [
+   "Video.js"
+  ],
+  "tech_all": [
+   "jQuery",
+   "Video.js"
+  ]
+ },
+ {
+  "cat": "immersive",
+  "title": "New York Times: 3D Yield Curve",
+  "url": "http://www.nytimes.com/interactive/2015/03/19/upshot/3d-yield-curve-economic-growth.html",
+  "live": "ENGELLI",
+  "tech": []
+ },
+ {
+  "cat": "immersive",
+  "title": "New York Times: Dear Architects: Sound Matters",
+  "url": "http://www.nytimes.com/interactive/2015/12/29/arts/design/sound-architecture.html",
+  "live": "ENGELLI",
+  "tech": []
+ },
+ {
+  "cat": "immersive",
+  "title": "New York Times: Reshaping New York",
+  "url": "http://www.nytimes.com/newsgraphics/2013/08/18/reshaping-new-york/",
+  "live": "CANLI",
+  "tech": [],
+  "tech_all": [
+   "jQuery"
+  ]
+ },
+ {
+  "cat": "immersive",
+  "title": "New York Times: The Dawn Wall",
+  "url": "http://www.nytimes.com/interactive/2015/01/09/sports/the-dawn-wall-el-capitan.html",
+  "live": "ENGELLI",
+  "tech": []
+ },
+ {
+  "cat": "immersive",
+  "title": "New York Times VR App",
+  "url": "http://www.nytimes.com/marketing/nytvr/",
+  "live": "CANLI",
+  "tech": [],
+  "tech_all": []
+ },
+ {
+  "cat": "immersive",
+  "title": "The Guardian: Homan Square",
+  "url": "https://www.theguardian.com/us-news/ng-interactive/2015/oct/19/homan-square-chicago-police-detainees",
+  "live": "CANLI",
+  "tech": [],
+  "tech_all": []
+ },
+ {
+  "cat": "immersive",
+  "title": "The Guardian: Solitary Confinement",
+  "url": "https://www.theguardian.com/world/ng-interactive/2016/apr/27/6x9-a-virtual-experience-of-solitary-confinement",
+  "live": "CANLI",
+  "tech": [],
+  "tech_all": []
+ },
+ {
+  "cat": "immersive",
+  "title": "The Guardian: The London Skyline of Tomorrow",
+  "url": "https://www.theguardian.com/artanddesign/2015/dec/11/city-of-london-skyline-of-tomorrow-interactive",
+  "live": "CANLI",
+  "tech": [],
+  "tech_all": []
+ },
+ {
+  "cat": "immersive",
+  "title": "Wall Street Journal: Is the Nasdaq in another Bubble?",
+  "url": "http://graphics.wsj.com/3d-nasdaq/",
+  "live": "CANLI",
+  "tech": [
+   "D3.js",
+   "Three.js"
+  ],
+  "tech_all": [
+   "D3.js",
+   "Three.js",
+   "jQuery"
+  ]
+ },
+ {
+  "cat": "interactives",
+  "title": "Bloomberg: What is Code?",
+  "url": "http://www.bloomberg.com/graphics/2015-paul-ford-what-is-code/",
+  "live": "ENGELLI",
+  "tech": []
+ },
+ {
+  "cat": "interactives",
+  "title": "FiveThirtyEight: How the Internet talks",
+  "url": "http://projects.fivethirtyeight.com/reddit-ngram/",
+  "live": "CANLI",
+  "tech": [],
+  "tech_all": []
+ },
+ {
+  "cat": "interactives",
+  "title": "Kim Albrecht: Trump Connections",
+  "url": "http://trump.kimalbrecht.com/network/",
+  "live": "CANLI",
+  "tech": [
+   "D3.js"
+  ],
+  "tech_all": [
+   "D3.js"
+  ]
+ },
+ {
+  "cat": "interactives",
+  "title": "New York Times: Can you beat Usain Bolt out of the Blocks?",
+  "url": "http://www.nytimes.com/interactive/2016/08/13/sports/olympics/can-you-beat-usain-bolt-out-of-the-blocks.html",
+  "live": "ENGELLI",
+  "tech": []
+ },
+ {
+  "cat": "interactives",
+  "title": "New York Times: Spot the Ball",
+  "url": "http://projects.nytimes.com/interactive/sports/worldcup/spot-the-ball/2014/06/17",
+  "live": "CANLI",
+  "tech": [],
+  "tech_all": []
+ },
+ {
+  "cat": "interactives",
+  "title": "New York Times: You Draw It",
+  "url": "http://www.nytimes.com/interactive/2015/05/28/upshot/you-draw-it-how-family-income-affects-childrens-college-chances.html",
+  "live": "ENGELLI",
+  "tech": []
+ },
+ {
+  "cat": "interactives",
+  "title": "The Fallen of World War II",
+  "url": "http://www.fallen.io/ww2/",
+  "live": "CANLI",
+  "tech": [
+   "Three.js"
+  ],
+  "tech_all": [
+   "Three.js",
+   "jQuery",
+   "Lodash/Underscore"
+  ]
+ },
+ {
+  "cat": "interactives",
+  "title": "The Guardian: Are you reflected in the new congress?",
+  "url": "https://www.theguardian.com/us-news/ng-interactive/2014/nov/06/-sp-congress-diversity-women-race-lgbt-are-you-represented",
+  "live": "CANLI",
+  "tech": [],
+  "tech_all": []
+ },
+ {
+  "cat": "interactives",
+  "title": "The Guardian: Can you guess the voter turnout in your state?",
+  "url": "https://www.theguardian.com/us-news/ng-interactive/2016/oct/11/voter-turnout-presidential-election-states-2012-2016",
+  "live": "CANLI",
+  "tech": [],
+  "tech_all": []
+ },
+ {
+  "cat": "interactives",
+  "title": "The Guardian: How well do you know your country?",
+  "url": "https://www.theguardian.com/world/ng-interactive/2015/dec/02/how-well-do-you-really-know-your-country-take-our-quiz",
+  "live": "CANLI",
+  "tech": [],
+  "tech_all": []
+ },
+ {
+  "cat": "interactives",
+  "title": "The Guardian: Rio Run",
+  "url": "http://riorun.theguardian.com",
+  "live": "CANLI",
+  "tech": [],
+  "tech_all": []
+ },
+ {
+  "cat": "interactives",
+  "title": "The Guardian: What do you call a person who moves to another country in search of a better life?",
+  "url": "https://www.theguardian.com/uk-news/ng-interactive/2015/aug/28/words-migrant-refugee-immigration",
+  "live": "CANLI",
+  "tech": [],
+  "tech_all": []
+ },
+ {
+  "cat": "interactives",
+  "title": "Wall Street Journal: Are you good enough to be a Tennis Line Judge?",
+  "url": "http://graphics.wsj.com/are-you-good-enough-to-be-a-tennis-line-judge/",
+  "live": "CANLI",
+  "tech": [
+   "Video.js"
+  ],
+  "tech_all": [
+   "jQuery",
+   "Video.js"
+  ]
+ },
+ {
+  "cat": "interactives",
+  "title": "Washington Post: DNC Emoji Reactions",
+  "url": "https://www.washingtonpost.com/graphics/politics/2016-election/dnc-emoji-reactions/",
+  "live": "ENGELLI",
+  "tech": []
+ },
+ {
+  "cat": "visualizations",
+  "title": "Bloomberg: Billionaires",
+  "url": "http://www.bloomberg.com/billionaires/2016-09-27/cya",
+  "live": "ENGELLI",
+  "tech": []
+ },
+ {
+  "cat": "visualizations",
+  "title": "Bloomberg: How Red Meat Joined the 478 Other Things That Might Give You Cancer",
+  "url": "http://www.bloomberg.com/graphics/2015-red-meat-cancer/",
+  "live": "ENGELLI",
+  "tech": []
+ },
+ {
+  "cat": "visualizations",
+  "title": "Dear Data",
+  "url": "http://www.dear-data.com/",
+  "live": "CANLI",
+  "tech": [],
+  "tech_all": []
+ },
+ {
+  "cat": "visualizations",
+  "title": "Financial Times: A visual history of women's Tennis",
+  "url": "https://ig.ft.com/sites/visual-history-of-womens-tennis/",
+  "live": "CANLI",
+  "tech": [],
+  "tech_all": []
+ },
+ {
+  "cat": "visualizations",
+  "title": "Financial Times: Is urban cycling worth the risk?",
+  "url": "https://ig.ft.com/sites/urban-cycling/",
+  "live": "CANLI",
+  "tech": [],
+  "tech_all": []
+ },
+ {
+  "cat": "visualizations",
+  "title": "Histography",
+  "url": "http://histography.io/",
+  "live": "CANLI",
+  "tech": [],
+  "tech_all": [
+   "jQuery"
+  ]
+ },
+ {
+  "cat": "visualizations",
+  "title": "National Geographic: Sizing up Sharks",
+  "url": "http://www.nationalgeographic.com/magazine/2016/06/shark-species-family-tree-ocean-ecosystem-predator/",
+  "live": "CANLI",
+  "tech": [
+   "D3.js"
+  ],
+  "tech_all": [
+   "D3.js"
+  ]
+ },
+ {
+  "cat": "visualizations",
+  "title": "New York Times: All Races on the same scale",
+  "url": "http://www.nytimes.com/interactive/2016/08/20/sports/olympics/gold-medal-racing-speeds-on-the-same-scale.html",
+  "live": "ENGELLI",
+  "tech": []
+ },
+ {
+  "cat": "visualizations",
+  "title": "New York Times: How could Trumps immigration Ban work?",
+  "url": "http://www.nytimes.com/interactive/2016/07/22/us/politics/trump-immigration-ban-how-could-it-work.html",
+  "live": "ENGELLI",
+  "tech": []
+ },
+ {
+  "cat": "visualizations",
+  "title": "New York Times: How Syrians are dying",
+  "url": "http://www.nytimes.com/interactive/2015/09/14/world/middleeast/syria-war-deaths.html",
+  "live": "ENGELLI",
+  "tech": []
+ },
+ {
+  "cat": "visualizations",
+  "title": "New York Times: How they got their guns",
+  "url": "http://www.nytimes.com/interactive/2015/10/03/us/how-mass-shooters-got-their-guns.html",
+  "live": "ENGELLI",
+  "tech": []
+ },
+ {
+  "cat": "visualizations",
+  "title": "New York Times: The 273 People, Places and Things Donald Trump Has Insulted on Twitter: A Complete List",
+  "url": "http://www.nytimes.com/interactive/2016/01/28/upshot/donald-trump-twitter-insults.html",
+  "live": "ENGELLI",
+  "tech": []
+ },
+ {
+  "cat": "visualizations",
+  "title": "New York Times: Visual History of Summer Olympics",
+  "url": "http://www.nytimes.com/interactive/2016/08/08/sports/olympics/history-olympic-dominance-charts.html",
+  "live": "ENGELLI",
+  "tech": []
+ },
+ {
+  "cat": "visualizations",
+  "title": "Polygraph: The entire history of Kickstarter",
+  "url": "http://polygraph.cool/kickstarter/",
+  "live": "CANLI",
+  "tech": [
+   "D3.js"
+  ],
+  "tech_all": [
+   "D3.js",
+   "jQuery"
+  ]
+ },
+ {
+  "cat": "visualizations",
+  "title": "R2D3: A visual intro to machine learning",
+  "url": "http://www.r2d3.us/visual-intro-to-machine-learning-part-1/",
+  "live": "ENGELLI",
+  "tech": []
+ },
+ {
+  "cat": "visualizations",
+  "title": "South China Morning Post: Front Pages Analysis",
+  "url": "http://www.lucasinfografia.com/Front-pages-analysis",
+  "live": "CANLI",
+  "tech": [],
+  "tech_all": [
+   "jQuery"
+  ]
+ },
+ {
+  "cat": "visualizations",
+  "title": "The Guardian: What's the world scared of?",
+  "url": "https://www.theguardian.com/news/datablog/ng-interactive/2015/jul/17/interactive-whats-the-world-scared-of",
+  "live": "CANLI",
+  "tech": [],
+  "tech_all": []
+ },
+ {
+  "cat": "visualizations",
+  "title": "Washington Post: A decade of Trumps imports",
+  "url": "https://www.washingtonpost.com/graphics/politics/trump-products/",
+  "live": "ENGELLI",
+  "tech": []
+ },
+ {
+  "cat": "visualizations",
+  "title": "Washington Post: Most of Trump's charts skew the data",
+  "url": "https://www.washingtonpost.com/graphics/politics/2016-election/trump-charts/",
+  "live": "ENGELLI",
+  "tech": []
+ },
+ {
+  "cat": "visualizations",
+  "title": "Washington Post: Sizing up the Olympics",
+  "url": "https://www.washingtonpost.com/graphics/sports/olympics/scale-of-the-olympics/",
+  "live": "ENGELLI",
+  "tech": []
+ },
+ {
+  "cat": "visualizations",
+  "title": "Washington Post: The Depth of the Problem",
+  "url": "http://apps.washingtonpost.com/g/page/world/the-depth-of-the-problem/931/",
+  "live": "ENGELLI",
+  "tech": []
+ },
+ {
+  "cat": "visualizations",
+  "title": "Quartz: Every active satellite orbiting earth",
+  "url": "http://qz.com/296941/interactive-graphic-every-active-satellite-orbiting-earth/",
+  "live": "CANLI",
+  "tech": [],
+  "tech_all": []
+ },
+ {
+  "cat": "investigations",
+  "title": "Airbnb vs Berlin",
+  "url": "http://www.airbnbvsberlin.de/",
+  "live": "CANLI",
+  "tech": [
+   "D3.js",
+   "Carto"
+  ],
+  "tech_all": [
+   "D3.js",
+   "jQuery",
+   "Carto"
+  ]
+ },
+ {
+  "cat": "investigations",
+  "title": "Buzzfeed: The Tennis Racket",
+  "url": "https://www.buzzfeed.com/heidiblake/the-tennis-racket",
+  "live": "CANLI",
+  "tech": [],
+  "tech_all": [
+   "React"
+  ]
+ },
+ {
+  "cat": "investigations",
+  "title": "FiveThirtyEight: A Plagiarism Scandal is unfolding in the Crossword world",
+  "url": "http://fivethirtyeight.com/features/a-plagiarism-scandal-is-unfolding-in-the-crossword-world/",
+  "live": "CANLI",
+  "tech": [],
+  "tech_all": []
+ },
+ {
+  "cat": "investigations",
+  "title": "Marshall Project: The Next to die",
+  "url": "https://www.themarshallproject.org/next-to-die",
+  "live": "CANLI",
+  "tech": [
+   "Three.js"
+  ],
+  "tech_all": [
+   "Three.js",
+   "jQuery"
+  ]
+ },
+ {
+  "cat": "investigations",
+  "title": "New York Times: How the nominees' convention speeches compare",
+  "url": "http://www.nytimes.com/interactive/2016/07/29/us/elections/trump-clinton-pence-kaine-speeches.html",
+  "live": "ENGELLI",
+  "tech": []
+ },
+ {
+  "cat": "investigations",
+  "title": "ProPublica: Machine Bias",
+  "url": "https://www.propublica.org/article/machine-bias-risk-assessments-in-criminal-sentencing",
+  "live": "CANLI",
+  "tech": [],
+  "tech_all": [
+   "React",
+   "Canvas"
+  ]
+ },
+ {
+  "cat": "investigations",
+  "title": "ProPublica: What Facebook knows about you",
+  "url": "https://www.propublica.org/article/breaking-the-black-box-what-facebook-knows-about-you",
+  "live": "CANLI",
+  "tech": [],
+  "tech_all": [
+   "React",
+   "Canvas"
+  ]
+ },
+ {
+  "cat": "investigations",
+  "title": "SZ: The Panama Papers",
+  "url": "http://panamapapers.sueddeutsche.de/",
+  "live": "CANLI",
+  "tech": [
+   "Chart.js"
+  ],
+  "tech_all": [
+   "Chart.js",
+   "jQuery",
+   "Canvas"
+  ]
+ },
+ {
+  "cat": "investigations",
+  "title": "The Guardian: The Counted",
+  "url": "https://www.theguardian.com/us-news/ng-interactive/2015/jun/01/the-counted-police-killings-us-database",
+  "live": "CANLI",
+  "tech": [],
+  "tech_all": []
+ },
+ {
+  "cat": "investigations",
+  "title": "The Intercept: The Android Administration",
+  "url": "https://theintercept.com/2016/04/22/googles-remarkably-close-relationship-with-the-obama-white-house-in-two-charts/",
+  "live": "CANLI",
+  "tech": [],
+  "tech_all": []
+ },
+ {
+  "cat": "investigations",
+  "title": "Washington Post: A visual history of Donald Trump dominating the news cycle",
+  "url": "https://www.washingtonpost.com/graphics/politics/donald-trump-vs-hillary-clinton-in-media/",
+  "live": "ENGELLI",
+  "tech": []
+ },
+ {
+  "cat": "investigations",
+  "title": "Washington Post: Fatal Force",
+  "url": "https://www.washingtonpost.com/graphics/national/police-shootings-2016/",
+  "live": "ENGELLI",
+  "tech": []
+ },
+ {
+  "cat": "drone",
+  "title": "Berliner Morgenpost: Das sind Deutschlands grünste Großstädte",
+  "url": "http://interaktiv.morgenpost.de/gruenste-staedte-deutschlands/",
+  "live": "CANLI",
+  "tech": [
+   "Leaflet"
+  ],
+  "tech_all": [
+   "Leaflet"
+  ]
+ },
+ {
+  "cat": "drone",
+  "title": "New York Times: Greenland is melting away",
+  "url": "http://www.nytimes.com/interactive/2015/10/27/world/greenland-is-melting-away.html",
+  "live": "ENGELLI",
+  "tech": []
+ },
+ {
+  "cat": "drone",
+  "title": "New York Times: Living in China's Expanding Deserts",
+  "url": "http://www.nytimes.com/interactive/2016/10/24/world/asia/living-in-chinas-expanding-deserts.html",
+  "live": "ENGELLI",
+  "tech": []
+ },
+ {
+  "cat": "drone",
+  "title": "New York Times: What China has been building in the South China Sea",
+  "url": "http://www.nytimes.com/interactive/2015/07/30/world/asia/what-china-has-been-building-in-the-south-china-sea-2016.html",
+  "live": "ENGELLI",
+  "tech": []
+ },
+ {
+  "cat": "drone",
+  "title": "ProPublica: Las Vegas Growth Map",
+  "url": "https://projects.propublica.org/las-vegas-growth-map/",
+  "live": "CANLI",
+  "tech": [],
+  "tech_all": []
+ },
+ {
+  "cat": "drone",
+  "title": "ProPublica: Losing Ground",
+  "url": "https://projects.propublica.org/louisiana/",
+  "live": "CANLI",
+  "tech": [],
+  "tech_all": []
+ },
+ {
+  "cat": "drone",
+  "title": "SRF: Gotthard Tunnel 360",
+  "url": "http://www.srf.ch/news/schweiz/gotthard/tauchen-sie-ein-in-den-neuen-tunnel",
+  "live": "OLU",
+  "tech": []
+ },
+ {
+  "cat": "drone",
+  "title": "The Guardian: Corals, South China Sea",
+  "url": "https://www.theguardian.com/world/ng-interactive/2015/sep/17/south-china-sea-images-reveal-impact-on-coral-of-beijings-military-bases",
+  "live": "CANLI",
+  "tech": []
+ },
+ {
+  "cat": "drone",
+  "title": "The Intercept: Visualising the U.S.-Mexico Border",
+  "url": "https://theintercept.com/2016/10/18/best-of-luck-with-the-wall/",
+  "live": "OLU",
+  "tech": []
+ },
+ {
+  "cat": "portfolios",
+  "title": "AP Interactive",
+  "url": "https://twitter.com/AP_Interactive",
+  "live": "CANLI",
+  "tech": []
+ },
+ {
+  "cat": "portfolios",
+  "title": "Berliner Morgenpost",
+  "url": "http://www.morgenpost.de/interaktiv/",
+  "live": "CANLI",
+  "tech": []
+ },
+ {
+  "cat": "portfolios",
+  "title": "Bloomberg",
+  "url": "https://www.bloomberg.com/graphics/infographics/",
+  "live": "ENGELLI",
+  "tech": []
+ },
+ {
+  "cat": "portfolios",
+  "title": "BuzzFeedNews",
+  "url": "https://github.com/BuzzFeedNews/everything",
+  "live": "CANLI",
+  "tech": []
+ },
+ {
+  "cat": "portfolios",
+  "title": "Datasketch.es",
+  "url": "http://www.datasketch.es/",
+  "live": "CANLI",
+  "tech": []
+ },
+ {
+  "cat": "portfolios",
+  "title": "FiveThirtyEight",
+  "url": "https://twitter.com/FiveThirtyEight",
+  "live": "CANLI",
+  "tech": []
+ },
+ {
+  "cat": "portfolios",
+  "title": "Guardian Visuals",
+  "url": "https://twitter.com/GuardianVisuals",
+  "live": "CANLI",
+  "tech": []
+ },
+ {
+  "cat": "portfolios",
+  "title": "Graphics Departments Twitter List (collection)",
+  "url": "https://twitter.com/archietse/lists/graphics-departments",
+  "live": "CANLI",
+  "tech": []
+ },
+ {
+  "cat": "portfolios",
+  "title": "Interactive Things",
+  "url": "https://twitter.com/IXT",
+  "live": "CANLI",
+  "tech": []
+ },
+ {
+  "cat": "portfolios",
+  "title": "Kiln",
+  "url": "https://twitter.com/k_i_l_n",
+  "live": "CANLI",
+  "tech": []
+ },
+ {
+  "cat": "portfolios",
+  "title": "LA Times Data Desk",
+  "url": "https://twitter.com/LATdatadesk",
+  "live": "OLU",
+  "tech": []
+ },
+ {
+  "cat": "portfolios",
+  "title": "New York Times interactive Projects 2013",
+  "url": "http://www.nytimes.com/newsgraphics/2013/12/30/year-in-interactive-storytelling/",
+  "live": "CANLI",
+  "tech": []
+ },
+ {
+  "cat": "portfolios",
+  "title": "New York Times interactive Projects 2014",
+  "url": "http://www.nytimes.com/interactive/2014/12/29/us/year-in-interactive-storytelling.html",
+  "live": "ENGELLI",
+  "tech": []
+ },
+ {
+  "cat": "portfolios",
+  "title": "New York Times interactive Projects 2015",
+  "url": "http://www.nytimes.com/interactive/2015/us/year-in-interactive-storytelling.html",
+  "live": "ENGELLI",
+  "tech": []
+ },
+ {
+  "cat": "portfolios",
+  "title": "NZZ Storytelling",
+  "url": "https://twitter.com/NZZStorytelling",
+  "live": "CANLI",
+  "tech": []
+ },
+ {
+  "cat": "portfolios",
+  "title": "Polygraph",
+  "url": "http://polygraph.cool/",
+  "live": "CANLI",
+  "tech": []
+ },
+ {
+  "cat": "portfolios",
+  "title": "ProPublica",
+  "url": "https://www.propublica.org/data/",
+  "live": "CANLI",
+  "tech": []
+ },
+ {
+  "cat": "portfolios",
+  "title": "SRF Data",
+  "url": "http://www.srf.ch/data",
+  "live": "CANLI",
+  "tech": []
+ },
+ {
+  "cat": "portfolios",
+  "title": "Tulp Interactive",
+  "url": "http://tulpinteractive.com/",
+  "live": "CANLI",
+  "tech": []
+ },
+ {
+  "cat": "portfolios",
+  "title": "Washington Post Graphics",
+  "url": "https://twitter.com/PostGraphics",
+  "live": "CANLI",
+  "tech": []
+ },
+ {
+  "cat": "portfolios",
+  "title": "Webkid",
+  "url": "http://webkid.io/",
+  "live": "CANLI",
+  "tech": []
+ },
+ {
+  "cat": "portfolios",
+  "title": "Zeit Online",
+  "url": "http://zeit.de/datenjournalismus",
+  "live": "CANLI",
+  "tech": []
+ }
+]
