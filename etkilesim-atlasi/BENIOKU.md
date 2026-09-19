@@ -327,6 +327,38 @@ Artık `SENS_T = 0,0092` ayrı duruyor. Ölçülen:
 `mYaw` hedefe yumuşayarak yaklaşıyor ve ancak kare döndükçe yetişiyor —
 "girdi doğru geldi mi" sorusunun cevabı hedefte.
 
+### Adres çubuğu
+
+Telefonda tarayıcının adres çubuğu ekranın üstünden 60–90 px yiyor. **CSS ile
+kaldırılamaz** — tek yol Fullscreen API. İki tuzağı var:
+
+1. **İstek kullanıcı hareketinin İÇİNDE yapılmak zorunda.** `enterMuseum`
+   "müzeye gir" tıklamasından geliyor ama three yüklemesi asenkron; istek o
+   beklemeden **önce** gidiyor, yoksa tarayıcı hareketi kaybolmuş sayıp
+   reddediyor.
+2. **iPhone Safari'de `Element.requestFullscreen` yok** (iPad'de var). Orada tek
+   çare sayfayı ana ekrana eklemek; `apple-mobile-web-app-capable` ve yanındaki
+   üç meta bunun için. Android Chrome'da API gerçekten çalışıyor.
+
+Tam ekran **müzenin kendisine** veriliyor — rehber, vatoz paneli ve proje modalı
+zaten `#museum`'un içinde, dolayısıyla hepsi görünmeye devam ediyor.
+
+Dokunmatikte müzeye girerken kendiliğinden isteniyor; masaüstünde habersiz tam
+ekran sürpriz olurdu, orada yalnız düğme var (`⛶`, çıkış düğmesinin yanında).
+Düğme `document.fullscreenEnabled` yanlışsa hiç görünmüyor: basınca hiçbir şey
+olmayan bir düğme en kötüsü. Konsoldan `atlas.mFull(true|false)`.
+
+Tam ekran tutarsa arkasından **yatay kilidi** deneniyor
+(`screen.orientation.lock`). Tutarsa "telefonu yan çevirin" uyarısı
+kendiliğinden gereksizleşiyor; tutmazsa uyarı eskisi gibi çıkıyor — ikisi de
+kabul. Kullanıcı tam ekrandan kendi çıkarsa müzeden **çıkmıyoruz**, yalnız tuval
+yeniden ölçülüyor.
+
+> Tam ekranın gerçekten açıldığı **doğrulanamadı**: geliştirme panelinde host
+> isteği `TypeError: Permissions check failed` ile reddediyor. Reddin düzgün
+> yakalandığı ve müzenin çalışmaya devam ettiği doğrulandı; açılışı ancak
+> gerçek bir telefonda görebilirsiniz.
+
 > **Hâlâ emülasyonda sınandı.** Tarayıcının cihaz emülasyonu `pointer:coarse`'u
 > yalnız dar genişlikte veriyor, yani **yatay** telefonu dokunmatik olarak
 > taklit edemiyor. Ayrıca panel gizliyken `requestAnimationFrame` donduğu için
@@ -658,6 +690,7 @@ atlas.mMeter(true|false)       // ekrandaki başarım sayacı (` tuşu da açıp
 atlas.mLog() / mLogTemizle()   // yavaş karelerin bağlamlı dökümü
 atlas.mAim()                   // nişangâhın altında ne var
 atlas.mGuide(true|false)       // rehber ekranı (Tab da açar)
+atlas.mFull(true|false)        // tam ekran; argümansız çağrı DEĞİŞTİRİR
 atlas.mPavyon()                // pavyonun avlusuna ışınla (200 m yürümemek için)
 atlas.mCanStep(ax,az,bx,bz,y)  // bu adım atılabilir mi — zemin VE duvar
 atlas.mOpen(i)                 // i numaralı projenin modalını aç

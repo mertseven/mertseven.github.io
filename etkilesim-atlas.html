@@ -4,6 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="color-scheme" content="light dark">
+<!-- iPhone Safari'de Fullscreen API yok. Orada adres cubugundan kurtulmanin
+     tek yolu sayfayi ana ekrana eklemek; bu iki satir onu gercek tam ekran
+     baslatiyor. Android'de zaten Fullscreen API calisiyor. -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Etkilesim Atlasi">
 <meta name="description" content="İnteraktif medyayı mümkün kılan 162 JavaScript kütüphanesi ve onlarla yapılmış 118 gazetecilik işi.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23161615'/%3E%3Cg fill='%23E9E5DA'%3E%3Crect x='6' y='6' width='7' height='7' rx='1.5'/%3E%3Crect x='19' y='6' width='7' height='7' rx='1.5'/%3E%3Crect x='6' y='19' width='7' height='7' rx='1.5'/%3E%3Crect x='19' y='19' width='7' height='7' rx='1.5'/%3E%3C/g%3E%3C/svg%3E">
 <!--
@@ -707,6 +714,7 @@ img,svg,canvas{max-width:100%}
       <div class="joy" id="joy" hidden><i id="joyKnob"></i></div>
 
       <div class="mbtns">
+        <button id="mFull" hidden aria-label="Tam ekran">&#9974;</button>
         <button id="mExit">Haritaya dön</button>
       </div>
 
@@ -6181,9 +6189,65 @@ function mResize(){
 }
 
 /* ================= giriş / çıkış ================= */
+/* ================= tam ekran =================
+   Telefonda tarayıcının adres çubuğu ekranın üstünden 60–90 px yiyor ve
+   birinci şahıs bir mekânda bu çok. CSS ile kaldırılamaz — tek yol Fullscreen
+   API. İki şeye dikkat:
+
+   1. İstek KULLANICI HAREKETİNİN İÇİNDE yapılmak zorunda. enterMuseum "müzeye
+      gir" tıklamasından geliyor ama three yüklemesi asenkron; istek o
+      beklemeden ÖNCE gitmeli, yoksa tarayıcı hareketi kaybolmuş sayıp reddeder.
+   2. iPhone Safari'de Element.requestFullscreen YOK (iPad'de var). Orada tek
+      çare sayfayı ana ekrana eklemek — head'deki apple-mobile-web-app-capable
+      bunun için. Android Chrome'da gerçekten çalışıyor.
+
+   Tam ekran müzenin KENDİSİNE veriliyor; rehber, vatoz paneli ve proje modalı
+   zaten #museum'un içinde, dolayısıyla hepsi görünmeye devam ediyor. */
+const mFullEl=document.getElementById("mFull");
+function fsSupported(){
+  /* fullscreenEnabled de sınanıyor: API duruyor ama belge izinli olmayabilir
+     (izin politikası, gömülü çerçeve). O durumda düğmeyi hiç göstermiyoruz —
+     basınca hiçbir şey olmayan bir düğme en kötüsü. */
+  if(document.fullscreenEnabled===false) return false;
+  return !!(museumEl.requestFullscreen || museumEl.webkitRequestFullscreen);
+}
+function fsOn(){
+  return !!(document.fullscreenElement || document.webkitFullscreenElement);
+}
+function mFullscreen(on){
+  if(on===undefined) on=!fsOn();
+  try{
+    if(on){
+      const req=museumEl.requestFullscreen || museumEl.webkitRequestFullscreen;
+      if(!req) return false;
+      const p=req.call(museumEl,{navigationUI:"hide"});
+      /* Yatay kilidi ancak tam ekranda mümkün ve yalnız bazı tarayıcılarda.
+         Tutarsa "telefonu yan çevirin" uyarısı kendiliğinden gereksizleşiyor;
+         tutmazsa uyarı eskisi gibi çıkıyor. İkisi de kabul. */
+      const kilit=()=>{ try{
+        if(screen.orientation && screen.orientation.lock)
+          screen.orientation.lock("landscape").catch(()=>{});
+      }catch(e){} };
+      if(p && p.then) p.then(kilit).catch(()=>{}); else kilit();
+      return true;
+    }
+    try{ if(screen.orientation && screen.orientation.unlock) screen.orientation.unlock(); }catch(e){}
+    if(fsOn()) (document.exitFullscreen || document.webkitExitFullscreen).call(document);
+  }catch(e){}
+  return false;
+}
+/* Kullanıcı tam ekrandan kendi çıkarsa (geri hareketi, Esc) müzeden
+   ÇIKMIYORUZ — yalnız tuval yeniden ölçülüyor. */
+for(const evt of ["fullscreenchange","webkitfullscreenchange"])
+  document.addEventListener(evt, ()=>{ if(museumOn && mRend) mResize(); });
+
 function enterMuseum(){
   if(museumOn) return;
+  /* Hareketin içinde, beklemeden. Yalnız dokunmatikte kendiliğinden:
+     masaüstünde habersiz tam ekran sürpriz olurdu, düğme zaten duruyor. */
+  if(matchMedia("(pointer:coarse)").matches) mFullscreen(true);
   museumOn=true; museumEl.hidden=false; mLoad.hidden=false;
+  if(fsSupported()) mFullEl.hidden=false;
   document.getElementById("app").setAttribute("data-museum","");
   loadLib("three").then(()=>{
     TH=window.THREE;
@@ -6204,6 +6268,7 @@ function enterMuseum(){
 function exitMuseum(){
   if(!museumOn) return;
   museumOn=false;
+  mFullscreen(false);
   document.getElementById("app").removeAttribute("data-museum");
   cancelAnimationFrame(mRaf); mRaf=0;
   mclickEl.hidden=true;
@@ -6214,6 +6279,8 @@ function exitMuseum(){
 }
 document.getElementById("enterMuseum").addEventListener("click",enterMuseum);
 document.getElementById("mExit").addEventListener("click",exitMuseum);
+mFullEl.addEventListener("click",()=>mFullscreen());
+window.atlas.mFull=(on)=>{ mFullscreen(on); return {destekleniyor:fsSupported(), acik:fsOn()}; };
 addEventListener("resize",()=>{ if(museumOn && mRend) mResize(); });
 
 window.atlas.enterMuseum=enterMuseum;

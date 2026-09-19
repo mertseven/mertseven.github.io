@@ -131,6 +131,13 @@ def build_standalone(fragment, n_lib, n_proj):
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="color-scheme" content="light dark">
+<!-- iPhone Safari'de Fullscreen API yok. Orada adres cubugundan kurtulmanin
+     tek yolu sayfayi ana ekrana eklemek; bu iki satir onu gercek tam ekran
+     baslatiyor. Android'de zaten Fullscreen API calisiyor. -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Etkilesim Atlasi">
 <meta name="description" content="İnteraktif medyayı mümkün kılan {n_lib} JavaScript kütüphanesi ve onlarla yapılmış {n_proj} gazetecilik işi.">
 <link rel="icon" href="{FAVICON}">
 {banner}
