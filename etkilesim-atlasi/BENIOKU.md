@@ -3,10 +3,10 @@
 İnteraktif medyayı mümkün kılan JavaScript kütüphanelerinin haritası ve
 onlarla yapılmış gazetecilik işlerinin müzesi. Öğrencilere gösterilmek üzere.
 
-**Yayınlanan sürüm:** https://claude.ai/code/artifact/603b663f-cc3f-44dd-844e-8bc6db8c306d
-> ⚠️ **Bu bağlantı çok eski.** En baştaki siyah boşluklu, dither'lı müzeyi
-> gösteriyor. Holmdel planı, gündüz ışığı, vatoz, rehber, kapılar — hiçbiri
-> orada yok. Yayınlamak açık duran en büyük madde.
+**Yayınlanan sürüm:** https://mertseven.com/etkilesim-atlas
+> GitHub Pages (`mertseven.github.io` deposu). Artifact hedefi **bırakıldı**;
+> eski artifact bağlantısı en baştaki dither'lı müzeyi gösteriyordu, artık
+> geçerli değil.
 
 ---
 
@@ -26,10 +26,9 @@ onlarla yapılmış gazetecilik işlerinin müzesi. Öğrencilere gösterilmek �
 sürülmeden** duruyor: mobil, klavye gezinmesi, 134 kütüphaneye "neden demo yok"
 etiketi. Sıradaki iş muhtemelen müzede değil.
 
-**Önerilen sıra:** (1) yayınla — ama önce artifact sürümünü CSP altında ayrıca
-sına, son dokuz turda çok şey değişti; (2) atlas tarafındaki üç madde, özellikle
-"neden demo yok" etiketi (işin dürüstlük çerçevesindeki tek boşluk); (3) mobil;
-(4) sizin makinenizde `atlas.mLog()` ölçümü.
+**Önerilen sıra:** (1) atlas tarafındaki üç madde, özellikle "neden demo yok"
+etiketi (işin dürüstlük çerçevesindeki tek boşluk); (2) mobil; (3) sizin
+makinenizde `atlas.mLog()` ölçümü; (4) kampüs — öğrenci pavyonu (aşağıda).
 
 ---
 
@@ -57,18 +56,24 @@ Bunlar saatler yedi, yazıyorum:
 
 ## Bu klasörde ne var
 
+Proje `mertseven.github.io` deposunun içinde, `etkilesim-atlasi/` altında:
+
 ```
-derle.py                          parçaları birleştirir → iki çıktı üretir
-etkilesim-atlasi.html             Artifact'a yayınlanan hâli (doctype/head yok)
-etkilesim-atlasi-standalone.html  dışarıda çalışan tam belge (çift tıkla açılır)
-src/                              asıl kaynak — düzenlemeler BURADA yapılır
-veri/                             ham araştırma verisi
+etkilesim-atlasi/
+  derle.py              parçaları birleştirir
+  src/                  asıl kaynak — düzenlemeler BURADA yapılır
+  veri/                 ham araştırma verisi
+  BENIOKU.md            bu dosya
+  etkilesim-atlasi.html IIFE parçası; söz dizimi kontrolü için, .gitignore'da
+../etkilesim-atlas.html YAYINLANAN dosya (depo kökü)
 ```
 
 **Derleme:** `python derle.py` — başka hiçbir şey gerekmez, bağımlılık yok.
+Çıktı doğrudan `../etkilesim-atlas.html`'e, yani canlı yola yazılır.
 
-> `etkilesim-atlasi.html` bir **çıktıdır**. Doğrudan düzenlemeyin; `src/` içindeki
-> parçayı düzenleyip yeniden derleyin, yoksa değişiklik bir sonraki derlemede silinir.
+> Kökteki `etkilesim-atlas.html` bir **çıktıdır**. Doğrudan düzenlemeyin; `src/`
+> içindeki parçayı düzenleyip yeniden derleyin, yoksa değişiklik bir sonraki
+> derlemede silinir. Adını da değiştirmeyin — canlı bağlantı ona bağlı.
 
 ---
 
@@ -157,10 +162,15 @@ cdnjs'ten yüklenen UMD kütüphaneleri de aynı kapsamda kendi adlarını tanı
 `Identifier 'N' has already been declared` hatasıyla o kütüphaneyi öldürüyor.
 Her şey kapalı bir kapsamda. Konsoldan kurcalamak için `window.atlas` var.
 
-**CSP (Artifact ortamı).** Yalnız cdnjs, jsDelivr/npm ve code.jquery.com'dan
-**script** yüklenebilir. Dış görsel, stil dosyası, iframe, fetch — hepsi yasak.
-Bu yüzden: Swiper ve MapLibre'ın CSS'i elle yazıldı; projelerin ekran görüntüsü
-yok, tasarlanmış afişler var. `standalone` sürümde bu kısıt yoktur.
+**CSP — artık geçerli değil, ama izleri kodda.** Artifact ortamında yalnız
+cdnjs, jsDelivr/npm ve code.jquery.com'dan **script** yüklenebiliyordu; dış
+görsel, stil dosyası, iframe ve fetch yasaktı. Bugünkü kodun şu özellikleri
+o kısıttan kalma: Swiper ve MapLibre'ın CSS'i elle yazılı, projelerin ekran
+görüntüsü yok (tasarlanmış afişler var).
+
+> GitHub Pages'e geçişle bu kısıt **kalktı**. Artık dış görsel, doku, HDRI ve
+> GLTF yüklenebilir. Yeni iş (pavyon, gölge haritası, gerçek kapak görselleri)
+> bunu kullanabilir; eski kodu geriye dönük sadeleştirmek gerekmez.
 
 **Renk düzeni: saf beyaz ve saf siyah yok.** Ghibli arka planlarında en koyu
 değer bile ılık bir zeytindir. Burada da öyle: `matDark` `#4A4F43`, kâğıt
@@ -410,8 +420,11 @@ aynısıyla):
    kaydırakların değerleri konsolun eğik yüzüne de yazdırılabilir.
 8. **Vatoz tek.** `createManta` birden çok çağrılabilir ama sürü davranışı
    (birbirinden kaçınma) taşınmadı — eskizdeki `rays` döngüsü tek hayvana indi.
-9. **Yayınlanan Artifact bu sürümden eski.** Yukarıdaki bağlantı hâlâ en eski
-   (siyah boşluklu, dither'lı) müzeyi gösteriyor.
+9. ~~Yayınlanan Artifact eski.~~ **Bitti** — GitHub Pages'te yayında,
+   mertseven.com/etkilesim-atlas. Konsolda gerçek hata yok; Edge'in
+   "Tracking Prevention blocked access to storage" satırları hata değil,
+   tarayıcının üçüncü taraf kaynaklara *depolama* erişimini kesmesi
+   (betikler yükleniyor, demolar çalışıyor).
 10. **Dither'lı sürümün yedeği** `src/yedek/_p7-dither.js.yedek` dosyasında duruyor.
    Klasörde sürüm denetimi olmadığı için alındı; geri dönmeyecekseniz silin.
 
