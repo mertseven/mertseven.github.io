@@ -1077,7 +1077,13 @@ function poolTexture(){
    bakış ve seçme hiç karışmaz. */
 const KEY={};
 let look=null, joy={x:0,y:0,id:null,cx:0,cy:0}, locked=false, unlockAt=-1e9;
-const SENS=0.0026;            /* tek duyarlılık: sürükleme de kilit de aynı */
+const SENS=0.0026;            /* fare: kilitliyken movementX, sürüklerken piksel */
+/* Parmak ayrı bir değer istiyor ve bu, eskiden kurtulduğumuz "iki duyarlılık"
+   karmaşası değil — girdinin kendisi başka. Kilitli farede movementX sınırsız
+   birikir: masada eli kaydırmaya devam edersiniz. Parmak sürüklemesi ise
+   EKRANLA sınırlı; rahat bir başparmak hareketi ~150 px. 0,0026 ile bu 22°
+   ediyordu, yani 180° dönmek için sekiz kaydırma. Şimdi ~150 px ≈ 79°. */
+const SENS_T=0.0092;
 
 function onKey(e,down){
   if(!museumOn) return;
@@ -1104,6 +1110,22 @@ addEventListener("keyup",e=>onKey(e,false));
 
 function isTouch(e){ return e.pointerType==="touch"; }
 
+/* Joystick'in çizimi parmağın DEĞDİĞİ yere taşınıyor, çünkü denetimin merkezi
+   zaten orası (joy.cx/cy). Daire köşede sabit dururken görsel ile gerçek
+   merkez çakışmıyordu. Bırakınca CSS'teki dinlenme yerine dönüyor. */
+function joyAt(x,y){
+  const s=joyEl.offsetWidth||126;
+  joyEl.style.left=(x-s/2)+"px";
+  joyEl.style.top =(y-s/2)+"px";
+  joyEl.style.right="auto"; joyEl.style.bottom="auto";
+}
+function joyRest(){
+  joyEl.style.left=joyEl.style.top=joyEl.style.right=joyEl.style.bottom="";
+}
+function joyMax(){
+  return Math.max(26, (joyEl.offsetWidth||126)/2 - (joyKnob.offsetWidth||52)/2);
+}
+
 function ndcOf(e){
   const r=mCanvas.getBoundingClientRect();
   return { x:((e.clientX-r.left)/r.width)*2-1, y:-(((e.clientY-r.top)/r.height)*2-1) };
@@ -1111,14 +1133,20 @@ function ndcOf(e){
 mCanvas.addEventListener("pointerdown",e=>{
   if(!pmodal.hidden || !mpanel.hidden || !mguideEl.hidden) return;
   if(isTouch(e)){
-    const r=mCanvas.getBoundingClientRect(), lx=e.clientX-r.left;
-    if(lx < r.width*0.44 && joy.id===null){
+    const r=mCanvas.getBoundingClientRect();
+    const lx=e.clientX-r.left, ly=e.clientY-r.top;
+    /* Joystick bölgesi sol yarının ALT kısmı. Eskiden sol %44'ün tamamı,
+       tepeden tabana, joystickti; iki sonucu vardı: ekranın sol yarısındaki
+       hiçbir esere dokunulamıyordu (her dokunuş joystick tutuşu sayılıyordu),
+       ve bölge çizimle hiç ilgisi olmayan bir yerdeydi. */
+    if(lx < r.width*0.46 && ly > r.height*0.42 && joy.id===null){
       joy.id=e.pointerId; joy.cx=e.clientX; joy.cy=e.clientY;
+      joyAt(lx,ly);                       /* çizim parmağın altına gitsin */
       joyEl.classList.add("on");
       mCanvas.setPointerCapture(e.pointerId);
       return;
     }
-    look={id:e.pointerId,x:e.clientX,y:e.clientY,moved:0,t:performance.now()};
+    look={id:e.pointerId,x:e.clientX,y:e.clientY,moved:0,t:performance.now(),touch:true};
     mCanvas.setPointerCapture(e.pointerId);
     return;
   }
@@ -1143,7 +1171,10 @@ mCanvas.addEventListener("pointerdown",e=>{
 mCanvas.addEventListener("pointermove",e=>{
   if(joy.id===e.pointerId){
     const dx=e.clientX-joy.cx, dy=e.clientY-joy.cy;
-    const max=52, d=Math.hypot(dx,dy), k=d>max?max/d:1;
+    /* Tam sapma mesafesi halkanın boyutundan türetiliyor: sabit 52 px,
+       126 px'lik halkada topuzu 15 px dışarı taşırıyordu, yatayda küçülen
+       104 px'lik halkada ise daha da fazla. */
+    const max=joyMax(), d=Math.hypot(dx,dy), k=d>max?max/d:1;
     joy.x=(dx*k)/max; joy.y=-(dy*k)/max;
     joyKnob.style.transform=`translate(${dx*k}px,${dy*k}px)`;
     return;
@@ -1156,15 +1187,16 @@ mCanvas.addEventListener("pointermove",e=>{
     if(look.moved>26) promptSeen();
     const dx=e.clientX-look.x, dy=e.clientY-look.y;
     look.moved+=Math.abs(dx)+Math.abs(dy);
-    mYawT   -= dx*SENS;
-    mPitchT  = Math.max(-1.05,Math.min(1.0, mPitchT - dy*SENS));
+    const s = look.touch ? SENS_T : SENS;
+    mYawT   -= dx*s;
+    mPitchT  = Math.max(-1.05,Math.min(1.0, mPitchT - dy*s));
     look.x=e.clientX; look.y=e.clientY;
   }
 });
 function endPtr(e){
   if(joy.id===e.pointerId){
     joy.id=null; joy.x=joy.y=0; joyKnob.style.transform="";
-    joyEl.classList.remove("on"); return;
+    joyEl.classList.remove("on"); joyRest(); return;
   }
   if(look && look.id===e.pointerId){
     /* Kilit açıldıysa bu tıklama yalnız fareyi almaktı, bir şey seçmez.
@@ -1626,6 +1658,12 @@ window.atlas.mStats=()=>({floors:floors.length, ramps:ramps.length,
   panolar:glyphPanels.length, cizilen:glyphPanels.filter(p=>p.drawn).length,
   posters:posters.length, liveArt:liveArt.length, nis:pavItems.length,
   draws:mRend?mRend.info.render.calls:0, tris:mRend?mRend.info.render.triangles:0,
-  at:player?[+player.x.toFixed(1),+player.y.toFixed(1),+player.z.toFixed(1)]:null});
+  at:player?[+player.x.toFixed(1),+player.y.toFixed(1),+player.z.toFixed(1)]:null,
+  /* Bakış açısı derece cinsinden: duyarlılık ayarlarken "şu kadar sürükleyince
+     şu kadar döndü" diyebilmek için. Ölçmeden ayarlanacak bir şey değil.
+     HEDEF ayrı veriliyor, çünkü mYaw ona yumuşayarak yaklaşıyor ve ancak
+     kare döndükçe yetişiyor — girdi doğru geldi mi sorusunun cevabı hedefte. */
+  bakis:[Math.round(mYaw*180/Math.PI), Math.round(mPitch*180/Math.PI)],
+  hedef:[Math.round(mYawT*180/Math.PI), Math.round(mPitchT*180/Math.PI)]});
 })();
 </script>

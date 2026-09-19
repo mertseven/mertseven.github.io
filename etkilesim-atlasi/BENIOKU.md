@@ -283,10 +283,56 @@ Bunlarla birlikte:
 - **Çıkış düğmesine kenarlık ve gölge.** Düğme krem, müzenin tavanı da krem;
   parlak bir kadrajda çerçevesiz hâli tamamen kayboluyordu.
 
-> **Emülasyonda sınandı, gerçek telefonda değil.** Tarayıcının cihaz emülasyonu
-> `pointer:coarse`'u yalnız dar genişlikte veriyor, yani **yatay** telefonu
-> dokunmatik olarak taklit edemiyor. Joystick ve dokunmatik davet mantığı
-> orada doğrulanamadı; ölçüler ve CSS kuralları doğrulandı.
+### Gerçek telefondan gelen iki hata
+
+Yukarıdaki iş emülasyonda sınanmıştı. Gerçek cihazda iki şey çıktı; ikisinin de
+sebebi ölçüldü.
+
+**1. "Joystick'in etkileşim alanı görselin bir parmak yukarısında."** Sebep
+beklenenden basitti: **`.joy` dairesi `pointerdown`'ı yutuyordu.** Joystick'in
+kendisi hiçbir olay dinlemiyor — bütün dokunma mantığı `#mcanvas` üzerinde. Ama
+ikisi KARDEŞ; daireye düşen olay tuvale sıçramıyor. Yani çizilen dairenin tam
+üstüne basmak hiçbir şey yapmıyor, biraz yukarısına (tuvalin açıkta kaldığı
+yere) basmak çalışıyordu. Çare tek satır: `.joy{pointer-events:none}`.
+
+İki şey daha düzeltildi, çünkü aynı yerin parçasıydılar:
+
+- **Bölge sol %44'ün TAMAMIYDI, tepeden tabana.** İkinci bir sonucu vardı ki
+  daha kötüydü: ekranın **sol yarısındaki hiçbir esere dokunulamıyordu**, her
+  dokunuş joystick tutuşu sayılıyordu. Şimdi bölge sol %46 **ve** alt %58.
+- **Çizim artık parmağın değdiği yere gidiyor.** Denetimin merkezi zaten orası
+  (`joy.cx/cy`); daire köşede sabit dururken görsel ile gerçek merkez
+  çakışmıyordu. Bırakınca dinlenme yerine dönüyor. Topuzun tam sapma mesafesi
+  de halkanın boyutundan türetiliyor — sabit 52 px, 126 px'lik halkada topuzu
+  15 px dışarı taşırıyordu.
+
+**2. "Kamerayı döndürme hızı çok yavaş."** `SENS` tek bir değerdi ve hem kilitli
+farenin `movementX`'ini hem parmak sürüklemesini besliyordu. Ama girdi aynı
+değil: **kilitli farede `movementX` sınırsız birikir** (masada eli kaydırmaya
+devam edersiniz), **parmak ekranla sınırlıdır** — rahat bir başparmak hareketi
+~150 px. 0,0026 ile bu 22° ediyordu, yani 180° dönmek için sekiz kaydırma.
+
+Artık `SENS_T = 0,0092` ayrı duruyor. Ölçülen:
+
+| sürükleme | önce | sonra |
+|---|---|---|
+| parmak 150 px | 22° | **79°** |
+| parmak 250 px | 37° | **132°** |
+| fare 150 px | 22° | **22°** (değişmedi) |
+
+> Bu, eskiden kurtulduğumuz "iki duyarlılık" karmaşası değil. O ikisi aynı
+> girdinin iki ayarıydı; bunlar farklı girdiler.
+
+`atlas.mStats()` artık `bakis` ve `hedef` veriyor (derece). İkisi ayrı, çünkü
+`mYaw` hedefe yumuşayarak yaklaşıyor ve ancak kare döndükçe yetişiyor —
+"girdi doğru geldi mi" sorusunun cevabı hedefte.
+
+> **Hâlâ emülasyonda sınandı.** Tarayıcının cihaz emülasyonu `pointer:coarse`'u
+> yalnız dar genişlikte veriyor, yani **yatay** telefonu dokunmatik olarak
+> taklit edemiyor. Ayrıca panel gizliyken `requestAnimationFrame` donduğu için
+> (1 numaralı tuzak) ışın sınaması oradan yapılamıyor: sol yarıdaki bir esere
+> dokunmanın modalı açtığı **uçtan uca doğrulanmadı**. Doğrulanan şey, sol üstte
+> joystick'in artık tutmadığı ve dokunuşun seçme dalına düştüğü.
 
 ---
 
@@ -601,7 +647,8 @@ Tarayıcı konsolunda:
 atlas.enterMuseum()            // müzeye gir
 atlas.mTeleport(kat, yan, z)   // kat 0-3; yan -1/+1 (kanat) ya da 0 (omurga); z isteğe bağlı
 atlas.mLook(yaw, pitch)        // bakış açısını kur — kadraj ayarlarken
-atlas.mStats()                 // döşeme/rampa/afiş/nesne sayısı, çalışan demo, konum
+atlas.mStats()                 // döşeme/rampa/afiş/nesne/niş, çalışan demo, konum,
+                               //  bakış ve hedef açısı (derece)
 atlas.mFloorAt(x, z, curY)     // ayağın altındaki döşeme; güzergâh sınamak için
 atlas.manta()                  // vatozun hızı, itkisi, dünya konumu, yönü
 atlas.mPanel(true|false)       // vatoz kontrol panelini aç/kapa
