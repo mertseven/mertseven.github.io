@@ -384,7 +384,10 @@ input[type=range]::-moz-range-thumb{width:11px;height:11px;border:0;border-radiu
 .museum__load[hidden]{display:none}
 
 .mbtns{position:absolute;right:18px;top:16px;z-index:4;display:flex;gap:7px}
-.mbtns button{background:rgba(239,235,226,.92);border:0;border-radius:5px;color:#141412;
+/* Kenarlık ve gölge şart: düğme krem, müzenin tavanı da krem. Parlak bir
+   kadrajda (koridorun ucu, avlunun altı) çerçevesiz hâli tamamen kayboluyordu. */
+.mbtns button{background:rgba(239,235,226,.92);border:1px solid rgba(20,20,18,.3);
+  border-radius:5px;color:#141412;box-shadow:0 2px 10px rgba(0,0,0,.35);
   padding:9px 13px;font-size:12.5px;font-weight:500;cursor:pointer}
 .mbtns button:hover{background:#fff}
 
@@ -532,11 +535,66 @@ input[type=range]::-moz-range-thumb{width:11px;height:11px;border:0;border-radiu
 .zoombar button+button{border-top:1px solid var(--rail-line)}
 .zoombar button:hover{background:var(--ui-field);color:var(--ui-ink)}
 
+/* ---- telefonda ray'i açan düğme ve arkasındaki perde ----
+   Masaüstünde ikisi de yok; yalnız dar ekranda beliriyorlar. */
+.railtog{display:none;position:fixed;z-index:32;align-items:center;gap:8px;
+  left:calc(12px + env(safe-area-inset-left));top:calc(12px + env(safe-area-inset-top));
+  background:var(--rail);border:1px solid var(--rail-line);border-radius:6px;
+  padding:9px 13px 9px 11px;color:var(--ui-ink);font-size:13px;font-weight:500;
+  box-shadow:var(--shadow);cursor:pointer}
+.railtog i{width:15px;height:11px;position:relative;display:block}
+.railtog i::before,.railtog i::after{content:"";position:absolute;left:0;right:0;height:1.5px;
+  background:currentColor;transition:transform .22s}
+.railtog i::before{top:0}
+.railtog i::after{bottom:0}
+.app[data-rail] .railtog i::before{transform:translateY(4.75px) rotate(45deg)}
+.app[data-rail] .railtog i::after{transform:translateY(-4.75px) rotate(-45deg)}
+.railveil{display:none;position:fixed;inset:0;z-index:30;background:rgba(8,8,7,.5)}
+.railveil[hidden]{display:none}
+
+/* ================= telefon =================
+   Eski hâlde ray dar ekranda yalnız 44dvh'ye kısılıyordu ve OLDUĞU YERDE
+   duruyordu: haritaya ekranın yarısı kalıyor, müze de ray'in altındaki
+   kutuya çiziliyordu. Yatayda 812×375'lik bir telefonda müzeye kalan
+   yükseklik 210 px'ti — birinci şahıs bir mekân için kullanılamaz.
+
+   İkisi de düzeltildi: ray üstten inen bir ÇEKMECE, müze ise .stage'in
+   değil EKRANIN içinde (position:fixed). .stage'de dönüşüm/filtre yok,
+   o yüzden fixed gerçekten görüntü alanına göre konumlanıyor. */
 @media (max-width:900px){
-  .app{grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr)}
-  .rail{border-right:0;border-bottom:1px solid var(--rail-line);max-height:44dvh}
-  .rail__scroll{padding:16px 16px 18px;gap:16px}
+  .app{grid-template-columns:1fr;grid-template-rows:minmax(0,1fr)}
+
+  .railtog{display:flex}
+  .railveil{display:block}
+  .app:not([data-rail]) .railveil{display:none}
+
+  .rail{position:fixed;left:0;right:0;top:0;max-height:86dvh;
+        border-right:0;border-bottom:1px solid var(--rail-line);z-index:31;
+        transform:translateY(-101%);transition:transform .26s ease;
+        box-shadow:0 24px 60px -24px rgba(0,0,0,.85)}
+  .app[data-rail] .rail{transform:none}
+  .rail__scroll{gap:16px;
+    padding:calc(58px + env(safe-area-inset-top)) 16px calc(20px + env(safe-area-inset-bottom))}
   .brand h1{font-size:26px}
+
+  /* Müze tam ekran; çekmece düğmesi müzedeyken kaybolur. */
+  .museum{position:fixed;z-index:60}
+  .app[data-museum] .railtog{display:none}
+
+  /* Çentik ve alt çubuk: yüzen arayüz onların altına girmesin. */
+  .mtop{left:calc(14px + env(safe-area-inset-left));top:calc(12px + env(safe-area-inset-top))}
+  .mbtns{right:calc(14px + env(safe-area-inset-right));top:calc(12px + env(safe-area-inset-top))}
+  .joy{left:calc(18px + env(safe-area-inset-left));bottom:calc(18px + env(safe-area-inset-bottom))}
+  .mmeter{right:calc(14px + env(safe-area-inset-right));bottom:calc(14px + env(safe-area-inset-bottom))}
+  .rotate b{font-size:19px}
+  .rotate span{font-size:12px}
+}
+@media (max-width:900px) and (orientation:landscape){
+  /* Yatayda yükseklik 375 px: joystick ekranın üçte birini yemesin. */
+  .joy{width:104px;height:104px}
+  .joy i{width:44px;height:44px;margin:-22px 0 0 -22px}
+  .mguide{max-height:88dvh;overflow:auto}
+  .mpanel{top:calc(56px + env(safe-area-inset-top));width:min(292px,42vw)}
 }
 @media (prefers-reduced-motion:reduce){.card.moving{transition:opacity .2s}}
 </style>
@@ -555,9 +613,14 @@ img,svg,canvas{max-width:100%}
     <p>Bu atlas tamamen tarayıcıda çalışır ve JavaScript gerektirir.</p>
   </div>
 </noscript>
-<div class="app">
-  <aside class="rail">
-    <div class="rail__scroll">
+<div class="app" id="app">
+  <button class="railtog" id="railTog" aria-expanded="false" aria-controls="railScroll">
+    <i aria-hidden="true"></i><span>Atlas</span>
+  </button>
+  <div class="railveil" id="railVeil" hidden></div>
+
+  <aside class="rail" id="rail">
+    <div class="rail__scroll" id="railScroll">
       <div class="brand">
         <div class="eyebrow">t-SNE gömülümü · n=<span id="nCount">0</span></div>
         <h1>Etkileşim Atlası</h1>
@@ -1774,7 +1837,12 @@ function bestOpening(){
 function openView(){
   if(framed || VW<80 || VH<80) return;
   framed = true;
-  centerOn(bestOpening(), 0.82);
+  /* Açılış ölçeği artık sahnenin GENİŞLİĞİNE bağlı. Sabit 0,82 masaüstünde
+     doğru ama 375 px'lik bir telefonda tek kart bütün ekranı kaplıyordu —
+     bunun bir kart MANZARASI olduğu hiç anlaşılmıyordu. Kart 300 px geniş;
+     VW/980 telefonda üç kartı yan yana getiriyor. 980 px'in üstünde değer
+     zaten 0,82'ye sıkışıyor, yani masaüstünde hiçbir şey değişmiyor. */
+  centerOn(bestOpening(), Math.max(0.30, Math.min(0.82, VW/980)));
 }
 new ResizeObserver(()=>{ measure(); framed ? apply() : openView(); }).observe(stage);
 measure(); openView();
@@ -3635,6 +3703,43 @@ document.addEventListener("keydown",e=>{
 window.atlas = { view, LAY, cards, LIBS, CATS, centerOn, fitAll, bbox, overlaps,
                  updateLive, toggleWing, closeWing, select, layout, place,
                  goStop, addCompare, renderCmp };
+
+/* ===================== telefonda ray bir çekmece =====================
+   Masaüstünde ray hep açık duruyor ve doğru olan o: harita ile birlikte
+   okunuyor. Telefonda ise sabit 44dvh yer kaplıyordu — haritaya ekranın
+   yarısı kalıyordu. Artık üstten inen bir çekmece (CSS tarafı .railtog /
+   .app[data-rail] altında), harita bütün ekranı alıyor.
+
+   Kapanma kuralı kasıtlı olarak SEÇİCİ: tur durağı gibi GÖRÜNÜMÜ DEĞİŞTİREN
+   bir şeye dokununca kapanıyor (yoksa gidilen yer çekmecenin arkasında
+   kalıyor), ama küme filtrelerinde kapanmıyor — insan arka arkaya birkaç
+   küme kapatıp açıyor.                                                    */
+const appEl   = document.getElementById("app");
+const railTog  = document.getElementById("railTog");
+const railVeil = document.getElementById("railVeil");
+const railEl   = document.getElementById("rail");
+
+function railOpen(on){
+  if(on===undefined) on = !appEl.hasAttribute("data-rail");
+  if(on) appEl.setAttribute("data-rail",""); else appEl.removeAttribute("data-rail");
+  railTog.setAttribute("aria-expanded", on ? "true" : "false");
+  railVeil.hidden = !on;
+}
+railTog.addEventListener("click", ()=>railOpen());
+railVeil.addEventListener("click", ()=>railOpen(false));
+/* Yakalama aşamasında dinleniyor ki asıl işleyici yine de çalışsın. */
+railEl.addEventListener("click", e=>{
+  if(e.target.closest("[data-stop], #enterMuseum, a[href]")) railOpen(false);
+}, true);
+addEventListener("keydown", e=>{
+  if(e.key==="Escape" && appEl.hasAttribute("data-rail")) railOpen(false);
+});
+/* Masaüstü genişliğine dönülürse çekmece kapalı sayılsın: ray zaten
+   yerinde duruyor, açık bırakılırsa perde ekranı karartıyordu. */
+matchMedia("(max-width:900px)").addEventListener("change", e=>{
+  if(!e.matches) railOpen(false);
+});
+window.atlas.rail = railOpen;
 
 /* ==================================================================
    20. GAZETECILIK ISLERI - mertseven.com/digijournalism katalogundan
@@ -5726,7 +5831,15 @@ document.addEventListener("pointerlockchange",()=>{
 });
 function syncPrompt(){
   const touch=matchMedia("(pointer:coarse)").matches;
-  mclickEl.hidden = promptDone || !museumOn || locked || touch;
+  /* Dokunmatikte davet TAMAMEN gizliydi. Joystick yürümeyi anlatıyor ama
+     bakmanın sürüklemek, seçmenin dokunmak olduğunu söyleyen hiçbir şey
+     yoktu — .mhelp de telefonda gizli. Artık metin cihaza göre değişiyor;
+     davet yine ilk bakışta, ilk adımda ya da 14 saniyede sönüyor. */
+  mclickEl.hidden = promptDone || !museumOn || locked;
+  const sp=mclickEl.firstElementChild;
+  if(sp && !mclickEl.hidden)
+    sp.textContent = touch ? "Bakmak için sürükleyin · esere dokunun"
+                           : "Bakmak için tıklayın";
 }
 /* Davet bir kez işini görür ve gider. Eskiden kilit açılmadığı sürece (ve
    bu ortamda kilit hiç açılmıyor) bütün deneyim boyunca ekranda kalıyordu. */
@@ -6033,6 +6146,7 @@ function mResize(){
 function enterMuseum(){
   if(museumOn) return;
   museumOn=true; museumEl.hidden=false; mLoad.hidden=false;
+  document.getElementById("app").setAttribute("data-museum","");
   loadLib("three").then(()=>{
     TH=window.THREE;
     if(!mBuilt){
@@ -6052,6 +6166,7 @@ function enterMuseum(){
 function exitMuseum(){
   if(!museumOn) return;
   museumOn=false;
+  document.getElementById("app").removeAttribute("data-museum");
   cancelAnimationFrame(mRaf); mRaf=0;
   mclickEl.hidden=true;
   liveArt.forEach(unmountArt);

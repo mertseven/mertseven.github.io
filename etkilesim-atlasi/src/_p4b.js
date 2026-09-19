@@ -240,7 +240,12 @@ function bestOpening(){
 function openView(){
   if(framed || VW<80 || VH<80) return;
   framed = true;
-  centerOn(bestOpening(), 0.82);
+  /* Açılış ölçeği artık sahnenin GENİŞLİĞİNE bağlı. Sabit 0,82 masaüstünde
+     doğru ama 375 px'lik bir telefonda tek kart bütün ekranı kaplıyordu —
+     bunun bir kart MANZARASI olduğu hiç anlaşılmıyordu. Kart 300 px geniş;
+     VW/980 telefonda üç kartı yan yana getiriyor. 980 px'in üstünde değer
+     zaten 0,82'ye sıkışıyor, yani masaüstünde hiçbir şey değişmiyor. */
+  centerOn(bestOpening(), Math.max(0.30, Math.min(0.82, VW/980)));
 }
 new ResizeObserver(()=>{ measure(); framed ? apply() : openView(); }).observe(stage);
 measure(); openView();

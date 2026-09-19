@@ -241,3 +241,40 @@ document.addEventListener("keydown",e=>{
 window.atlas = { view, LAY, cards, LIBS, CATS, centerOn, fitAll, bbox, overlaps,
                  updateLive, toggleWing, closeWing, select, layout, place,
                  goStop, addCompare, renderCmp };
+
+/* ===================== telefonda ray bir çekmece =====================
+   Masaüstünde ray hep açık duruyor ve doğru olan o: harita ile birlikte
+   okunuyor. Telefonda ise sabit 44dvh yer kaplıyordu — haritaya ekranın
+   yarısı kalıyordu. Artık üstten inen bir çekmece (CSS tarafı .railtog /
+   .app[data-rail] altında), harita bütün ekranı alıyor.
+
+   Kapanma kuralı kasıtlı olarak SEÇİCİ: tur durağı gibi GÖRÜNÜMÜ DEĞİŞTİREN
+   bir şeye dokununca kapanıyor (yoksa gidilen yer çekmecenin arkasında
+   kalıyor), ama küme filtrelerinde kapanmıyor — insan arka arkaya birkaç
+   küme kapatıp açıyor.                                                    */
+const appEl   = document.getElementById("app");
+const railTog  = document.getElementById("railTog");
+const railVeil = document.getElementById("railVeil");
+const railEl   = document.getElementById("rail");
+
+function railOpen(on){
+  if(on===undefined) on = !appEl.hasAttribute("data-rail");
+  if(on) appEl.setAttribute("data-rail",""); else appEl.removeAttribute("data-rail");
+  railTog.setAttribute("aria-expanded", on ? "true" : "false");
+  railVeil.hidden = !on;
+}
+railTog.addEventListener("click", ()=>railOpen());
+railVeil.addEventListener("click", ()=>railOpen(false));
+/* Yakalama aşamasında dinleniyor ki asıl işleyici yine de çalışsın. */
+railEl.addEventListener("click", e=>{
+  if(e.target.closest("[data-stop], #enterMuseum, a[href]")) railOpen(false);
+}, true);
+addEventListener("keydown", e=>{
+  if(e.key==="Escape" && appEl.hasAttribute("data-rail")) railOpen(false);
+});
+/* Masaüstü genişliğine dönülürse çekmece kapalı sayılsın: ray zaten
+   yerinde duruyor, açık bırakılırsa perde ekranı karartıyordu. */
+matchMedia("(max-width:900px)").addEventListener("change", e=>{
+  if(!e.matches) railOpen(false);
+});
+window.atlas.rail = railOpen;

@@ -360,7 +360,10 @@ input[type=range]::-moz-range-thumb{width:11px;height:11px;border:0;border-radiu
 .museum__load[hidden]{display:none}
 
 .mbtns{position:absolute;right:18px;top:16px;z-index:4;display:flex;gap:7px}
-.mbtns button{background:rgba(239,235,226,.92);border:0;border-radius:5px;color:#141412;
+/* Kenarlık ve gölge şart: düğme krem, müzenin tavanı da krem. Parlak bir
+   kadrajda (koridorun ucu, avlunun altı) çerçevesiz hâli tamamen kayboluyordu. */
+.mbtns button{background:rgba(239,235,226,.92);border:1px solid rgba(20,20,18,.3);
+  border-radius:5px;color:#141412;box-shadow:0 2px 10px rgba(0,0,0,.35);
   padding:9px 13px;font-size:12.5px;font-weight:500;cursor:pointer}
 .mbtns button:hover{background:#fff}
 
@@ -508,18 +511,78 @@ input[type=range]::-moz-range-thumb{width:11px;height:11px;border:0;border-radiu
 .zoombar button+button{border-top:1px solid var(--rail-line)}
 .zoombar button:hover{background:var(--ui-field);color:var(--ui-ink)}
 
+/* ---- telefonda ray'i açan düğme ve arkasındaki perde ----
+   Masaüstünde ikisi de yok; yalnız dar ekranda beliriyorlar. */
+.railtog{display:none;position:fixed;z-index:32;align-items:center;gap:8px;
+  left:calc(12px + env(safe-area-inset-left));top:calc(12px + env(safe-area-inset-top));
+  background:var(--rail);border:1px solid var(--rail-line);border-radius:6px;
+  padding:9px 13px 9px 11px;color:var(--ui-ink);font-size:13px;font-weight:500;
+  box-shadow:var(--shadow);cursor:pointer}
+.railtog i{width:15px;height:11px;position:relative;display:block}
+.railtog i::before,.railtog i::after{content:"";position:absolute;left:0;right:0;height:1.5px;
+  background:currentColor;transition:transform .22s}
+.railtog i::before{top:0}
+.railtog i::after{bottom:0}
+.app[data-rail] .railtog i::before{transform:translateY(4.75px) rotate(45deg)}
+.app[data-rail] .railtog i::after{transform:translateY(-4.75px) rotate(-45deg)}
+.railveil{display:none;position:fixed;inset:0;z-index:30;background:rgba(8,8,7,.5)}
+.railveil[hidden]{display:none}
+
+/* ================= telefon =================
+   Eski hâlde ray dar ekranda yalnız 44dvh'ye kısılıyordu ve OLDUĞU YERDE
+   duruyordu: haritaya ekranın yarısı kalıyor, müze de ray'in altındaki
+   kutuya çiziliyordu. Yatayda 812×375'lik bir telefonda müzeye kalan
+   yükseklik 210 px'ti — birinci şahıs bir mekân için kullanılamaz.
+
+   İkisi de düzeltildi: ray üstten inen bir ÇEKMECE, müze ise .stage'in
+   değil EKRANIN içinde (position:fixed). .stage'de dönüşüm/filtre yok,
+   o yüzden fixed gerçekten görüntü alanına göre konumlanıyor. */
 @media (max-width:900px){
-  .app{grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr)}
-  .rail{border-right:0;border-bottom:1px solid var(--rail-line);max-height:44dvh}
-  .rail__scroll{padding:16px 16px 18px;gap:16px}
+  .app{grid-template-columns:1fr;grid-template-rows:minmax(0,1fr)}
+
+  .railtog{display:flex}
+  .railveil{display:block}
+  .app:not([data-rail]) .railveil{display:none}
+
+  .rail{position:fixed;left:0;right:0;top:0;max-height:86dvh;
+        border-right:0;border-bottom:1px solid var(--rail-line);z-index:31;
+        transform:translateY(-101%);transition:transform .26s ease;
+        box-shadow:0 24px 60px -24px rgba(0,0,0,.85)}
+  .app[data-rail] .rail{transform:none}
+  .rail__scroll{gap:16px;
+    padding:calc(58px + env(safe-area-inset-top)) 16px calc(20px + env(safe-area-inset-bottom))}
   .brand h1{font-size:26px}
+
+  /* Müze tam ekran; çekmece düğmesi müzedeyken kaybolur. */
+  .museum{position:fixed;z-index:60}
+  .app[data-museum] .railtog{display:none}
+
+  /* Çentik ve alt çubuk: yüzen arayüz onların altına girmesin. */
+  .mtop{left:calc(14px + env(safe-area-inset-left));top:calc(12px + env(safe-area-inset-top))}
+  .mbtns{right:calc(14px + env(safe-area-inset-right));top:calc(12px + env(safe-area-inset-top))}
+  .joy{left:calc(18px + env(safe-area-inset-left));bottom:calc(18px + env(safe-area-inset-bottom))}
+  .mmeter{right:calc(14px + env(safe-area-inset-right));bottom:calc(14px + env(safe-area-inset-bottom))}
+  .rotate b{font-size:19px}
+  .rotate span{font-size:12px}
+}
+@media (max-width:900px) and (orientation:landscape){
+  /* Yatayda yükseklik 375 px: joystick ekranın üçte birini yemesin. */
+  .joy{width:104px;height:104px}
+  .joy i{width:44px;height:44px;margin:-22px 0 0 -22px}
+  .mguide{max-height:88dvh;overflow:auto}
+  .mpanel{top:calc(56px + env(safe-area-inset-top));width:min(292px,42vw)}
 }
 @media (prefers-reduced-motion:reduce){.card.moving{transition:opacity .2s}}
 </style>
 
-<div class="app">
-  <aside class="rail">
-    <div class="rail__scroll">
+<div class="app" id="app">
+  <button class="railtog" id="railTog" aria-expanded="false" aria-controls="railScroll">
+    <i aria-hidden="true"></i><span>Atlas</span>
+  </button>
+  <div class="railveil" id="railVeil" hidden></div>
+
+  <aside class="rail" id="rail">
+    <div class="rail__scroll" id="railScroll">
       <div class="brand">
         <div class="eyebrow">t-SNE gömülümü · n=<span id="nCount">0</span></div>
         <h1>Etkileşim Atlası</h1>

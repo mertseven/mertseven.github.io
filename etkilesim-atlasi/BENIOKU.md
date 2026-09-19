@@ -20,17 +20,19 @@ yapılmış gazetecilik işlerinin müzesi ve müzenin karşısındaki çimende 
 | Atlas | 162 kart, **sıfır çakışma**, arama ("ses" → 16/162), 6 tur durağı, eksen sözlüğü, 10 küme, 28 canlı demo. Konsol temiz |
 | Müze | Omurga baştan sona yürünüyor, rampa sıçraması 0,091 m, 8 kanat/4 kat erişilebilir, duvarlar geçilmiyor, afiş ve konsol tıklaması çalışıyor |
 | Pavyon | 9 niş, gerçek kapaklar (322 kB), kapıdan çıkılıp yürünüyor, cam cephe artık geçilmiyor, künye tıklaması modalı açıyor |
+| Telefon | Ray çekmeceye döndü, müze tam ekran, açılış ölçeği görünüme bağlı. 375×812 ve 812×375'te sınandı |
 | Başarım | 998×720 tuvalde toplam **3,33 ms** iş; dönerken en kötü kare 19 ms |
 | Dosya | 312 kB tek parça + 322 kB kapak görseli; derleme bağımlılığı yok |
 
-**Denge uyarısı — hâlâ geçerli, hatta daha da.** Dokuz tur müzeye gitmişti;
-onuncu tur da mekâna gitti (pavyon). Atlasa ait üç madde **hiç el sürülmeden**
-duruyor: mobil, klavye gezinmesi, 134 kütüphaneye "neden demo yok" etiketi.
-Kampüs büyüdükçe bu üçü daha da geride kalıyor — girmeden önce kapatın.
+**Denge.** Dokuz tur müzeye, onuncu tur pavyona gitmişti. On birinci tur
+**mobili** kapattı — atlasa ait üç maddeden biri. Kalan ikisi hâlâ el
+sürülmeden duruyor: **klavye gezinmesi** ve 134 kütüphaneye **"neden demo yok"**
+etiketi. Kampüsü büyütmeden önce o ikisini bitirin.
 
-**Önerilen sıra:** (1) atlas tarafındaki üç madde, özellikle "neden demo yok"
-etiketi (işin dürüstlük çerçevesindeki tek boşluk); (2) mobil; (3) sizin
-makinenizde `atlas.mLog()` ölçümü; (4) kampüs — öğrenci pavyonu (aşağıda).
+**Önerilen sıra:** (1) "neden demo yok" etiketi — işin dürüstlük
+çerçevesindeki tek boşluk; (2) klavye gezinmesi; (3) **gerçek bir telefonda**
+deneme (aşağıdaki mobil işi tarayıcı emülasyonunda sınandı); (4) statik gölge
+haritası + pişmiş köşe karartması; (5) pavyonun avlusunu doldurmak.
 
 ---
 
@@ -235,6 +237,56 @@ sınamaya girmiyor. `crossesSeg()` genel: `segWalls` içindeki her öğe bir
 1,66 m'de. Avlunun ortasında **düz bakarken** ışın kapağın tam altından geçip
 ıskalıyordu; seçmek için farkında olmadan yukarı bakmak gerekiyordu. Künye göz
 hizasında, ikisi de ışın listesinde — hedef iki katına çıktı.
+
+---
+
+## Telefon
+
+Üç ayrı sorun vardı; biri düpedüz yerleşim hatasıydı.
+
+**1. Ray ekranın yarısını yiyordu.** Eski kural ray'i dar ekranda `44dvh`'ye
+kısıyor ama **olduğu yerde** bırakıyordu. Harita 812 px'lik bir telefonda
+455 px'e sıkışıyordu. Artık ray üstten inen bir **çekmece**: `position:fixed`,
+`translateY(-101%)`, `.app[data-rail]` ile açılıyor. Izgara tek satıra indiği
+için sahne bütün ekranı alıyor.
+
+> Çekmecenin kapanma kuralı **kasıtlı olarak seçici**: tur durağı ya da
+> "müzeye gir" gibi görünümü değiştiren bir şeye dokununca kapanıyor (yoksa
+> gidilen yer çekmecenin arkasında kalıyor), ama **küme filtrelerinde
+> kapanmıyor** — insan arka arkaya birkaç küme kapatıp açıyor.
+
+**2. Müze `.stage`'in içine çiziliyordu, ekranın değil.** `.museum` kuralı
+`position:absolute; inset:0` ve öğe `<main class="stage">` içinde. Masaüstünde
+doğru — müze ray'in yanında duruyor, kasıtlı. Telefonda ise müze ray'in
+altındaki kutuya sıkışıyordu: **yatayda 812×375'lik bir telefonda müzeye kalan
+yükseklik 210 px'ti.** Birinci şahıs bir mekân için kullanılamaz.
+
+Dar ekranda `.museum{position:fixed;z-index:60}`. Çalışmasının sebebi `.stage`'de
+`transform`/`filter`/`will-change` olmaması — olsaydı fixed ona göre konumlanır,
+hiçbir şey değişmezdi. **`.stage`'e dönüşüm eklerseniz bu kırılır.**
+
+**3. Açılış ölçeği sabitti.** `openView()` her zaman `0.82` veriyordu; 375 px'lik
+bir ekranda tek kart (300 px geniş) bütün görüntüyü kaplıyor, bunun bir kart
+*manzarası* olduğu hiç anlaşılmıyordu. Artık `clamp(0.30, VW/980, 0.82)` —
+telefonda üç kart yan yana, 980 px üstünde değer zaten 0,82'ye sıkışıyor, yani
+**masaüstünde hiçbir şey değişmiyor.**
+
+Bunlarla birlikte:
+
+- **Dokunmatikte davet tamamen gizliydi.** Joystick yürümeyi anlatıyor ama
+  bakmanın *sürüklemek*, seçmenin *dokunmak* olduğunu söyleyen hiçbir şey yoktu
+  (`.mhelp` telefonda zaten gizli). Metin artık cihaza göre değişiyor.
+- **Çentik ve alt çubuk.** Yüzen arayüz (üst bilgi, çıkış düğmeleri, joystick,
+  sayaç) `env(safe-area-inset-*)` kullanıyor.
+- **Yatayda joystick 126 → 104 px.** 375 px yükseklikte 126 px ekranın üçte
+  birini yiyordu.
+- **Çıkış düğmesine kenarlık ve gölge.** Düğme krem, müzenin tavanı da krem;
+  parlak bir kadrajda çerçevesiz hâli tamamen kayboluyordu.
+
+> **Emülasyonda sınandı, gerçek telefonda değil.** Tarayıcının cihaz emülasyonu
+> `pointer:coarse`'u yalnız dar genişlikte veriyor, yani **yatay** telefonu
+> dokunmatik olarak taklit edemiyor. Joystick ve dokunmatik davet mantığı
+> orada doğrulanamadı; ölçüler ve CSS kuralları doğrulandı.
 
 ---
 
@@ -500,15 +552,17 @@ Pavyon ve kampüs de aynı yöntemle sınandı (`atlas.mCanStep`, 0,25 m'lik ad�
 1. **İnce ayar.** Katların okunması, renk, ışık ve hareket çözüldü. Kalan iş
    zevk meselesi: bitki yoğunluğu, pankart sayısı, renk doygunluğu, tavan tonu.
    Hepsi birer sabit — fazla gelirse çıkarmak kolay.
-2. **Joystick gerçek telefonda denenmedi.** Kod yolu hazır (`pointer:coarse`
-   algılanınca çıkıyor, dikeyde "telefonu yan çevirin" uyarısı var).
+2. **Joystick gerçek telefonda hâlâ denenmedi.** Kod yolu hazır ve dikey
+   telefonda (375×812) emülasyonda göründüğü doğrulandı, ama **yatay** telefon
+   emüle edilemiyor — tarayıcı o boyutta `pointer:coarse` vermiyor. Elinizdeki
+   telefonla bir kez açın, bu madde ancak öyle kapanır.
 3. **Büyük ekranda ölçüm yok.** Başarım işi yapıldı (yukarıdaki tablo) ama
    ölçümler 647×397'lik bir tuvalde alındı. Hâlâ takılıyorsa sırayla:
    `atlas.mQuality(1.0)` (en büyük kaldıraç), `syncGlyphs`'teki 5 sınırı,
    canlı eser bütçesindeki 3, bitki sayısı, `uBloom`. Sayı bildirmek için
    `atlas.mProfile()`.
-4. **Mobilde atlas tarafı** (kart + kanat modeli) telefonda dar kalıyor.
-   *(Pavyon bu üç maddeden hiçbirini çözmedi — sırayı bozan taraf oydu.)*
+4. ~~Mobilde atlas tarafı dar kalıyor.~~ **Bitti** — yukarıdaki "Telefon"
+   bölümüne bakın. Kalan tek şey gerçek cihazda denemek.
 5. **Klavyeyle gezinme** atlas tarafında yok.
 6. Kalan 134 kütüphanenin canlı demosu yok; bir kısmı yapısal olarak imkânsız
    (kamera, medya dosyası, derleme adımı isteyenler) — bunlara "neden olmadığını"

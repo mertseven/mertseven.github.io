@@ -1190,7 +1190,15 @@ document.addEventListener("pointerlockchange",()=>{
 });
 function syncPrompt(){
   const touch=matchMedia("(pointer:coarse)").matches;
-  mclickEl.hidden = promptDone || !museumOn || locked || touch;
+  /* Dokunmatikte davet TAMAMEN gizliydi. Joystick yürümeyi anlatıyor ama
+     bakmanın sürüklemek, seçmenin dokunmak olduğunu söyleyen hiçbir şey
+     yoktu — .mhelp de telefonda gizli. Artık metin cihaza göre değişiyor;
+     davet yine ilk bakışta, ilk adımda ya da 14 saniyede sönüyor. */
+  mclickEl.hidden = promptDone || !museumOn || locked;
+  const sp=mclickEl.firstElementChild;
+  if(sp && !mclickEl.hidden)
+    sp.textContent = touch ? "Bakmak için sürükleyin · esere dokunun"
+                           : "Bakmak için tıklayın";
 }
 /* Davet bir kez işini görür ve gider. Eskiden kilit açılmadığı sürece (ve
    bu ortamda kilit hiç açılmıyor) bütün deneyim boyunca ekranda kalıyordu. */
@@ -1497,6 +1505,7 @@ function mResize(){
 function enterMuseum(){
   if(museumOn) return;
   museumOn=true; museumEl.hidden=false; mLoad.hidden=false;
+  document.getElementById("app").setAttribute("data-museum","");
   loadLib("three").then(()=>{
     TH=window.THREE;
     if(!mBuilt){
@@ -1516,6 +1525,7 @@ function enterMuseum(){
 function exitMuseum(){
   if(!museumOn) return;
   museumOn=false;
+  document.getElementById("app").removeAttribute("data-museum");
   cancelAnimationFrame(mRaf); mRaf=0;
   mclickEl.hidden=true;
   liveArt.forEach(unmountArt);

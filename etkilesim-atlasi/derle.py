@@ -104,7 +104,9 @@ NOSCRIPT = """<noscript>
 
 
 def build_standalone(fragment, n_lib, n_proj):
-    cut = fragment.index('<div class="app">')
+    # Gövde burada başlıyor. Nitelik eklenebildiği için (id, data-*) yalnız
+    # etiketin başı aranıyor — tam eşleşme bir kez kırılmıştı.
+    cut = fragment.index('<div class="app"')
     head_part, body_part = fragment[:cut].rstrip(), fragment[cut:]
     today = datetime.date.today().isoformat()
     banner = f"""<!--
