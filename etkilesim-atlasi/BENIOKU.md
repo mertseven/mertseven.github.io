@@ -1,7 +1,8 @@
 # Etkileşim Atlası
 
-İnteraktif medyayı mümkün kılan JavaScript kütüphanelerinin haritası ve
-onlarla yapılmış gazetecilik işlerinin müzesi. Öğrencilere gösterilmek üzere.
+İnteraktif medyayı mümkün kılan JavaScript kütüphanelerinin haritası, onlarla
+yapılmış gazetecilik işlerinin müzesi ve müzenin karşısındaki çimende duran
+öğrenci pavyonu. Öğrencilere gösterilmek üzere.
 
 **Yayınlanan sürüm:** https://mertseven.com/etkilesim-atlas
 > GitHub Pages (`mertseven.github.io` deposu). Artifact hedefi **bırakıldı**;
@@ -18,13 +19,14 @@ onlarla yapılmış gazetecilik işlerinin müzesi. Öğrencilere gösterilmek �
 |---|---|
 | Atlas | 162 kart, **sıfır çakışma**, arama ("ses" → 16/162), 6 tur durağı, eksen sözlüğü, 10 küme, 28 canlı demo. Konsol temiz |
 | Müze | Omurga baştan sona yürünüyor, rampa sıçraması 0,091 m, 8 kanat/4 kat erişilebilir, duvarlar geçilmiyor, afiş ve konsol tıklaması çalışıyor |
+| Pavyon | 9 niş, gerçek kapaklar (322 kB), kapıdan çıkılıp yürünüyor, cam cephe artık geçilmiyor, künye tıklaması modalı açıyor |
 | Başarım | 998×720 tuvalde toplam **3,33 ms** iş; dönerken en kötü kare 19 ms |
-| Dosya | 292 kB, tek parça, derleme bağımlılığı yok |
+| Dosya | 312 kB tek parça + 322 kB kapak görseli; derleme bağımlılığı yok |
 
-**Dokuz turun tamamı müzeye gitti.** İlk turdaki altı açık maddeden müzeye ait
-üçü bitti (kadraj, canlı demolar, kompozisyon), atlasa ait üçü **hiç el
-sürülmeden** duruyor: mobil, klavye gezinmesi, 134 kütüphaneye "neden demo yok"
-etiketi. Sıradaki iş muhtemelen müzede değil.
+**Denge uyarısı — hâlâ geçerli, hatta daha da.** Dokuz tur müzeye gitmişti;
+onuncu tur da mekâna gitti (pavyon). Atlasa ait üç madde **hiç el sürülmeden**
+duruyor: mobil, klavye gezinmesi, 134 kütüphaneye "neden demo yok" etiketi.
+Kampüs büyüdükçe bu üçü daha da geride kalıyor — girmeden önce kapatın.
 
 **Önerilen sıra:** (1) atlas tarafındaki üç madde, özellikle "neden demo yok"
 etiketi (işin dürüstlük çerçevesindeki tek boşluk); (2) mobil; (3) sizin
@@ -64,8 +66,11 @@ etkilesim-atlasi/
   src/                  asıl kaynak — düzenlemeler BURADA yapılır
   veri/                 ham araştırma verisi
   BENIOKU.md            bu dosya
+  arac/                 elle çalıştırılan yardımcılar (derleme adımı DEĞİL)
   etkilesim-atlasi.html IIFE parçası; söz dizimi kontrolü için, .gitignore'da
 ../etkilesim-atlas.html YAYINLANAN dosya (depo kökü)
+../atlas-varlik/kapak/  pavyonun kapak dokuları (.webp) — depoya işlenir
+../grad-projects/       mezuniyet showcase'i; pavyonun VERİ KAYNAĞI
 ```
 
 **Derleme:** `python derle.py` — başka hiçbir şey gerekmez, bağımlılık yok.
@@ -91,11 +96,13 @@ Sıra önemli: hepsi **tek bir IIFE** içinde birleşir. `_p2.js` açar, `_p7.js
 | `_p6.js`   | Tur (6 durak), karşılaştırma paneli, eksen sözlüğü |
 | `_p8.js`   | **118 gazetecilik işi** (digijournalism kataloğu) |
 | `_p9.js`   | **Vatoz**: kanat kinematiği, kuyruk filamenti, deri dokusu, geometri |
+| *(üretilen)* | **9 mezuniyet projesi** — `derle.py`, `grad-projects/script.js`'teki diziyi buraya kopyalar. Kaynak dosyası YOK, düzenleme oraya yapılır |
+| `_p10.js`  | **Pavyon**: on kenarlı halka, dış zemin, açılı duvar çarpışması, mezuniyet modalı |
 | `_p7.js`   | Müze: Holmdel planı (omurga + üç ışık avlusu), ışık/hava geçişi, gezinme, modal |
 
 ---
 
-## Ürünün iki yarısı
+## Ürünün üç parçası
 
 **1. Atlas (kart manzarası).** 162 kütüphane, 16 boyutlu özellik vektöründen
 t-SNE ile bir düzleme serilir; kartlar çakışmayacak şekilde ayrıştırılır.
@@ -152,6 +159,82 @@ teşhis edildi ve tek tek karşılandı:
 | Zemin bomboş beyazdı | İki **döşeme kılavuz çizgisi** + duvar dibinde banklar |
 | Bina bomboştu | Prosedürel **bitkiler** (saksı + dokuz yaprak, instance'lı) |
 | Hiçbir şey kıpırdamıyordu | **Canlı panolar**: `_p3.js`'in glyph'leri, donmuş kare değil, yaklaşınca her karede yeniden çiziliyor |
+
+**3. Pavyon — mezuniyet projeleri.** Müzenin kuzey ucundaki kapıdan çıkılıp
+çimenden geçilerek varılan, **on kenarlı** küçük bir yapı. Biri giriş, dokuzu iş:
+`grad-projects/` showcase'indeki dokuz NMED mezuniyet projesi.
+
+Biçim içerik sayısından türedi, tersi değil. Müzenin kanat matematiği (26 yuva,
+altıda bir pano, en kalabalık bölüm 22 iş) 118 işten türetilmişti; dokuz iş için
+aynı planın küçültülmüşü **%96 boş** bir bina demekti. On kenar tam oturuyor ve
+ölçüler birbirine kilitli:
+
+| | |
+|---|---|
+| 9 iş + 1 giriş | 10 kenar, kenar başına 36° |
+| duvar yüzü merkeze | 10,2 m (apotem) → kenar **6,63 m** |
+| köşe yarıçapı | 10,72 m → avlu 20,4 m |
+| kapak | 3,36 × 1,89 m (16:9), y = 2,62 m |
+| künye | 3,36 × 0,87 m, y = 1,28 m |
+| saçak | 7 m; sundurma nişlere 3,4 m sarkıyor, **avlunun üstü açık** |
+
+> `GRAD.length` dokuzdan farklı olursa `buildPavilion` konsola yazar ve
+> `derle.py` çıktısında `mezuniyet : N` satırı uyarır. Yeni dönem gelirse
+> `PAV_N`'i `iş + 1` yapın; başka hiçbir sayıyı elle değiştirmeyin.
+
+**Renk bilerek ters.** Müzede `CAT_MUSEUM`'un susturulmuş toprakları var, çünkü
+aynı renkler 200 m'lik bir mekânı soğutuyordu. Pavyonda her nişin duvar kapağı o
+projenin **kendi rengi** — showcase'teki `color` alanı, hiç dokunulmadan. Kanon
+sakin, bu yılın işi parlak; iki yapının farkı tek cümleyle anlatılabiliyor.
+
+**Kapaklar gerçek.** Müzedeki 118 işin ekran görüntüsü yok, tasarlanmış afişleri
+var; sebebi Artifact'ın CSP'siydi. Pages'e geçişle o kısıt kalktı, dokuz iş
+gerçek kapağıyla duruyor. Görseller 4,5 MB PNG'den **322 kB WebP**'ye indi
+(`arac/kapak-donustur.py`, elle çalıştırılır).
+
+**Veri tek kaynaktan.** Pavyonun listesi kopyalanmadı: `derle.py`,
+`grad-projects/script.js` içindeki `projects[]` dizisini derleme anında olduğu
+gibi alıp `GRAD` olarak gömüyor. Showcase güncellenince pavyon da güncelleniyor.
+Düzenleme oraya yapılır, `_p10.js`'e değil.
+
+**Doku yolunda eşleme tablosu yok.** `cover` alanının dosya ADI korunuyor, yalnız
+klasör ve uzantı değişiyor; `kapak-donustur.py` de aynı kuralı uyguluyor. Tablo
+olsaydı bir gün kayardı.
+
+---
+
+## Kampüs: dışarısı
+
+**Bina artık boşlukta durmuyor.** Gökyüzü vardı, yer yoktu. Zemin, binanın ayak
+izini **dışarıda bırakan dört büyük parça** olarak kuruluyor. Tek bir büyük
+düzlem olsaydı avlu kuyularının üstüne kapak gibi oturur, vatozun yüzdüğü
+akvaryumu kapatırdı — bu yüzden dört parça.
+
+> **Zemin beklenenden çok koyu (`0x76825A`) ve öyle kalmalı.** Yukarı bakan geniş
+> düz bir yüzey HemisphereLight'ın sıcak tepesini (0,72) ve iki yönlü ışığı
+> birden alıyor. İlk denenen `0xB9C0A4` ekranda neredeyse beyaza patlıyordu:
+> BENİOKU'nun "döşemeyi beyaza patlatıp her şeyi sepyaya çeviriyor" uyarısının
+> dışarıdaki karşılığı. Değer ışığa göre değil **ekrandaki sonuca** göre seçildi.
+
+**Kapı omurganın tam ekseninde.** Zemin katın +Z ucundaki cam cephede 4 m'lik bir
+boşluk, koyu söveler ve lento. Böylece 200 m'lik perspektifin ucunda pavyon
+duruyor: dışarı çıkmadan önce görülüyor.
+
+**Açılı duvarlar için ikinci bir çarpışma sınaması.** `crossesWall()` yalnız
+`x=±SPINE_X`'e dik bölmeleri sınıyor — koridor için yeterliydi ve ucuzdu. Ama
+pavyonun duvarları on ayrı açıda, binanın cephesi de z eksenine dik; ikisi de o
+sınamaya girmiyor. `crossesSeg()` genel: `segWalls` içindeki her öğe bir
+`[x0,z0,x1,z1,y]` parçası, sınama düz doğru-parça kesişimi. **On dört parça**,
+ölçülebilir maliyeti yok.
+
+> Bu olmadan cam cepheden **yürüyerek çıkılıyordu**: `matGlass` çarpışmaya hiç
+> girmiyor, ve dışarıda artık zemin var. Zemini eklemek camı delik hâline
+> getirdi; `crossesSeg` onu kapattı.
+
+**Künye de tıklanabilir, ve sebebi ölçüldü.** Kapağın alt kenarı 1,675 m'de, göz
+1,66 m'de. Avlunun ortasında **düz bakarken** ışın kapağın tam altından geçip
+ıskalıyordu; seçmek için farkında olmadan yukarı bakmak gerekiyordu. Künye göz
+hizasında, ikisi de ışın listesinde — hedef iki katına çıktı.
 
 ---
 
@@ -392,6 +475,20 @@ aynısıyla):
   anda çalışıyordu) — bu daha önce test edilmemişti.
 - **Canlı panolar** çalışıyor: 48 pano, aynı anda 5'i çiziliyor.
 
+Pavyon ve kampüs de aynı yöntemle sınandı (`atlas.mCanStep`, 0,25 m'lik adımlar):
+
+- Doğuş noktasından kapıya **304 adım**, kapıdan pavyonun avlusuna **108 adım** —
+  kesintisiz.
+- Cam cepheden **çıkılamıyor**: yandan x=30'da, arkadan z=−100'de duruluyor.
+  Yalnız kapı açık.
+- Pavyonun duvarından **geçilemiyor** (z=142,3'te duruluyor); girişten geçiliyor.
+- Nişangâh göz hizasında künyeye değiyor, tıklama modalı açıyor: başlık, ekip,
+  açıklama, etiketler ve üç kanal bağlantısı doğru geliyor, kart projenin kendi
+  rengini alıyor.
+- Dokuz kapağın dokusu yaklaşınca yükleniyor; konsolda hata yok.
+- Ölçülen: 998×720 tuvalde **kendi iş süremiz 2,5–3,9 ms**, 60 fps. Pavyonun
+  eklediği nesne sayısı 279 → 312, döşeme 62 → 66.
+
 > Not: `floorAt` artık yalnız yukarı değil, **iki yönde de** 1,8 m'lik bir bantla
 > çalışıyor. Eskiden "altındaki en yüksek döşeme" aranıyordu; bu, altında rampa
 > olan bir galeri kenarından boşluğa adım atılmasına izin veriyordu.
@@ -411,6 +508,7 @@ aynısıyla):
    canlı eser bütçesindeki 3, bitki sayısı, `uBloom`. Sayı bildirmek için
    `atlas.mProfile()`.
 4. **Mobilde atlas tarafı** (kart + kanat modeli) telefonda dar kalıyor.
+   *(Pavyon bu üç maddeden hiçbirini çözmedi — sırayı bozan taraf oydu.)*
 5. **Klavyeyle gezinme** atlas tarafında yok.
 6. Kalan 134 kütüphanenin canlı demosu yok; bir kısmı yapısal olarak imkânsız
    (kamera, medya dosyası, derleme adımı isteyenler) — bunlara "neden olmadığını"
@@ -426,7 +524,18 @@ aynısıyla):
    tarayıcının üçüncü taraf kaynaklara *depolama* erişimini kesmesi
    (betikler yükleniyor, demolar çalışıyor).
 10. **Dither'lı sürümün yedeği** `src/yedek/_p7-dither.js.yedek` dosyasında duruyor.
-   Klasörde sürüm denetimi olmadığı için alındı; geri dönmeyecekseniz silin.
+   Sürüm denetimi olmadığı için alınmıştı; artık git var, geri dönmeyecekseniz silin.
+11. **Pavyonun avlusu boş.** Nişler doğru ama ortada hiçbir şey yok — müzedeki
+   bitki/bank/pankart karşılığı burada henüz yapılmadı. Bir de gölge: kampüsün
+   asıl görsel sıçraması statik gölge haritası ve pişmiş köşe karartmasında
+   (yapı hareketsiz olduğu için ikisi de kare başına bedava). Pavyon bunun için
+   doğru laboratuvar: küçük sahne, hızlı doğrulama, sonra müzeye taşınır.
+12. **Kampüs tek pavyonla başlıyor.** Plan her mezuniyet dönemine bir halka
+   ekleyecek şekilde kuruldu ama ikinci halkanın nereye oturacağına, ve
+   birden çok halka varken `PAV_Z`/`PAV_N`'in nasıl dizileceğine karar
+   verilmedi. Şu an ikisi de tek bir pavyon varsayıyor.
+13. **Dış zeminde yalnız iki malzeme var** (ot ve taş yol). Ağaç, çit, oturma
+   yeri, aydınlatma direği yok; bina dışarıdan hâlâ bir maket gibi duruyor.
 
 ---
 
@@ -448,6 +557,7 @@ atlas.mMeter(true|false)       // ekrandaki başarım sayacı (` tuşu da açıp
 atlas.mLog() / mLogTemizle()   // yavaş karelerin bağlamlı dökümü
 atlas.mAim()                   // nişangâhın altında ne var
 atlas.mGuide(true|false)       // rehber ekranı (Tab da açar)
+atlas.mPavyon()                // pavyonun avlusuna ışınla (200 m yürümemek için)
 atlas.mCanStep(ax,az,bx,bz,y)  // bu adım atılabilir mi — zemin VE duvar
 atlas.mOpen(i)                 // i numaralı projenin modalını aç
 ```

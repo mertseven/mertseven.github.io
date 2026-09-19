@@ -28,12 +28,47 @@ PARTS = [
     "_p6.js",     # tur, karşılaştırma, eksen sözlüğü
     "_p8.js",     # 118 gazetecilik işi (digijournalism kataloğu)
     "_p9.js",     # vatoz: kanat kinematiği, kuyruk filamenti, geometri
+    "@grad",      # 9 mezuniyet projesi — grad-projects/script.js'ten ÜRETİLİR
+    "_p10.js",    # pavyon: on kenarlı halka, dış zemin, açılı duvar çarpışması
     "_p7.js",     # müze: Holmdel planı, ışık/hava geçişi, gezinme  ← IIFE kapanır
 ]
+
+# Pavyonun verisi showcase ile AYNI yerden gelsin diye, grad-projects/script.js
+# içindeki projects[] dizisi derleme anında olduğu gibi alınır. Kopyalasaydık
+# iki liste bir gün ayrışırdı; ayrıştırmaya kalksaydık derle.py bağımlılık
+# isterdi. Dizi zaten geçerli JS — düz bir dilim yetiyor.
+GRAD_SRC = os.path.join(os.path.dirname(HERE), "grad-projects", "script.js")
+
+GRAD_HEAD = """
+/* ==== mezuniyet projeleri ====
+   BU BLOK ELLE YAZILMADI. derle.py, grad-projects/script.js icindeki
+   projects[] dizisini oldugu gibi buraya koyuyor: showcase ile pavyon
+   tek kaynaktan besleniyor, dolayisiyla ayrisamazlar.
+   Duzenleme oraya yapilir, buraya degil.                              */
+"""
+
+def build_grad():
+    if not os.path.exists(GRAD_SRC):
+        raise SystemExit(
+            "bulunamadi: " + GRAD_SRC + os.linesep +
+            "Pavyonun verisi oradan geliyor; yol degistiyse "
+            "derle.py icindeki GRAD_SRC'yi guncelleyin.")
+    with io.open(GRAD_SRC, encoding="utf-8") as f:
+        src = f.read()
+    try:
+        a = src.index("const projects=[")
+        b = src.index(chr(10) + "];", a) + 3
+    except ValueError:
+        raise SystemExit("grad-projects/script.js icinde 'const projects=[ ... ];' "
+                         "bulunamadi. Bicim degistiyse build_grad'i guncelleyin.")
+    body = src[a + len("const projects="):b]
+    return GRAD_HEAD + "const GRAD=" + body + chr(10)
 
 def build_fragment():
     out = []
     for name in PARTS:
+        if name == "@grad":
+            out.append(build_grad()); continue
         path = os.path.join(SRC, name)
         with io.open(path, encoding="utf-8") as f:
             out.append(f.read())
@@ -124,8 +159,11 @@ def main():
     # (Demoların içindeki "(function tick(){...})();" gibi iç IIFE'ler sayılmamalı.)
     opens  = len(re.findall(r"^\(function\(\)\{", frag, re.M))
     closes = len(re.findall(r"^\}\)\(\);", frag, re.M))
+    n_grad = frag.count("{title:")
     print("kutuphane : %d" % n_lib)
     print("proje     : %d" % n_proj)
+    print("mezuniyet : %d %s" % (n_grad, "OK" if n_grad == 9 else
+          "!! pavyon 9 nise gore kurulu - _p10.js icindeki PAV_N'i gozden gecirin"))
     print("IIFE      : %d acilis / %d kapanis %s" % (opens, closes, "OK" if opens == closes else "!! DENGESIZ"))
     print("parca     : %-34s %6.1f kB" % (os.path.basename(a), os.path.getsize(a)/1024))
     print("YAYIN     : %-34s %6.1f kB" % ("../" + os.path.basename(b), os.path.getsize(b)/1024))

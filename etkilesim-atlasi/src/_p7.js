@@ -409,6 +409,7 @@ function buildMuseum(){
   matCat  ={};
 
   floors=[]; ramps=[]; posters=[]; liveArt=[]; glyphPanels=[]; statics=[];
+  pavItems=[]; segWalls=[];
   const BANDS=solidBands();
   const RY=LEVELS*LEVEL_H;
   const mull=[], cols=[], roofBars=[], rampSlices=[], rampPosts=[],
@@ -616,6 +617,21 @@ function buildMuseum(){
       for(let z=-HALF_Z+6; z<=HALF_Z-6; z+=12) cols.push([sd*(OUT_X-6), y+LEVEL_H/2, z]);
     }
     for(const sz of [-1,1]){
+      /* Zemin katın +Z ucunda pavyona açılan kapı. Cephe baştan sona camdı
+         ve dışarıda hiç zemin yoktu; ikisi birden değişti. Kapı bilerek
+         omurganın TAM EKSENİNDE: 200 m'lik perspektifin ucunda pavyon
+         duruyor, yani dışarı çıkmadan önce görülüyor. */
+      if(sz===1 && k===0){
+        const DW=PAV_DOOR/2, DH=3.1, w2=OUT_X-DW;
+        for(const s2 of [-1,1])
+          slab(w2, LEVEL_H, .14, s2*(DW+w2/2), y+LEVEL_H/2, HALF_Z, matGlass);
+        slab(PAV_DOOR, LEVEL_H-DH, .14, 0, y+DH+(LEVEL_H-DH)/2, HALF_Z, matGlass);
+        for(const s2 of [-1,1]) slab(.26, DH, .34, s2*(DW+.13), y+DH/2, HALF_Z, matDark);
+        slab(PAV_DOOR+.52, .26, .34, 0, y+DH+.13, HALF_Z, matDark);
+        for(let x=-OUT_X; x<=OUT_X+.01; x+=1.5)
+          if(Math.abs(x)>DW+.2) mull.push([x, y+LEVEL_H/2, HALF_Z]);
+        continue;
+      }
       slab(OUT_X*2, LEVEL_H, .14, 0, y+LEVEL_H/2, sz*HALF_Z, matGlass);
       for(let x=-OUT_X; x<=OUT_X+.01; x+=1.5) mull.push([x, y+LEVEL_H/2, sz*HALF_Z]);
     }
@@ -782,7 +798,14 @@ function buildMuseum(){
      duruyor, hem birkaç adım sonra kuyu ve vatoz açılıyor. */
   /* Işının bakacağı nesneler bir kez toplanıyor: her tıklamada yeni bir
      dizi kurmak gereksizdi, üstelik nişangâh her birkaç karede bir sınıyor. */
+  /* ---- kampüs: dış zemin ve öğrenci pavyonu ----
+     Sırası önemli: ikisi de slab() ile statics'e yazıyor, yani
+     mergeStatic()'ten ÖNCE kurulmaları gerekiyor. */
+  buildGround();
+  buildPavilion();
+
   pickList=posters.map(p=>p.mesh);
+  for(const it of pavItems){ pickList.push(it.mesh); if(it.label) pickList.push(it.label); }
   if(consoleMesh) pickList.push(consoleMesh);
 
   mergeStatic();
@@ -1193,6 +1216,7 @@ function act(o){
   if(!o) return;
   if(o.userData.console) openPanel();
   else if(o.userData.project) openModal(o.userData.project);
+  else if(o.userData.grad) openGrad(o.userData.grad);
 }
 
 function openModal(p){
@@ -1270,7 +1294,7 @@ function buildPanel(){
    her yerden veriyor; bulunduğunuz kat ve kanat işaretli. */
 function buildGuide(){
   const say={}; PROJECTS.forEach(p=>{ say[p.sec]=(say[p.sec]||0)+1; });
-  let h='<header><b>Müze rehberi</b>'+
+  let h='<header><b>Kampüs rehberi</b>'+
         '<button class="pm__x" id="mgX" aria-label="Kapat">&#10005;</button></header>'+
         '<div class="mg__body">';
   for(let k=LEVELS-1;k>=0;k--){
@@ -1284,9 +1308,19 @@ function buildGuide(){
     }
     h+='</div>';
   }
-  h+='</div><p class="mg__note">Katlar arası bağlantı uç avlulardaki rampalardır. '+
+  h+='</div>';
+  /* Pavyon rehberde ayrı bir satır: binanın katlarından biri değil, dışarıda
+     duran ikinci bir yapı. Kat listesiyle aynı hizada gösterilirse kampüs
+     tek bir bina gibi okunur. */
+  if(typeof GRAD!=="undefined" && GRAD.length){
+    h+='<div class="mg__row mg__row--pav"><span class="mg__lvl">dışarısı</span>'+
+       `<span class="mg__w" style="--c:#C98BA4"><i></i>Öğrenci pavyonu<u>${GRAD.length}</u></span>`+
+       '<span class="mg__w"></span></div>';
+  }
+  h+='<p class="mg__note">Katlar arası bağlantı uç avlulardaki rampalardır. '+
      'Koridordan kanatlara geçiş, bölmelerin iki ucundaki kapılardan — '+
-     'yani avlu ağızlarında.</p>';
+     'yani avlu ağızlarında. Pavyona omurganın kuzey ucundaki kapıdan '+
+     'çıkılır; taş yol oraya gider.</p>';
   mguideEl.innerHTML=h;
   document.getElementById("mgX").addEventListener("click",closeGuide);
 }
@@ -1355,7 +1389,8 @@ function mFrame(now){
 
   if(dx||dz){
     const cy=player.y-EYE, px=player.x, pz=player.z;
-    const ok=(nx,nz)=> floorAt(nx,nz,cy)!==null && !crossesWall(px,pz,nx,nz,cy);
+    const ok=(nx,nz)=> floorAt(nx,nz,cy)!==null && !crossesWall(px,pz,nx,nz,cy)
+                       && !crossesSeg(px,pz,nx,nz,cy);
     if(ok(px+dx,pz+dz)){ player.x=px+dx; player.z=pz+dz; }
     else if(ok(px+dx,pz)){ player.x=px+dx; }      /* duvar boyunca kay */
     else if(ok(px,pz+dz)){ player.z=pz+dz; }
@@ -1389,6 +1424,7 @@ function mFrame(now){
   if(manta) manta.update(dt);
   PH.vatoz += ((performance.now()-t0)-PH.vatoz)*0.1; t0=performance.now();
   syncPosters();
+  pavSync();
   PH.afis += ((performance.now()-t0)-PH.afis)*0.1; t0=performance.now();
   /* Doku yüklemeleri kare başına değil, iki karede bir: canlı eserler ve
      canlı panolar yavaş çizimler, 30 Hz'de fark edilmiyor, yük yarılanıyor. */
@@ -1504,7 +1540,8 @@ window.atlas.mLook=(yaw,pitch)=>{
 window.atlas.mAim=()=>{
   const o=castAt(0,0);
   return { hedef: o ? (o.userData.console ? "konsol"
-                     : (o.userData.project ? o.userData.project.title : "?")) : null,
+                     : (o.userData.project ? o.userData.project.title
+                     : (o.userData.grad ? o.userData.grad.title : "?"))) : null,
            liste:pickList.length, kilit:locked, surukleme:!!look };
 };
 window.atlas.mGuide=(on)=>{ if(on===false) closeGuide(); else openGuide();
@@ -1527,7 +1564,13 @@ window.atlas.mFloorAt=(x,z,cy)=>floorAt(x,z,cy===undefined?0:cy);
    sınamalarının artık bunu kullanması gerekiyor — yalnız floorAt bakmak
    duvarların içinden geçen yalancı yollar buluyordu. */
 window.atlas.mCanStep=(ax,az,bx,bz,y)=>
-  floorAt(bx,bz,y)!==null && !crossesWall(ax,az,bx,bz,y);
+  floorAt(bx,bz,y)!==null && !crossesWall(ax,az,bx,bz,y) && !crossesSeg(ax,az,bx,bz,y);
+/* Pavyonun avlusuna ışınla — 200 m'lik yürüyüşü her seferinde yapmamak için. */
+window.atlas.mPavyon=()=>{
+  if(!player) return "müze kurulmadı";
+  player.set(0, EYE, PAV_Z-PAV_A+3.2); mYaw=mYawT=Math.PI; mPitch=mPitchT=0;
+  return { at:[0,+player.y.toFixed(2),PAV_Z-PAV_A+3.2], nis:pavItems.length };
+};
 window.atlas.mPanel=(on)=>{ if(on===false) closePanel(); else openPanel(); };
 window.atlas.manta=()=>manta&&manta.info();
 /* Her asamanin gercek maliyeti. GPU asenkron oldugu icin render olcumlerinde
@@ -1571,7 +1614,7 @@ window.atlas.mProfile=(n)=>{
 window.atlas.mStats=()=>({floors:floors.length, ramps:ramps.length,
   nesne:mScene?mScene.children.length:0, canli:liveArt.filter(r=>r.host).length,
   panolar:glyphPanels.length, cizilen:glyphPanels.filter(p=>p.drawn).length,
-  posters:posters.length, liveArt:liveArt.length,
+  posters:posters.length, liveArt:liveArt.length, nis:pavItems.length,
   draws:mRend?mRend.info.render.calls:0, tris:mRend?mRend.info.render.triangles:0,
   at:player?[+player.x.toFixed(1),+player.y.toFixed(1),+player.z.toFixed(1)]:null});
 })();

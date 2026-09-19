@@ -4225,6 +4225,316 @@ function createManta(TH, cfg){
   };
 }
 
+/* ==== mezuniyet projeleri ====
+   BU BLOK ELLE YAZILMADI. derle.py, grad-projects/script.js icindeki
+   projects[] dizisini oldugu gibi buraya koyuyor: showcase ile pavyon
+   tek kaynaktan besleniyor, dolayisiyla ayrisamazlar.
+   Duzenleme oraya yapilir, buraya degil.                              */
+const GRAD=[
+{title:"Flamingoların İzinde",team:"Ceyda Gündoğan",category:"ekoloji",label:"Kent ekolojisi",color:"#ff8ca3",cover:"assets/covers/flamingolarin-izinde-2-pptx.png",website:"https://www.flamingolarınizinde.com/",instagram:"https://www.instagram.com/flamingolarinizinde",description:"Gediz Deltası’nın ekolojik döngüsünü flamingolar üzerinden anlatıyor; bilimsel bilgiyi saha çekimleri, uzman görüşleri ve duygusal bir dijital anlatıyla buluşturuyor.",tags:["Gediz Deltası","91 kişilik anket","Videocast"]},
+{title:"Kentte Söz Hakkı",team:"Simay Gençay · Selin Sapanlı",category:"kent",label:"Genç katılımı",color:"#ff654f",cover:"assets/covers/kentte-soz-hakki.png",website:"https://simayselin.github.io/kenttesozhakki.github.io/index.html",instagram:"https://www.instagram.com/kenttesozhakki",youtube:"https://youtube.com/@kenttesozhakki",description:"İzmirli gençlerin Kent Konseyi’ni tanımasını ve ilgi alanlarına uygun çalışma grubunu etkileşimli bir testle keşfetmesini sağlayan çok platformlu proje.",tags:["İzmir Kent Konseyi","Üyelik testi","Çok platformlu"]},
+{title:"Kentin Görünmez Sınırları",team:"Ayça Güngör",category:"kent",label:"Güvenli kent",color:"#a78bfa",cover:"assets/covers/kentin-gorunmez-sinirlari.png",website:"https://aycaaguungor-creator.github.io/aycaagungor.github.io/",instagram:"https://www.instagram.com/kentin_gorunmez_sinirlari",youtube:"https://www.youtube.com/@kenting%C3%B6r%C3%BCnmezs%C4%B1n%C4%B1rlar%C4%B1",description:"Kadınlar ve LGBTİ+ bireylerin fiziksel ve duygusal güvenlik deneyimlerini katılımcı haritalama yoluyla kolektif bir görünürlük alanına taşıyor.",tags:["Katılımcı harita","Odak grup","Belgesel"]},
+{title:"İki Dünyayı Taşımak",team:"Selin Öncü",category:"toplum",label:"Hak temelli dayanışma",color:"#f3a85d",cover:"assets/covers/iki-dunyayi-tasimak.png",website:"https://selinoncu.github.io/",instagram:"https://www.instagram.com/ikidunyayitasimak",youtube:"http://www.youtube.com/@%C4%B0kiD%C3%BCnyay%C4%B1Ta%C5%9F%C4%B1mak",description:"Engelli çocuğu olan ebeveynlerin görünmeyen bakım emeğini ve bakım veren kimliğinin ardında kalan bireysel yaşamlarını hak temelli dayanışma yaklaşımıyla ele alıyor.",tags:["Görünmeyen emek","Saha araştırması","Hak temelli iletişim"]},
+{title:"Algoritmik Cinsiyet",team:"Simten Karaosmanoğlu",category:"medya",label:"Dijital kültür",color:"#49e1de",cover:"assets/covers/finalsunum.png",website:"https://simtenkaraosmanoglu.github.io/",instagram:"https://www.instagram.com/algoritmikcinsiyet",youtube:"https://youtube.com/@algoritmikcinsiyet",description:"Kısa video platformlarında toplumsal cinsiyet temsillerini ve algoritmaların genç yetişkinlerin algısı üzerindeki rolünü görünür kılıyor.",tags:["108 kişilik anket","Cultural jamming","TikTok simülasyonu"]},
+{title:"Sağlığın Kalkanı",team:"Helin Tecim",category:"toplum",label:"Sağlık iletişimi",color:"#6cc5ff",cover:"assets/covers/sa-l-n-kalkan-final-sunum.png",website:"https://helintecim.github.io/index.html",instagram:"https://www.instagram.com/sagligin_kalkani/",youtube:"https://www.youtube.com/@Sa%C4%9Fl%C4%B1%C4%9F%C4%B1nKalkan%C4%B1",description:"HPV aşısı etrafındaki bilgi kirliliği ve damgalanmayı, korku yerine korunma ve güven üzerinden yeniden çerçeveliyor.",tags:["HPV aşısı","Uzman görüşü","Podcast"]},
+{title:"Solu-Can",team:"Seray Çalışkan · Leo Kayra Fletcher",category:"ekoloji",label:"Döngüsel yaşam",color:"#80b96e",cover:"assets/covers/sunum-leo-ve-seray.png",website:"https://evimdekidoga.com/",instagram:"https://www.instagram.com/evimdekidoga/",description:"Evde kompost üretimini uzman anlatısı, uygulamalı video ve samimi bir görsel kimlikle erişilebilir hale getiren ekolojik iletişim projesi.",tags:["Kompost 101","Videocast","Sürdürülebilirlik"]},
+{title:"Görmenin Ötesinde İzmir",team:"Elif Şahin · İrem Ceylin Demircan",category:"erisim",label:"Erişilebilir kent",color:"#f8ea44",cover:"assets/covers/final-sunum.png",description:"Görme engelli gençlerin kentte ve dijital alanda yaşadığı belirsizlik, kontrol kaybı ve güvensizliği deneyimsel bir web anlatısına dönüştürüyor.",tags:["Deneyim haritası","Belgesel","Erişilebilirlik"]},
+{title:"VİZİ",team:"Eren Oral · Togay Yalçın Özkaya",category:"erisim",label:"Erişilebilir ulaşım",color:"#f4ff37",cover:"assets/covers/vizi.png",website:"https://www.vizi.com.tr/",youtube:"https://www.youtube.com/@gorunmeyenigoster3526",description:"İzmir’de engelli bireylerin ulaşımda karşılaştığı bilgi bariyerine gerçek zamanlı arıza takibi, erişilebilir rota bilgisi ve veri temelli savunuculukla yanıt veriyor.",tags:["120 kişilik saha analizi","PWA","Gerçek zamanlı harita"]}
+];
+
+/* ==================================================================
+   22. PAVYON — mezuniyet projeleri (NMED)
+   Müze alanın kanonu: 118 iş, 200 m'lik düz bir omurga. Pavyon ona
+   DAİREYLE cevap veriyor — ve küçük olduğu için öyle olmak zorunda.
+
+   Dokuz iş var. Aynı planı küçültüp kanat açsaydık bina %96 boş kalırdı;
+   müzedeki yuva matematiği (26 yuva, altıda bir pano, en kalabalık bölüm
+   22 iş) tam da bu yüzden içerik sayısından türetilmişti. Burada da öyle:
+   on kenarlı bir halka, biri giriş, dokuzu iş.
+
+   ON KENAR TESADÜF DEĞİL: 9 iş + 1 giriş. Yeni bir dönem gelirse yeni bir
+   halka eklenir, plan hiç değişmez. GRAD.length dokuzdan farklıysa
+   aşağıdaki sınama konsola yazar.
+
+   Renk de bilerek ters. Müzede CAT_MUSEUM'un susturulmuş toprakları var,
+   çünkü aynı renkler 200 m'lik bir mekânı soğutuyordu. Pavyonda her nişin
+   rengi o projenin KENDİ rengi — showcase'teki color alanı. Kanon sakin,
+   bu yılın işi parlak.
+
+   Ve kapaklar gerçek. Müzedeki 118 işin ekran görüntüsü yok, tasarlanmış
+   afişleri var; sebebi Artifact'ın CSP'siydi (dış görsel yasaktı). Pages'e
+   geçişle o kısıt kalktı, bu dokuz iş gerçek kapağıyla duruyor.
+================================================================== */
+
+const PAV_N    = 10;                               /* kenar: 1 giriş + 9 iş */
+const PAV_Z    = 132;                              /* merkez: omurganın +Z ucundan 32 m */
+const PAV_A    = 10.2;                             /* duvar yüzünün merkeze uzaklığı */
+const PAV_H    = 7.0;                              /* saçak yüksekliği */
+const PAV_CAN  = 3.4;                              /* sundurmanın içeri sarkması */
+const PAV_DOOR = 4.0;                              /* müzenin cephesindeki kapı */
+const PAV_STEP = Math.PI*2/PAV_N;
+const PAV_R    = PAV_A/Math.cos(Math.PI/PAV_N);    /* köşe yarıçapı  → 10,72 */
+const PAV_S    = 2*PAV_A*Math.tan(Math.PI/PAV_N);  /* kenar uzunluğu → 6,63 */
+
+/* Duvar k'nın yüz ortasının açısı. −π/2 = müzeye bakan yön, yani giriş. */
+function pavFace(k){ return -Math.PI/2 + k*PAV_STEP; }
+/* Köşe j: iki duvarın buluştuğu yer, kolonlar burada. */
+function pavVert(j){ return -Math.PI/2 + (j+0.5)*PAV_STEP; }
+
+let pavItems=[];        /* {p, mesh, pos, url, tex, loading} */
+let pavLoader=null;
+let matGround=null, matPath=null, matPavF=null;
+
+/* ---- eksene dik OLMAYAN engeller ----
+   crossesWall() yalnız x=±SPINE_X'e dik bölmeleri sınıyor; koridor için bu
+   yeterliydi ve ucuzdu. Pavyonun duvarları ise on ayrı açıda, binanın cephesi
+   de z eksenine dik — ikisi de o sınamaya girmiyor. Bu liste genel: her öğe
+   bir [x0,z0,x1,z1,y] parçası, sınama düz doğru-parça kesişimi. On dört
+   parça; kare başına maliyeti ölçülemiyor. */
+let segWalls=[];
+
+function segHit(ax,az,bx,bz, cx,cz,dx,dz){
+  const r1=(bx-ax)*(cz-az)-(bz-az)*(cx-ax);
+  const r2=(bx-ax)*(dz-az)-(bz-az)*(dx-ax);
+  if(r1*r2>0) return false;
+  const r3=(dx-cx)*(az-cz)-(dz-cz)*(ax-cx);
+  const r4=(dx-cx)*(bz-cz)-(dz-cz)*(bx-cx);
+  return r3*r4<=0;
+}
+function crossesSeg(ax,az,bx,bz,y){
+  for(const s of segWalls){
+    if(Math.abs(s[4]-y)>1.6) continue;
+    if(segHit(ax,az,bx,bz, s[0],s[1],s[2],s[3])) return true;
+  }
+  return false;
+}
+
+/* ---- kapak dokusunun yolu ----
+   Eşleme tablosu YOK: showcase'teki cover alanının dosya adı korunuyor,
+   yalnız klasör ve uzantı değişiyor (arac/kapak-donustur.py aynı kuralı
+   uyguluyor). Tablo olsaydı bir gün kayardı. */
+function pavCoverURL(p){
+  if(!p.cover) return null;
+  return String(p.cover).replace(/^.*\//, "atlas-varlik/kapak/")
+                        .replace(/\.(png|jpe?g|webp)$/i, ".webp");
+}
+
+/* Künye levhası: başlık, ekip, tema. Afişlerdeki tipografinin aynısı. */
+function pavLabel(p){
+  const W=512, H=132;
+  const cv=document.createElement("canvas"); cv.width=W; cv.height=H;
+  const g=cv.getContext("2d");
+  g.fillStyle="#3C4239"; g.fillRect(0,0,W,H);
+  g.fillStyle=p.color||"#9AA0A0"; g.fillRect(0,0,W,7);
+  g.fillStyle="#EFEBE2";
+  g.font='800 40px "Bricolage Grotesque", system-ui, sans-serif';
+  g.fillText(String(p.title).slice(0,30), 22, 62);
+  g.fillStyle="#B0B0A2";
+  g.font='400 21px "IBM Plex Sans", sans-serif';
+  g.fillText(String(p.team).slice(0,44), 22, 95);
+  g.fillStyle=p.color||"#9AA0A0";
+  g.font='500 17px "IBM Plex Mono", monospace';
+  g.fillText(String(p.label||"").toLocaleUpperCase("tr"), 22, 120);
+  const tex=new TH.CanvasTexture(cv);
+  if(TH.SRGBColorSpace) tex.colorSpace=TH.SRGBColorSpace;
+  return tex;
+}
+
+/* ---- dış zemin ----
+   Bina şimdiye kadar boşlukta duruyordu: gökyüzü vardı, yer yoktu. Zemin
+   binanın AYAK İZİNİ dışarıda bırakan dört büyük parça olarak kuruluyor —
+   tek bir büyük düzlem olsaydı avlu kuyularının üstüne kapak gibi oturur,
+   vatozun yüzdüğü akvaryumu kapatırdı. */
+function buildGround(){
+  /* Zemin BEKLENENDEN ÇOK KOYU seçildi ve öyle kalmalı. Yukarı bakan geniş
+     düz bir yüzey, HemisphereLight'ın sıcak tepesini (0,72) ve iki yönlü
+     ışığı birden alıyor; ilk denenen 0xB9C0A4 ekranda neredeyse beyaza
+     patlıyordu — BENİOKU'nun "döşemeyi beyaza patlatıp her şeyi sepyaya
+     çeviriyor" uyarısının dışarıdaki karşılığı. Değerler ışığa göre değil
+     EKRANDAKİ sonuca göre seçildi. */
+  matGround=new TH.MeshLambertMaterial({color:0x76825A});   /* kuru ot */
+  matPath  =new TH.MeshLambertMaterial({color:0xA8A491});   /* taş döşeli yol */
+  const G=200, F=280;
+  const rects=[
+    [ -G,      G,       HALF_Z,  F      ],
+    [ -G,      G,      -F,      -HALF_Z ],
+    [  OUT_X,  G,      -HALF_Z,  HALF_Z ],
+    [ -G,     -OUT_X,  -HALF_Z,  HALF_Z ]
+  ];
+  for(const r of rects){
+    floors.push({x0:r[0], x1:r[1], z0:r[2], z1:r[3], y:0});
+    slab(r[1]-r[0], .30, r[3]-r[2], (r[0]+r[1])/2, -.15, (r[2]+r[3])/2, matGround);
+  }
+
+  /* Kapıdan pavyona taş yol. Yönü gösteren tek şey bu. */
+  const p0=HALF_Z, p1=PAV_Z-PAV_A;
+  slab(6.4, .30, p1-p0, 0, -.13, (p0+p1)/2, matPath);
+
+  /* ---- cephe artık geçilmiyor ----
+     Zemin dışarıda da var olduğu için camın içinden çıkılabilirdi: cam
+     matGlass, çarpışmaya hiç girmiyor. Cephe hattı engel olarak veriliyor,
+     yalnız kapının boşluğu açık. */
+  const DW=PAV_DOOR/2;
+  segWalls.push([-OUT_X, HALF_Z, -DW,    HALF_Z, 0]);
+  segWalls.push([  DW,   HALF_Z,  OUT_X, HALF_Z, 0]);
+  segWalls.push([-OUT_X,-HALF_Z,  OUT_X,-HALF_Z, 0]);
+  segWalls.push([ OUT_X,-HALF_Z,  OUT_X, HALF_Z, 0]);
+  segWalls.push([-OUT_X,-HALF_Z, -OUT_X, HALF_Z, 0]);
+}
+
+function buildPavilion(){
+  if(typeof GRAD==="undefined" || !GRAD.length) return;
+  if(GRAD.length !== PAV_N-1){
+    console.warn("pavyon: "+GRAD.length+" iş var, plan "+(PAV_N-1)+
+                 " nişe göre kurulu. PAV_N'i "+(GRAD.length+1)+" yapın.");
+  }
+  pavLoader=new TH.TextureLoader();
+  matPavF=new TH.MeshLambertMaterial({color:0xE4DDC9, side:TH.DoubleSide});
+
+  /* ---- taban: on kenarlı bir tabla ----
+     CircleGeometry değil elle kurulmuş bir yelpaze, çünkü köşelerin duvar
+     köşeleriyle TAM oturması gerekiyor; 48 parçalı bir daire köşelerden
+     yarım metre taşıyordu. Zemin kotunda durduğu için yürüyüş bakımından
+     bir şey değiştirmiyor — dışarıdaki zeminin devamı, yalnız rengi başka. */
+  const fp=[0,0,0], fi=[];
+  for(let j=0;j<PAV_N;j++){
+    const a=pavVert(j);
+    fp.push(PAV_R*Math.cos(a), 0, PAV_R*Math.sin(a));
+  }
+  for(let j=0;j<PAV_N;j++) fi.push(0, 1+j, 1+((j+1)%PAV_N));
+  const fg=new TH.BufferGeometry();
+  fg.setAttribute("position", new TH.Float32BufferAttribute(fp,3));
+  fg.setIndex(fi); fg.computeVertexNormals();
+  const fm=new TH.Mesh(fg, matPavF);
+  fm.position.set(0, .03, PAV_Z);
+  mScene.add(fm);
+
+  /* ---- köşe kolonları ---- */
+  for(let j=0;j<PAV_N;j++){
+    const a=pavVert(j);
+    slab(.46, PAV_H, .46, PAV_R*Math.cos(a), PAV_H/2, PAV_Z+PAV_R*Math.sin(a), matDark);
+  }
+
+  /* ---- kenarlar: biri giriş, dokuzu iş ---- */
+  for(let k=0;k<PAV_N;k++){
+    const a=pavFace(k);
+    const cx=PAV_A*Math.cos(a), cz=PAV_Z+PAV_A*Math.sin(a);
+    /* Kutunun yerel +Z'si merkeze baksın: iç normal (−cos a, −sin a). */
+    const ry=Math.atan2(-Math.cos(a), -Math.sin(a));
+    const inx=-Math.cos(a), inz=-Math.sin(a);
+
+    /* Sundurma: nişlerin üstü kapalı, ORTA AVLU AÇIK. Işık tepeden giriyor,
+       işler gölgede kalıyor — küçük bir mekânda tek hamlede hem barınak
+       hem aydınlık. */
+    const can=slab(PAV_S+.5, .34, PAV_CAN, cx+inx*PAV_CAN/2, PAV_H+.17,
+                   cz+inz*PAV_CAN/2, matSoff);
+    can.rotation.y=ry;
+
+    if(k===0){
+      /* Giriş: duvar yok, yalnız üstte bir kiriş. */
+      const lin=slab(PAV_S+.5, .40, .42, cx, PAV_H-.20, cz, matDark);
+      lin.rotation.y=ry;
+      continue;
+    }
+
+    const p=GRAD[k-1];
+    if(!p) continue;
+    const col=p.color||"#9AA0A0";
+
+    /* Arka duvar */
+    const wl=slab(PAV_S, PAV_H, .34, cx, PAV_H/2, cz, matWall);
+    wl.rotation.y=ry;
+    /* Duvarın üst kenarında projenin kendi rengi. Müzede korkuluk
+       kapaklarının yaptığı işin aynısı: kimin işi olduğunu bir bakışta
+       belli etmek. */
+    let cm; try{ cm=new TH.MeshLambertMaterial({color:new TH.Color(col)}); }
+    catch(e){ cm=new TH.MeshLambertMaterial({color:0x9AA0A0}); }
+    const cap=slab(PAV_S+.10, .22, .42, cx, PAV_H-.55, cz, cm);
+    cap.rotation.y=ry;
+
+    /* Sıcak bant: sundurmanın altı yoksa niş kör karanlık okunuyor. */
+    const lp=slab(PAV_S-1.2, .10, .26, cx+inx*1.1, PAV_H-.55, cz+inz*1.1, matLamp);
+    lp.rotation.y=ry;
+
+    /* ---- kapak: GERÇEK ekran görüntüsü ----
+       Doku yaklaşınca yükleniyor (aşağıda pavSync). O ana kadar kâğıt
+       rengi bir düzlem duruyor: boş kare değil, asılmayı bekleyen yüzey. */
+    const CW=3.36, CH=CW*9/16;
+    const fr=slab(CW+.22, CH+.22, .08, cx+inx*.18, 2.62, cz+inz*.18, matDark);
+    fr.rotation.y=ry;
+    const mesh=new TH.Mesh(new TH.PlaneGeometry(CW,CH),
+      new TH.MeshBasicMaterial({color:0xF7F1E1}));
+    mesh.position.set(cx+inx*.24, 2.62, cz+inz*.24);
+    mesh.rotation.y=ry;
+    mesh.userData.grad=p;
+    mScene.add(mesh);
+    pavItems.push({p:p, mesh:mesh, label:null, pos:mesh.position.clone(),
+                   url:pavCoverURL(p), tex:null, loading:false, fail:false});
+
+    /* Künye. Bu da tıklanabilir, ve sebebi ölçüldü: kapağın alt kenarı
+       1,675 m'de, göz 1,66 m'de. Yani avlunun ortasında DÜZ bakarken ışın
+       kapağın tam altından geçip ıskalıyor; seçmek için hafifçe yukarı
+       bakmak gerekiyordu. Künye göz hizasında — hedef iki katına çıkıyor. */
+    const lb=new TH.Mesh(new TH.PlaneGeometry(3.36,.87),
+      new TH.MeshBasicMaterial({map:pavLabel(p)}));
+    lb.position.set(cx+inx*.24, 1.28, cz+inz*.24);
+    lb.rotation.y=ry;
+    lb.userData.grad=p;
+    mScene.add(lb);
+    pavItems[pavItems.length-1].label=lb;
+
+    /* Duvar engeli: köşeden köşeye. */
+    const v0=pavVert(k-1), v1=pavVert(k);
+    segWalls.push([PAV_R*Math.cos(v0), PAV_Z+PAV_R*Math.sin(v0),
+                   PAV_R*Math.cos(v1), PAV_Z+PAV_R*Math.sin(v1), 0]);
+  }
+}
+
+/* Kapak dokuları yaklaşınca yükleniyor ve bir daha bırakılmıyor: dokuzu
+   birden 322 kB, afişlerdeki gibi bir bütçeye gerek yok. */
+function pavSync(){
+  if(!pavItems.length || !pavLoader) return;
+  for(const it of pavItems){
+    if(it.tex || it.loading || it.fail || !it.url) continue;
+    if(it.pos.distanceTo(player) > 48) continue;
+    it.loading=true;
+    pavLoader.load(it.url, tex=>{
+      if(TH.SRGBColorSpace) tex.colorSpace=TH.SRGBColorSpace;
+      if(mRend) tex.anisotropy=Math.min(4, mRend.capabilities.getMaxAnisotropy());
+      it.tex=tex;
+      it.mesh.material.map=tex;
+      it.mesh.material.color.setHex(0xFFFFFF);
+      it.mesh.material.needsUpdate=true;
+    }, undefined, ()=>{ it.fail=true; it.loading=false; });
+  }
+}
+
+/* Projenin kartı. Müzedeki modalın aynısını kullanıyor; fark, buradaki işin
+   kendi rengi ve üç kanalı (site, Instagram, YouTube) olması. */
+function openGrad(p){
+  const col=p.color||"#9AA0A0";
+  const kanal=[["Web sitesi",p.website],["Instagram",p.instagram],["YouTube",p.youtube]]
+    .filter(k=>k[1])
+    .map(k=>`<a class="pm__go" href="${k[1]}" target="_blank" rel="noopener noreferrer">${k[0]} &#8599;</a>`)
+    .join("");
+  pmodalCard.style.setProperty("--c", col);
+  pmodalCard.innerHTML=`
+    <div class="pm__top">
+      <span class="pm__sec">Mezuniyet projesi${p.label?" · "+p.label:""}</span>
+      <button class="pm__x" id="pmX" aria-label="Kapat">&#10005;</button>
+    </div>
+    <h3>${p.title}</h3>
+    <p class="pm__outlet">${p.team}</p>
+    <p class="pm__note">${p.description||""}</p>
+    ${p.tags&&p.tags.length?`<p class="pm__lbl">Öne çıkanlar</p>
+      <div class="pm__chips">${p.tags.map(t=>`<span>${t}</span>`).join("")}</div>`:""}
+    ${kanal||`<p class="pm__warn">Bu projenin bağlantıları henüz paylaşılmadı.</p>`}
+  `;
+  if(document.pointerLockElement) document.exitPointerLock();
+  pmodal.hidden=false;
+  document.getElementById("pmX").addEventListener("click",closeModal);
+}
+
 /* ==================================================================
    21. MÜZE — Bell Labs Holmdel Complex
    200 m'lik bir omurga ve onu noktalayan üç tam yükseklikte ışık avlusu.
@@ -4635,6 +4945,7 @@ function buildMuseum(){
   matCat  ={};
 
   floors=[]; ramps=[]; posters=[]; liveArt=[]; glyphPanels=[]; statics=[];
+  pavItems=[]; segWalls=[];
   const BANDS=solidBands();
   const RY=LEVELS*LEVEL_H;
   const mull=[], cols=[], roofBars=[], rampSlices=[], rampPosts=[],
@@ -4842,6 +5153,21 @@ function buildMuseum(){
       for(let z=-HALF_Z+6; z<=HALF_Z-6; z+=12) cols.push([sd*(OUT_X-6), y+LEVEL_H/2, z]);
     }
     for(const sz of [-1,1]){
+      /* Zemin katın +Z ucunda pavyona açılan kapı. Cephe baştan sona camdı
+         ve dışarıda hiç zemin yoktu; ikisi birden değişti. Kapı bilerek
+         omurganın TAM EKSENİNDE: 200 m'lik perspektifin ucunda pavyon
+         duruyor, yani dışarı çıkmadan önce görülüyor. */
+      if(sz===1 && k===0){
+        const DW=PAV_DOOR/2, DH=3.1, w2=OUT_X-DW;
+        for(const s2 of [-1,1])
+          slab(w2, LEVEL_H, .14, s2*(DW+w2/2), y+LEVEL_H/2, HALF_Z, matGlass);
+        slab(PAV_DOOR, LEVEL_H-DH, .14, 0, y+DH+(LEVEL_H-DH)/2, HALF_Z, matGlass);
+        for(const s2 of [-1,1]) slab(.26, DH, .34, s2*(DW+.13), y+DH/2, HALF_Z, matDark);
+        slab(PAV_DOOR+.52, .26, .34, 0, y+DH+.13, HALF_Z, matDark);
+        for(let x=-OUT_X; x<=OUT_X+.01; x+=1.5)
+          if(Math.abs(x)>DW+.2) mull.push([x, y+LEVEL_H/2, HALF_Z]);
+        continue;
+      }
       slab(OUT_X*2, LEVEL_H, .14, 0, y+LEVEL_H/2, sz*HALF_Z, matGlass);
       for(let x=-OUT_X; x<=OUT_X+.01; x+=1.5) mull.push([x, y+LEVEL_H/2, sz*HALF_Z]);
     }
@@ -5008,7 +5334,14 @@ function buildMuseum(){
      duruyor, hem birkaç adım sonra kuyu ve vatoz açılıyor. */
   /* Işının bakacağı nesneler bir kez toplanıyor: her tıklamada yeni bir
      dizi kurmak gereksizdi, üstelik nişangâh her birkaç karede bir sınıyor. */
+  /* ---- kampüs: dış zemin ve öğrenci pavyonu ----
+     Sırası önemli: ikisi de slab() ile statics'e yazıyor, yani
+     mergeStatic()'ten ÖNCE kurulmaları gerekiyor. */
+  buildGround();
+  buildPavilion();
+
   pickList=posters.map(p=>p.mesh);
+  for(const it of pavItems){ pickList.push(it.mesh); if(it.label) pickList.push(it.label); }
   if(consoleMesh) pickList.push(consoleMesh);
 
   mergeStatic();
@@ -5419,6 +5752,7 @@ function act(o){
   if(!o) return;
   if(o.userData.console) openPanel();
   else if(o.userData.project) openModal(o.userData.project);
+  else if(o.userData.grad) openGrad(o.userData.grad);
 }
 
 function openModal(p){
@@ -5496,7 +5830,7 @@ function buildPanel(){
    her yerden veriyor; bulunduğunuz kat ve kanat işaretli. */
 function buildGuide(){
   const say={}; PROJECTS.forEach(p=>{ say[p.sec]=(say[p.sec]||0)+1; });
-  let h='<header><b>Müze rehberi</b>'+
+  let h='<header><b>Kampüs rehberi</b>'+
         '<button class="pm__x" id="mgX" aria-label="Kapat">&#10005;</button></header>'+
         '<div class="mg__body">';
   for(let k=LEVELS-1;k>=0;k--){
@@ -5510,9 +5844,19 @@ function buildGuide(){
     }
     h+='</div>';
   }
-  h+='</div><p class="mg__note">Katlar arası bağlantı uç avlulardaki rampalardır. '+
+  h+='</div>';
+  /* Pavyon rehberde ayrı bir satır: binanın katlarından biri değil, dışarıda
+     duran ikinci bir yapı. Kat listesiyle aynı hizada gösterilirse kampüs
+     tek bir bina gibi okunur. */
+  if(typeof GRAD!=="undefined" && GRAD.length){
+    h+='<div class="mg__row mg__row--pav"><span class="mg__lvl">dışarısı</span>'+
+       `<span class="mg__w" style="--c:#C98BA4"><i></i>Öğrenci pavyonu<u>${GRAD.length}</u></span>`+
+       '<span class="mg__w"></span></div>';
+  }
+  h+='<p class="mg__note">Katlar arası bağlantı uç avlulardaki rampalardır. '+
      'Koridordan kanatlara geçiş, bölmelerin iki ucundaki kapılardan — '+
-     'yani avlu ağızlarında.</p>';
+     'yani avlu ağızlarında. Pavyona omurganın kuzey ucundaki kapıdan '+
+     'çıkılır; taş yol oraya gider.</p>';
   mguideEl.innerHTML=h;
   document.getElementById("mgX").addEventListener("click",closeGuide);
 }
@@ -5581,7 +5925,8 @@ function mFrame(now){
 
   if(dx||dz){
     const cy=player.y-EYE, px=player.x, pz=player.z;
-    const ok=(nx,nz)=> floorAt(nx,nz,cy)!==null && !crossesWall(px,pz,nx,nz,cy);
+    const ok=(nx,nz)=> floorAt(nx,nz,cy)!==null && !crossesWall(px,pz,nx,nz,cy)
+                       && !crossesSeg(px,pz,nx,nz,cy);
     if(ok(px+dx,pz+dz)){ player.x=px+dx; player.z=pz+dz; }
     else if(ok(px+dx,pz)){ player.x=px+dx; }      /* duvar boyunca kay */
     else if(ok(px,pz+dz)){ player.z=pz+dz; }
@@ -5615,6 +5960,7 @@ function mFrame(now){
   if(manta) manta.update(dt);
   PH.vatoz += ((performance.now()-t0)-PH.vatoz)*0.1; t0=performance.now();
   syncPosters();
+  pavSync();
   PH.afis += ((performance.now()-t0)-PH.afis)*0.1; t0=performance.now();
   /* Doku yüklemeleri kare başına değil, iki karede bir: canlı eserler ve
      canlı panolar yavaş çizimler, 30 Hz'de fark edilmiyor, yük yarılanıyor. */
@@ -5730,7 +6076,8 @@ window.atlas.mLook=(yaw,pitch)=>{
 window.atlas.mAim=()=>{
   const o=castAt(0,0);
   return { hedef: o ? (o.userData.console ? "konsol"
-                     : (o.userData.project ? o.userData.project.title : "?")) : null,
+                     : (o.userData.project ? o.userData.project.title
+                     : (o.userData.grad ? o.userData.grad.title : "?"))) : null,
            liste:pickList.length, kilit:locked, surukleme:!!look };
 };
 window.atlas.mGuide=(on)=>{ if(on===false) closeGuide(); else openGuide();
@@ -5753,7 +6100,13 @@ window.atlas.mFloorAt=(x,z,cy)=>floorAt(x,z,cy===undefined?0:cy);
    sınamalarının artık bunu kullanması gerekiyor — yalnız floorAt bakmak
    duvarların içinden geçen yalancı yollar buluyordu. */
 window.atlas.mCanStep=(ax,az,bx,bz,y)=>
-  floorAt(bx,bz,y)!==null && !crossesWall(ax,az,bx,bz,y);
+  floorAt(bx,bz,y)!==null && !crossesWall(ax,az,bx,bz,y) && !crossesSeg(ax,az,bx,bz,y);
+/* Pavyonun avlusuna ışınla — 200 m'lik yürüyüşü her seferinde yapmamak için. */
+window.atlas.mPavyon=()=>{
+  if(!player) return "müze kurulmadı";
+  player.set(0, EYE, PAV_Z-PAV_A+3.2); mYaw=mYawT=Math.PI; mPitch=mPitchT=0;
+  return { at:[0,+player.y.toFixed(2),PAV_Z-PAV_A+3.2], nis:pavItems.length };
+};
 window.atlas.mPanel=(on)=>{ if(on===false) closePanel(); else openPanel(); };
 window.atlas.manta=()=>manta&&manta.info();
 /* Her asamanin gercek maliyeti. GPU asenkron oldugu icin render olcumlerinde
@@ -5797,7 +6150,7 @@ window.atlas.mProfile=(n)=>{
 window.atlas.mStats=()=>({floors:floors.length, ramps:ramps.length,
   nesne:mScene?mScene.children.length:0, canli:liveArt.filter(r=>r.host).length,
   panolar:glyphPanels.length, cizilen:glyphPanels.filter(p=>p.drawn).length,
-  posters:posters.length, liveArt:liveArt.length,
+  posters:posters.length, liveArt:liveArt.length, nis:pavItems.length,
   draws:mRend?mRend.info.render.calls:0, tris:mRend?mRend.info.render.triangles:0,
   at:player?[+player.x.toFixed(1),+player.y.toFixed(1),+player.z.toFixed(1)]:null});
 })();
