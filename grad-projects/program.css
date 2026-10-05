@@ -1,0 +1,387 @@
+/* NMED 4201/2 program bölümleri: amaç, iş akışı, beklentiler, kazanımlar */
+
+/* --- Amaç --- */
+.brief {
+  padding: 11vh 3.5vw;
+  border-top: 1px solid var(--line);
+}
+
+.brief-head h2 {
+  font: 600 clamp(48px, 7.5vw, 120px)/.88 var(--display);
+  letter-spacing: -.065em;
+  margin: .35em 0 0;
+  max-width: 1200px;
+}
+
+.brief-head h2 em {
+  font-style: normal;
+  color: var(--blue);
+}
+
+.brief-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+  margin-top: 70px;
+}
+
+.brief-grid article {
+  border-top: 1px solid var(--ink);
+  padding: 22px 4vw 0 0;
+  position: relative;
+}
+
+.brief-mark {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--ink);
+  color: var(--paper);
+  font: 600 12px var(--display);
+}
+
+.brief-grid h3 {
+  font: 600 clamp(26px, 2.6vw, 40px)/1 var(--display);
+  letter-spacing: -.04em;
+  margin: 22px 0 18px;
+}
+
+.brief-grid p {
+  font-size: 18px;
+  line-height: 1.5;
+  margin: 0 0 14px;
+  max-width: 560px;
+}
+
+.brief-grid strong {
+  font-weight: 600;
+  background: var(--acid);
+  padding: 0 .2em;
+}
+
+.format-strip {
+  list-style: none;
+  padding: 0;
+  margin: 60px 0 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.format-strip li {
+  border: 1px solid var(--ink);
+  border-radius: 999px;
+  padding: 10px 17px;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+/* --- İş akışı --- */
+.phases {
+  background: var(--ink);
+  color: var(--paper);
+  padding: 11vh 3.5vw;
+}
+
+.phases .section-heading h2 {
+  font: 600 clamp(60px, 9vw, 135px)/.85 var(--display);
+  letter-spacing: -.07em;
+  margin: .35em 0 0;
+}
+
+.phases-note {
+  max-width: 340px;
+  font-size: 15px;
+  line-height: 1.5;
+  opacity: .7;
+  margin: 0;
+}
+
+.phase-list {
+  list-style: none;
+  padding: 0;
+  margin: 70px 0 0;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border-top: 1px solid rgba(255, 255, 255, .3);
+}
+
+.phase {
+  padding: 28px 24px 10px;
+  border-right: 1px solid rgba(255, 255, 255, .3);
+  animation: reveal .4s ease both;
+}
+
+.phase:first-child {
+  padding-left: 0;
+}
+
+.phase:last-child {
+  border-right: 0;
+}
+
+.phase-tag {
+  display: inline-block;
+  background: var(--phase-color);
+  color: var(--phase-ink, var(--ink));
+  border-radius: 999px;
+  padding: 6px 12px;
+  font: 600 11px var(--display);
+  text-transform: uppercase;
+  letter-spacing: .12em;
+}
+
+.phase h3 {
+  font: 600 clamp(24px, 2.2vw, 34px)/1 var(--display);
+  letter-spacing: -.04em;
+  margin: 18px 0 26px;
+  min-height: 2em;
+}
+
+.deliverables {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.deliverables li {
+  padding: 16px 0;
+  border-top: 1px solid rgba(255, 255, 255, .15);
+}
+
+.deliverables strong {
+  font: 600 17px var(--display);
+}
+
+.deliverables p,
+.phase-lead {
+  font-size: 14px;
+  line-height: 1.5;
+  margin: 6px 0 0;
+  opacity: .72;
+}
+
+.phase-lead {
+  margin: 0 0 16px;
+}
+
+.content-chips {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.content-chips li {
+  background: var(--paper);
+  color: var(--ink);
+  padding: 13px 15px;
+  font: 600 16px var(--display);
+  box-shadow: 6px 6px 0 var(--phase-color);
+}
+
+.content-chips span {
+  display: block;
+  font: 400 12px var(--body);
+  color: #5e5d57;
+  margin-top: 3px;
+}
+
+/* --- Beklentiler --- */
+.asks {
+  padding: 11vh 3.5vw;
+}
+
+.asks .section-heading h2 {
+  font: 600 clamp(60px, 9vw, 135px)/.85 var(--display);
+  letter-spacing: -.07em;
+  margin: .35em 0 0;
+}
+
+.ask-list {
+  list-style: none;
+  padding: 0;
+  margin: 70px 0 0;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+}
+
+.ask-list li {
+  border-top: 1px solid var(--ink);
+  padding: 22px 4vw 34px 0;
+  display: grid;
+  grid-template-columns: 64px 1fr;
+  column-gap: 18px;
+}
+
+.ask-num {
+  grid-row: span 2;
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: 1px solid var(--ink);
+  font: 600 13px var(--display);
+  transition: .2s;
+}
+
+.ask-list li:hover .ask-num {
+  background: var(--acid);
+}
+
+.ask-list h3 {
+  font: 600 clamp(22px, 2.2vw, 32px)/1.05 var(--display);
+  letter-spacing: -.04em;
+  margin: 0 0 12px;
+}
+
+.ask-list p {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #3d3c37;
+}
+
+/* --- Kazanımlar --- */
+.gains {
+  background: var(--coral);
+  color: white;
+  padding: 11vh 3.5vw;
+}
+
+.gains-quote {
+  font: 600 clamp(44px, 7vw, 110px)/.9 var(--display);
+  letter-spacing: -.06em;
+  margin: .35em 0 0;
+  max-width: 1200px;
+}
+
+.gains-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+  margin-top: 80px;
+}
+
+.gains-grid article {
+  background: var(--paper);
+  color: var(--ink);
+  padding: 30px;
+  box-shadow: 8px 8px 0 rgba(23, 23, 20, .2);
+}
+
+.gains-grid h3 {
+  font: 600 clamp(24px, 2.4vw, 36px)/1 var(--display);
+  letter-spacing: -.04em;
+  margin: 0 0 18px;
+}
+
+.gains-grid ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.gains-grid li {
+  position: relative;
+  padding: 14px 0 14px 30px;
+  border-top: 1px solid var(--line);
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.gains-grid li::before {
+  content: "↗";
+  position: absolute;
+  left: 0;
+  top: 14px;
+  color: var(--coral);
+  font-weight: 600;
+}
+
+@media (max-width: 1100px) {
+  .phase-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .phase:nth-child(2) {
+    border-right: 0;
+  }
+
+  .phase:nth-child(3) {
+    padding-left: 0;
+  }
+
+  .phase:nth-child(n+3) {
+    border-top: 1px solid rgba(255, 255, 255, .3);
+  }
+}
+
+@media (max-width: 850px) {
+  .brief-grid,
+  .ask-list,
+  .gains-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 560px) {
+  .brief,
+  .phases,
+  .asks,
+  .gains {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .brief-grid article,
+  .ask-list li {
+    padding-right: 0;
+  }
+
+  .brief-grid p {
+    font-size: 16px;
+  }
+
+  .phases-note {
+    margin-top: 20px;
+  }
+
+  .phase-list {
+    grid-template-columns: 1fr;
+  }
+
+  .phase,
+  .phase:nth-child(3) {
+    padding: 28px 0 10px;
+    border-right: 0;
+  }
+
+  .phase:nth-child(n+2) {
+    border-top: 1px solid rgba(255, 255, 255, .3);
+  }
+
+  .phase h3 {
+    min-height: 0;
+  }
+
+  .ask-list li {
+    grid-template-columns: 52px 1fr;
+    column-gap: 14px;
+  }
+
+  .ask-num {
+    width: 42px;
+    height: 42px;
+  }
+
+  .gains-grid article {
+    padding: 22px;
+  }
+}
