@@ -1,0 +1,83 @@
+/* Sunum için QR kodu: kahraman kartı + tam ekran görünüm */
+.qr-card {
+  margin-right: auto;
+  display: flex;
+  align-items: stretch;
+  gap: 18px;
+  padding: 14px 20px 14px 14px;
+  background: var(--paper);
+  color: var(--ink);
+  border: 1px solid var(--ink);
+  box-shadow: 8px 8px 0 var(--acid);
+  font: inherit;
+  text-align: left;
+  cursor: zoom-in;
+  transition: transform .2s, box-shadow .2s;
+}
+
+.qr-card:hover,
+.qr-card:focus-visible {
+  transform: translate(-3px, -3px);
+  box-shadow: 11px 11px 0 var(--acid);
+}
+
+.qr-svg {
+  width: 112px;
+  height: 112px;
+  flex: none;
+  display: block;
+}
+
+.qr-meta {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.qr-url {
+  font: 600 18px/1.05 var(--display);
+  letter-spacing: -.03em;
+}
+
+.qr-hint {
+  font-size: 11px;
+  color: #74736c;
+}
+
+.qr-dialog {
+  width: min(560px, 92vw);
+}
+
+.qr-dialog-body {
+  padding: 56px 40px 40px;
+  text-align: center;
+}
+
+.qr-svg-large {
+  display: block;
+  width: min(420px, 100%, 62vh);
+  aspect-ratio: 1;
+  height: auto;
+  margin: 22px auto 24px;
+}
+
+.qr-dialog-url {
+  font: 600 clamp(22px, 3vw, 30px) var(--display);
+  letter-spacing: -.04em;
+  margin: 0;
+}
+
+@media (max-width: 850px) {
+  .qr-svg {
+    width: 88px;
+    height: 88px;
+  }
+}
+
+/* Telefondaki ziyaretçi zaten sayfada: kart yerine yalnızca metin ve ok kalsın */
+@media (max-width: 560px) {
+  .qr-card {
+    display: none;
+  }
+}
