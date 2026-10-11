@@ -18,6 +18,7 @@ yapılmış gazetecilik işlerinin müzesi ve müzenin karşısındaki çimende 
 | | |
 |---|---|
 | Atlas | 162 kart, **sıfır çakışma**, arama ("ses" → 16/162), 6 tur durağı, eksen sözlüğü, 10 küme, 28 canlı demo. Konsol temiz |
+| Görüntü | Renk yönetimi açık, ACES ton eşleme, 4× MSAA, dondurulmuş gölge haritası. 4,3 ms |
 | Müze | Omurga baştan sona yürünüyor, rampa sıçraması 0,091 m, 8 kanat/4 kat erişilebilir, duvarlar geçilmiyor, afiş ve konsol tıklaması çalışıyor |
 | Pavyon | 9 niş, gerçek kapaklar (322 kB), kapıdan çıkılıp yürünüyor, cam cephe artık geçilmiyor, künye tıklaması modalı açıyor |
 | Telefon | Ray çekmeceye döndü, müze tam ekran, açılış ölçeği görünüme bağlı. 375×812 ve 812×375'te sınandı |
@@ -368,10 +369,9 @@ yeniden ölçülüyor.
 
 ---
 
-## Sıradaki iş: görsel katman (ölçüldü, yapılmadı)
+## Görsel katman
 
-Motorun bugün gerçekte ne desteklediği tarayıcıda ölçüldü. **Hiçbiri henüz
-uygulanmadı** — bu bölüm bir sonraki turun başlangıç noktası.
+Motorun gerçekte ne desteklediği tarayıcıda ölçüldü; **1–3 yapıldı**, 4–8 duruyor.
 
 | ölçülen | değer |
 |---|---|
@@ -388,7 +388,7 @@ uygulanmadı** — bu bölüm bir sonraki turun başlangıç noktası.
 | `navigator.xr` | var |
 | maks. doku | 16384 |
 
-### 1. Renk yönetimi KAPALI ve açmaya çalışan kod ÖLÜ
+### 1. Renk yönetimi — **BİTTİ**
 
 Kodda sekiz yerde `if(TH.SRGBColorSpace) tex.colorSpace=...` var. `SRGBColorSpace`
 r152+ API'si; r128'de **undefined**, yani o satırların hepsi hiçbir şey yapmıyor.
@@ -399,9 +399,16 @@ Sonuç: ışık matematiği sRGB değerleri lineer sanarak yapılıyor ve dönü
 yazılıyor. Sahne kolay patlıyor ve yassı okunuyor. Çimeni `0xB9C0A4`'ten
 `0x76825A`'ya indirmek zorunda kalmamızın sebebi muhtemelen bu.
 
-> **Düzeltince bütün paletin yeniden ayarlanması gerekir.** Işık şiddetleri
-> (`.72 / .42 / .22`), malzeme renkleri ve `uBloom` dahil. Tek tek değil,
-> hepsi birlikte.
+Yapılanlar: `srgb(tex)` (r152 `colorSpace` / r128 `encoding`, ikisini de bilir),
+`CL(hex)` (malzeme ve ışık renkleri `convertSRGBToLinear`), sahne **lineer +
+yarım kayan noktalı** hedefe, geçiş shader'ının sonunda ACES + sRGB kodlama.
+
+> **Palet yeniden ayarlanmak ZORUNDAYDI** ve ayarlandı: ışıklar
+> `.72/.42/.22` → **`1.05/.62/.30`**, pozlama **1,30**, dış zemin
+> `0x76825A` → **`0x9EA873`**, taş yol `0xA8A491` → **`0xCFC8B4`**.
+> Son ikisi zaten renk yönetimi kapalıyken patlamasın diye bastırılmıştı.
+> Pozlama ekranda seçildi, hesapla değil: 0,95 sönük, 1,70'te döşeme patlıyor.
+> `atlas.mTone(pozlama, bloom, eşik)` ile canlıya denenebilir.
 
 Doğru kurulum (hepsi r128'de mevcut): malzeme renklerine
 `convertSRGBToLinear()`, renk dokularına `encoding = sRGBEncoding`, sahne
@@ -409,21 +416,37 @@ Doğru kurulum (hepsi r128'de mevcut): malzeme renklerine
 `mPostMat` ham bir `ShaderMaterial` olduğu için three dönüşümü kendiliğinden
 EKLEMEZ — elle yazılmalı.
 
-### 2. MSAA mümkün; üst örnekleme gereksiz
+### 2. MSAA ve anizotropi — **BİTTİ**
 
-`SS=1.25` (1,56 kat piksel) yerine 4× MSAA: kenarlar daha temiz, maliyet daha
-düşük. `ssNow` 1,0'a inebilir. Anizotropi afişlerde hiç kullanılmıyor, kapaklarda
-4; ikisi de 16 olabilir. `renderer.compile()` ile shader'ları yüklemede derlet —
-bir malzeme ilk göründüğünde oluşan tek karelik donmanın sebebi bu.
+`SS` 1,25 → **1,0**, yerine **4× MSAA**. Anizotropi bütün renk dokularında **16**
+(afişlerde hiç yoktu). `renderer.compile()` yüklemede çağrılıyor: bir malzeme ilk
+göründüğünde oluşan 50–200 ms'lik tek karelik donma gidiyor.
 
-### 3. Dondurulmuş gölge haritası
+### 3. Dondurulmuş gölge haritası — **BİTTİ**
 
-Yapı hareketsiz: gölge haritası **bir kez** çizilip dondurulabilir
-(`shadowMap.autoUpdate=false`, bir kere `needsUpdate=true`). 4096² harita 200 m'ye
-yayılınca texel başına 5 cm. Kare başına maliyet sıfır. Kıpırdayan tek şey vatoz.
-**Sahnede şu an hiç gölge yok.**
+Yapı hareketsiz olduğu için harita **bir kez** çizilip donduruldu
+(`shadowMap.autoUpdate=false`, bir kere `needsUpdate=true`). 4096², ortografik
+hacim 220×260 m → texel başına ~5 cm. **Kare başına maliyet sıfır.**
 
-### 4–8 (sırayla)
+Gölgeyi yalnız `d1` atıyor — güneş o; `d2` dolgu, gölge atsaydı ikinci bir sahte
+güneş olurdu. **Cam gölge atmıyor** (atsaydı bütün bina karanlıkta kalırdı) ve
+`MeshBasicMaterial` yüzeyler (afiş, künye, canlı pano, huzme) gölge almıyor —
+ışığı zaten hesaba katmıyorlar. Vatoz da dışarıda: tek kıpırdayan şey o, haritaya
+girseydi harita her karede yenilenmek zorunda kalırdı. 31 nesne gölgeli.
+
+Akne `bias` ile değil **`normalBias` (0,08)** ile giderildi; düz bias gölgeyi
+nesneden koparıyor (peter-panning). Elle yeniden pişirmek için `atlas.mShadow()`.
+
+> **Beklenmedik kazanç:** üç ışık avlusunun ritmi ilk kez *görünür* oldu. Çatısı
+> kapalı bölümlerin üstüne gölge düşüyor, avluların camlı tepesi ışığı içeri
+> bırakıyor — 200 m'lik yürüyüşte aydınlık-karanlık-aydınlık ritmi artık okunuyor.
+> Bina bunun için tasarlanmıştı ama gölge olmadığı için görünmüyordu.
+
+Ölçülen: **4,3 ms** iş süresi (742×768), 60 fps. Gölge donuk olduğu için kare
+başına maliyeti yok; yarım kayan noktalı hedefin ve MSAA'nın bedeli bu rakamın
+içinde.
+
+### 4–8 — sıradakiler
 
 4. Pişmiş vertex AO (`three-mesh-bvh`, açılışta bir kez) — kare başına bedava.
 5. `PMREMGenerator` ile mevcut gökyüzünden ortam ışığı; Lambert → Standard; cama
@@ -489,9 +512,9 @@ zamana bağlı. Uzaktakiler boş kalmasın diye kurulurken birer kare çizilir.
 **Işık ve hava geçişi.** Sahne bir render hedefine **bir kez** çizilir, sonra
 tam ekran bir shader'dan geçer (`GFS`). Üç iş yapar: yumuşak parlaklık (12 örnekli
 ucuz bloom), sıcak-soğuk ayrımı (aydınlıklar altına, gölgeler maviye), köşelerde
-hafif kararma ve çok ince bir doku. Kenar yumuşatma render hedefini ekrandan
-`SS`=1,5 kat büyük çizip küçülterek geliyor — WebGL1'de render hedefinde MSAA yok.
-Ağır gelirse ilk kısılacak yer `SS`.
+hafif kararma ve çok ince bir doku. Kenar yumuşatma **4x MSAA** ile geliyor (`SS`=1,0). Uzun süre burada
+"WebGL1'de render hedefinde MSAA yok" yazıyordu; bağlam WebGL1 değil
+**WebGL2**'ymiş ve `MAX_SAMPLES` 8. Ağır gelirse `atlas.mQuality(0.85)`.
 
 **Gökyüzü elle boyanmış bir canvas** (`skyTexture`), sahneye equirect arka plan
 olarak veriliyor — böylece kamerayla gider, kırpılmaz, sise girmez. Cam paneller
@@ -765,6 +788,8 @@ atlas.mLog() / mLogTemizle()   // yavaş karelerin bağlamlı dökümü
 atlas.mAim()                   // nişangâhın altında ne var
 atlas.mGuide(true|false)       // rehber ekranı (Tab da açar)
 atlas.mFull(true|false)        // tam ekran; argümansız çağrı DEĞİŞTİRİR
+atlas.mTone(poz, bloom, eşik)  // pozlama / bloom / ton eşleme eşiği — canlı
+atlas.mShadow()                // gölge haritasını elle yeniden pişir
 atlas.mPavyon()                // pavyonun avlusuna ışınla (200 m yürümemek için)
 atlas.mCanStep(ax,az,bx,bz,y)  // bu adım atılabilir mi — zemin VE duvar
 atlas.mOpen(i)                 // i numaralı projenin modalını aç

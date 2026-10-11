@@ -429,6 +429,22 @@ function buildMuseum(){
      sicak tepe baskin, soguk yon ikincil. */
   mScene.add(new TH.HemisphereLight(CL(0xFFF6E8),CL(0xB6C2BC),1.05));
   const d1=new TH.DirectionalLight(CL(0xFFEBCC),.62); d1.position.set(38,90,26); mScene.add(d1);
+  /* Golgeyi yalniz d1 atiyor: gunes o. d2 dolgu, golge atsa ikinci bir
+     sahte gunes olurdu. Ortografik hacim butun binayi sariyor (200x60x25 m);
+     4096'lik harita bu hacme yayilinca texel basina ~5 cm dusuyor, ic mekan
+     icin fazlasiyla yeterli. Buyutmeyin: maliyeti bir kerelik ama bellekte
+     duruyor. */
+  d1.castShadow=true;
+  d1.shadow.mapSize.set(4096,4096);
+  const sc=d1.shadow.camera;
+  sc.left=-110; sc.right=110; sc.top=130; sc.bottom=-130;
+  sc.near=1; sc.far=420;
+  /* Isik yonu bina merkezine baksin, yoksa ortografik hacim bosa gidiyor. */
+  d1.target.position.set(0, 8, 10); mScene.add(d1.target);
+  /* Normal kaydirmasi akneyi gidermenin dogru yolu; duz bias peter-panning
+     yapiyor (golge nesneden kopuyor). Texel 5 cm oldugu icin deger buyuk. */
+  d1.shadow.bias=-0.0006;
+  d1.shadow.normalBias=0.08;
   const d2=new TH.DirectionalLight(CL(0xB8CFE0),.30); d2.position.set(-50,26,-64); mScene.add(d2);
 
   /* Saf beyaz ve saf siyah yok. */
@@ -852,6 +868,26 @@ function buildMuseum(){
     if(o.isMesh || o.isInstancedMesh){ o.updateMatrix(); o.matrixAutoUpdate=false; }
   });
 
+  /* ---- golgeyi bir kez pisir ----
+     Cam golge ATMAZ (saydam; atsaydi butun bina karanlikta kalirdi) ve
+     isiksiz yuzeyler (afis, kunye, canli pano, huzme) golge ALMAZ —
+     MeshBasicMaterial zaten isigi hic hesaba katmiyor, receiveShadow onlarda
+     bir ise yaramaz. Vatoz da disarida: tek kipirdayan sey o, haritaya
+     girseydi harita her karede yenilenmek zorunda kalirdi.                */
+  let golgeli=0;
+  mScene.traverse(o=>{
+    if(!(o.isMesh || o.isInstancedMesh)) return;
+    if(o===manta.group || o.parent===manta.group) return;
+    if(o.material===matGlass) return;
+    const m=o.material;
+    if(m && m.isMeshBasicMaterial) return;
+    o.castShadow=true; o.receiveShadow=true; golgeli++;
+  });
+  /* Bir kerelik cizim: needsUpdate bir sonraki render'da haritayi uretir,
+     sonra autoUpdate kapali oldugu icin bir daha hic dokunulmaz. */
+  mRend.shadowMap.needsUpdate=true;
+  mScene.userData.golgeli=golgeli;
+
   /* Shader'lari burada derlet. Bir malzeme ilk kez goruntuye girdiginde
      derleme 50-200 ms'lik TEK KARELIK bir donma yapiyordu; "smooth degil"
      hissinin en sinsi kaynagi buydu, kare hizi ortalamasinda da gorunmuyor.
@@ -995,8 +1031,9 @@ function unmountArt(rec){
      2. sıcak-soğuk ayrımı — aydınlık yüzeyler altına, gölgeler mavi-yeşile
      3. köşelerde hafif kararma ve çok ince bir kâğıt dokusu
 
-   Kenar yumuşatma render hedefini ekrandan SS kat büyük çizip küçülterek
-   geliyor; WebGL1'de render hedefinde MSAA yok.                            */
+   Kenar yumuşatma artık üst örneklemeden değil 4x MSAA'dan geliyor: bağlam
+   WebGL2 ve MAX_SAMPLES 8. (Burada uzun süre "WebGL1'de render hedefinde
+   MSAA yok" yazıyordu — bağlam WebGL1 değilmiş.)                          */
 
 const GFS=[
 "precision highp float;","varying vec2 vUv;",
@@ -1667,6 +1704,12 @@ function enterMuseum(){
     if(!mBuilt){
       mRend=new TH.WebGLRenderer({canvas:mCanvas,antialias:false});
       mRend.setPixelRatio(1);
+      /* Golge haritasi ACIK ama autoUpdate KAPALI: yapinin tamami
+         hareketsiz oldugu icin harita bir kez cizilip donduruluyor.
+         Kare basina maliyeti sifir. Ayrintisi buildMuseum'un sonunda. */
+      mRend.shadowMap.enabled=true;
+      mRend.shadowMap.type=TH.PCFSoftShadowMap;
+      mRend.shadowMap.autoUpdate=false;
       const r=museumEl.getBoundingClientRect();
       const rw=Math.max(2,Math.round(r.width)), rh=Math.max(2,Math.round(r.height));
       ANISO=mRend.capabilities.getMaxAnisotropy();
@@ -1748,6 +1791,13 @@ window.atlas.manta=()=>manta&&manta.info();
 /* Kaliteyi elle sabitle (1.0 = en hizli, 1.5 = en temiz kenar). */
 /* Pozlama ve ton esleme esigini canliya ayarlamak icin: paleti ekranda
    gorerek secmek gerekiyor, hesapla degil. */
+/* Golge haritasini elle yeniden pisir: isik acisini ya da geometriyi
+   konsoldan degistirdiyseniz gerekiyor. Normalde hic cagrilmaz. */
+window.atlas.mShadow=()=>{
+  if(!mRend) return "muze kurulmadi";
+  mRend.shadowMap.needsUpdate=true;
+  return { golgeliNesne:mScene.userData.golgeli, harita:4096, donuk:!mRend.shadowMap.autoUpdate };
+};
 window.atlas.mTone=(exp,bloom,thr)=>{
   if(exp!==undefined)   mPostMat.uniforms.uExp.value=exp;
   if(bloom!==undefined) mPostMat.uniforms.uBloom.value=bloom;
