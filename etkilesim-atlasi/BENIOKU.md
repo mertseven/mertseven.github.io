@@ -18,7 +18,7 @@ yapılmış gazetecilik işlerinin müzesi ve müzenin karşısındaki çimende 
 | | |
 |---|---|
 | Atlas | 162 kart, **sıfır çakışma**, arama ("ses" → 16/162), 6 tur durağı, eksen sözlüğü, 10 küme, 28 canlı demo. Konsol temiz |
-| Görüntü | Renk yönetimi açık, ACES ton eşleme, 4× MSAA, dondurulmuş gölge haritası. 4,3 ms |
+| Görüntü | Renk yönetimi, ACES, 4× MSAA, dondurulmuş gölge haritası, gökyüzünden IBL, Standard malzemeler, yansıyan cam. **2,8 ms** |
 | Müze | Omurga baştan sona yürünüyor, rampa sıçraması 0,091 m, 8 kanat/4 kat erişilebilir, duvarlar geçilmiyor, afiş ve konsol tıklaması çalışıyor |
 | Pavyon | 9 niş, gerçek kapaklar (322 kB), kapıdan çıkılıp yürünüyor, cam cephe artık geçilmiyor, künye tıklaması modalı açıyor |
 | Telefon | Ray çekmeceye döndü, müze tam ekran, açılış ölçeği görünüme bağlı. 375×812 ve 812×375'te sınandı |
@@ -371,7 +371,8 @@ yeniden ölçülüyor.
 
 ## Görsel katman
 
-Motorun gerçekte ne desteklediği tarayıcıda ölçüldü; **1–3 yapıldı**, 4–8 duruyor.
+Motorun gerçekte ne desteklediği tarayıcıda ölçüldü; **1, 2, 3 ve 5 yapıldı** —
+yani ışık modelinin tamamı. 4, 6, 7, 8 duruyor.
 
 | ölçülen | değer |
 |---|---|
@@ -446,11 +447,44 @@ nesneden koparıyor (peter-panning). Elle yeniden pişirmek için `atlas.mShadow
 başına maliyeti yok; yarım kayan noktalı hedefin ve MSAA'nın bedeli bu rakamın
 içinde.
 
-### 4–8 — sıradakiler
+### 5. Ortam ışığı ve gerçek malzeme tepkisi — **BİTTİ**
 
-4. Pişmiş vertex AO (`three-mesh-bvh`, açılışta bir kez) — kare başına bedava.
-5. `PMREMGenerator` ile mevcut gökyüzünden ortam ışığı; Lambert → Standard; cama
-   yansıma (cephe "yapılmış en büyük ayna" ama şu an düz tül).
+`PMREMGenerator` elimizdeki **boyanmış gökyüzünü** bir ışınım haritasına çevirip
+`scene.environment`'a veriyor; kaynak zaten vardı. Bütün mimari malzemeler
+`MeshLambertMaterial` → **`MeshStandardMaterial`**. Pürüzlülükler gerçekçilik için
+değil **okunurluk** için seçildi: döşeme ,72 (avluyu yansıtsın), duvarlar ,93 (mat,
+afişler öne çıksın), yapı ,62. Metalik hiçbir şey yok — bu bir beton, cam ve boya
+binası.
+
+**Cam artık yansıtıyor** (`roughness .06`, `envMapIntensity 1.6`). Saarinen'in
+binası için kullanılan tanım "yapılmış en büyük ayna"; önceki hâli düz bir tüldü.
+
+**Aydınlatma bandı artık gerçekten parlıyor:** `matLamp` rengi 1,9 ile çarpılıyor,
+yani 1'in üstünde. Sahne yüksek dinamikli ve bloom eşiği 1,0 olduğu için bant
+bloom'a yakalanıyor — eskiden sadece açık sarı bir şeritti.
+
+> **Ortam ışığının şiddeti ekranda seçildi: `ENVI = 0,20`.** 0,70'te sahne
+> düzleşiyor (her yüzey eşit aydınlanıyor, yeni kazandığımız gölgeler boğuluyor),
+> 0,38 hâlâ yumuşak. 0,20'de ortam ışığı yalnız **yansıma karakteri** olarak
+> kalıyor; genel aydınlatma hemisphere ve yönlü ışıklardan geliyor.
+> `HemisphereLight` 1,05 → **0,42**'ye indi, çünkü rolü değişti: artık genel
+> aydınlatmayı değil **yukarı/aşağı ayrımını** (sıcak tepe, soğuk yer) tutuyor.
+> İkisi birden eski şiddette kalsaydı sahne iki kez aydınlanırdı.
+> `atlas.mEnv(v)` ile canlıya denenebilir.
+
+**Ölçülen: 2,8 ms** iş süresi (998×720), 60 fps. Standard malzemeler ve IBL
+ölçülebilir bir bedel getirmedi; üst örnekleme kalktığı için sonuç ilk
+ölçümden (3,33 ms) bile **daha hızlı**.
+
+### 4, 6, 7, 8 — sıradakiler
+
+4. **Pişmiş köşe karartması (AO).** Gölge ve IBL geldikten sonra kazancı eskisi
+   kadar büyük değil ama hâlâ eksik: temas gölgeleri yok, kolonların dibi ve
+   korkuluk altları hâlâ "yüzüyor". `three-mesh-bvh` ile açılışta pişirmek
+   mümkün, ama 285 birleştirilmiş örgüde köşe başına 16 ışın milyonlarca ışın
+   demek — **web worker olmadan yükleme süresini kabul edilemez yapar.** Ya
+   worker'a taşınmalı ya da ekran uzayında (SSAO/GTAO) yapılmalı; ikincisi kare
+   başına maliyet getirir ama 14 ms boş bütçe var.
 6. **Birleştirme kırpmayı öldürdü:** malzeme başına tek örgü her zaman çizilir.
    Mekânsal parçalara (örn. 25 m'lik bantlar × malzeme) bölünürse frustum culling
    geri gelir — büyük ekranda net kazanç. Üstüne portal/hücre görünürlüğü: 32
@@ -789,6 +823,7 @@ atlas.mAim()                   // nişangâhın altında ne var
 atlas.mGuide(true|false)       // rehber ekranı (Tab da açar)
 atlas.mFull(true|false)        // tam ekran; argümansız çağrı DEĞİŞTİRİR
 atlas.mTone(poz, bloom, eşik)  // pozlama / bloom / ton eşleme eşiği — canlı
+atlas.mEnv(şiddet)             // ortam ışığının şiddeti — canlı
 atlas.mShadow()                // gölge haritasını elle yeniden pişir
 atlas.mPavyon()                // pavyonun avlusuna ışınla (200 m yürümemek için)
 atlas.mCanStep(ax,az,bx,bz,y)  // bu adım atılabilir mi — zemin VE duvar

@@ -109,8 +109,8 @@ function buildGround(){
      patlıyordu — BENİOKU'nun "döşemeyi beyaza patlatıp her şeyi sepyaya
      çeviriyor" uyarısının dışarıdaki karşılığı. Değerler ışığa göre değil
      EKRANDAKİ sonuca göre seçildi. */
-  matGround=new TH.MeshLambertMaterial({color:CL(0x9EA873)});   /* kuru ot */
-  matPath  =new TH.MeshLambertMaterial({color:CL(0xCFC8B4)});   /* taş döşeli yol */
+  matGround=new TH.MeshStandardMaterial({color:CL(0x9EA873), roughness:.97, metalness:0});
+  matPath  =new TH.MeshStandardMaterial({color:CL(0xCFC8B4), roughness:.88, metalness:0});
   const G=200, F=280;
   const rects=[
     [ -G,      G,       HALF_Z,  F      ],
@@ -146,7 +146,7 @@ function buildPavilion(){
                  " nişe göre kurulu. PAV_N'i "+(GRAD.length+1)+" yapın.");
   }
   pavLoader=new TH.TextureLoader();
-  matPavF=new TH.MeshLambertMaterial({color:CL(0xE4DDC9), side:TH.DoubleSide});
+  matPavF=new TH.MeshStandardMaterial({color:CL(0xE4DDC9), roughness:.70, metalness:0, side:TH.DoubleSide});
 
   /* ---- taban: on kenarlı bir tabla ----
      CircleGeometry değil elle kurulmuş bir yelpaze, çünkü köşelerin duvar
@@ -204,8 +204,8 @@ function buildPavilion(){
     /* Duvarın üst kenarında projenin kendi rengi. Müzede korkuluk
        kapaklarının yaptığı işin aynısı: kimin işi olduğunu bir bakışta
        belli etmek. */
-    let cm; try{ cm=new TH.MeshLambertMaterial({color:CL(col)}); }
-    catch(e){ cm=new TH.MeshLambertMaterial({color:CL(0x9AA0A0)}); }
+    let cm; try{ cm=new TH.MeshStandardMaterial({color:CL(col), roughness:.78, metalness:0}); }
+    catch(e){ cm=new TH.MeshStandardMaterial({color:CL(0x9AA0A0), roughness:.78, metalness:0}); }
     const cap=slab(PAV_S+.10, .22, .42, cx, PAV_H-.55, cz, cm);
     cap.rotation.y=ry;
 

@@ -4471,8 +4471,8 @@ function buildGround(){
      patlıyordu — BENİOKU'nun "döşemeyi beyaza patlatıp her şeyi sepyaya
      çeviriyor" uyarısının dışarıdaki karşılığı. Değerler ışığa göre değil
      EKRANDAKİ sonuca göre seçildi. */
-  matGround=new TH.MeshLambertMaterial({color:CL(0x9EA873)});   /* kuru ot */
-  matPath  =new TH.MeshLambertMaterial({color:CL(0xCFC8B4)});   /* taş döşeli yol */
+  matGround=new TH.MeshStandardMaterial({color:CL(0x9EA873), roughness:.97, metalness:0});
+  matPath  =new TH.MeshStandardMaterial({color:CL(0xCFC8B4), roughness:.88, metalness:0});
   const G=200, F=280;
   const rects=[
     [ -G,      G,       HALF_Z,  F      ],
@@ -4508,7 +4508,7 @@ function buildPavilion(){
                  " nişe göre kurulu. PAV_N'i "+(GRAD.length+1)+" yapın.");
   }
   pavLoader=new TH.TextureLoader();
-  matPavF=new TH.MeshLambertMaterial({color:CL(0xE4DDC9), side:TH.DoubleSide});
+  matPavF=new TH.MeshStandardMaterial({color:CL(0xE4DDC9), roughness:.70, metalness:0, side:TH.DoubleSide});
 
   /* ---- taban: on kenarlı bir tabla ----
      CircleGeometry değil elle kurulmuş bir yelpaze, çünkü köşelerin duvar
@@ -4566,8 +4566,8 @@ function buildPavilion(){
     /* Duvarın üst kenarında projenin kendi rengi. Müzede korkuluk
        kapaklarının yaptığı işin aynısı: kimin işi olduğunu bir bakışta
        belli etmek. */
-    let cm; try{ cm=new TH.MeshLambertMaterial({color:CL(col)}); }
-    catch(e){ cm=new TH.MeshLambertMaterial({color:CL(0x9AA0A0)}); }
+    let cm; try{ cm=new TH.MeshStandardMaterial({color:CL(col), roughness:.78, metalness:0}); }
+    catch(e){ cm=new TH.MeshStandardMaterial({color:CL(0x9AA0A0), roughness:.78, metalness:0}); }
     const cap=slab(PAV_S+.10, .22, .42, cx, PAV_H-.55, cz, cm);
     cap.rotation.y=ry;
 
@@ -4756,6 +4756,13 @@ const WINGS=SEC_ORDER.map((sec,i)=>({
    yapiliyor. Gecis ham bir ShaderMaterial oldugu icin three o donusumu
    kendiliginden EKLEMEZ — eklerim diye beklemeyin. */
 let ANISO=1;
+/* Ortam isigi siddeti. Ekranda secildi: 0,70'te sahne duzlesiyor (her yuzey
+   esit aydinlaniyor, golgeler boguluyor), 0,38 hala yumusak, 0,18-0,20'de
+   golge kontrasti geri geliyor ve ortam isigi yalniz YANSIMA karakteri
+   olarak kaliyor — zaten istenen o. Genel aydinlatma hemisphere'den ve
+   yonlu isiklardan geliyor. Cam bu degere TABI DEGIL (envMapIntensity 1,6):
+   onun butun meselesi yansima. */
+const ENVI=0.20;
 function CL(hex){ return new TH.Color(hex).convertSRGBToLinear(); }
 function srgb(tex){
   if(TH.SRGBColorSpace) tex.colorSpace=TH.SRGBColorSpace;      /* r152+ */
@@ -4885,7 +4892,7 @@ function catMat(wing){
   if(!matCat[wing]){
     let col; try{ col=CL(catHex(wing)); }catch(e){ col=CL(0x8A8A84); }
     /* Lambert, Basic degil: renkli kapaklar da odanin isiginda yasasin. */
-    matCat[wing]=new TH.MeshLambertMaterial({color:col});
+    matCat[wing]=new TH.MeshStandardMaterial({color:col, roughness:.78, metalness:0});
   }
   return matCat[wing];
 }
@@ -5071,7 +5078,18 @@ function consoleTexture(){
 
 function buildMuseum(){
   mScene=new TH.Scene();
-  mScene.background=skyTexture();
+  /* ---- ortam isigi: gokyuzunden ----
+     HemisphereLight iyi bir hile ama TEK RENK: yuzey yukari mi asagi mi
+     bakiyor, bildigi bu kadar. PMREM elimizdeki boyanmis gokyuzunu bir
+     isinim haritasina ceviriyor; artik her yuzey purüzlulugune gore
+     cevresini yansitiyor. "Duz boyali" ile "render edilmis" arasindaki
+     fark buradan geliyor, ve kaynak zaten vardi. */
+  const skyTex=skyTexture();
+  mScene.background=skyTex;
+  const pmrem=new TH.PMREMGenerator(mRend);
+  pmrem.compileEquirectangularShader();
+  mScene.environment=pmrem.fromEquirectangular(skyTex).texture;
+  pmrem.dispose();
   mScene.fog=new TH.Fog(0xD4E1E2, 95, 430);   /* hava perspektifi: uzak uç puslanır */
 
   mCam=new TH.PerspectiveCamera(66,1,.08,520);
@@ -5081,7 +5099,11 @@ function buildMuseum(){
      renkler sayisal olarak daha koyu ve ton esleme ustunu yumusatiyor, o
      yuzden eski .72/.42/.22 sahneyi karanlik birakiyordu. Oran korundu:
      sicak tepe baskin, soguk yon ikincil. */
-  mScene.add(new TH.HemisphereLight(CL(0xFFF6E8),CL(0xB6C2BC),1.05));
+  /* Ortam isigi artik PMREM'den geliyor; hemisphere kalmaya devam ediyor
+     ama ROLU DEGISTI: yukari/asagi ayrimini (sicak tepe, soguk yer) o
+     tutuyor, genel aydinlatmayi ortam haritasi veriyor. Ikisi birden eski
+     siddette kalsaydi sahne iki kez aydinlanirdi. */
+  mScene.add(new TH.HemisphereLight(CL(0xFFF6E8),CL(0xB6C2BC),.42));
   const d1=new TH.DirectionalLight(CL(0xFFEBCC),.62); d1.position.set(38,90,26); mScene.add(d1);
   /* Golgeyi yalniz d1 atiyor: gunes o. d2 dolgu, golge atsa ikinci bir
      sahte gunes olurdu. Ortografik hacim butun binayi sariyor (200x60x25 m);
@@ -5102,15 +5124,30 @@ function buildMuseum(){
   const d2=new TH.DirectionalLight(CL(0xB8CFE0),.30); d2.position.set(-50,26,-64); mScene.add(d2);
 
   /* Saf beyaz ve saf siyah yok. */
-  matSlab =new TH.MeshLambertMaterial({color:CL(0xEBE4D6)});   /* ılık krem döşeme */
-  matWall =new TH.MeshLambertMaterial({color:CL(0xF0EBDF)});
-  matSoff =new TH.MeshLambertMaterial({color:CL(0xD2D6CE)});   /* gölgede kalan tavan */
-  matDark =new TH.MeshLambertMaterial({color:CL(0x4A4F43)});   /* koyu, ama siyah değil */
-  matGlass=new TH.MeshBasicMaterial({color:CL(0xDCEAF0), transparent:true,
-                                     opacity:.17, depthWrite:false});
+  /* Lambert degil Standard: Lambert'in puruzlulugu yok, dolayisiyla ortam
+     isigini de yansitamiyor. Degerler gercekcilik icin degil OKUNURLUK icin
+     secildi — doseme hafif parlak (avluyu yansitsin), duvarlar mat (afisler
+     one ciksin), yapi ortada. Metalik hicbir sey yok; bu bir beton, cam ve
+     boya binasi. */
+  const ST=(c,r,e)=>new TH.MeshStandardMaterial({color:CL(c), roughness:r, metalness:0,
+                                                 envMapIntensity:(e===undefined?ENVI:e)});
+  matSlab =ST(0xEBE4D6,.72);   /* ılık krem döşeme — hafif parlak */
+  matWall =ST(0xF0EBDF,.93);   /* mat: afişler öne çıksın */
+  matSoff =ST(0xD2D6CE,.95);   /* gölgede kalan tavan */
+  matDark =ST(0x4A4F43,.62);   /* koyu, ama siyah değil */
+  /* Cam artik yansitiyor. Saarinen'in binasi icin kullanilan tanim
+     "yapilmis en buyuk ayna"; onceki hali duz bir tuldu. Puruzluluk cok
+     dusuk, metalness 0 — cam metal degil, yansimasi Fresnel'den geliyor. */
+  matGlass=new TH.MeshStandardMaterial({color:CL(0xDCEAF0), transparent:true,
+                                        opacity:.20, depthWrite:false,
+                                        roughness:.06, metalness:0,
+                                        envMapIntensity:1.6});
   matLamp =new TH.MeshBasicMaterial({color:CL(0xFBE3B0)});     /* tavandaki sıcak bant */
-  matLeaf =new TH.MeshLambertMaterial({color:CL(0x7D9155)});
-  matPot  =new TH.MeshLambertMaterial({color:CL(0xA9765A)});   /* pişmiş toprak */
+  /* Bant artik 1'in USTUNDE: sahne yuksek dinamikli, bloom esigi 1,0. Boylece
+     aydinlatma bandi gercekten parliyor, sadece acik sari bir serit degil. */
+  matLamp.color.multiplyScalar(1.9);
+  matLeaf =ST(0x7D9155,.82);
+  matPot  =ST(0xA9765A,.88);
   matCat  ={};
 
   floors=[]; ramps=[]; posters=[]; liveArt=[]; glyphPanels=[]; statics=[];
@@ -6451,6 +6488,19 @@ window.atlas.mShadow=()=>{
   if(!mRend) return "muze kurulmadi";
   mRend.shadowMap.needsUpdate=true;
   return { golgeliNesne:mScene.userData.golgeli, harita:4096, donuk:!mRend.shadowMap.autoUpdate };
+};
+/* Ortam isiginin siddeti. Ekranda gormeden secilecek bir sayi degil: fazlasi
+   her yuzeyi esit aydinlatip golgeleri bogüyor, azi ortam isigini anlamsiz
+   kiliyor. Cam disarida — onun yansimasi ayri ayarlaniyor. */
+window.atlas.mEnv=(v)=>{
+  let n=0;
+  mScene.traverse(o=>{
+    const ms=o.material?(Array.isArray(o.material)?o.material:[o.material]):[];
+    for(const m of ms) if(m.isMeshStandardMaterial && !m.transparent){
+      m.envMapIntensity=v; m.needsUpdate=true; n++;
+    }
+  });
+  return {malzeme:n, siddet:v};
 };
 window.atlas.mTone=(exp,bloom,thr)=>{
   if(exp!==undefined)   mPostMat.uniforms.uExp.value=exp;
