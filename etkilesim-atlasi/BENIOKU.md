@@ -368,6 +368,80 @@ yeniden ölçülüyor.
 
 ---
 
+## Sıradaki iş: görsel katman (ölçüldü, yapılmadı)
+
+Motorun bugün gerçekte ne desteklediği tarayıcıda ölçüldü. **Hiçbiri henüz
+uygulanmadı** — bu bölüm bir sonraki turun başlangıç noktası.
+
+| ölçülen | değer |
+|---|---|
+| bağlam | **WebGL2** (BENİOKU'nun başka yerinde "WebGL1" yazıyor — yanlış) |
+| `MAX_SAMPLES` | **8** → render hedefinde MSAA MÜMKÜN |
+| `THREE.WebGLMultisampleRenderTarget` | r128'de **var** |
+| `THREE.SRGBColorSpace` | **undefined** (r152+ API'si) |
+| `THREE.sRGBEncoding` | var (3001); `LinearEncoding` = 3000 |
+| `ACESFilmicToneMapping` | var |
+| `PMREMGenerator` | var |
+| maks. anizotropi | 16 |
+| `EXT_color_buffer_float` | var → yarım kayan nokta (HDR) hedef mümkün |
+| `KHR_parallel_shader_compile` | var |
+| `navigator.xr` | var |
+| maks. doku | 16384 |
+
+### 1. Renk yönetimi KAPALI ve açmaya çalışan kod ÖLÜ
+
+Kodda sekiz yerde `if(TH.SRGBColorSpace) tex.colorSpace=...` var. `SRGBColorSpace`
+r152+ API'si; r128'de **undefined**, yani o satırların hepsi hiçbir şey yapmıyor.
+r128'in doğru API'si `texture.encoding = THREE.sRGBEncoding` ve
+`renderer.outputEncoding`; ikincisi hiç ayarlanmamış, varsayılan `LinearEncoding`.
+
+Sonuç: ışık matematiği sRGB değerleri lineer sanarak yapılıyor ve dönüştürülmeden
+yazılıyor. Sahne kolay patlıyor ve yassı okunuyor. Çimeni `0xB9C0A4`'ten
+`0x76825A`'ya indirmek zorunda kalmamızın sebebi muhtemelen bu.
+
+> **Düzeltince bütün paletin yeniden ayarlanması gerekir.** Işık şiddetleri
+> (`.72 / .42 / .22`), malzeme renkleri ve `uBloom` dahil. Tek tek değil,
+> hepsi birlikte.
+
+Doğru kurulum (hepsi r128'de mevcut): malzeme renklerine
+`convertSRGBToLinear()`, renk dokularına `encoding = sRGBEncoding`, sahne
+**yarım kayan noktalı** hedefe, geçiş shader'ının sonunda ACES + sRGB kodlama.
+`mPostMat` ham bir `ShaderMaterial` olduğu için three dönüşümü kendiliğinden
+EKLEMEZ — elle yazılmalı.
+
+### 2. MSAA mümkün; üst örnekleme gereksiz
+
+`SS=1.25` (1,56 kat piksel) yerine 4× MSAA: kenarlar daha temiz, maliyet daha
+düşük. `ssNow` 1,0'a inebilir. Anizotropi afişlerde hiç kullanılmıyor, kapaklarda
+4; ikisi de 16 olabilir. `renderer.compile()` ile shader'ları yüklemede derlet —
+bir malzeme ilk göründüğünde oluşan tek karelik donmanın sebebi bu.
+
+### 3. Dondurulmuş gölge haritası
+
+Yapı hareketsiz: gölge haritası **bir kez** çizilip dondurulabilir
+(`shadowMap.autoUpdate=false`, bir kere `needsUpdate=true`). 4096² harita 200 m'ye
+yayılınca texel başına 5 cm. Kare başına maliyet sıfır. Kıpırdayan tek şey vatoz.
+**Sahnede şu an hiç gölge yok.**
+
+### 4–8 (sırayla)
+
+4. Pişmiş vertex AO (`three-mesh-bvh`, açılışta bir kez) — kare başına bedava.
+5. `PMREMGenerator` ile mevcut gökyüzünden ortam ışığı; Lambert → Standard; cama
+   yansıma (cephe "yapılmış en büyük ayna" ama şu an düz tül).
+6. **Birleştirme kırpmayı öldürdü:** malzeme başına tek örgü her zaman çizilir.
+   Mekânsal parçalara (örn. 25 m'lik bantlar × malzeme) bölünürse frustum culling
+   geri gelir — büyük ekranda net kazanç. Üstüne portal/hücre görünürlüğü: 32
+   bölme ve uçlardaki kapılar bunun için zaten hazır.
+7. Modern three'ye geçiş **import map ile**, derleme adımı olmadan: modül
+   betiği `window.THREE`'yi kurar, `_p7.js` onu zaten okuyor, atlas tarafındaki
+   28 UMD demosu bozulmaz.
+8. WebXR. Ama bütçe değişir: 90 fps × iki göz ≈ 4–6 kat piksel, ve **post
+   geçişi büyük ölçüde gider** (vinyet stereoda yanlış okunur, bloom göz
+   tutarsızlığı yapar). O yüzden 3 ve 4 VR için isteğe bağlı değil, ön koşul.
+   Yürüyüş de ışınlanma + snap turn olmalı.
+
+---
+
 ## Kritik teknik kararlar (bunları bozmayın)
 
 **IIFE zorunlu.** Kod tepe seviyede `const N`, `const X` gibi adlar kullanıyor.
