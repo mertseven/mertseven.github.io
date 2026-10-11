@@ -43,7 +43,11 @@ let mRT=null, mPostScene=null, mPostCam=null, mPostMat=null;
    Sonuç kalıcı bulanıklık, karşılığında hiçbir kazanç yok — üstelik CPU
    sınırlıysanız çözünürlük düşürmek zaten hiçbir şey kazandırmaz. Kaldırıldı.
    Elle: atlas.mQuality(1.0) hızlandırır, atlas.mQuality(1.5) keskinleştirir. */
-const SS_MIN=0.6, SS_DEF=1.25;
+/* SS artik 1,0. Kenar temizligi ust ornekelemeden degil MSAA'dan geliyor:
+   WebGL2'de render hedefinde coklu ornekleme VAR (MAX_SAMPLES olculdu: 8) —
+   BENIOKU uzun sure "WebGL1'de yok" diyordu, baglam WebGL2'ymis. 4x MSAA
+   1,25 kat ust ornekelemeden hem daha temiz hem daha ucuz. */
+const SS_MIN=0.6, SS_DEF=1.0, MSAA=4;
 let ssNow=SS_DEF;
 let frAvg=16.7, wkAvg=4, frWarm=0, half=false;
 
@@ -79,6 +83,32 @@ const SEC_ORDER=["maps","visualizations","storytelling","investigations",
 const WINGS=SEC_ORDER.map((sec,i)=>({
   sec, level:Math.floor(i/2), side:(i%2===0?-1:1)
 }));
+
+/* ================= renk yonetimi =================
+   r128'de THREE.ColorManagement YOK ve kodun sekiz yerinde sinanan
+   THREE.SRGBColorSpace r152+ API'si — bu surumde undefined, yani o
+   satirlarin hepsi hicbir sey yapmiyordu. Dogru API ikiye ayriliyor:
+
+     doku   : texture.encoding = sRGBEncoding  (orneklerken lineere cevir)
+     malzeme: color.convertSRGBToLinear()      (onaltilik sRGB yazilmis)
+
+   Ikisi de olmadan isik matematigi sRGB degerlerini lineer saniyordu:
+   sahne kolay patliyor ve yassi okunuyordu. Disaridaki cimeni 0xB9C0A4'ten
+   0x76825A'ya indirmek zorunda kalmamizin sebebi buydu — duzeltilince
+   geri alindi.
+
+   Sahne artik LINEER ve yuksek dinamikli (yarim kayan noktali) bir hedefe
+   ciziliyor; ton esleme ile sRGB kodlamasi gecis shader'inin SONUNDA, elle
+   yapiliyor. Gecis ham bir ShaderMaterial oldugu icin three o donusumu
+   kendiliginden EKLEMEZ — eklerim diye beklemeyin. */
+let ANISO=1;
+function CL(hex){ return new TH.Color(hex).convertSRGBToLinear(); }
+function srgb(tex){
+  if(TH.SRGBColorSpace) tex.colorSpace=TH.SRGBColorSpace;      /* r152+ */
+  else if(TH.sRGBEncoding!==undefined) tex.encoding=TH.sRGBEncoding;
+  if(ANISO>1) tex.anisotropy=ANISO;   /* egik aciyla bakilan afisler icin */
+  return tex;
+}
 
 /* ================= dokular ================= */
 function wrapText(g,text,x,y,maxW,lh,max){
@@ -142,7 +172,7 @@ function posterTexture(p){
     g.fillText("site otomatik erişimi engelliyor", 34, H-18);
   }
   const tex=new TH.CanvasTexture(cv);
-  if(TH.SRGBColorSpace) tex.colorSpace=TH.SRGBColorSpace;
+  srgb(tex);
   tex.anisotropy=4;
   return tex;
 }
@@ -162,7 +192,7 @@ function signTexture(sec){
   g.font='400 26px "IBM Plex Sans", sans-serif';
   wrapText(g,s.note,36,158,W-72,34,3);
   const tex=new TH.CanvasTexture(cv);
-  if(TH.SRGBColorSpace) tex.colorSpace=TH.SRGBColorSpace;
+  srgb(tex);
   return tex;
 }
 
@@ -199,7 +229,7 @@ function catHex(wing){
 }
 function catMat(wing){
   if(!matCat[wing]){
-    let col; try{ col=new TH.Color(catHex(wing)); }catch(e){ col=new TH.Color(0x8A8A84); }
+    let col; try{ col=CL(catHex(wing)); }catch(e){ col=CL(0x8A8A84); }
     /* Lambert, Basic degil: renkli kapaklar da odanin isiginda yasasin. */
     matCat[wing]=new TH.MeshLambertMaterial({color:col});
   }
@@ -357,7 +387,7 @@ function bannerTexture(sd){
     g.restore();
   });
   const tex=new TH.CanvasTexture(cv);
-  if(TH.SRGBColorSpace) tex.colorSpace=TH.SRGBColorSpace;
+  srgb(tex);
   tex.anisotropy=4;
   return tex;
 }
@@ -380,7 +410,7 @@ function consoleTexture(){
   g.font='500 23px "IBM Plex Mono", monospace';
   g.fillText("\u25B6 KONTROL PANELİ — TIKLAYIN", 34, H-32);
   const tex=new TH.CanvasTexture(cv);
-  if(TH.SRGBColorSpace) tex.colorSpace=TH.SRGBColorSpace;
+  srgb(tex);
   tex.anisotropy=4;
   return tex;
 }
@@ -392,20 +422,25 @@ function buildMuseum(){
 
   mCam=new TH.PerspectiveCamera(66,1,.08,520);
   /* Sıcak tepe, soğuk yer: ışık-gölge ayrımı aslında bu tek satır. */
-  mScene.add(new TH.HemisphereLight(0xFFF6E8,0xB6C2BC,.72));
-  const d1=new TH.DirectionalLight(0xFFEBCC,.42); d1.position.set(38,90,26); mScene.add(d1);
-  const d2=new TH.DirectionalLight(0xB8CFE0,.22); d2.position.set(-50,26,-64); mScene.add(d2);
+  /* Isik renkleri de sRGB onaltilik yazilmis: onlar da lineere ceviriliyor.
+     Siddetler renk yonetimi + ACES'ten SONRA yeniden ayarlandi — lineer
+     renkler sayisal olarak daha koyu ve ton esleme ustunu yumusatiyor, o
+     yuzden eski .72/.42/.22 sahneyi karanlik birakiyordu. Oran korundu:
+     sicak tepe baskin, soguk yon ikincil. */
+  mScene.add(new TH.HemisphereLight(CL(0xFFF6E8),CL(0xB6C2BC),1.05));
+  const d1=new TH.DirectionalLight(CL(0xFFEBCC),.62); d1.position.set(38,90,26); mScene.add(d1);
+  const d2=new TH.DirectionalLight(CL(0xB8CFE0),.30); d2.position.set(-50,26,-64); mScene.add(d2);
 
   /* Saf beyaz ve saf siyah yok. */
-  matSlab =new TH.MeshLambertMaterial({color:0xEBE4D6});   /* ılık krem döşeme */
-  matWall =new TH.MeshLambertMaterial({color:0xF0EBDF});
-  matSoff =new TH.MeshLambertMaterial({color:0xD2D6CE});   /* gölgede kalan tavan */
-  matDark =new TH.MeshLambertMaterial({color:0x4A4F43});   /* koyu, ama siyah değil */
-  matGlass=new TH.MeshBasicMaterial({color:0xDCEAF0, transparent:true,
+  matSlab =new TH.MeshLambertMaterial({color:CL(0xEBE4D6)});   /* ılık krem döşeme */
+  matWall =new TH.MeshLambertMaterial({color:CL(0xF0EBDF)});
+  matSoff =new TH.MeshLambertMaterial({color:CL(0xD2D6CE)});   /* gölgede kalan tavan */
+  matDark =new TH.MeshLambertMaterial({color:CL(0x4A4F43)});   /* koyu, ama siyah değil */
+  matGlass=new TH.MeshBasicMaterial({color:CL(0xDCEAF0), transparent:true,
                                      opacity:.17, depthWrite:false});
-  matLamp =new TH.MeshBasicMaterial({color:0xFBE3B0});     /* tavandaki sıcak bant */
-  matLeaf =new TH.MeshLambertMaterial({color:0x7D9155});
-  matPot  =new TH.MeshLambertMaterial({color:0xA9765A});   /* pişmiş toprak */
+  matLamp =new TH.MeshBasicMaterial({color:CL(0xFBE3B0)});     /* tavandaki sıcak bant */
+  matLeaf =new TH.MeshLambertMaterial({color:CL(0x7D9155)});
+  matPot  =new TH.MeshLambertMaterial({color:CL(0xA9765A)});   /* pişmiş toprak */
   matCat  ={};
 
   floors=[]; ramps=[]; posters=[]; liveArt=[]; glyphPanels=[]; statics=[];
@@ -715,7 +750,7 @@ function buildMuseum(){
       const frame=slab(PW+.26, PH+.26, .09, s.x, hy, s.z, matDark);
       frame.rotation.y=s.ry;
       const mesh=new TH.Mesh(new TH.PlaneGeometry(PW,PH),
-        new TH.MeshBasicMaterial({color:0xF7F1E1}));
+        new TH.MeshBasicMaterial({color:CL(0xF7F1E1)}));
       mesh.position.set(s.x+Math.sin(s.ry)*0.07, hy, s.z+Math.cos(s.ry)*0.07);
       mesh.rotation.y=s.ry;
       mesh.userData.project=p;
@@ -735,7 +770,7 @@ function buildMuseum(){
       const fr=slab(SZ+.24, SZ+.24, .09, s.x, hy, s.z, matDark); fr.rotation.y=s.ry;
       const cv=document.createElement("canvas"); cv.width=cv.height=256;
       const tex=new TH.CanvasTexture(cv);
-      if(TH.SRGBColorSpace) tex.colorSpace=TH.SRGBColorSpace;
+      srgb(tex);
       const mesh=new TH.Mesh(new TH.PlaneGeometry(SZ,SZ),
         new TH.MeshBasicMaterial({map:tex}));
       mesh.position.set(s.x+Math.sin(s.ry)*0.07, hy, s.z+Math.cos(s.ry)*0.07);
@@ -762,7 +797,7 @@ function buildMuseum(){
       const cz=ATRIA[n%ATRIA.length], S=2.9, ay=y+2.05;
       const fr=slab(S+.3,S+.3,.1, sd*(AT_X-0.04), ay, cz, matDark); fr.rotation.y=ry;
       const back=new TH.Mesh(new TH.PlaneGeometry(S,S),
-        new TH.MeshBasicMaterial({color:0xF7F1E1}));
+        new TH.MeshBasicMaterial({color:CL(0xF7F1E1)}));
       back.position.set(sd*(AT_X-0.10), ay, cz); back.rotation.y=ry;
       mScene.add(back);
       const art=new TH.Mesh(new TH.PlaneGeometry(S-.16,S-.16),
@@ -816,6 +851,12 @@ function buildMuseum(){
     if(o===manta.group || o.parent===manta.group) return;
     if(o.isMesh || o.isInstancedMesh){ o.updateMatrix(); o.matrixAutoUpdate=false; }
   });
+
+  /* Shader'lari burada derlet. Bir malzeme ilk kez goruntuye girdiginde
+     derleme 50-200 ms'lik TEK KARELIK bir donma yapiyordu; "smooth degil"
+     hissinin en sinsi kaynagi buydu, kare hizi ortalamasinda da gorunmuyor.
+     KHR_parallel_shader_compile destekleniyor, yani bu bekleme de paralel. */
+  mRend.compile(mScene, mCam);
 
   player=new TH.Vector3(0, EYE, AT_Z+5);
   mYaw=0; mPitch=-0.02;
@@ -931,7 +972,7 @@ function mountArt(rec){
     catch(e){ return; }
     const cv=host.querySelector("canvas"); if(!cv) return;
     rec.tex=new TH.CanvasTexture(cv);
-    if(TH.SRGBColorSpace) rec.tex.colorSpace=TH.SRGBColorSpace;
+    srgb(rec.tex);
     rec.art.material.map=rec.tex; rec.art.material.opacity=1;
     rec.art.material.needsUpdate=true;
   }).catch(()=>{});
@@ -961,7 +1002,14 @@ const GFS=[
 "precision highp float;","varying vec2 vUv;",
 "uniform sampler2D tDiffuse;","uniform vec2 uRes;","uniform float uBloom;",
 "float hash(vec2 p){ p=fract(p*vec2(443.897,441.423)); p+=dot(p,p+19.19); return fract(p.x*p.y); }",
-"vec3 hi(vec2 uv){ return max(texture2D(tDiffuse,uv).rgb-0.84,0.0); }",
+"uniform float uExp;","uniform float uThr;",
+"vec3 hi(vec2 uv){ return max(texture2D(tDiffuse,uv).rgb-uThr,0.0); }",
+/* Narkowicz'in ACES yaklasimi: ucuz, filmik, yuksek isiklari beyaza
+   patlatmak yerine yumusak doyuruyor. Ghibli paletinin en cok kazandigi yer. */
+"vec3 aces(vec3 x){ return clamp((x*(2.51*x+0.03))/(x*(2.43*x+0.59)+0.14),0.0,1.0); }",
+/* Lineer -> sRGB. Bunu THREE EKLEMEZ: gecis ham bir ShaderMaterial. */
+"vec3 enc(vec3 c){ c=max(c,vec3(0.0));",
+"  return mix(c*12.92, 1.055*pow(c,vec3(1.0/2.4))-0.055, step(vec3(0.0031308),c)); }",
 "void main(){",
 "  vec3 base=texture2D(tDiffuse,vUv).rgb;",
 "  vec2 r1=3.0/uRes, r2=8.0/uRes;",
@@ -972,23 +1020,43 @@ const GFS=[
 "  b+=hi(vUv+vec2( r2.x,0.0)); b+=hi(vUv+vec2(-r2.x,0.0));",
 "  b+=hi(vUv+vec2(0.0, r2.y)); b+=hi(vUv+vec2(0.0,-r2.y));",
 "  b+=hi(vUv+vec2( r2.x,-r2.y)); b+=hi(vUv+vec2(-r2.x, r2.y));",
-"  vec3 c=base + (b/12.0)*uBloom;",
-"  float l=dot(c,vec3(0.299,0.587,0.114));",
+"  vec3 c=(base + (b/12.0)*uBloom)*uExp;",   /* bloom ve pozlama LINEER HDR'de */
+"  c=aces(c);",                                /* ton esleme: burada [0,1]'e iniyor */
+"  float l=dot(c,vec3(0.2126,0.7152,0.0722));",
 "  c=mix(c*vec3(0.96,0.99,1.04), c*vec3(1.03,1.005,0.96), smoothstep(0.22,0.86,l));",
 "  float v=1.0-0.24*pow(clamp(length(vUv-0.5)*1.42,0.0,1.0),2.0);",
 "  c*=v;",
-"  c+=(hash(floor(vUv*uRes))-0.5)*0.014;",
+"  c=enc(c);",                                 /* en son sRGB kodlama */
+"  c+=(hash(floor(vUv*uRes))-0.5)*0.014;",     /* grain goruntu uzayinda: dither */
 "  gl_FragColor=vec4(clamp(c,0.0,1.0),1.0);",
 "}"].join("\n");
 const GVS=["varying vec2 vUv;",
 "void main(){ vUv=uv; gl_Position=vec4(position.xy,0.0,1.0); }"].join("\n");
+
+/* Render hedefi: LINEER ve yuksek dinamikli. Yarim kayan nokta sart, cunku
+   ton esleme 1'in ustundeki degerleri yumusatacak — 8 bitlik bir hedefte o
+   degerler zaten kirpilmis olurdu ve ACES'in yapacak isi kalmazdi.
+   Coklu ornekleme yalniz WebGL2'de; yoksa sessizce duz hedefe duser. */
+function makeRT(w,h){
+  const o={type: TH.HalfFloatType};
+  let rt;
+  if(TH.WebGLMultisampleRenderTarget && mRend.capabilities.isWebGL2){
+    rt=new TH.WebGLMultisampleRenderTarget(w,h,o); rt.samples=MSAA;
+  }else{
+    rt=new TH.WebGLRenderTarget(w,h,o);
+  }
+  return rt;
+}
 
 function buildPost(){
   mPostScene=new TH.Scene();
   mPostCam=new TH.OrthographicCamera(-1,1,1,-1,0,1);
   mPostMat=new TH.ShaderMaterial({
     uniforms:{tDiffuse:{value:null}, uRes:{value:new TH.Vector2(1,1)},
-              uBloom:{value:0.6}},
+              uBloom:{value:0.5}, uExp:{value:1.30}, uThr:{value:1.0}},
+              /* Pozlama 1,30 ekranda secildi, hesapla degil: 0,95 sonuk,
+                 1,70'te doseme patliyor. atlas.mTone(poz,bloom,esik) ile
+                 canliya denenebilir. */
     vertexShader:GVS, fragmentShader:GFS, depthTest:false, depthWrite:false});
   mPostScene.add(new TH.Mesh(new TH.PlaneGeometry(2,2),mPostMat));
 }
@@ -1023,7 +1091,7 @@ function skyTexture(){
       g.fillStyle=rg; g.beginPath(); g.arc(ox,oy,r,0,6.2832); g.fill();
     }
   }
-  const tex=new TH.CanvasTexture(cv);
+  const tex=srgb(new TH.CanvasTexture(cv));
   tex.mapping=TH.EquirectangularReflectionMapping;
   return tex;
 }
@@ -1047,7 +1115,7 @@ function shaftTexture(){
   side.addColorStop(1.00,"rgba(0,0,0,1)");
   g.globalCompositeOperation="destination-out";
   g.fillStyle=side; g.fillRect(0,0,W,H);
-  return new TH.CanvasTexture(cv);
+  return srgb(new TH.CanvasTexture(cv));
 }
 
 /* Huzmenin döşemeye düştüğü yer: yumuşak kenarlı sıcak bir leke. */
@@ -1060,7 +1128,7 @@ function poolTexture(){
   rg.addColorStop(0.48,"rgba(255,236,194,0.38)");
   rg.addColorStop(1.00,"rgba(255,234,190,0.00)");
   g.fillStyle=rg; g.fillRect(0,0,S,S);
-  return new TH.CanvasTexture(cv);
+  return srgb(new TH.CanvasTexture(cv));
 }
 
 /* ================= girdi ================= */
@@ -1601,7 +1669,8 @@ function enterMuseum(){
       mRend.setPixelRatio(1);
       const r=museumEl.getBoundingClientRect();
       const rw=Math.max(2,Math.round(r.width)), rh=Math.max(2,Math.round(r.height));
-      mRT=new TH.WebGLRenderTarget(Math.round(rw*ssNow),Math.round(rh*ssNow));
+      ANISO=mRend.capabilities.getMaxAnisotropy();
+      mRT=makeRT(Math.round(rw*ssNow),Math.round(rh*ssNow));
       buildPost(); buildMuseum();
     }
     mResize(); mLoad.hidden=true; syncPrompt();
@@ -1677,6 +1746,16 @@ window.atlas.manta=()=>manta&&manta.info();
 /* Her asamanin gercek maliyeti. GPU asenkron oldugu icin render olcumlerinde
    gl.finish() ile senkronlaniyor - kotumser ama karsilastirilabilir. */
 /* Kaliteyi elle sabitle (1.0 = en hizli, 1.5 = en temiz kenar). */
+/* Pozlama ve ton esleme esigini canliya ayarlamak icin: paleti ekranda
+   gorerek secmek gerekiyor, hesapla degil. */
+window.atlas.mTone=(exp,bloom,thr)=>{
+  if(exp!==undefined)   mPostMat.uniforms.uExp.value=exp;
+  if(bloom!==undefined) mPostMat.uniforms.uBloom.value=bloom;
+  if(thr!==undefined)   mPostMat.uniforms.uThr.value=thr;
+  return { pozlama:mPostMat.uniforms.uExp.value,
+           bloom:mPostMat.uniforms.uBloom.value,
+           esik:mPostMat.uniforms.uThr.value };
+};
 window.atlas.mQuality=(v)=>{
   if(v){ ssNow=Math.max(SS_MIN,Math.min(2,v)); frWarm=0; mResize(); }
   return { ss:ssNow, kareMs:+frAvg.toFixed(1), isMs:+wkAvg.toFixed(1),

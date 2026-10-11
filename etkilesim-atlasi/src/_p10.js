@@ -93,7 +93,7 @@ function pavLabel(p){
   g.font='500 17px "IBM Plex Mono", monospace';
   g.fillText(String(p.label||"").toLocaleUpperCase("tr"), 22, 120);
   const tex=new TH.CanvasTexture(cv);
-  if(TH.SRGBColorSpace) tex.colorSpace=TH.SRGBColorSpace;
+  srgb(tex);
   return tex;
 }
 
@@ -109,8 +109,8 @@ function buildGround(){
      patlıyordu — BENİOKU'nun "döşemeyi beyaza patlatıp her şeyi sepyaya
      çeviriyor" uyarısının dışarıdaki karşılığı. Değerler ışığa göre değil
      EKRANDAKİ sonuca göre seçildi. */
-  matGround=new TH.MeshLambertMaterial({color:0x76825A});   /* kuru ot */
-  matPath  =new TH.MeshLambertMaterial({color:0xA8A491});   /* taş döşeli yol */
+  matGround=new TH.MeshLambertMaterial({color:CL(0x9EA873)});   /* kuru ot */
+  matPath  =new TH.MeshLambertMaterial({color:CL(0xCFC8B4)});   /* taş döşeli yol */
   const G=200, F=280;
   const rects=[
     [ -G,      G,       HALF_Z,  F      ],
@@ -146,7 +146,7 @@ function buildPavilion(){
                  " nişe göre kurulu. PAV_N'i "+(GRAD.length+1)+" yapın.");
   }
   pavLoader=new TH.TextureLoader();
-  matPavF=new TH.MeshLambertMaterial({color:0xE4DDC9, side:TH.DoubleSide});
+  matPavF=new TH.MeshLambertMaterial({color:CL(0xE4DDC9), side:TH.DoubleSide});
 
   /* ---- taban: on kenarlı bir tabla ----
      CircleGeometry değil elle kurulmuş bir yelpaze, çünkü köşelerin duvar
@@ -204,8 +204,8 @@ function buildPavilion(){
     /* Duvarın üst kenarında projenin kendi rengi. Müzede korkuluk
        kapaklarının yaptığı işin aynısı: kimin işi olduğunu bir bakışta
        belli etmek. */
-    let cm; try{ cm=new TH.MeshLambertMaterial({color:new TH.Color(col)}); }
-    catch(e){ cm=new TH.MeshLambertMaterial({color:0x9AA0A0}); }
+    let cm; try{ cm=new TH.MeshLambertMaterial({color:CL(col)}); }
+    catch(e){ cm=new TH.MeshLambertMaterial({color:CL(0x9AA0A0)}); }
     const cap=slab(PAV_S+.10, .22, .42, cx, PAV_H-.55, cz, cm);
     cap.rotation.y=ry;
 
@@ -220,7 +220,7 @@ function buildPavilion(){
     const fr=slab(CW+.22, CH+.22, .08, cx+inx*.18, 2.62, cz+inz*.18, matDark);
     fr.rotation.y=ry;
     const mesh=new TH.Mesh(new TH.PlaneGeometry(CW,CH),
-      new TH.MeshBasicMaterial({color:0xF7F1E1}));
+      new TH.MeshBasicMaterial({color:CL(0xF7F1E1)}));
     mesh.position.set(cx+inx*.24, 2.62, cz+inz*.24);
     mesh.rotation.y=ry;
     mesh.userData.grad=p;
@@ -256,11 +256,10 @@ function pavSync(){
     if(it.pos.distanceTo(player) > 48) continue;
     it.loading=true;
     pavLoader.load(it.url, tex=>{
-      if(TH.SRGBColorSpace) tex.colorSpace=TH.SRGBColorSpace;
-      if(mRend) tex.anisotropy=Math.min(4, mRend.capabilities.getMaxAnisotropy());
+      srgb(tex);
       it.tex=tex;
       it.mesh.material.map=tex;
-      it.mesh.material.color.setHex(0xFFFFFF);
+      it.mesh.material.color.setRGB(1,1,1);
       it.mesh.material.needsUpdate=true;
     }, undefined, ()=>{ it.fail=true; it.loading=false; });
   }
