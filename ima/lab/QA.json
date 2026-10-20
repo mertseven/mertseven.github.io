@@ -1,0 +1,49 @@
+{
+  "passed": true,
+  "characterPortraits": 15,
+  "standaloneExperiments": 8,
+  "chapters": 8,
+  "localDependencies": true,
+  "desktopAndMobile": true,
+  "academicLayer": true,
+  "academicSources": 35,
+  "wideLessonLayout": true,
+  "researchChecks": "QA-research.json",
+  "footer": {
+    "passed": true,
+    "fullImageRatio": true,
+    "petrolArchLogo": true,
+    "localContactIcons": true,
+    "website": true,
+    "email": true,
+    "readingNavigation": true,
+    "remixNavigation": true,
+    "collectionNavigation": true,
+    "homeNavigation": true
+  },
+  "updatedOn": "2026-10-20",
+  "downloadPackages": {
+    "count": 8,
+    "sourceParity": true,
+    "readmeNames": true,
+    "owlTraveler": true,
+    "visibleCloseButtons": true
+  },
+  "branding": {
+    "color": "#286375",
+    "typeface": "DM Sans",
+    "title": "interactive media applications",
+    "subtitle": "lab."
+  },
+  "studentPrompts": {
+    "chapters": 8,
+    "editable": true,
+    "workedExamples": true,
+    "browserLocalDrafts": true
+  },
+  "navigation": {
+    "premiseStartsAtTop": true,
+    "smoothWithinPage": true,
+    "reducedMotion": true
+  }
+}

@@ -1,0 +1,16 @@
+(()=>{
+const root=document.getElementById('island-premise-library'),home=root.querySelector('[data-home-view]'),lessons=root.querySelector('[data-lessons-view]'),modules=window.PL_MODULES;
+const one=s=>root.querySelector(s),esc=v=>String(v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const saved=window.IslandState?.get()||{};
+function saveHome(){const current=one('[data-modules] [aria-current="page"]'),m=modules[Number(current?.dataset.module)||0];if(window.IslandState?.save)window.IslandState.save({modelContent:{direction:'character-library-premises',design:'Karakter fişli kütüphane',view:'home',premiseId:m.id,premise:m.name,section:'lesson',reflectionRemoved:true},privateContent:null}).catch(()=>{});}
+function top(){window.IslandScroll.to(root,{instant:true});}
+function showHome(save=true,scroll=true){home.hidden=false;lessons.hidden=true;one('[data-home]').classList.add('hi-current');one('[data-home]').setAttribute('aria-current','page');if(save)saveHome();if(scroll)top();}
+function openLesson(i,section='lesson',save=true){home.hidden=true;lessons.hidden=false;one('[data-home]').classList.remove('hi-current');one('[data-home]').removeAttribute('aria-current');if(save){one('[data-modules] [data-module="'+i+'"]').click();one('[data-tabs] [data-tab="'+section+'"]').click();top();}}
+const chosenCast=modules.map(m=>m.cast[1]);
+one('[data-home-cast]').innerHTML=modules.map((m,i)=>'<button type="button" data-open-chapter="'+i+'" aria-label="Open '+esc(m.name)+'"><img src="'+window.GW_FALLBACK[chosenCast[i][1]]+'" alt=""/><span>'+esc(m.name)+'</span></button>').join('');
+one('[data-home-chapters]').innerHTML=modules.map((m,i)=>'<article class="hi-chapter"><img src="'+window.GW_FALLBACK[chosenCast[i][1]]+'" alt="'+esc(chosenCast[i][0].replace('char.',''))+' / original island pattern atlas"/><div><span class="gw-label"><b>'+m.id+'</b> / '+esc(m.game)+'</span><h3>'+esc(m.name)+'</h3><p>'+esc(m.premise)+'</p><p class="hi-promise">'+esc(m.promise)+'</p><button type="button" data-open-chapter="'+i+'" aria-label="Open '+esc(m.name)+' lesson">Open chapter ↗</button></div></article>').join('');
+one('[data-home-keeper]').innerHTML='<img src="'+window.GW_FALLBACK.keeper+'" alt="Keeper / original island pattern atlas"/>';
+root.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;if(b.hasAttribute('data-open-chapter')){e.stopImmediatePropagation();openLesson(Number(b.dataset.openChapter),b.dataset.openSection||'lesson');}else if(b.hasAttribute('data-home')||b.hasAttribute('data-site-home')){e.stopImmediatePropagation();showHome();}else if(b.dataset.scroll||b.hasAttribute('data-nav-collection')||b.hasAttribute('data-nav-method')){e.stopImmediatePropagation();showHome(true,false);const id=b.dataset.scroll||(b.hasAttribute('data-nav-method')?'hi-method':'hi-collection');window.IslandScroll.to(root.querySelector('#'+id));}},true);
+window.addEventListener('island:restore',e=>{const s=e.detail?.globals?.widgetState;if(s?.direction!=='character-library-premises')return;if(s.view==='home')showHome(false,false);else if(s.view==='lesson')openLesson(0,'lesson',false);});
+if(saved.direction==='character-library-premises'&&saved.view==='lesson')openLesson(0,'lesson',false);else showHome(false,false);
+})();

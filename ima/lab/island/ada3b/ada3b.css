@@ -1,0 +1,14 @@
+/* Ada ve oyun katmanlarının görünürlüğü */
+.game-only { display: none !important; }
+body.ingame .game-only { display: revert !important; }
+body.ingame .card.bar, body.ingame .card.hud, body.ingame .card.anat, body.ingame .pills.tabs { display: flex !important; }
+body.ingame .island-only, body.ingame .brand, body.ingame .list, body.ingame .mode, body.ingame #pins, body.ingame #place { display: none !important; }
+body.ingame.playing .overlay { display: none !important; }
+#tags { position: fixed; inset: 0; z-index: 5; pointer-events: none; }
+.hint.game-only { position: fixed; z-index: 10; right: 18px; bottom: 20px; margin: 0; font: 700 10px 'Silkscreen', monospace; color: var(--mute); }
+#gameCaption { left: 50%; bottom: 20px; }
+
+/* Yıldız sayacı: toplanınca zıplar, hedefi biraz geçip geri oturur (overshoot) */
+#stars { display: inline-block; color: #c58a12; }
+#stars.bump { animation: bump 0.45s cubic-bezier(.3, 1.8, .5, 1); }
+@keyframes bump { 0% { transform: scale(1.7, 0.6); } 35% { transform: scale(0.8, 1.35); } 100% { transform: scale(1); } }

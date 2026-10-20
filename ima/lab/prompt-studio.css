@@ -1,0 +1,20 @@
+/* Remix içinde öğrenciye ait, düzenlenebilir prompt alanı. */
+#island-premise-library .pl-prompt-studio {margin:32px 0;padding:30px 0;border-block:1px solid var(--gw-line);min-width:0;}
+#island-premise-library .pl-prompt-studio>h3 {font:400 29px/1.2 var(--gw-head);margin:13px 0 16px;}
+#island-premise-library .pl-prompt-studio .pl-prompt-focus {font:400 italic 23px/1.35 var(--gw-head);max-width:38ch;margin:22px 0;}
+#island-premise-library .pl-prompt-studio .pl-prompt-steps {padding-left:20px;font-size:13px;margin:0 0 22px;}
+#island-premise-library .pl-prompt-studio details {padding:19px 0;}
+#island-premise-library .pl-prompt-studio summary {font:500 13px/1.6 var(--gw-body);}
+#island-premise-library .pl-prompt-editor label {display:block;font:500 13px/1.6 var(--gw-body);margin:22px 0 8px;}
+#island-premise-library .pl-prompt-editor .gw-small {font-size:12px;max-width:65ch;}
+#island-premise-library .pl-prompt-editor textarea {box-sizing:border-box;display:block;width:100%;max-width:100%;min-width:0;min-height:300px;resize:vertical;margin:15px 0;background:var(--gw-white);color:var(--gw-ink);border:1px solid var(--gw-line);border-radius:0;padding:16px;font:400 13px/1.75 'IBM Plex Mono',monospace;overflow-wrap:anywhere;}
+#island-premise-library .pl-prompt-editor textarea:focus-visible {outline:2px solid var(--gw-blue);outline-offset:3px;}
+#island-premise-library .pl-prompt-actions {display:flex;align-items:center;flex-wrap:wrap;gap:12px 18px;}
+#island-premise-library .pl-prompt-example>p {margin:18px 0;font-size:13px;}
+#island-premise-library .pl-prompt-example pre {font-size:12px;line-height:1.8;overflow-wrap:anywhere;}
+#island-premise-library .pl-prompt-status {min-height:1.6em;margin-top:15px;}
+@media(max-width:580px) {
+ #island-premise-library .pl-prompt-studio>h3 {font-size:26px;}
+ #island-premise-library .pl-prompt-studio .pl-prompt-focus {font-size:22px;}
+ #island-premise-library .pl-prompt-editor textarea {font-size:16px;padding:12px;line-height:1.6;}
+}

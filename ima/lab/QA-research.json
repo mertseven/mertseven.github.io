@@ -1,0 +1,128 @@
+{
+  "passed": true,
+  "checkedOn": "2026-10-19",
+  "chapters": [
+    {
+      "id": "01",
+      "name": "Agency",
+      "goals": 3,
+      "academicReadings": 3,
+      "citationNavigation": true,
+      "ruleChoice": true,
+      "gameLink": true,
+      "download": true
+    },
+    {
+      "id": "02",
+      "name": "Reciprocity",
+      "goals": 3,
+      "academicReadings": 3,
+      "citationNavigation": true,
+      "ruleChoice": true,
+      "gameLink": true,
+      "download": true
+    },
+    {
+      "id": "03",
+      "name": "Feedback",
+      "goals": 3,
+      "academicReadings": 3,
+      "citationNavigation": true,
+      "ruleChoice": true,
+      "gameLink": true,
+      "download": true
+    },
+    {
+      "id": "04",
+      "name": "Temporality",
+      "goals": 3,
+      "academicReadings": 3,
+      "citationNavigation": true,
+      "ruleChoice": true,
+      "gameLink": true,
+      "download": true
+    },
+    {
+      "id": "05",
+      "name": "Possibility",
+      "goals": 3,
+      "academicReadings": 3,
+      "citationNavigation": true,
+      "ruleChoice": true,
+      "gameLink": true,
+      "download": true
+    },
+    {
+      "id": "06",
+      "name": "Context",
+      "goals": 3,
+      "academicReadings": 4,
+      "citationNavigation": true,
+      "ruleChoice": true,
+      "gameLink": true,
+      "download": true
+    },
+    {
+      "id": "07",
+      "name": "Emergence",
+      "goals": 3,
+      "academicReadings": 3,
+      "citationNavigation": true,
+      "ruleChoice": true,
+      "gameLink": true,
+      "download": true
+    },
+    {
+      "id": "08",
+      "name": "Intervention",
+      "goals": 3,
+      "academicReadings": 4,
+      "citationNavigation": true,
+      "ruleChoice": true,
+      "gameLink": true,
+      "download": true
+    }
+  ],
+  "responsive": [
+    {
+      "width": 1024,
+      "chapters": 8,
+      "sectionsPerChapter": 4,
+      "noHorizontalOverflow": true
+    },
+    {
+      "width": 736,
+      "chapters": 8,
+      "sectionsPerChapter": 4,
+      "noHorizontalOverflow": true
+    },
+    {
+      "width": 390,
+      "chapters": 8,
+      "sectionsPerChapter": 4,
+      "noHorizontalOverflow": true
+    },
+    {
+      "width": 320,
+      "chapters": 8,
+      "sectionsPerChapter": 4,
+      "noHorizontalOverflow": true
+    }
+  ],
+  "bibliographyEntries": 35,
+  "footer": {
+    "passed": true,
+    "fullImageRatio": true,
+    "petrolArchLogo": true,
+    "localContactIcons": true,
+    "website": true,
+    "email": true,
+    "readingNavigation": true,
+    "remixNavigation": true,
+    "collectionNavigation": true,
+    "homeNavigation": true
+  },
+  "runtimeErrors": [],
+  "failedLocalRequests": [],
+  "scope": "Academic content, accepted wide layout, citation navigation, existing experiment links and ZIP downloads, approved footer and contact links. Experiments and island engines unchanged."
+}

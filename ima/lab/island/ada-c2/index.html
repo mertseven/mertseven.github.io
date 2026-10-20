@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Interaction Island</title>
+<link rel="stylesheet" href="../../assets/fonts/fonts.css">
+  <link rel="stylesheet" href="../ada/ortak/arayuz.css">
+  <link rel="stylesheet" href="../ada/ada.css">
+  <link rel="stylesheet" href="../ada/04-iskele/style.css">
+  <link rel="stylesheet" href="../ada3b/ada3b.css">
+  <link rel="stylesheet" href="ada-c2.css">
+</head>
+<body class="day">
+  <canvas id="fx" aria-label="Interaction Island"></canvas>
+  <section id="loadStatus" class="card load-status" role="status" aria-live="polite">
+    <strong id="loadTitle">Preparing the island…</strong>
+    <p id="loadMessage">Loading the landscape and characters.</p>
+    <button id="retryLoad" class="btn" type="button" hidden>TRY AGAIN</button>
+  </section>
+  <script>
+    window.islandLoadError = function () {
+      document.getElementById('loadStatus').hidden = false;
+      document.getElementById('loadTitle').textContent = 'The island could not load';
+      document.getElementById('loadMessage').textContent = 'Check your connection and WebGL support, then try again.';
+      document.getElementById('retryLoad').hidden = false;
+    };
+    document.getElementById('retryLoad').onclick = () => location.reload();
+    addEventListener('error', (e) => { if (!document.getElementById('loadStatus').hidden && (e.error || e.target.tagName === 'SCRIPT')) window.islandLoadError(); }, true);
+  </script>
+
+  <header class="card brand">
+    <div class="logo">i:</div>
+    <div><h1>Interaction Island</h1><p>nmed 3203 · walk the island · montour</p><a href="../../index.html#home" style="color:inherit;font-size:14px">← LEARNING LIBRARY</a></div>
+  </header>
+
+  <div class="pills mode" role="group" aria-label="Time of day">
+    <button type="button" data-mode="night" aria-pressed="false">☾ NIGHT</button>
+    <button type="button" data-mode="day" aria-pressed="true">☀ DAY</button>
+  </div>
+
+  <button class="btn places-toggle island-only" id="placesToggle" type="button" aria-controls="placesPanel" aria-expanded="true">PLACES <span id="visitedCompact">0/8</span><span id="placesChevron" aria-hidden="true">−</span></button>
+  <aside class="card list" id="placesPanel" aria-label="Island places">
+    <h3>EXPLORE THE ISLAND</h3>
+    <ol id="list"></ol>
+    <div class="meter" id="meter" role="progressbar" aria-label="Places visited" aria-valuemin="0" aria-valuemax="8" aria-valuenow="0"></div>
+    <div class="meter-label"><span>VISITED</span><span id="litCount">0 / 8 VISITED</span></div>
+  </aside>
+
+  <div id="pins"></div>
+
+  <section class="card place" id="place" hidden aria-label="Selected place">
+    <small id="placeKicker"></small>
+    <h2 id="placeTitle"></h2>
+    <p class="serif" id="placePromise"></p>
+    <p class="game" id="placeGame"></p>
+    <div class="btns">
+      <a class="btn go" id="enter" href="#"><b>↵</b>ENTER</a>
+      <button class="btn" id="back" type="button">CLOSE</button>
+    </div>
+  </section>
+
+  <footer class="bottom-dock">
+    <p class="caption serif island-only">Explore an idea. Change a rule. See what happens.</p>
+    <p class="caption serif game-only" id="gameCaption"></p>
+    <details id="controlsHelp">
+      <summary>CONTROLS</summary>
+      <div class="controls-popover">
+      <p class="island-only">WASD / arrows: walk · Q / E: rotate · wheel: zoom · 1–8: select a place · Enter: enter · N: day/night · Esc: overview. On touchscreens, use the direction pad below.</p>
+      <p class="game-only" id="gHint"></p>
+    <nav class="island-actions island-only" aria-label="Island camera">
+      <button class="btn" id="findMe" type="button">FIND ME</button>
+      <button class="btn" id="rotateLeft" type="button" aria-label="Rotate left">↶</button>
+      <button class="btn" id="overview" type="button">OVERVIEW</button>
+      <button class="btn" id="rotateRight" type="button" aria-label="Rotate right">↷</button>
+      <button class="btn" id="zoomIn" type="button" aria-label="Zoom in">+</button>
+      <button class="btn" id="zoomOut" type="button" aria-label="Zoom out">−</button>
+    </nav>
+      </div>
+    </details>
+  </footer>
+  <nav class="touch-pad island-only" aria-label="Walk controls">
+    <button data-walk="arrowup" type="button" aria-label="Walk forward">↑</button>
+    <button data-walk="arrowleft" type="button" aria-label="Walk left">←</button>
+    <button data-walk="arrowdown" type="button" aria-label="Walk backward">↓</button>
+    <button data-walk="arrowright" type="button" aria-label="Walk right">→</button>
+  </nav>
+
+  <!-- ===== Oyun katmanı: sekiz oyun aynı kabukla (oyunlar/kabuk.js); içerik oyunun tarifinden dolar ===== -->
+  <div id="tags" class="game-only"></div>
+  <div class="game-toolbar game-only" id="gameToolbar">
+  <header class="card bar game-only">
+    <button class="btn" id="gameBack" type="button">RETURN TO ISLAND</button>
+    <div><h1 id="gTitle"></h1><small id="gSub"></small></div>
+  </header>
+  <div class="pills tabs game-only" role="group" aria-label="View">
+    <button type="button" data-tab="play" aria-pressed="true">PLAY</button>
+    <button type="button" data-tab="code" aria-pressed="false">CODE</button>
+    <button type="button" data-tab="notes" aria-pressed="false">NOTES</button>
+  </div>
+  <div class="card hud game-only" id="gHud"></div>
+  <div class="pause-tools game-only">
+    <button class="btn" id="pauseGame" type="button" aria-pressed="false">PAUSE</button>
+    <label><input id="autoPause" type="checkbox" checked> Pause while reading</label>
+    <span id="pauseStatus" role="status" aria-live="polite"></span>
+  </div>
+  </div>
+  <section class="card overlay game-only" id="overlay">
+    <small id="ovKick"></small>
+    <h2 id="overlayTitle"></h2>
+    <p class="serif" id="overlayText"></p>
+    <button class="btn go" id="ovCta" type="button"><b aria-hidden="true">▶</b><span id="overlayCta">CLICK TO START</span></button>
+    <div class="choices" id="ovChoices"></div>
+    <p class="err" id="ovErr" hidden></p>
+  </section>
+  <section class="win code" id="codeWin" hidden>
+    <div class="title"><button class="close" type="button" aria-label="Close code">×</button><span id="codeName">script.js</span></div>
+    <pre id="code"></pre>
+    <div class="foot"><span id="codeStatus"></span><button class="run" id="reset" type="button">↺ RESET</button></div>
+  </section>
+  <section class="win notes" id="notesWin" hidden>
+    <div class="title"><button class="close" type="button" aria-label="Close notes">×</button><span id="notesName">README.md</span></div>
+    <div class="body" id="notesBody"></div>
+  </section>
+  <div class="card anat game-only" id="gAnat"></div>
+  <div class="toast" id="toast"></div>
+
+  <script src="../stiller/montour.js"></script>
+  <script src="../kutuphane/parcalar.js"></script>
+  <script src="../kutuphane/gorunum.js"></script>
+  <script src="../kutuphane/yapilar.js"></script>
+  <script src="../kutuphane/arazi.js"></script>
+  <script src="../kutuphane/karakterler.js"></script>
+  <script src="../kutuphane/sakinler.js"></script>
+  <script src="../kutuphane/mekanlar.js"></script>
+  <script src="../kutuphane/ada-planlari.js"></script>
+  <script src="../kutuphane/kadro.js"></script>
+  <script src="../adalar/ferah-koy.js"></script>
+  <script src="../kutuphane/ada-sahne.js"></script>
+  <script src="oyunlar/kabuk.js"></script>
+  <script src="oyunlar/01-bando.js"></script>
+  <script src="oyunlar/02-baykus.js"></script>
+  <script src="oyunlar/03-saat.js"></script>
+  <script src="oyunlar/04-hayalet.js"></script>
+  <script src="oyunlar/05-kum.js"></script>
+  <script src="oyunlar/06-harf.js"></script>
+  <script src="oyunlar/07-meydan.js"></script>
+  <script src="oyunlar/08-bitki.js"></script>
+  <script src="oyun.js"></script>
+  <script type="importmap">{ "imports": { "three": "../../assets/vendor/three.module.js" } }</script>
+  <script type="module">
+    try {
+      const THREE = await import('three');
+      startC2(THREE);
+    } catch (error) { window.islandLoadError(); console.error(error); }
+  </script>
+</body>
+</html>

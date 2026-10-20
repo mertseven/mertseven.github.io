@@ -1,0 +1,749 @@
+{
+  "title": "Interaction Island: annotated research corpus",
+  "checked_on": "2026-10-19",
+  "scope": "Curated literature mapping; not a systematic review or platform efficacy study.",
+  "references": [
+    {
+      "id": "A1",
+      "authors": [
+        "Wardrip-Fruin, Noah",
+        "Mateas, Michael",
+        "Dow, Steven",
+        "Sali, Serdar"
+      ],
+      "year": 2009,
+      "title": "Agency Reconsidered",
+      "venue": "Proceedings of DiGRA 2009",
+      "kind": "conference-paper",
+      "url": "https://dl.digra.org/index.php/dl/article/view/369",
+      "modules": [
+        "01"
+      ],
+      "review_status": "full-text-selected-sections",
+      "annotation_tr": "Agency’yi seçenek sayısına indirgemeden, oyuncunun yapmak istedikleri ile sistemin desteklediği eylemler arasındaki ilişki üzerinden ele alır. Key Orchestra’da aynı tuşun farklı kontrol kapsamlarını karşılaştırmak için ana kaynak.",
+      "doi": "10.26503/dl.v2009i1.369",
+      "full_text_url": "https://eis.ucsc.edu/papers/nwf-C7-digra09-agency.pdf",
+      "bibliographic_detail": null,
+      "checked_on": "2026-10-19"
+    },
+    {
+      "id": "A2",
+      "authors": [
+        "Murray, Janet H."
+      ],
+      "year": 2017,
+      "title": "Hamlet on the Holodeck: The Future of Narrative in Cyberspace",
+      "venue": "MIT Press",
+      "kind": "book",
+      "url": "https://mitpress.mit.edu/9780262533485/hamlet-on-the-holodeck/",
+      "modules": [
+        "01"
+      ],
+      "review_status": "publisher-description-and-metadata",
+      "annotation_tr": "Dijital anlatı ve agency tartışmasının tarihsel arka planı. İleri okuma olarak önerilir; bu araştırmada kitabın tamamı incelenmedi. Agency hakkındaki ayrıntılı yorumun doğrudan dayanağı A1’dir.",
+      "doi": null,
+      "full_text_url": null,
+      "bibliographic_detail": "Updated edition; original edition 1997. ISBN 9780262533485.",
+      "checked_on": "2026-10-19"
+    },
+    {
+      "id": "A3",
+      "authors": [
+        "Shneiderman, Ben"
+      ],
+      "year": 1983,
+      "title": "Direct Manipulation: A Step Beyond Programming Languages",
+      "venue": "Computer",
+      "kind": "journal-article",
+      "url": "https://www.cs.umd.edu/~ben/publications.html",
+      "modules": [
+        "01",
+        "03"
+      ],
+      "review_status": "full-text-selected-sections",
+      "annotation_tr": "Görünür nesneler, hızlı ve artımlı eylemler, geri alınabilirlik üzerinden kontrolün tasarımını düşünmeye yardım eder. Direct manipulation, agency’nin bütün türlerini kapsayan bir tanım değildir.",
+      "doi": "10.1109/MC.1983.1654471",
+      "full_text_url": "https://www.cs.umd.edu/~ben/papers/Shneiderman1983Direct.pdf",
+      "bibliographic_detail": "16(8), 57–69",
+      "checked_on": "2026-10-19"
+    },
+    {
+      "id": "R1",
+      "authors": [
+        "Rafaeli, Sheizaf",
+        "Sudweeks, Fay"
+      ],
+      "year": 1997,
+      "title": "Networked Interactivity",
+      "venue": "Journal of Computer-Mediated Communication",
+      "kind": "journal-article",
+      "url": "https://onlinelibrary.wiley.com/doi/full/10.1111/j.1083-6101.1997.tb00201.x",
+      "modules": [
+        "02"
+      ],
+      "review_status": "full-text-selected-sections",
+      "annotation_tr": "Tek mesaja tepki ile önceki mesajların ilişkisini hesaba katan etkileşim arasında ayrım kurar. Çalışmanın bağlamı ağ üzerinden insan iletişimidir; Eye Field’a uygulamak bizim öğretim amaçlı yorumumuzdur.",
+      "doi": "10.1111/j.1083-6101.1997.tb00201.x",
+      "full_text_url": null,
+      "bibliographic_detail": "2(4), article JCMC243",
+      "checked_on": "2026-10-19"
+    },
+    {
+      "id": "R2",
+      "authors": [
+        "Dubberly, Hugh",
+        "Haque, Usman",
+        "Pangaro, Paul"
+      ],
+      "year": 2009,
+      "title": "What is interaction? Are there different types?",
+      "venue": "interactions",
+      "kind": "design-theory-article",
+      "url": "https://www.dubberly.com/articles/what-is-interaction.html",
+      "modules": [
+        "02",
+        "03"
+      ],
+      "review_status": "full-text-selected-sections",
+      "annotation_tr": "Tepki, düzenleme, öğrenme ve konuşma biçimlerini sistem diyagramlarıyla ayırır. Bir arayüzün yanıt vermesi, kendiliğinden karşılıklı öğrenen bir konuşma oluşturmaz. Öğrenci için görsel bir başlangıç metni.",
+      "doi": null,
+      "full_text_url": null,
+      "bibliographic_detail": "16(1), 69–75. DOI omitted: publisher endpoint inaccessible during verification.",
+      "checked_on": "2026-10-19"
+    },
+    {
+      "id": "R3",
+      "authors": [
+        "Suchman, Lucy A."
+      ],
+      "year": 2007,
+      "title": "Human–Machine Reconfigurations: Plans and Situated Actions",
+      "venue": "Cambridge University Press",
+      "kind": "book",
+      "url": "https://research.lancaster-university.uk/en/publications/human-machine-reconfigurations-plans-and-situated-actions-2nd-edi/",
+      "modules": [
+        "02",
+        "06"
+      ],
+      "review_status": "publisher-excerpt-and-institutional-record",
+      "annotation_tr": "Eylemi önceden yazılmış planın eksiksiz uygulanması olarak görmenin sınırlarına açılır. Önceden programlanmış davranışları insan diyaloğu gibi yorumlarken eleştirel karşı okuma olarak kullanılabilir.",
+      "doi": null,
+      "full_text_url": "https://assets.cambridge.org/97805218/58915/excerpt/9780521858915_excerpt.pdf",
+      "bibliographic_detail": "2nd edition. Paperback ISBN 9780521675888. Linked PDF is an excerpt, not the full book.",
+      "checked_on": "2026-10-19"
+    },
+    {
+      "id": "F1",
+      "authors": [
+        "Hutchins, Edwin L.",
+        "Hollan, James D.",
+        "Norman, Donald A."
+      ],
+      "year": 1985,
+      "title": "Direct Manipulation Interfaces",
+      "venue": "Human–Computer Interaction",
+      "kind": "journal-article",
+      "url": "https://www.tandfonline.com/doi/abs/10.1207/s15327051hci0104_2",
+      "modules": [
+        "03"
+      ],
+      "review_status": "full-text-selected-sections",
+      "annotation_tr": "Gulfs of execution/evaluation ve anlamsal uzaklık, kullanıcının sistemde ne olduğunu nasıl anlayabildiğini tartışmaya yarar. Mini Sequencer’da kayıtlı nota, çalınan adım ve duyulan ses ilişkisine bağlanır.",
+      "doi": "10.1207/s15327051hci0104_2",
+      "full_text_url": "https://www.lri.fr/~mbl/ENS/FONDIHM/2013/papers/Hutchins-HCI-85.pdf",
+      "bibliographic_detail": "1(4), 311–338",
+      "checked_on": "2026-10-19"
+    },
+    {
+      "id": "F2",
+      "authors": [
+        "Norman, Donald A."
+      ],
+      "year": 2013,
+      "title": "The Design of Everyday Things",
+      "venue": "Basic Books",
+      "kind": "book",
+      "url": "https://www.hachettebookgroup.com/titles/don-norman/the-design-of-everyday-things/9780465050659/",
+      "modules": [
+        "03"
+      ],
+      "review_status": "publisher-description-and-metadata",
+      "annotation_tr": "Eylem döngüsü ve durumun anlaşılabilirliği için daha erişilebilir bir kitap uzantısı. Chapter 2: The Psychology of Everyday Actions önerilir. Kitabın tamamı bu taramada okunmadı.",
+      "doi": null,
+      "full_text_url": null,
+      "bibliographic_detail": "Revised and expanded edition. ISBN 9780465050659.",
+      "checked_on": "2026-10-19"
+    },
+    {
+      "id": "F3",
+      "authors": [
+        "Wiener, Norbert"
+      ],
+      "year": 1961,
+      "title": "Cybernetics: Or Control and Communication in the Animal and the Machine",
+      "venue": "MIT Press",
+      "kind": "book",
+      "url": "https://mitpress.mit.edu/9780262230070/cybernetics/",
+      "modules": [
+        "03"
+      ],
+      "review_status": "publisher-description-and-metadata",
+      "annotation_tr": "Kontrol ve iletişimde feedback’in tarihsel kuramsal arka planı. İleri düzey, öğretim elemanına dönük kaynak; arayüz durum bildirimi ve eğitimde dönüt ile aynı anlamdaymış gibi sunulmamalı.",
+      "doi": null,
+      "full_text_url": null,
+      "bibliographic_detail": "2nd edition; original edition 1948. ISBN 9780262230070.",
+      "checked_on": "2026-10-19"
+    },
+    {
+      "id": "T1",
+      "authors": [
+        "Benford, Steve",
+        "Giannachi, Gabriella"
+      ],
+      "year": 2008,
+      "title": "Temporal Trajectories in Shared Interactive Narratives",
+      "venue": "Proceedings of CHI 2008",
+      "kind": "conference-paper",
+      "url": "https://stevebenford.com/publications/",
+      "modules": [
+        "04"
+      ],
+      "review_status": "abstract-and-author-publication-record",
+      "annotation_tr": "Katılımcının zamanı, anlatının zamanı ve geçmiş izleri arasındaki ilişkileri düşünmeye açar. Ghost Chase’i yalnızca tepki hızı üzerinden anlatmamak için uzantı. Tam metin bu taramada erişilemedi.",
+      "doi": "10.1145/1357054.1357067",
+      "full_text_url": null,
+      "bibliographic_detail": "73–82",
+      "checked_on": "2026-10-19"
+    },
+    {
+      "id": "T2",
+      "authors": [
+        "Jota, Ricardo",
+        "Ng, Albert",
+        "Dietz, Paul",
+        "Wigdor, Daniel"
+      ],
+      "year": 2013,
+      "title": "How Fast is Fast Enough? A Study of the Effects of Latency in Direct-Touch Pointing Tasks",
+      "venue": "Proceedings of CHI 2013",
+      "kind": "conference-paper",
+      "url": "https://doi.org/10.1145/2470654.2481317",
+      "modules": [
+        "04"
+      ],
+      "review_status": "full-text-selected-sections",
+      "annotation_tr": "Doğrudan dokunarak işaretleme görevlerinde gecikmenin etkilerini inceleyen ampirik çalışma. Tepki gecikmesi ile kasıtlı geçmiş kaydını karşılaştırmak için okunur; sonuçları fareli oyuna evrensel bir milisaniye kuralı olarak aktarılmaz.",
+      "doi": "10.1145/2470654.2481317",
+      "full_text_url": "https://www.tactuallabs.com/papers/howFastIsFastEnoughCHI13.pdf",
+      "bibliographic_detail": "2291–2300",
+      "checked_on": "2026-10-19"
+    },
+    {
+      "id": "T3",
+      "authors": [
+        "Hallnäs, Lars",
+        "Redström, Johan"
+      ],
+      "year": 2001,
+      "title": "Slow Technology—Designing for Reflection",
+      "venue": "Personal and Ubiquitous Computing",
+      "kind": "journal-article",
+      "url": "https://redstrom.se/johan/abstracts/aslowtech.html",
+      "modules": [
+        "04"
+      ],
+      "review_status": "author-abstract-indexed-direct-access-failed",
+      "annotation_tr": "Her etkileşimin hız ve verimlilik hedeflemesi gerekmediğini tartışır. Kasıtlı yavaşlık ile kötü tepki süresini ayırmak için karşı okuma. Başlıktaki reflection, kaldırılan site sekmesinin geri gelmesi anlamına gelmez.",
+      "doi": "10.1007/PL00000019",
+      "full_text_url": null,
+      "bibliographic_detail": "5(3), 201–212. Author page indexed; direct retrieval failed.",
+      "checked_on": "2026-10-19"
+    },
+    {
+      "id": "P1",
+      "authors": [
+        "Gaver, William W."
+      ],
+      "year": 1991,
+      "title": "Technology Affordances",
+      "venue": "Proceedings of CHI 1991",
+      "kind": "conference-paper",
+      "url": "https://researchportal.northumbria.ac.uk/en/publications/technology-affordances/",
+      "modules": [
+        "05"
+      ],
+      "review_status": "full-text-selected-sections",
+      "annotation_tr": "Affordance’ı nesnenin tek başına özelliği veya düğme etiketi olarak ele almaz; eyleyen ve çevre arasındaki olanak ilişkisine bakar. Sand Box’ta araç, malzeme ve kullanıcının yapabildiği eylemleri ayırmak için ana kaynak.",
+      "doi": "10.1145/108844.108856",
+      "full_text_url": "https://www.lri.fr/~mbl/Stanford/CS477/papers/Gaver-CHI1991.pdf",
+      "bibliographic_detail": "79–84",
+      "checked_on": "2026-10-19"
+    },
+    {
+      "id": "P2",
+      "authors": [
+        "Sicart, Miguel"
+      ],
+      "year": 2008,
+      "title": "Defining Game Mechanics",
+      "venue": "Game Studies",
+      "kind": "journal-article",
+      "url": "https://gamestudies.org/0802/articles/sicart",
+      "modules": [
+        "05"
+      ],
+      "review_status": "full-text-selected-sections",
+      "annotation_tr": "Kurallar ile oyun mekaniğini ayırmak için kavramsal bir tanım önerir. Nesne yönelimli dil kullanması, öğrenci remix’inin belirli bir programlama paradigmasıyla yazılması gerektiği anlamına gelmez.",
+      "doi": null,
+      "full_text_url": null,
+      "bibliographic_detail": "8(2)",
+      "checked_on": "2026-10-19"
+    },
+    {
+      "id": "P3",
+      "authors": [
+        "Hunicke, Robin",
+        "LeBlanc, Marc",
+        "Zubek, Robert"
+      ],
+      "year": 2004,
+      "title": "MDA: A Formal Approach to Game Design and Game Research",
+      "venue": "AAAI Workshop on Challenges in Game AI",
+      "kind": "workshop-paper",
+      "url": "https://aaai.org/papers/ws04-04-001-mda-a-formal-approach-to-game-design-and-game-research/",
+      "modules": [
+        "05",
+        "07"
+      ],
+      "review_status": "full-text-selected-sections",
+      "annotation_tr": "Mekanik, dinamik ve deneyimsel nitelikler arasında düşünme çerçevesi sunar. Aesthetics yalnızca görsel stil demek değildir. Modeli evrensel ve deneysel olarak kesinleşmiş bir tasarım yasası gibi öğretmemek gerekir.",
+      "doi": null,
+      "full_text_url": "https://www.cs.northwestern.edu/~hunicke/MDA.pdf",
+      "bibliographic_detail": "AAAI Technical Report WS-04-04",
+      "checked_on": "2026-10-19"
+    },
+    {
+      "id": "C1",
+      "authors": [
+        "Dey, Anind K."
+      ],
+      "year": 2001,
+      "title": "Understanding and Using Context",
+      "venue": "Personal and Ubiquitous Computing",
+      "kind": "journal-article",
+      "url": "https://link.springer.com/article/10.1007/s007790170019",
+      "modules": [
+        "06"
+      ],
+      "review_status": "full-text-selected-sections",
+      "annotation_tr": "Etkileşim açısından anlamlı varlıkların durumunu niteleyen bilgi üzerinden context-aware sistemler için işlemsel bir çerçeve kurar. Letter Rain’de hangi çevresel bilgilerin kullanıldığını adlandırmak için giriş.",
+      "doi": "10.1007/s007790170019",
+      "full_text_url": "https://sites.cc.gatech.edu/fce/ctk/pubs/PeTe5-1.pdf",
+      "bibliographic_detail": "5(1), 4–7",
+      "checked_on": "2026-10-19"
+    },
+    {
+      "id": "C2",
+      "authors": [
+        "Dourish, Paul"
+      ],
+      "year": 2004,
+      "title": "What We Talk About When We Talk About Context",
+      "venue": "Personal and Ubiquitous Computing",
+      "kind": "journal-article",
+      "url": "https://link.springer.com/article/10.1007/s00779-003-0253-8",
+      "modules": [
+        "06"
+      ],
+      "review_status": "full-text-selected-sections",
+      "annotation_tr": "Bağlamı önceden listelenebilecek sensör değişkenlerine indirgemeyi sorgular; etkinliğin içinde oluşan anlam ve ilişkileri öne çıkarır. Dey ile birlikte okunması özellikle yararlı; iki metin aynı konumu savunmaz.",
+      "doi": "10.1007/s00779-003-0253-8",
+      "full_text_url": "https://www.dourish.com/publications/2004/PUC2004-context.pdf",
+      "bibliographic_detail": "8(1), 19–30",
+      "checked_on": "2026-10-19"
+    },
+    {
+      "id": "C3",
+      "authors": [
+        "Ishii, Hiroshi",
+        "Ullmer, Brygg"
+      ],
+      "year": 1997,
+      "title": "Tangible Bits: Towards Seamless Interfaces between People, Bits and Atoms",
+      "venue": "Proceedings of CHI 1997",
+      "kind": "conference-paper",
+      "url": "https://www.media.mit.edu/publications/tangible-bits-towards-seamless-interfaces-between-people-bits-and-atoms-2/",
+      "modules": [
+        "06"
+      ],
+      "review_status": "full-text-selected-sections",
+      "annotation_tr": "Fiziksel nesneler, mimari yüzeyler ve çevresel ortamlarla dijital bilginin eşlenmesi üzerine tasarım vizyonu ve prototipler. Kamera kullanmak tek başına tangible interface olmak değildir.",
+      "doi": null,
+      "full_text_url": "https://courses.media.mit.edu/2014spring/mass62/contents/blogs.dir/16/files/sites/7/2014/02/ishii-chi97-tangible-bits.pdf",
+      "bibliographic_detail": "234–241. DOI omitted from export; institutional record and paper consulted.",
+      "checked_on": "2026-10-19"
+    },
+    {
+      "id": "E1",
+      "authors": [
+        "Reynolds, Craig W."
+      ],
+      "year": 1987,
+      "title": "Flocks, Herds, and Schools: A Distributed Behavioral Model",
+      "venue": "Computer Graphics / SIGGRAPH 1987",
+      "kind": "conference-paper",
+      "url": "https://www.red3d.com/cwr/papers/1987/boids.html",
+      "modules": [
+        "07"
+      ],
+      "review_status": "author-abstract-and-bibliographic-record",
+      "annotation_tr": "Yerel algı ve davranışlardan toplu sürü hareketi kuran klasik model. Emergence’ı rastgelelik ile eşitlememeyi sağlar. Boundary Lines’ın en yakın kişiye göre bölgelemesi boids algoritması değildir.",
+      "doi": "10.1145/37402.37406",
+      "full_text_url": null,
+      "bibliographic_detail": "21(4), 25–34. Author page links full article.",
+      "checked_on": "2026-10-19"
+    },
+    {
+      "id": "E2",
+      "authors": [
+        "Juul, Jesper"
+      ],
+      "year": 2002,
+      "title": "The Open and the Closed: Games of Emergence and Games of Progression",
+      "venue": "Computer Games and Digital Cultures Conference Proceedings",
+      "kind": "conference-paper",
+      "url": "https://dl.digra.org/index.php/dl/article/view/9",
+      "modules": [
+        "07"
+      ],
+      "review_status": "full-text-selected-sections",
+      "annotation_tr": "Önceden belirlenmiş ilerleme ile kurallardan üreyen varyasyonu oyun örnekleriyle karşılaştırır. Basit kurallardan çok sayıda durum çıkması sınırsız özgürlük ya da hesaplanamazlık iddiası değildir.",
+      "doi": "10.26503/dl.v2002i1.9",
+      "full_text_url": "https://jesperjuul.net/text/openandtheclosed.html",
+      "bibliographic_detail": "323–329. Tampere University Press.",
+      "checked_on": "2026-10-19"
+    },
+    {
+      "id": "E3",
+      "authors": [
+        "Schelling, Thomas C."
+      ],
+      "year": 1971,
+      "title": "Dynamic Models of Segregation",
+      "venue": "The Journal of Mathematical Sociology",
+      "kind": "journal-article",
+      "url": "https://doi.org/10.1080/0022250X.1971.9989794",
+      "modules": [
+        "07"
+      ],
+      "review_status": "publisher-abstract-and-metadata",
+      "annotation_tr": "Bireysel tercihler ile toplu mekânsal örüntüler arasındaki ilişkiyi model üzerinden tartışmak için ileri örnek. Toplumsal ayrışmanın eksiksiz açıklaması değildir; Boundary Lines’ın mevcut kuralıyla da özdeş değildir.",
+      "doi": "10.1080/0022250X.1971.9989794",
+      "full_text_url": null,
+      "bibliographic_detail": "1(2), 143–186",
+      "checked_on": "2026-10-19"
+    },
+    {
+      "id": "I1",
+      "authors": [
+        "Fogg, B. J."
+      ],
+      "year": 2009,
+      "title": "A Behavior Model for Persuasive Design",
+      "venue": "Proceedings of Persuasive 2009",
+      "kind": "conference-paper",
+      "url": "https://behaviordesign.stanford.edu/resources/fogg-behavior-model",
+      "modules": [
+        "08"
+      ],
+      "review_status": "original-paper-indexed-and-current-author-resource",
+      "annotation_tr": "Davranış tasarımı için motivasyon, yapabilirlik ve tetikleyiciyi birlikte düşünmeye yarar. 2009 metninde trigger, güncel kaynakta prompt kullanılır. Model, Shhh Plant’in yararlı veya kalıcı etki yarattığının kanıtı değildir.",
+      "doi": "10.1145/1541948.1541999",
+      "full_text_url": null,
+      "bibliographic_detail": "Original paper link on official resource opens a Google Drive viewer; reliable direct full-text access not confirmed.",
+      "checked_on": "2026-10-19"
+    },
+    {
+      "id": "I2",
+      "authors": [
+        "Dunne, Anthony",
+        "Raby, Fiona"
+      ],
+      "year": 2013,
+      "title": "Speculative Everything: Design, Fiction, and Social Dreaming",
+      "venue": "MIT Press",
+      "kind": "book",
+      "url": "https://mitpress.mit.edu/9780262019842/speculative-everything/",
+      "modules": [
+        "08"
+      ],
+      "review_status": "publisher-description-and-metadata",
+      "annotation_tr": "Olası gelecekleri prototipleme vaadine kavramsal uzantı. Tasarımın yalnızca mevcut davranışı verimlileştirmesinden farklı olarak alternatifleri tartışmaya açması için önerilir. Kitabın tamamı incelenmedi.",
+      "doi": null,
+      "full_text_url": null,
+      "bibliographic_detail": "ISBN 9780262019842. A 2024 paperback reissue has a new preface; citation here is to the 2013 edition.",
+      "checked_on": "2026-10-19"
+    },
+    {
+      "id": "I3",
+      "authors": [
+        "Costanza-Chock, Sasha"
+      ],
+      "year": 2020,
+      "title": "Design Justice: Community-Led Practices to Build the Worlds We Need",
+      "venue": "MIT Press",
+      "kind": "open-access-book",
+      "url": "https://designjustice.mitpress.mit.edu/",
+      "modules": [
+        "08"
+      ],
+      "review_status": "full-text-selected-sections",
+      "annotation_tr": "Tasarım kararlarında etkilenen toplulukların konumunu, niyetten çok etkileri ve katılımı sorgulatır. Müdahalenin hedefini kimin seçtiği sorusu için ana okuma; giriş ve seçili ilkeler yeterli başlangıç.",
+      "doi": null,
+      "full_text_url": "https://designjustice.mitpress.mit.edu/pub/ap8rgw5e/release/1",
+      "bibliographic_detail": null,
+      "checked_on": "2026-10-19"
+    },
+    {
+      "id": "I4",
+      "authors": [
+        "Zimmerman, John",
+        "Forlizzi, Jodi",
+        "Evenson, Shelley"
+      ],
+      "year": 2007,
+      "title": "Research through Design as a Method for Interaction Design Research in HCI",
+      "venue": "Proceedings of CHI 2007",
+      "kind": "conference-paper",
+      "url": "https://kilthub.cmu.edu/articles/journal_contribution/Research_Through_Design_as_a_Method_for_Interaction_Design_Research_in_HCI/6470393",
+      "modules": [
+        "08"
+      ],
+      "review_status": "full-text-selected-sections",
+      "annotation_tr": "Prototiplemeyi bir soruyu araştırmak ve bilgi üretmekle ilişkilendirir. Her öğrenci denemesi otomatik olarak akademik research-through-design katkısı sayılmaz; ileri remix’lerde soruyu ve çıkarımı görünür kılmak için kullanılabilir.",
+      "doi": "10.1145/1240624.1240704",
+      "full_text_url": "https://courses.ischool.berkeley.edu/i262/s13/readings_pdf/Zimmerman_Research_Through_Design_as_a_Method_for_IaD_in_HCI_0.pdf",
+      "bibliographic_detail": "493–502",
+      "checked_on": "2026-10-19"
+    },
+    {
+      "id": "L1",
+      "authors": [
+        "Papert, Seymour",
+        "Harel, Idit"
+      ],
+      "year": 1991,
+      "title": "Situating Constructionism",
+      "venue": "Constructionism, edited by Idit Harel and Seymour Papert. Ablex Publishing",
+      "kind": "book-chapter",
+      "url": "http://www.papert.org/articles/SituatingConstructionism.html",
+      "modules": [
+        "teaching"
+      ],
+      "review_status": "primary-text-indexed-direct-access-failed",
+      "annotation_tr": "Paylaşılabilir ve anlamlı bir şey inşa etme üzerinden remix yaklaşımına tarihsel dayanak. Constructionism’i yalnızca kod yazmak ya da etkin görünmekle eşitlememek gerekir. Doğrudan sayfa erişimi bu taramada başarısız oldu.",
+      "doi": null,
+      "full_text_url": null,
+      "bibliographic_detail": null,
+      "checked_on": "2026-10-19"
+    },
+    {
+      "id": "L2",
+      "authors": [
+        "Resnick, Mitchel",
+        "Maloney, John",
+        "Monroy-Hernández, Andrés",
+        "Rusk, Natalie",
+        "Eastmond, Evelyn",
+        "Brennan, Karen",
+        "Millner, Amon",
+        "Rosenbaum, Eric",
+        "Silver, Jay",
+        "Silverman, Brian",
+        "Kafai, Yasmin"
+      ],
+      "year": 2009,
+      "title": "Scratch: Programming for All",
+      "venue": "Communications of the ACM",
+      "kind": "journal-article",
+      "url": "https://www-prod.media.mit.edu/articles/scratch-programming-for-all-2/",
+      "modules": [
+        "teaching"
+      ],
+      "review_status": "institutional-abstract-and-bibliographic-record",
+      "annotation_tr": "Üretme, yeniden düzenleme ve paylaşma kültürü için tasarım örneği. Scratch bağlamındaki yaklaşımı bu dersin öğrenme etkililiği ölçülmüş gibi aktarmadan, kaynak paketi ve remix akışına esin olarak kullanabiliriz.",
+      "doi": "10.1145/1592761.1592779",
+      "full_text_url": null,
+      "bibliographic_detail": "52(11), 60–67. Author list checked against MIT Scratch research listing.",
+      "checked_on": "2026-10-19"
+    },
+    {
+      "id": "L3",
+      "authors": [
+        "Brennan, Karen",
+        "Resnick, Mitchel"
+      ],
+      "year": 2012,
+      "title": "New Frameworks for Studying and Assessing the Development of Computational Thinking",
+      "venue": "American Educational Research Association annual meeting",
+      "kind": "conference-paper",
+      "url": "https://www-prod.media.mit.edu/publications/new-frameworks-for-studying-and-assessing-the-development-of-computational-thinking/",
+      "modules": [
+        "teaching"
+      ],
+      "review_status": "institutional-abstract-and-metadata",
+      "annotation_tr": "Kavramlar, pratikler ve bakış açıları ayrımı; ürün inceleme ve tasarım senaryoları gibi değerlendirme yolları sunar. Remix değerlendirmesini yalnızca çalışan kod veya değiştirilen değişken sayısına indirgememek için yararlı.",
+      "doi": null,
+      "full_text_url": null,
+      "bibliographic_detail": "AERA 2012 conference paper; not a journal article. Linked institutional PDF was access restricted.",
+      "checked_on": "2026-10-19"
+    },
+    {
+      "id": "L4",
+      "authors": [
+        "Chi, Michelene T. H.",
+        "Wylie, Ruth"
+      ],
+      "year": 2014,
+      "title": "The ICAP Framework: Linking Cognitive Engagement to Active Learning Outcomes",
+      "venue": "Educational Psychologist",
+      "kind": "journal-article",
+      "url": "https://icap.education.asu.edu/research",
+      "modules": [
+        "teaching"
+      ],
+      "review_status": "full-text-selected-sections",
+      "annotation_tr": "Edilgen, etkin, üretici ve ortaklaşa bilgi kuran öğrenme etkinliklerini ayırır. ICAP’te interactive, ekrana tıklamak değil, kişiler arasında birlikte düşünce geliştirmektir. Tahmin, açıklama ve akran karşılaştırması bu nedenle önerilir.",
+      "doi": "10.1080/00461520.2014.965823",
+      "full_text_url": "https://education.asu.edu/sites/g/files/litvpz656/files/lcl/chiwylie2014icap_2.pdf",
+      "bibliographic_detail": "49(4), 219–243",
+      "checked_on": "2026-10-19"
+    },
+    {
+      "id": "L5",
+      "authors": [
+        "Biggs, John"
+      ],
+      "year": 1996,
+      "title": "Enhancing Teaching through Constructive Alignment",
+      "venue": "Higher Education",
+      "kind": "journal-article",
+      "url": "https://link.springer.com/article/10.1007/BF00138871",
+      "modules": [
+        "teaching"
+      ],
+      "review_status": "publisher-abstract-and-metadata",
+      "annotation_tr": "Öğrenme çıktısı, öğrenme etkinliği ve değerlendirmenin aynı hedefe yönelmesini sağlar. Her ders için goal → experiment → remix kanıtı eşleşmesinin pedagojik dayanağı; platformun başarısını tek başına kanıtlamaz.",
+      "doi": "10.1007/BF00138871",
+      "full_text_url": null,
+      "bibliographic_detail": "32(3), 347–364",
+      "checked_on": "2026-10-19"
+    },
+    {
+      "id": "L6",
+      "authors": [
+        "Hattie, John",
+        "Timperley, Helen"
+      ],
+      "year": 2007,
+      "title": "The Power of Feedback",
+      "venue": "Review of Educational Research",
+      "kind": "review-article",
+      "url": "https://doi.org/10.3102/003465430298487",
+      "modules": [
+        "teaching"
+      ],
+      "review_status": "full-text-selected-sections",
+      "annotation_tr": "Öğrenme hedefi, mevcut ilerleme ve sonraki adımla ilişkili eğitimsel dönüt için kaynak. Öğretim elemanının remix’e verdiği dönütü destekler; sequencer’daki görsel feedback’in etkisini kanıtlamak için kullanılmaz.",
+      "doi": "10.3102/003465430298487",
+      "full_text_url": "https://educacion.udd.cl/files/2018/04/The-Power-of-Feedback.pdf",
+      "bibliographic_detail": "77(1), 81–112",
+      "checked_on": "2026-10-19"
+    },
+    {
+      "id": "X1",
+      "authors": [
+        "Gaver, William",
+        "Bowers, John"
+      ],
+      "year": 2012,
+      "title": "Annotated Portfolios",
+      "venue": "interactions",
+      "kind": "design-method-article",
+      "url": "https://researchportal.northumbria.ac.uk/en/publications/annotated-portfolios/",
+      "modules": [
+        "teaching"
+      ],
+      "review_status": "institutional-abstract-and-metadata",
+      "annotation_tr": "Birbiriyle ilişkili tasarım örnekleri ve açıklayıcı notlar üzerinden tasarım düşüncesini görünür kılmak için yöntemsel uzantı. Öğrenci portfolyosuna aktarım bizim önerimizdir; makalenin ayrıntılı tam metin çözümlemesi yapılmadı.",
+      "doi": "10.1145/2212877.2212889",
+      "full_text_url": null,
+      "bibliographic_detail": "19(4), 40–49",
+      "checked_on": "2026-10-19"
+    },
+    {
+      "id": "ART1",
+      "authors": [
+        "Edmonds, Ernest"
+      ],
+      "year": 2010,
+      "title": "The art of interaction",
+      "venue": "Digital Creativity",
+      "kind": "journal-article",
+      "url": "https://doi.org/10.1080/14626268.2010.556347",
+      "modules": [
+        "02",
+        "03"
+      ],
+      "review_status": "full-text-selected-sections",
+      "annotation_tr": "Etkileşimli sanatta ilk çekim, sürdürülen ilgi ve tekrar ziyaret gibi katılım boyutlarına açılır. Kavranabilirlik ile sanatsal belirsizlik arasında tek bir doğru denge varsaymamak için eleştirel okuma.",
+      "doi": "10.1080/14626268.2010.556347",
+      "full_text_url": "https://userpages.umbc.edu/~skane/classes/is760/fall2011/papers/Edmonds2010.pdf",
+      "bibliographic_detail": "21(4), 257–264. Volume year 2010; online publication 2011.",
+      "checked_on": "2026-10-19"
+    },
+    {
+      "id": "ART2",
+      "authors": [
+        "Rokeby, David"
+      ],
+      "year": 1995,
+      "title": "Transforming Mirrors: Subjectivity and Control in Interactive Media",
+      "venue": "Critical Issues in Electronic Media, edited by Simon Penny. SUNY Press",
+      "kind": "book-chapter",
+      "url": "https://www.davidrokeby.com/mirrorsintro.html",
+      "modules": [
+        "01",
+        "02"
+      ],
+      "review_status": "author-text-indexed-direct-access-failed",
+      "annotation_tr": "Etkileşimli ortamın katılımcıyı nötr biçimde yansıtmadığını, dönüştürdüğünü tartışmaya açar. Agency ve kontrol için sanatçı-kuramcı perspektifi. Yazar sayfaları arama dizininden incelendi; doğrudan tam metin erişimi doğrulanamadı.",
+      "doi": null,
+      "full_text_url": null,
+      "bibliographic_detail": null,
+      "checked_on": "2026-10-19"
+    },
+    {
+      "id": "ART3",
+      "authors": [
+        "Snibbe, Scott S.",
+        "Raffle, Hayes S."
+      ],
+      "year": 2009,
+      "title": "Social Immersive Media: Pursuing Best Practices for Multi-user Interactive Camera/Projector Exhibits",
+      "venue": "Proceedings of CHI 2009",
+      "kind": "conference-paper",
+      "url": "https://www.snibbe.com/research/social",
+      "modules": [
+        "06",
+        "07"
+      ],
+      "review_status": "full-text-selected-sections",
+      "annotation_tr": "Çok kullanıcılı kamera/projeksiyon yerleştirmeleri üzerinden beden, sosyal etkileşim ve sergileme koşullarını tartışır. Letter Rain’in ekran sınırını aşan ve grupla değişen deneyimine doğrudan alan bağlantısı sağlar.",
+      "doi": "10.1145/1518701.1518920",
+      "full_text_url": "https://www.snibbe.com/s/SocialImmersiveMedia-Snibbe-CHI09.pdf",
+      "bibliographic_detail": "1447–1456",
+      "checked_on": "2026-10-19"
+    }
+  ]
+}

@@ -1,0 +1,87 @@
+.brand { left: 18px; top: 18px; display: flex; gap: 12px; align-items: center; padding: 10px 18px 10px 10px; }
+.logo { width: 44px; height: 44px; display: grid; place-items: center; border-radius: 10px; background: var(--fg); color: var(--bg); font: 700 21px 'Silkscreen', monospace; }
+.brand h1 { margin: 0; font: 700 clamp(18px, 2vw, 25px)/1 'Silkscreen', monospace; }
+.brand p { margin: 3px 0 0; font-size: 16px; color: var(--mute); }
+
+.mode { right: 18px; top: 18px; }
+
+.list { left: 18px; top: 100px; width: 240px; padding: 12px 14px 14px; }
+.list h3 { margin: 0 0 6px; font: 700 11px 'Silkscreen', monospace; color: var(--mute); }
+.list ol { margin: 0; padding: 0; list-style: none; }
+.list li button {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 3px 6px;
+  margin: 0 -6px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--fg);
+  font: 19px/1.25 'Pixelify Sans', monospace;
+  text-align: left;
+  cursor: pointer;
+}
+.list li button:hover, .list li button.active { background: var(--fg); color: var(--bg); }
+.list li button.off { color: var(--mute); }
+.list li button.off:hover, .list li button.off.active { color: var(--bg); }
+.dot { width: 10px; height: 10px; border-radius: 50%; border: 2px solid currentColor; }
+.dot.on { background: var(--accent); border-color: var(--accent); }
+.meter { margin-top: 10px; display: flex; gap: 4px; }
+.meter i { flex: 1; height: 10px; border: 2px solid var(--fg); border-radius: 3px; }
+.meter i.on { background: var(--fg); }
+.meter-label { display: flex; justify-content: space-between; margin-top: 6px; font: 700 10px 'Silkscreen', monospace; color: var(--mute); }
+
+/* Numaralı işaretler: konumları her karede JS'ten gelir */
+#pins { position: fixed; inset: 0; z-index: 5; pointer-events: none; }
+.pin {
+  position: absolute;
+  translate: -50% -100%;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 8px 4px;
+  border: 2px solid var(--fg);
+  border-radius: 99px;
+  background: var(--bg);
+  color: var(--fg);
+  font: 700 10px/1 'Silkscreen', monospace;
+  white-space: nowrap;
+  pointer-events: auto;
+  cursor: pointer;
+}
+.pin::after { content: ""; position: absolute; left: 50%; top: 100%; width: 2px; height: 9px; background: var(--fg); }
+.pin .name { display: none; }
+.pin.lit { background: var(--fg); color: var(--bg); }
+.pin.lit::before { content: "●"; color: var(--accent); }
+.pin.hot, .pin:hover { z-index: 2; }
+.pin.hot .name, .pin:hover .name { display: inline; }
+.pin.hot { background: var(--accent); border-color: var(--accent); color: #0e0f10; }
+.pin.hot::after { background: var(--accent); }
+.lot {
+  position: absolute;
+  translate: -50% -50%;
+  padding: 1px 6px;
+  border: 2px dashed var(--fg);
+  border-radius: 8px;
+  background: var(--bg);
+  font-size: 13px;
+  white-space: nowrap;
+  opacity: .9;
+}
+
+.place { width: 280px; padding: 14px 16px; }
+.place small { font: 700 10px 'Silkscreen', monospace; color: var(--mute); }
+.place h2 { margin: 4px 0 6px; font: 700 21px/1 'Silkscreen', monospace; }
+.place p { margin: 0 0 8px; font-size: 21px; line-height: 1.1; font-style: italic; }
+.place .game { font: 16px 'Pixelify Sans', monospace; font-style: normal; color: var(--mute); }
+.place .game b { color: var(--fg); }
+.btns { display: flex; gap: 8px; margin-top: 4px; }
+
+.hint { position: fixed; z-index: 10; right: 18px; bottom: 20px; margin: 0; font: 700 10px 'Silkscreen', monospace; color: var(--mute); pointer-events: none; }
+
+@media (max-width: 900px) {
+  .list { display: none; }
+  .hint { display: none; }
+}

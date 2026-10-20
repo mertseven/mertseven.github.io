@@ -1,0 +1,69 @@
+/* Onaylanan petrol / DM Sans kimliği; mevcut eylem renklerinden bağımsızdır. */
+@font-face {
+  font-family: 'IMA Brand DM Sans';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('assets/fonts/brand-dm-sans-700.woff2') format('woff2');
+}
+.ima-brand {
+  --ima-brand-color: #286375;
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  max-width: 100%;
+  color: var(--ima-brand-color);
+  text-align: left;
+}
+.ima-brand__mark {
+  display: block;
+  width: 78px;
+  height: auto;
+  flex: 0 0 78px;
+}
+.ima-brand__type {
+  min-width: 0;
+  font-family: 'IMA Brand DM Sans', 'DM Sans', Arial, sans-serif;
+  font-weight: 700;
+}
+.ima-brand__title {
+  display: block;
+  font-size: 14px;
+  line-height: 1.2;
+  letter-spacing: -.015em;
+}
+.ima-brand__lab {
+  display: block;
+  margin-top: 3px;
+  font-size: 36px;
+  line-height: .95;
+  letter-spacing: -.065em;
+}
+#island-premise-library .hi-header-home {
+  min-width: 0;
+  max-width: 100%;
+}
+#island-footer-full-width .ff-credit-brand {
+  flex-wrap: wrap;
+  max-width: 100%;
+  gap: 12px 20px;
+}
+#island-footer-full-width .ff-credit-brand > button {
+  max-width: 100%;
+  min-width: 0;
+}
+#island-footer-full-width .ima-brand {gap: 10px;}
+#island-footer-full-width .ima-brand__mark {width: 63px;flex-basis: 63px;}
+#island-footer-full-width .ima-brand__title {font-size: 11px;}
+#island-footer-full-width .ima-brand__lab {font-size: 28px;}
+#island-footer-full-width .ff-credits {flex-wrap: wrap;}
+#island-footer-full-width .ff-credit-content {min-width: min(320px, 100%);}
+.ima-bibliography-brand {display: inline-flex;text-decoration: none;margin-bottom: 22px;max-width: 100%;}
+@media(max-width:500px) {
+  .ima-brand {gap: 12px;}
+  .ima-brand__mark {width: 66px;flex-basis: 66px;}
+  .ima-brand__title {font-size: 12px;max-width: 18em;}
+  .ima-brand__lab {font-size: 32px;}
+  #island-footer-full-width .ima-brand__title {max-width: 15em;}
+  #island-footer-full-width .ff-credit-brand {gap: 15px;}
+}

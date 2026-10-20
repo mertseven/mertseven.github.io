@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-0.5 -0.5 150.28 99.64">
+<title>IMA LAB — Kemer ritmi</title>
+<defs><pattern id="hatch" width="3.36" height="3.36" patternUnits="userSpaceOnUse"><path d="M-1 1L1-1M0 3.36L3.36 0M2.36 4.36L4.36 2.36" fill="none" stroke="#286375" stroke-width="0.55"/></pattern><pattern id="cross" width="7.3" height="7.3" patternUnits="userSpaceOnUse"><rect width="7.3" height="7.3" fill="white"/><rect width="7.3" height="7.3" fill="url(#hatch)"/><path d="M-1 6.3L1 8.3M0 0L7.3 7.3M6.3-1L8.3 1" fill="none" stroke="#286375" stroke-width="0.55"/></pattern></defs>
+<g transform="translate(0.00 0.00)"><path d="M21.6 0H48V48H0V21.6A21.6 21.6 0 0 1 21.6 0Z" fill="url(#cross)" stroke="#286375" stroke-width="0.86"/>
+<path d="M66 0V700H198V0Z" transform="translate(17.664 40.800) scale(0.048000 -0.048000)" fill="#286375" stroke="white" stroke-width="52.08" stroke-linejoin="round" paint-order="stroke fill"/></g>
+<g transform="translate(50.64 0.00)"><path d="M0 0H48V48H0Z" fill="#286375" stroke="#286375" stroke-width="0.86"/>
+<path d="M66 0V700H311L432 90H450L571 700H816V0H688V603H670L550 0H332L212 603H194V0Z" transform="translate(2.832 40.800) scale(0.048000 -0.048000)" fill="white"/></g>
+<g transform="translate(101.28 0.00)"><path d="M0 24A24 24 0 0 1 48 24V48H0Z" fill="url(#cross)" stroke="#286375" stroke-width="0.86"/>
+<path d="M18 0 202 700H432L616 0H480L442 154H192L154 0ZM223 276H411L326 617H308Z" transform="translate(8.784 40.800) scale(0.048000 -0.048000)" fill="#286375" stroke="white" stroke-width="52.08" stroke-linejoin="round" paint-order="stroke fill"/></g>
+<g transform="translate(0.00 50.64)"><path d="M0 0H48V48H21.6A21.6 21.6 0 0 1 0 26.4Z" fill="#286375" stroke="#286375" stroke-width="0.86"/>
+<path d="M66 0V700H198V120H518V0Z" transform="translate(10.992 40.800) scale(0.048000 -0.048000)" fill="white"/></g>
+<g transform="translate(50.64 50.64)"><path d="M0 0H48V48H0Z" fill="url(#cross)" stroke="#286375" stroke-width="0.86"/>
+<path d="M18 0 202 700H432L616 0H480L442 154H192L154 0ZM223 276H411L326 617H308Z" transform="translate(8.784 40.800) scale(0.048000 -0.048000)" fill="#286375" stroke="white" stroke-width="52.08" stroke-linejoin="round" paint-order="stroke fill"/></g>
+<g transform="translate(101.28 50.64)"><path d="M0 0H48V26.4A21.6 21.6 0 0 1 26.4 48H0Z" fill="#286375" stroke="#286375" stroke-width="0.86"/>
+<path d="M46 0V116H138V584H46V700H406Q470 700 517.5 678.5Q565 657 591.5 617.5Q618 578 618 523V513Q618 465 600.0 434.5Q582 404 557.5 387.5Q533 371 511 364V346Q533 340 559.0 323.5Q585 307 603.5 276.0Q622 245 622 195V185Q622 127 595.0 85.5Q568 44 520.5 22.0Q473 0 410 0ZM270 120H394Q437 120 463.5 141.0Q490 162 490 201V211Q490 250 464.0 271.0Q438 292 394 292H270ZM270 412H392Q433 412 459.5 433.0Q486 454 486 491V501Q486 539 460.0 559.5Q434 580 392 580H270Z" transform="translate(8.064 40.800) scale(0.048000 -0.048000)" fill="white"/></g>
+</svg>

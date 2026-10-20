@@ -1,0 +1,91 @@
+.bar { left: 18px; top: 18px; display: flex; align-items: center; gap: 14px; padding: 8px 18px 8px 8px; }
+.bar h1 { margin: 0; font: 700 clamp(15px, 1.6vw, 20px)/1 'Silkscreen', monospace; }
+.bar small { display: block; margin-top: 3px; font-size: 15px; color: var(--mute); }
+
+.tabs { left: 50%; top: 22px; translate: -50% 0; }
+.tabs button[data-tab]:not([data-tab="play"])[aria-pressed="true"]::after { content: " ●"; color: var(--accent); }
+
+.hud { right: 18px; top: 18px; display: flex; overflow: hidden; }
+.hud div { padding: 7px 13px; border-right: 2px solid var(--fg); }
+.hud div:last-child { border-right: 0; }
+.hud small { display: block; font: 700 9px 'Silkscreen', monospace; color: var(--mute); }
+.hud b { font: 400 26px/1 'VT323', monospace; }
+.hud .ghosts b { color: var(--accent); }
+
+/* Hayalet / oyuncu etiketleri */
+#tags { position: fixed; inset: 0; z-index: 5; pointer-events: none; }
+.tag { position: absolute; translate: -50% 0; padding: 0 6px; border-radius: 6px; background: var(--fg); color: var(--bg); font: 19px/1.15 'VT323', monospace; white-space: nowrap; }
+.tag.hot { background: var(--accent); color: #0e0f10; }
+
+.overlay {
+  left: 50%;
+  top: 50%;
+  translate: -50% -50%;
+  width: min(420px, 90vw);
+  padding: 20px 22px;
+  text-align: center;
+  pointer-events: none;   /* tıklama alttaki oyun alanına geçsin */
+}
+.overlay small { font: 700 10px 'Silkscreen', monospace; color: var(--mute); }
+.overlay h2 { margin: 6px 0 8px; font: 700 26px/1 'Silkscreen', monospace; }
+.overlay p { margin: 0 0 14px; font-size: 21px; line-height: 1.2; font-style: italic; }
+.playing .overlay { display: none; }
+/* Pencere açıkken kart da iskeleyle birlikte kayar */
+body[data-tab="code"] .overlay { left: 34%; }
+body[data-tab="notes"] .overlay { left: 66%; }
+
+/* CODE penceresi */
+.code { right: 18px; top: 92px; width: min(540px, 92vw); }
+.code pre { margin: 0; padding: 10px 0 8px; font: 21px/1.12 'VT323', monospace; }
+.code .ln { display: flex; align-items: center; padding-right: 12px; white-space: pre; }
+.code .ln i { flex: 0 0 38px; margin-right: 10px; padding-right: 8px; text-align: right; border-right: 2px solid #000; color: #888; font-style: normal; }
+.code .c { color: #777; }
+.code .k { font-weight: bold; text-decoration: underline; }
+.code input {
+  width: 4.2em;
+  padding: 0 4px;
+  border: 0;
+  border-bottom: 2px dotted #000;
+  background: transparent;
+  color: #000;
+  font: inherit;
+}
+.code input[type="checkbox"] { width: 16px; height: 16px; margin: 0 4px; accent-color: #000; }
+.code input:focus { outline: 2px solid #000; }
+/* Değiştirilen satır: vurgu = durum değişti */
+.code .ln.changed { background: #000; color: #fff; }
+.code .ln.changed i { color: #fff; border-color: #fff; }
+.code .ln.changed input { background: #ff6648; color: #000; border-color: #000; }
+.code .ln.changed .c { color: #ff6648; }
+.code .foot { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 7px 12px; border-top: 2px solid #000; font-size: 19px; }
+.code .run { padding: 2px 12px; border: 2px solid #000; border-radius: 10px; box-shadow: 0 0 0 2px #fff, 0 0 0 4px #000; background: #fff; font: 700 11px 'Silkscreen', monospace; cursor: pointer; }
+
+/* NOTES penceresi */
+.notes { left: 18px; top: 92px; width: min(460px, 92vw); }
+.notes .body { padding: 12px 16px 14px; font-size: 20px; line-height: 1.12; }
+.notes .pp { margin: 0 0 4px; font: 21px 'IM Fell English', serif; }
+.notes .pp b { margin-right: 6px; font: 700 10px 'Silkscreen', monospace; }
+.notes .src { margin: 6px 0 10px; color: #666; font-size: 17px; }
+.notes table { width: 100%; margin: 0 0 12px; border-collapse: collapse; font-size: 18px; }
+.notes th { padding: 3px 4px; border-bottom: 2px solid #000; text-align: left; font: 700 9px 'Silkscreen', monospace; }
+.notes td { padding: 4px; border-bottom: 1px solid #000; }
+.notes td.hot { background: #ff6648; }
+.notes h3 { margin: 0 0 6px; font: 700 11px 'Silkscreen', monospace; }
+.notes .task { display: flex; gap: 8px; margin-bottom: 6px; cursor: pointer; }
+.notes .task input { flex: 0 0 auto; width: 16px; height: 16px; margin-top: 3px; accent-color: #000; }
+.notes .task:has(input:checked) span { text-decoration: line-through; color: #777; }
+.notes .q { margin: 10px 0 0; padding: 7px 10px; border: 2px solid #000; font-size: 20px; font-style: italic; }
+
+.anat { left: 18px; bottom: 80px; display: flex; overflow: hidden; }
+.anat div { padding: 7px 13px; border-right: 2px solid var(--fg); transition: background .3s; }
+.anat div:last-child { border-right: 0; }
+.anat small { display: block; font: 700 9px 'Silkscreen', monospace; color: var(--mute); }
+.anat b { font: 400 21px/1 'VT323', monospace; }
+.anat .hot { background: var(--accent); color: #0e0f10; }
+.anat .hot small { color: #0e0f10; }
+
+@media (max-width: 900px) {
+  .hud div:nth-child(4) { display: none; }
+  .anat { display: none; }
+  .tabs { top: auto; bottom: 18px; }
+}

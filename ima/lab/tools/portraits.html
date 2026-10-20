@@ -1,0 +1,14 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>Original atlas portrait renderer</title><style>html,body{margin:0;background:white}canvas{display:block;width:300px;height:450px}</style></head><body>
+<script src="../js/character-engine.js"></script>
+<script type="module">
+import * as THREE from '../assets/vendor/three.module.js';
+const renderer=new THREE.WebGLRenderer({antialias:false,preserveDrawingBuffer:true});renderer.setPixelRatio(1);renderer.setSize(300,450,false);renderer.outputColorSpace=THREE.SRGBColorSpace;document.body.append(renderer.domElement);
+renderer.debug.onShaderError=()=>{throw new Error('Portrait atlas shader failed');};
+const look=createLook(THREE,renderer),parts=createParts(THREE,renderer),colors=look.rolesOf(look.PALS.c),scene=new THREE.Scene(),group=new THREE.Group();scene.add(group);
+scene.add(new THREE.AmbientLight(0xffffff,.45));const sun=new THREE.DirectionalLight(0xffffff,2.6);sun.position.set(-3,6,7);scene.add(sun);
+const camera=new THREE.OrthographicCamera(-1,1,1,-1,.1,100),recipes=Object.fromEntries(window.KUTUPHANE.karakterler.map(c=>[c.id,c]));
+const settings={...look.DEFAULTS,pal:'c',sys:'engrave',lit:'color',decor:0,on:1,paint:0,scale:1,time:'day',dark:'quiet',unify:1};
+window.drawCharacter=id=>{group.clear();const ch=parts.build(recipes[id],colors);group.add(ch.root);look.patchObject(ch.root);group.updateMatrixWorld(true);const box=new THREE.Box3().setFromObject(group),center=box.getCenter(new THREE.Vector3()),size=box.getSize(new THREE.Vector3());const ratio=300/450,half=Math.max(size.y*.57,size.x/ratio*.56)+.04;Object.assign(camera,{left:-half*ratio,right:half*ratio,top:half,bottom:-half});camera.position.set(center.x,center.y+.15,8);camera.lookAt(center);camera.updateProjectionMatrix();camera.updateMatrixWorld();look.render(renderer.domElement,scene,camera,new THREE.Color(0xffffff),settings,1,1);return renderer.domElement.toDataURL('image/png');};
+window.portraitsReady=true;
+</script></body></html>
