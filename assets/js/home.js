@@ -160,19 +160,26 @@ function startHints() {
   }, HINT_MS);
 }
 
+// "try" stays put; only the word moves, leaving upward and the next one rising from below
+// through a clipped slot, like a ticker.
 function showHint(animate) {
-  const html = `Try <em>${escapeHtml(hints[hintAt])}</em>…`;
+  const html = `<em>${escapeHtml(hints[hintAt])}</em>…`;
+  let word = ghost.querySelector(".ghost-word");
+  if (!word) {
+    ghost.innerHTML = `try <span class="ghost-slot"><span class="ghost-word"></span></span>`;
+    word = ghost.querySelector(".ghost-word");
+  }
   if (!animate) {
-    ghost.innerHTML = html;
+    word.innerHTML = html;
     return;
   }
-  ghost.classList.add("is-out");
+  word.classList.add("is-out");
   setTimeout(() => {
-    ghost.innerHTML = html;
-    ghost.classList.replace("is-out", "is-in");
-    ghost.getBoundingClientRect(); // commit the start position before easing in
-    ghost.classList.remove("is-in");
-  }, 260);
+    word.innerHTML = html;
+    word.classList.replace("is-out", "is-in");
+    word.getBoundingClientRect(); // commit the start position below before easing up
+    word.classList.remove("is-in");
+  }, 320);
 }
 
 function syncField() {
