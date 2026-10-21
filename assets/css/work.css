@@ -7,7 +7,7 @@
 }
 
 .work-head { margin-bottom: var(--s-7); }
-.work-head h1 {
+.work-title {
   margin: 0 0 var(--s-3);
   font-size: var(--text-display);
   font-weight: var(--weight-light);
@@ -96,7 +96,7 @@
 .cell-arrow { color: var(--ink-4); transition: transform var(--dur) var(--ease), color var(--dur) var(--ease); }
 .cell:hover .cell-arrow { color: var(--ink); transform: translate(2px, -2px); }
 
-.cell h2 {
+.cell h3 {
   margin: 0;
   font-size: var(--text-md);
   font-weight: var(--weight-medium);

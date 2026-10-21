@@ -8,7 +8,7 @@ Zahmet: **çok az** (bir saatten az) · **az** · **orta** · **yüksek**
 
 ## Sıradakiler
 
-Önerilen sıra: önce 1 ve 2 (küçük ve sayfaya hemen bilgi katıyor), sonra 3 (sitenin karakterini belirliyor).
+Önerilen sıra: önce 1 ve 2 (küçük ve sayfaya hemen bilgi katıyor).
 
 ### 1. Yüzeyin altında ne olduğunu söyleyen tek satır
 Arama kutusunun altında, çiplerin yerinde soluk bir satır: "28 projects · 9 papers · 2 writings beneath the surface". Ne aranabileceğini söyler. Sayılar `catalog.json`'dan otomatik gelir.
@@ -17,10 +17,6 @@ Zahmet: çok az
 ### 2. Paylaşılabilir arama
 `mertseven.com/?q=networks` açılınca sonuçlar hazır gelir. Derste, sunumda ya da e-postada "şuna bak" diye link vermeyi kolaylaştırır.
 Zahmet: çok az
-
-### 3. Dalış: kaydırınca derine inmek
-Ana sayfada aşağı kaydırınca okyanus yavaşça kararır, kâğıt beyazından gece mavisine geçer, alttan proje indeksi çıkar. "Index" ayrı bir sayfa değil, yüzeyin altındaki katman olur.
-Zahmet: orta. Motorun açık ve koyu teması hazır; aradaki geçiş yazılacak.
 
 ---
 
@@ -79,3 +75,4 @@ Geri getirmek için: `c3b202c` (son hali, dipten yüzen sürüm) ve `2d045f6`. K
 - Daha sık okyanus dokusu (5–8 px hücre)
 - Vatoz
 - Başlık arama kutusu genişliğinde, "curious" serif italik
+- Dalış: ana sayfada aşağı kaydırınca okyanus gece mavisine kararır, indeks yüzeyin altından çıkar; sağ kenarda derinlik göstergesi (0 → 200 m)

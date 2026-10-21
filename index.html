@@ -32,11 +32,14 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500&family=Geist+Mono:wght@400;600&family=Instrument+Serif:ital@1&display=swap">
   <link rel="stylesheet" href="/assets/css/tokens.css">
   <link rel="stylesheet" href="/assets/css/base.css">
+  <link rel="stylesheet" href="/assets/css/work.css">
   <link rel="stylesheet" href="/assets/css/home.css">
 </head>
 <body class="home">
   <canvas id="ocean" aria-hidden="true"></canvas>
-  <div class="frost" aria-hidden="true"></div>
+  <div class="abyss" id="abyss" aria-hidden="true"></div>
+  <div class="frost" id="frost" aria-hidden="true"></div>
+  <p class="depth-gauge mono" id="gauge" aria-hidden="true"><span id="gauge-m">0</span> m</p>
 
   <header class="site-header">
     <a class="wordmark" href="/" aria-label="Mert Seven, home">
@@ -44,14 +47,15 @@
       <span>Mert Seven</span>
     </a>
     <nav class="site-nav" aria-label="Main">
-      <a href="/work/">Index</a>
+      <a href="#index">Index</a>
       <a href="/publications.html">Research</a>
       <a href="/writing.html">Writing</a>
       <a href="/contact.html">About</a>
     </nav>
   </header>
 
-  <main class="stage">
+  <main>
+  <section class="stage" id="surface">
     <div class="stage-inner">
     <h1 class="prompt" id="prompt"><span class="prompt-line">what are you <em>curious</em> about?</span></h1>
 
@@ -73,7 +77,7 @@
         <div class="search-foot">
           <span><kbd>↑</kbd><kbd>↓</kbd> move</span>
           <span><kbd>↵</kbd> open</span>
-          <a href="/work/">Browse the full index →</a>
+          <a href="#index">Browse the full index ↓</a>
         </div>
       </div>
 
@@ -82,11 +86,30 @@
       </div>
     </div>
     </div>
+
+    <div class="surface-foot">
+      <a class="dive-hint mono" id="dive-hint" href="#index">scroll to dive <span aria-hidden="true">↓</span></a>
+      <span class="surface-note mono">move to stir · click to splash</span>
+    </div>
+  </section>
+
+  <section class="work deep" id="index" aria-labelledby="index-title">
+    <div class="work-head">
+      <p class="label">Beneath the surface</p>
+      <h2 class="work-title" id="index-title">Index</h2>
+      <p class="work-lede">Interactive systems, teaching tools and experiments. Filter by collection, topic or technology.</p>
+    </div>
+    <div id="index-root"></div>
+  </section>
   </main>
 
-  <footer class="home-footer">
+  <footer class="site-footer">
     <span>© <span id="year">2026</span> Mert Seven</span>
-    <span class="home-footer-note mono">move to stir · click to splash</span>
+    <nav aria-label="Footer">
+      <a href="#surface">Back to the surface ↑</a>
+      <a href="/publications.html">Research</a>
+      <a href="/contact.html">Contact</a>
+    </nav>
   </footer>
 
   <script type="module" src="/assets/js/home.js"></script>

@@ -37,35 +37,11 @@
 
   <main class="work">
     <div class="work-head">
-      <h1>Index</h1>
+      <h1 class="work-title">Index</h1>
       <p class="work-lede">Interactive systems, teaching tools and experiments. Filter by collection, topic or technology.</p>
     </div>
 
-    <section class="filters" aria-label="Filters">
-      <div class="filter-row">
-        <span class="label">Collection</span>
-        <div class="chips" id="f-kind"></div>
-      </div>
-      <div class="filter-row">
-        <span class="label">Topic</span>
-        <div class="chips" id="f-topic"></div>
-      </div>
-      <div class="filter-row">
-        <span class="label">Stack</span>
-        <div class="chips" id="f-stack"></div>
-      </div>
-      <div class="filter-row filter-row--tools">
-        <label class="filter-search">
-          <span class="visually-hidden">Filter by text</span>
-          <input id="f-text" type="search" placeholder="Filter by name or description" spellcheck="false">
-        </label>
-        <p class="filter-count mono" id="count" aria-live="polite"></p>
-        <button class="filter-clear" id="clear" type="button" hidden>Clear filters</button>
-      </div>
-    </section>
-
-    <div class="grid" id="grid"></div>
-    <p class="grid-empty" id="empty" hidden>No project matches these filters. <button type="button" id="clear-2">Clear filters</button></p>
+    <div id="index-root"></div>
   </main>
 
   <footer class="site-footer">

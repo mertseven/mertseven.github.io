@@ -1,5 +1,6 @@
 import { OceanEngine } from "./ocean.js";
 import { loadCatalog, search, highlight, escapeHtml } from "./catalog.js";
+import { mountIndex } from "./index-grid.js";
 
 const SUGGESTIONS = ["networks", "journalism", "philosophy", "interaction", "teaching"];
 
@@ -18,9 +19,75 @@ const SHARKS = [
   { kind: "classic", size: 0.77 },
 ];
 const ocean = new OceanEngine(document.getElementById("ocean"), SHARKS, themeFor());
-dark.addEventListener("change", () => ocean.setTheme(themeFor()));
 
 document.getElementById("year").textContent = new Date().getFullYear();
+mountIndex(document.getElementById("index-root"));
+
+// The dive. Over the first screen of scrolling the water darkens to night blue.
+// The ocean only has a light and a dark theme, so a night layer (.abyss) thickens until
+// it is opaque, the theme flips underneath where nobody can see it, and the layer thins
+// out again over the dark ocean. Starting from a dark scheme there is nothing to flip:
+// the layer only tints the black water blue.
+const abyss = document.getElementById("abyss");
+const frost = document.getElementById("frost");
+const gauge = document.getElementById("gauge");
+const gaugeM = document.getElementById("gauge-m");
+const hint = document.querySelector(".surface-foot");
+
+const FLIP_DOWN = 0.5;   // progress at which the light surface turns into the deep
+const FLIP_UP = 0.46;    // a little lower on the way up, so a resting scroll never flickers
+const DEEP_TINT = 0.32;  // how much night blue stays over the dark ocean at the bottom
+const METRES = 200;      // depth shown once the index is reached
+
+let deep = false;
+let ticking = false;
+
+function dive() {
+  ticking = false;
+  const p = Math.min(1, Math.max(0, scrollY / (innerHeight * 0.9)));
+  const surfaceDark = !document.documentElement.dataset.dive && themeFor() === "dark";
+
+  if (surfaceDark) {
+    abyss.style.opacity = (p * DEEP_TINT).toFixed(3);
+  } else {
+    const flip = deep ? p >= FLIP_UP : p >= FLIP_DOWN;
+    if (flip !== deep) {
+      deep = flip;
+      if (deep) {
+        document.documentElement.dataset.theme = "dark";
+        document.documentElement.dataset.dive = "1";
+      } else {
+        delete document.documentElement.dataset.theme;
+        delete document.documentElement.dataset.dive;
+      }
+      ocean.setTheme(themeFor());
+    }
+    // Ease in so the page stays bright for a while, then closes fast toward the flip.
+    const a = deep
+      ? 1 - ((p - FLIP_DOWN) / (1 - FLIP_DOWN)) * (1 - DEEP_TINT)
+      : Math.pow(p / FLIP_DOWN, 1.8);
+    abyss.style.opacity = Math.min(1, Math.max(0, a)).toFixed(3);
+  }
+
+  frost.style.opacity = (1 - p * 0.7).toFixed(3);
+  hint.style.opacity = Math.max(0, 1 - p * 4).toFixed(3);
+  gauge.style.opacity = Math.min(1, p * 3).toFixed(3);
+  gaugeM.textContent = Math.round((scrollY / (innerHeight * 0.9)) * METRES);
+}
+
+function onScroll() {
+  if (!ticking) {
+    ticking = true;
+    requestAnimationFrame(dive);
+  }
+}
+addEventListener("scroll", onScroll, { passive: true });
+addEventListener("resize", onScroll);
+dark.addEventListener("change", () => {
+  ocean.setTheme(themeFor());
+  dive();
+});
+dive();
 
 // Size the question so it spans exactly the width of the search bar.
 const prompt = document.getElementById("prompt");
