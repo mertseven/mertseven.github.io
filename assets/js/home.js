@@ -2,8 +2,6 @@ import { OceanEngine } from "./ocean.js";
 import { loadCatalog, search, highlight, escapeHtml } from "./catalog.js";
 import { mountIndex } from "./index-grid.js";
 
-const SUGGESTIONS = ["networks", "journalism", "philosophy", "interaction", "teaching"];
-
 // Ocean follows the colour scheme, like the tokens do.
 const dark = window.matchMedia("(prefers-color-scheme: dark)");
 const themeFor = () => {
@@ -105,38 +103,50 @@ const root = document.getElementById("search");
 const input = document.getElementById("q");
 const panel = document.getElementById("panel");
 const list = document.getElementById("results");
-const suggest = document.getElementById("suggest");
+const beneath = document.getElementById("beneath");
 
 let entries = [];
 let results = [];
 let active = -1;
 
+// A search can be shared: /?q=networks opens with the box filled and the results showing.
+input.value = new URLSearchParams(location.search).get("q") || "";
+
 loadCatalog()
   .then((c) => {
     entries = c.entries;
+    writeBeneath(entries);
     if (input.value) render();
   })
   .catch(() => {
     list.innerHTML = `<li class="results-empty">The index could not load. <a href="/work/">Open it directly</a>.</li>`;
   });
 
-for (const word of SUGGESTIONS) {
-  const b = document.createElement("button");
-  b.type = "button";
-  b.className = "chip";
-  b.textContent = word;
-  b.addEventListener("click", () => {
-    input.value = word;
-    input.focus();
-    render();
-  });
-  suggest.append(b);
+// "28 projects · 9 papers · 2 writings beneath the surface", counted from the catalog.
+function writeBeneath(all) {
+  const n = (type) => all.filter((e) => e.type === type).length;
+  const part = (count, one, many, href) =>
+    `<a href="${href}"><span class="mono">${count}</span> ${count === 1 ? one : many}</a>`;
+  beneath.innerHTML = [
+    part(n("Project"), "project", "projects", "#index"),
+    part(n("Research"), "paper", "papers", "/publications.html"),
+    part(n("Writing"), "writing", "writings", "/writing.html"),
+  ].join('<span class="sep" aria-hidden="true">·</span>') + " <span>beneath the surface</span>";
+}
+
+function writeQuery(q) {
+  const params = new URLSearchParams(location.search);
+  if (q) params.set("q", q);
+  else params.delete("q");
+  const s = params.toString();
+  history.replaceState(null, "", `${location.pathname}${s ? `?${s}` : ""}${location.hash}`);
 }
 
 function render() {
   const q = input.value.trim();
   results = search(entries, q);
   active = results.length ? 0 : -1;
+  writeQuery(q);
 
   if (!q) {
     setOpen(false);
@@ -209,7 +219,8 @@ document.addEventListener("pointerdown", (e) => {
   if (!root.contains(e.target)) setOpen(false);
 });
 document.addEventListener("keydown", (e) => {
-  if (e.key === "/" && document.activeElement !== input) {
+  const typing = e.target.closest?.("input, textarea, [contenteditable]");
+  if (e.key === "/" && !typing) {
     e.preventDefault();
     input.focus();
   }

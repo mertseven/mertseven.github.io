@@ -240,18 +240,21 @@ html { scroll-behavior: smooth; }
 .search-foot a { margin-left: auto; color: var(--ink-2); }
 .search-foot a:hover { color: var(--ink); }
 
-.suggest {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  gap: var(--s-2);
-  margin-top: var(--s-4);
+/* What lies beneath: a quiet count under the bar, each number a way down. */
+.beneath {
+  min-height: 1.5em; /* holds its place until the catalog arrives */
+  margin: var(--s-4) 0 0;
+  text-align: center;
+  font-size: var(--text-xs);
+  letter-spacing: 0.01em;
+  color: var(--ink-3);
   transition: opacity var(--dur) var(--ease);
 }
-.suggest .label { margin-right: var(--s-1); }
-.suggest .chip { background: var(--glass); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
-.search.is-open .suggest { opacity: 0; visibility: hidden; }
+.beneath a { color: var(--ink-2); transition: color var(--dur-fast) var(--ease); }
+.beneath a:hover { color: var(--ink); }
+.beneath .mono { color: var(--ink); }
+.beneath .sep { margin: 0 var(--s-2); color: var(--ink-4); }
+.search.is-open .beneath { opacity: 0; visibility: hidden; }
 
 @media (max-width: 560px) {
   .search-foot span { display: none; }

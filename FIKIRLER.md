@@ -8,27 +8,19 @@ Zahmet: **çok az** (bir saatten az) · **az** · **orta** · **yüksek**
 
 ## Sıradakiler
 
-Önerilen sıra: önce 1 ve 2 (küçük ve sayfaya hemen bilgi katıyor).
+Önerilen sıra: önce 1 (öneri çipleri kalktı, ne aranacağını şimdilik hiçbir şey söylemiyor), sonra 2.
 
-### 1. Yüzeyin altında ne olduğunu söyleyen tek satır
-Arama kutusunun altında, çiplerin yerinde soluk bir satır: "28 projects · 9 papers · 2 writings beneath the surface". Ne aranabileceğini söyler. Sayılar `catalog.json`'dan otomatik gelir.
-Zahmet: çok az
+### 1. Dönen ipuçları
+Arama kutusunun içindeki yazı birkaç saniyede bir değişir: "try *networks*…", "try *Bergson*…". Kalkan öneri çiplerinin işini görür.
+Zahmet: az
 
-### 2. Paylaşılabilir arama
-`mertseven.com/?q=networks` açılınca sonuçlar hazır gelir. Derste, sunumda ya da e-postada "şuna bak" diye link vermeyi kolaylaştırır.
-Zahmet: çok az
+### 2. Yazarken dalga
+Arama kutusuna her harf yazılınca kutunun altında hafif bir su halkası oluşur, balıklar dağılır. Motorda hazır bir `splash` fonksiyonu var.
+Zahmet: az
 
 ---
 
 ## Havuz
-
-### Yazarken dalga
-Arama kutusuna her harf yazılınca kutunun altında hafif bir su halkası oluşur, balıklar dağılır. Motorda hazır bir `splash` fonksiyonu var.
-Zahmet: az
-
-### Dönen ipuçları
-Arama kutusunun içindeki yazı birkaç saniyede bir değişir: "try *networks*…", "try *Bergson*…". Çipler kaldırılabilir, ekran sadeleşir.
-Zahmet: az
 
 ### "Şu an" satırı
 Footer'da tek satır, örneğin "Currently: teaching Interactive Media Applications at Yaşar University". Ziyaretçi kimin sitesinde olduğunu aramadan anlar.
@@ -76,3 +68,5 @@ Geri getirmek için: `c3b202c` (son hali, dipten yüzen sürüm) ve `2d045f6`. K
 - Vatoz
 - Başlık arama kutusu genişliğinde, "curious" serif italik
 - Dalış: ana sayfada aşağı kaydırınca okyanus gece mavisine kararır, indeks yüzeyin altından çıkar; sağ kenarda derinlik göstergesi (0 → 200 m)
+- Sayı satırı: "28 projects · 9 papers · 2 writings beneath the surface", öneri çiplerinin yerinde; her sayı bir link
+- Paylaşılabilir arama: `/?q=…` kutuyu doldurup sonuçları açar, yazdıkça adres güncellenir
