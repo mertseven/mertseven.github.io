@@ -9,10 +9,30 @@ const themeFor = () => {
   const forced = document.documentElement.dataset.theme;
   return forced === "dark" || (!forced && dark.matches) ? "dark" : "light";
 };
-const ocean = new OceanEngine(document.getElementById("ocean"), undefined, themeFor());
+// Four classics at different depths, and the ray gliding among them.
+const SHARKS = [
+  { kind: "classic", size: 1 },
+  { kind: "ray", size: 0.9 },
+  { kind: "classic", size: 0.7 },
+  { kind: "classic", size: 0.84 },
+  { kind: "classic", size: 0.77 },
+];
+const ocean = new OceanEngine(document.getElementById("ocean"), SHARKS, themeFor());
 dark.addEventListener("change", () => ocean.setTheme(themeFor()));
 
 document.getElementById("year").textContent = new Date().getFullYear();
+
+// Size the question so it spans exactly the width of the search bar.
+const prompt = document.getElementById("prompt");
+const promptLine = prompt.querySelector(".prompt-line");
+function fitPrompt() {
+  const target = prompt.clientWidth;
+  if (!target) return;
+  prompt.style.fontSize = "100px";
+  prompt.style.fontSize = `${(100 * target) / promptLine.getBoundingClientRect().width}px`;
+}
+document.fonts.ready.then(fitPrompt);
+new ResizeObserver(fitPrompt).observe(prompt.parentElement);
 
 const root = document.getElementById("search");
 const input = document.getElementById("q");
