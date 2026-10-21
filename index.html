@@ -1,224 +1,92 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-CS83EW7TN6"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-CS83EW7TN6"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-CS83EW7TN6');
+  </script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  gtag('config', 'G-CS83EW7TN6');
-</script>
-     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mert Seven</title>
+  <meta name="description" content="Mert Seven, PhD. A new media scholar and digital crafter building interactive systems as critical inquiry. Search projects, research and writing.">
+  <meta name="robots" content="max-image-preview:large">
 
-    <!-- =================================================================== -->
-    <!-- PRIMARY META TAGS (FOR GOOGLE SEARCH RESULTS) -->
-    <!-- =================================================================== -->
-    <title>Mert Seven | Digital Crafter & New Media Scholar</title>
-    <meta name="description" content="Mert Seven, PhD. A new media scholar and digital crafter building interactive systems as critical inquiry. Explore a portfolio of data visualizations, educational tools, and AI collaborations treated as living artifacts.">
-    
-    <!-- NEW: Explicitly allow Google to show a large image preview -->
-    <meta name="robots" content="max-image-preview:large">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Mert Seven">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:url" content="https://mertseven.com">
+  <meta property="og:title" content="Mert Seven">
+  <meta property="og:description" content="Interactive systems, data visualizations and critical inquiries into digital culture.">
+  <meta property="og:image" content="https://mertseven.com/images/webcard.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://mertseven.com/images/webcard.png">
 
-
-    <!-- =================================================================== -->
-    <!-- OPEN GRAPH (FOR FACEBOOK, WHATSAPP, LINKEDIN, ETC.) -->
-    <!-- =================================================================== -->
-    <meta property="og:type" content="website">
-    <meta property="og:site_name" content="Mert Seven"> <!-- NEW: Site Name -->
-    <meta property="og:locale" content="en_US"> <!-- NEW: Locale -->
-    <meta property="og:url" content="https://mertseven.com">
-    <meta property="og:title" content="Mert Seven | Digital Crafter & New Media Scholar">
-    <meta property="og:description" content="A portfolio of interactive systems, data visualizations, and critical inquiries into digital culture treated as living artifacts.">
-    <meta property="og:image" content="https://mertseven.com/images/webcard.png"> <!-- SUGGESTION: Use a PNG for crispness -->
-
-
-    <!-- =================================================================== -->
-    <!-- TWITTER CARD (FOR TWITTER, AND RESPECTED BY WHATSAPP/TELEGRAM) -->
-    <!-- =================================================================== -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:url" content="https://mertseven.com">
-    <meta name="twitter:title" content="Mert Seven | Digital Crafter & New Media Scholar">
-    <meta name="twitter:description" content="A portfolio of interactive systems, data visualizations, and critical inquiries into digital culture treated as living artifacts.">
-    <meta name="twitter:image" content="https://mertseven.com/images/webcard.png"> 
-
-    <link rel="stylesheet" href="style.css"> <!-- Global styles -->
-    <link rel="stylesheet" href="homepage.css"> <!-- Homepage-specific styles -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800;900&display=swap" rel="stylesheet">
-    <link rel="icon" href="images/ms-favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="/images/ms-favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500&family=Geist+Mono:wght@400;600&display=swap">
+  <link rel="stylesheet" href="/assets/css/tokens.css">
+  <link rel="stylesheet" href="/assets/css/base.css">
+  <link rel="stylesheet" href="/assets/css/home.css">
 </head>
-<body>
+<body class="home">
+  <canvas id="ocean" aria-hidden="true"></canvas>
+  <div class="frost" aria-hidden="true"></div>
 
-  <!-- START: MOBILE OVERLAY AND NAV PANEL -->
-  <div class="content-overlay"></div>
-  <nav class="popout-nav">
-      <div class="nav-header">
-          <span class="title">Navigation</span>
+  <header class="site-header">
+    <a class="wordmark" href="/" aria-label="Mert Seven, home">
+      <span class="wordmark-mark" aria-hidden="true"></span>
+      <span>Mert Seven</span>
+    </a>
+    <nav class="site-nav" aria-label="Main">
+      <a href="/work/">Index</a>
+      <a href="/publications.html">Research</a>
+      <a href="/writing.html">Writing</a>
+      <a href="/contact.html">About</a>
+    </nav>
+  </header>
+
+  <main class="stage">
+    <h1 class="prompt" id="prompt">what are you curious about?</h1>
+
+    <div class="search" id="search">
+      <form class="search-bar" role="search" autocomplete="off" onsubmit="return false">
+        <label class="visually-hidden" for="q">Search projects, research and writing</label>
+        <svg class="search-icon" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
+          <circle cx="7" cy="7" r="5" fill="none" stroke="currentColor" stroke-width="1.3"/>
+          <path d="M11 11l3.5 3.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+        </svg>
+        <input id="q" type="search" placeholder="Search projects, research, writing…"
+               role="combobox" aria-expanded="false" aria-controls="results" aria-autocomplete="list"
+               spellcheck="false">
+        <span class="search-hint"><kbd>/</kbd></span>
+      </form>
+
+      <div class="search-panel" id="panel" hidden>
+        <ul class="results" id="results" role="listbox" aria-label="Results"></ul>
+        <div class="search-foot">
+          <span><kbd>↑</kbd><kbd>↓</kbd> move</span>
+          <span><kbd>↵</kbd> open</span>
+          <a href="/work/">Browse the full index →</a>
+        </div>
       </div>
-      <ul>
-          <li><a href="index.html">Home</a></li>
-          <li><a href="projects.html">Projects</a></li>
-          <li><a href="publications.html">Research</a></li>
-          <li><a href="contact.html">About & Contact</a></li>
-      </ul>
-  </nav>
-  <!-- END: MOBILE OVERLAY AND NAV PANEL -->
 
-  <div class="homepage-wrapper">
-    <!-- START: UNIFIED HEADER -->
-    <header class="new-main-header">
-        <a href="index.html" class="new-logo-area">
-            <img src="images/LOGO-BLUE.svg" alt="Mert Seven Logo" class="new-logo-image">
-        </a>
-        <!-- Desktop Navigation -->
-        <nav class="new-main-nav">
-            <a href="index.html" class="new-nav-item">
-                <span class="nav-item-title">HOME</span>
-                <span class="nav-item-subtitle">Main / Overview</span>
-            </a>
-            <a href="projects.html" class="new-nav-item">
-                <span class="nav-item-title">PROJECTS</span>
-                <span class="nav-item-subtitle">Portfolio / Works</span>
-            </a>
-            <a href="publications.html" class="new-nav-item">
-                <span class="nav-item-title">RESEARCH</span>
-                <span class="nav-item-subtitle">Papers / Thesis</span>
-            </a>
-            <a href="contact.html" class="new-nav-item">
-                <span class="nav-item-title">ABOUT & CONTACT</span>
-                <span class="nav-item-subtitle">Profile / Get in Touch</span>
-            </a>
-        </nav>
-        <!-- Mobile Action Buttons -->
-        <div class="mobile-actions-area">
-             <button class="action-btn mobile-search-trigger" aria-label="Open Search">
-                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-            </button>
-            <button class="action-btn nav-trigger" aria-label="Open Navigation">
-                <div class="hamburger-icon">
-                    <span class="line line-1"></span>
-                    <span class="line line-2"></span>
-                    <span class="line line-3"></span>
-                </div>
-            </button>
-        </div>
-        <!-- Desktop Search Trigger -->
-        <div class="search-trigger-area" id="search-bar-trigger" tabindex="0" title="Search Site (Ctrl+K)">
-            <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="11" cy="11" r="8"></circle>
-                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-            </svg>
-        </div>
-    </header>
-    <!-- END: UNIFIED HEADER -->
-
-    <main class="main-content-home">
-
-        <!-- Section 1: Reimagined Hero with Log Markers -->
-        <section class="hero-section-reimagined">
-            <div class="hero-content-left">
-                <h1 class="hero-name-reimagined">Mert Seven <span class="log-marker" data-log-id="log-redesign"></span></h1>
-                <p class="hero-roles-reimagined">
-                    Digital Crafter & New Media Scholar
-                </p>
-                <p class="hero-statement-reimagined">
-                    Building interactive systems and exploring the human-technology narrative<span class="log-marker" data-log-id="log-kafka"></span>. Co-creating with <code class="code-highlight-reimagined">Claude AI</code> & <code class="code-highlight-reimagined">Gemini AI</code>.
-                </p>
-                <div class="hero-actions-reimagined">
-                    <a href="projects.html" class="btn-reimagined">Explore Work</a>
-                    <a href="publications.html" class="btn-reimagined btn-secondary">View Research</a>
-                </div>
-            </div>
-            <div class="hero-visual-right">
-                <div class="cube-container">
-                    <div class="cube" id="hero-cube">
-                        <div class="face front">Interactive Systems</div>
-                        <div class="face back">UI/UX Architecture</div>
-                        <div class="face right">Data Visualization</div>
-                        <div class="face left">Mapping</div>
-                        <div class="face top">Digital Epistemology</div>
-                        <div class="face bottom">Materialization</div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Section 2: Creative Strands -->
-        <section class="creative-strands-section">
-            <h2 class="section-title-reimagined">Creative Strands</h2>
-            <div class="strands-grid">
-                <a href="projects.html#project-jstudio" class="strand-card">
-                    <img src="images/jstudio.png" alt="Journalism Studio Project Preview">
-                    <div class="strand-overlay"><h3>Digital Journalism & Media</h3></div>
-                </a>
-                <a href="projects.html#project-kafka" class="strand-card">
-                     <img src="images/projectkafka.jpg" alt="Project KAFKA Preview">
-                    <div class="strand-overlay"><h3>Educational & Conceptual Interfaces</h3></div>
-                </a>
-            </div>
-        </section>
-
-        <!-- Section 3: Philosophy with Log Marker -->
-        <section class="philosophy-section">
-             <div class="philosophy-content">
-                <h2 class="section-title-reimagined">Philosophy: Ever Becoming</h2>
-                <blockquote class="quote-reimagined">
-                    "Nothing simply <strong>is</strong> in a fixed state. Instead, everything exists in a process of <strong>becoming</strong> something else."
-                </blockquote>
-                <p>This website, mirroring my work, is a space in constant transformation. It's a living artifact<span class="log-marker" data-log-id="log-living-doc"></span>, co-authored with AI tools to investigate human-machine collaboration and create more insightful, reflective digital experiences.</p>
-             </div>
-        </section>
-
-    </main>
-
-    <footer class="site-footer">
-        <p>Designed by Mert Seven ♦ Hosted on GitHub Pages</p>
-        <p>
-            This website is open source. 
-            <a href="https://github.com/mertseven/mertseven.github.io" target="_blank" rel="noopener noreferrer">View source and fork on GitHub</a>.
-            <span class="footer-separator">|</span>
-            <a href="#" id="view-history-link">View Site History</a>
-        </p>
-        <p style="margin-top: 10px;">
-            <a rel="license" href="http://creativecommons.org/licenses/by/4.0/" target="_blank">
-                <img alt="Creative Commons License" style="border-width:0; vertical-align: middle;" src="https://i.creativecommons.org/l/by/4.0/80x15.png" />
-            </a>
-            Licensed under <a rel="license" href="http://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer">Creative Commons Attribution 4.0</a>.
-        </p>
-    </footer>
-  </div> <!-- END homepage-wrapper -->
-
-    <!-- Search Terminal (No Change) -->
-    <div id="search-terminal-overlay" class="search-terminal-overlay hidden">
-        <div class="search-terminal-content">
-            <div class="search-terminal-input-wrapper">
-                <svg class="search-terminal-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="11" cy="11" r="8"></circle>
-                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                </svg>
-                <input type="text" id="terminal-search-input" placeholder="Start typing..." autocomplete="off">
-            </div>
-            <div class="search-terminal-results" id="search-terminal-results-container">
-                <div class="results-category-title" id="projects-results-title" style="display:block;">NAVIGATE TO</div>
-                <ul id="projects-search-results-list"></ul>
-            </div>
-        </div>
+      <div class="suggest" id="suggest" aria-label="Try">
+        <span class="label">Try</span>
+      </div>
     </div>
+  </main>
 
-    <!-- NEW: Site History Modal -->
-    <div id="site-history-modal" class="history-modal-overlay hidden">
-        <div class="history-modal-content">
-            <button id="history-modal-close" class="history-modal-close-btn">×</button>
-            <h2>Site History</h2>
-            <div id="history-modal-list" class="history-modal-list">
-                <!-- Full log will be rendered here by JS -->
-            </div>
-        </div>
-    </div>
+  <footer class="home-footer">
+    <span>© <span id="year">2026</span> Mert Seven</span>
+    <span class="home-footer-note mono">move to stir · click to splash</span>
+  </footer>
 
-    <script src="script.js"></script>
-    <script src="homepage.js"></script>
+  <script type="module" src="/assets/js/home.js"></script>
 </body>
 </html>
