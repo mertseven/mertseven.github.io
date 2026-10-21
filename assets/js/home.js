@@ -1,4 +1,5 @@
 import { OceanEngine } from "./ocean.js";
+import { startMegalodon } from "./megalodon.js";
 import { loadCatalog, search, highlight, escapeHtml } from "./catalog.js";
 
 const SUGGESTIONS = ["networks", "journalism", "philosophy", "interaction", "teaching"];
@@ -19,6 +20,11 @@ const SHARKS = [
 ];
 const ocean = new OceanEngine(document.getElementById("ocean"), SHARKS, themeFor());
 dark.addEventListener("change", () => ocean.setTheme(themeFor()));
+
+// After 15 s without input, the megalodon passes beneath the search bar.
+// ?megalodon in the URL sends it at once, for previewing.
+const megalodon = startMegalodon(ocean, { target: document.getElementById("search") });
+if (new URLSearchParams(location.search).has("megalodon")) setTimeout(() => megalodon?.trigger(), 1200);
 
 document.getElementById("year").textContent = new Date().getFullYear();
 
