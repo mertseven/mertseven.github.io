@@ -48,6 +48,10 @@ Zahmet: yüksek. Motorun yönlendirmesine müdahale gerektirir.
 
 ## Rafta
 
+### Dalış
+Ana sayfada aşağı kaydırınca okyanus gece mavisine kararıyor, indeks yüzeyin altından çıkıyordu; sağ kenarda derinlik göstergesi (0 → 200 m). Siteyi fazla tematik yaptığı için kaldırıldı.
+Geri getirmek için: `5e941cf`. Ortak indeks modülü (`assets/js/index-grid.js`) bu işten kaldı ve kullanılıyor.
+
 ### Megalodon
 15 saniye hareketsizlikten sonra dev, yarı saydam bir köpekbalığı dipten, arama kutusunun altından geçer; kutu dalgasıyla hafifçe kalkar. Yapıldı, sonra kaldırıldı.
 Geri getirmek için: `c3b202c` (son hali, dipten yüzen sürüm) ve `2d045f6`. Kaldıran commit: `ff7a424`. Megalodon, derleme betiğindeki derinlik saydamlığı yamasına ihtiyaç duyuyor.
@@ -61,7 +65,7 @@ Geri getirmek için: `c3b202c` (son hali, dipten yüzen sürüm) ve `2d045f6`. K
 - Daha sık okyanus dokusu (5–8 px hücre)
 - Vatoz
 - Başlık arama kutusu genişliğinde, "curious" serif italik
-- Dalış: ana sayfada aşağı kaydırınca okyanus gece mavisine kararır, indeks yüzeyin altından çıkar; sağ kenarda derinlik göstergesi (0 → 200 m)
 - Sayı satırı: "28 projects · 9 papers · 2 writings beneath the surface", öneri çiplerinin yerinde; her sayı bir link
 - Paylaşılabilir arama: `/?q=…` kutuyu doldurup sonuçları açar, yazdıkça adres güncellenir
-- Dönen ipuçları: boş kutuda 3,2 saniyede bir "Try *networks*…", "Try *Bergson*…"; yalnızca sonuç veren kelimeler; boş kutuda Enter görünen ipucunu arar
+- Dönen ipuçları: boş kutuda sabit "try" ve alttan yükselen kelime ("try *networks*…"); yalnızca sonuç veren kelimeler; boş kutuda Enter görünen ipucunu arar
+- Açık/koyu tema düğmesi: header'ın sağında; önce sistemi izler, seçim hatırlanır; okyanus da birlikte değişir

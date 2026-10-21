@@ -9,6 +9,7 @@ body {
   min-height: 100vh;
   background: var(--paper);
   color: var(--ink);
+  transition: background-color var(--dur) var(--ease), color var(--dur) var(--ease);
   font-family: var(--font-sans);
   font-size: var(--text-md);
   line-height: 1.5;
@@ -83,8 +84,36 @@ img, svg, canvas { display: block; }
 .site-nav a { transition: color var(--dur-fast) var(--ease); }
 .site-nav a:hover, .site-nav a[aria-current="page"] { color: var(--ink); }
 
+.header-end {
+  display: flex;
+  align-items: center;
+  gap: var(--s-5);
+}
+
+/* Light/dark switch: shows the moon in light mode and the sun in dark, i.e. where a click goes. */
+.theme-toggle {
+  display: inline-grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  margin: -6px -8px -6px 0;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  background: none;
+  color: var(--ink-2);
+  cursor: pointer;
+  transition: color var(--dur-fast) var(--ease), border-color var(--dur-fast) var(--ease);
+}
+.theme-toggle:hover { color: var(--ink); border-color: var(--line); }
+.theme-toggle svg { grid-area: 1 / 1; transition: opacity var(--dur) var(--ease), transform var(--dur) var(--ease); }
+.theme-toggle .icon-sun,
+.theme-toggle[data-mode="dark"] .icon-moon { opacity: 0; transform: rotate(-45deg) scale(0.7); }
+.theme-toggle[data-mode="dark"] .icon-sun { opacity: 1; transform: none; }
+
 @media (max-width: 560px) {
   .site-nav { gap: var(--s-4); }
+  .header-end { gap: var(--s-3); }
 }
 
 /* Footer */

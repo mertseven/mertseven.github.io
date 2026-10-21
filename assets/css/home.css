@@ -1,13 +1,11 @@
-/* Home: the ocean under frosted glass, one question, one search box.
-   Scrolling down is a dive: the water darkens and the index rises from beneath the surface. */
-
-html { scroll-behavior: smooth; }
-@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+/* Home: the ocean under frosted glass, one question, one search box. */
 
 .home {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100dvh;
   overflow-x: hidden;
-  /* Lets the page colours ease across the moment the theme flips mid-dive. */
-  transition: color 400ms var(--ease);
 }
 
 #ocean {
@@ -33,85 +31,28 @@ html { scroll-behavior: smooth; }
   mask-image: radial-gradient(ellipse 62% 58% at 50% 48%, #000 28%, rgba(0, 0, 0, 0.55) 52%, transparent 78%);
 }
 
-/* The deep: night water laid over the ocean. home.js drives its opacity from the scroll,
-   flipping the ocean to its dark theme at the one moment this layer is fully opaque. */
-.abyss {
-  position: fixed;
-  inset: 0;
-  z-index: 2; /* over the frost, so the pale glass darkens with the water */
-  pointer-events: none;
-  background: var(--abyss);
-  opacity: 0;
-}
-
 .home .site-header,
-.home main,
-.home .site-footer { position: relative; z-index: 3; }
-
-.home .site-header {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-}
+.stage,
+.home-footer { position: relative; z-index: 2; }
 
 .stage {
-  position: relative;
+  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: var(--s-6);
-  min-height: 100vh;
-  min-height: 100svh;
-  padding: var(--s-8) var(--gutter) 18vh;
+  padding: var(--s-7) var(--gutter) 18vh;
 }
 
-.surface-foot {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
+.home-footer {
   display: flex;
   justify-content: space-between;
-  align-items: center;
   gap: var(--s-4);
   padding: var(--s-5) var(--gutter);
   font-size: var(--text-xs);
   color: var(--ink-3);
 }
-.dive-hint { color: var(--ink-2); transition: color var(--dur-fast) var(--ease); }
-.dive-hint:hover { color: var(--ink); }
-.dive-hint span { display: inline-block; animation: bob 2.4s var(--ease) infinite; }
-@keyframes bob { 50% { transform: translateY(3px); } }
-
-/* Depth readout: hidden at the surface, it counts metres on the way down.
-   Set vertically in the right gutter so it never sits on top of the content. */
-.depth-gauge {
-  position: fixed;
-  right: max(4px, calc(var(--gutter) / 2 - 0.5em));
-  top: 50%;
-  z-index: 4;
-  margin: 0;
-  writing-mode: vertical-rl;
-  transform: translateY(-50%);
-  white-space: nowrap;
-  font-size: var(--text-xs);
-  letter-spacing: var(--tracking-label);
-  color: var(--ink-3);
-  opacity: 0;
-  pointer-events: none;
-}
-
-/* The index beneath the surface. The grid sits on glass so cards stay readable over the water. */
-.deep { padding-top: var(--s-8); }
-.deep .grid {
-  background: var(--glass-strong);
-  -webkit-backdrop-filter: blur(14px);
-  backdrop-filter: blur(14px);
-}
-.deep .filters { border-bottom-color: transparent; }
-.home .site-footer { border-top-color: transparent; }
 
 /* The question and the search box share one column, so the line ends where the bar ends. */
 .stage-inner {
@@ -306,9 +247,7 @@ html { scroll-behavior: smooth; }
 
 @media (max-width: 560px) {
   .search-foot span { display: none; }
-  .surface-note { display: none; }
-  .depth-gauge { display: none; } /* the 16px gutter is too narrow for it */
-  .surface-foot { justify-content: center; }
+  .home-footer-note { display: none; }
   .result a { grid-template-columns: 1fr; }
   .result-type { grid-row: auto; padding: 0; }
 }
