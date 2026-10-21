@@ -116,6 +116,7 @@ loadCatalog()
   .then((c) => {
     entries = c.entries;
     writeBeneath(entries);
+    startHints();
     if (input.value) render();
   })
   .catch(() => {
@@ -134,6 +135,50 @@ function writeBeneath(all) {
   ].join('<span class="sep" aria-hidden="true">·</span>') + " <span>beneath the surface</span>";
 }
 
+// Rotating hints inside the empty box: one word at a time, each a search that finds
+// something. With the box empty, Enter searches the word on show.
+const HINTS = [
+  "networks", "Bergson", "journalism", "Three.js", "Frankfurt School",
+  "misinformation", "teaching", "mapping", "interaction", "Nietzsche", "AR",
+];
+const HINT_MS = 3200;
+const field = input.closest(".search-field");
+const ghost = document.getElementById("ghost");
+let hints = [];
+let hintAt = 0;
+
+function startHints() {
+  hints = HINTS.filter((h) => search(entries, h, 1).length);
+  if (!hints.length) return;
+  field.classList.add("has-ghost");
+  showHint(false);
+  setInterval(() => {
+    // Rest while nobody can see it.
+    if (document.hidden || input.value || scrollY > innerHeight * 0.5) return;
+    hintAt = (hintAt + 1) % hints.length;
+    showHint(true);
+  }, HINT_MS);
+}
+
+function showHint(animate) {
+  const html = `Try <em>${escapeHtml(hints[hintAt])}</em>…`;
+  if (!animate) {
+    ghost.innerHTML = html;
+    return;
+  }
+  ghost.classList.add("is-out");
+  setTimeout(() => {
+    ghost.innerHTML = html;
+    ghost.classList.replace("is-out", "is-in");
+    ghost.getBoundingClientRect(); // commit the start position before easing in
+    ghost.classList.remove("is-in");
+  }, 260);
+}
+
+function syncField() {
+  field.classList.toggle("has-value", input.value.length > 0);
+}
+
 function writeQuery(q) {
   const params = new URLSearchParams(location.search);
   if (q) params.set("q", q);
@@ -143,6 +188,7 @@ function writeQuery(q) {
 }
 
 function render() {
+  syncField();
   const q = input.value.trim();
   results = search(entries, q);
   active = results.length ? 0 : -1;
@@ -193,7 +239,12 @@ input.addEventListener("keydown", (e) => {
     active = (active + step + results.length) % results.length;
     syncActive();
   } else if (e.key === "Enter") {
-    if (active >= 0) window.location.href = results[active].url;
+    if (!input.value && hints.length) {
+      input.value = hints[hintAt];
+      render();
+    } else if (active >= 0) {
+      window.location.href = results[active].url;
+    }
   } else if (e.key === "Escape") {
     if (input.value) {
       input.value = "";

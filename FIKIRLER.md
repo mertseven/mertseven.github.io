@@ -8,13 +8,7 @@ Zahmet: **çok az** (bir saatten az) · **az** · **orta** · **yüksek**
 
 ## Sıradakiler
 
-Önerilen sıra: önce 1 (öneri çipleri kalktı, ne aranacağını şimdilik hiçbir şey söylemiyor), sonra 2.
-
-### 1. Dönen ipuçları
-Arama kutusunun içindeki yazı birkaç saniyede bir değişir: "try *networks*…", "try *Bergson*…". Kalkan öneri çiplerinin işini görür.
-Zahmet: az
-
-### 2. Yazarken dalga
+### 1. Yazarken dalga
 Arama kutusuna her harf yazılınca kutunun altında hafif bir su halkası oluşur, balıklar dağılır. Motorda hazır bir `splash` fonksiyonu var.
 Zahmet: az
 
@@ -70,3 +64,4 @@ Geri getirmek için: `c3b202c` (son hali, dipten yüzen sürüm) ve `2d045f6`. K
 - Dalış: ana sayfada aşağı kaydırınca okyanus gece mavisine kararır, indeks yüzeyin altından çıkar; sağ kenarda derinlik göstergesi (0 → 200 m)
 - Sayı satırı: "28 projects · 9 papers · 2 writings beneath the surface", öneri çiplerinin yerinde; her sayı bir link
 - Paylaşılabilir arama: `/?q=…` kutuyu doldurup sonuçları açar, yazdıkça adres güncellenir
+- Dönen ipuçları: boş kutuda 3,2 saniyede bir "Try *networks*…", "Try *Bergson*…"; yalnızca sonuç veren kelimeler; boş kutuda Enter görünen ipucunu arar

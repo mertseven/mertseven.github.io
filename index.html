@@ -66,9 +66,12 @@
           <circle cx="7" cy="7" r="5" fill="none" stroke="currentColor" stroke-width="1.3"/>
           <path d="M11 11l3.5 3.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
         </svg>
-        <input id="q" type="search" placeholder="Search projects, research, writing…"
-               role="combobox" aria-expanded="false" aria-controls="results" aria-autocomplete="list"
-               spellcheck="false">
+        <span class="search-field">
+          <input id="q" type="search" placeholder="Search projects, research, writing…"
+                 role="combobox" aria-expanded="false" aria-controls="results" aria-autocomplete="list"
+                 spellcheck="false">
+          <span class="ghost" id="ghost" aria-hidden="true"></span>
+        </span>
         <span class="search-hint"><kbd>/</kbd></span>
       </form>
 

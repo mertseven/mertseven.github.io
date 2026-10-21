@@ -166,8 +166,44 @@ html { scroll-behavior: smooth; }
 
 .search-icon { flex: none; color: var(--ink-3); }
 
+.search-field {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+/* Rotating hint drawn over the empty input in place of the placeholder.
+   home.js swaps the words; the class pair below fades one out and the next in. */
+.ghost {
+  position: absolute;
+  left: 0;
+  right: 0;
+  pointer-events: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: var(--text-md);
+  letter-spacing: var(--tracking-tight);
+  color: var(--ink-3);
+  transition: opacity 260ms var(--ease), transform 260ms var(--ease);
+}
+.ghost em {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 1.12em;
+  color: var(--ink-2);
+}
+.ghost.is-out { opacity: 0; transform: translateY(-5px); }
+.ghost.is-in { opacity: 0; transform: translateY(5px); transition: none; }
+.search-field.has-value .ghost { visibility: hidden; }
+.search-field.has-ghost input::placeholder { color: transparent; }
+
 .search-bar input {
   flex: 1;
+  width: 100%;
   min-width: 0;
   height: 100%;
   border: 0;

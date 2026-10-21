@@ -7,7 +7,7 @@
       "summary": "A browser tool for drawing, analysing and exporting social networks, with community detection.",
       "topics": ["Networks", "Data"], "stack": ["D3", "Graphology", "jsnetworkx", "jStat"] },
     { "id": "philosophical-networks", "title": "Philosophical Networks", "url": "/philosophical-networks/", "kind": "Featured",
-      "summary": "A series mapping seven schools of thought as networks of ideas, from Bergson to Romanticism.",
+      "summary": "Seven schools of thought drawn as networks of ideas: Bergson, the Enlightenment, Hegel, Leninism, Marxism, Nietzsche and Romanticism.",
       "topics": ["Philosophy", "Networks"], "stack": ["D3", "JavaScript"] },
     { "id": "critical-theory", "title": "Critical Theory", "url": "/critical_theory/", "kind": "Featured",
       "summary": "The Frankfurt School drawn with hierarchical edge bundling.",
