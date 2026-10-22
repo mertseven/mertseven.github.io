@@ -34,17 +34,12 @@
   <link rel="stylesheet" href="/assets/css/base.css">
   <link rel="stylesheet" href="/assets/css/search-box.css">
   <link rel="stylesheet" href="/assets/css/home.css">
-  <script>
-    try { const t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
-    // Hide the page for the opening sequence (home.js plays it, then lifts this).
-    // If a script fails, the page still shows after five seconds.
-    if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      document.documentElement.classList.add("is-intro");
-      setTimeout(() => document.documentElement.classList.remove("is-intro"), 5000);
-    }
-  </script>
+  <script>try { const t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
 </head>
 <body class="home">
+  <section class="wall is-waiting" id="wall" aria-label="Projects"></section>
+  <div class="veil" id="veil" aria-hidden="true"></div>
+
   <header class="site-header">
     <a class="wordmark" href="/" aria-label="Mert Seven, home">
       <span class="wordmark-mark" aria-hidden="true"></span>
@@ -69,9 +64,12 @@
     </div>
   </header>
 
-  <section class="wall" id="wall" aria-label="Projects"></section>
+  <main>
+  <section class="surface">
+    <a class="scroll-hint mono" id="scroll-hint" href="#find">scroll to search <span aria-hidden="true">↓</span></a>
+  </section>
 
-  <main class="stage">
+  <section class="stage" id="find">
     <div class="stage-inner">
       <h1 class="prompt" id="prompt"><span class="prompt-line">what are you <em>curious</em> about?</span></h1>
 
@@ -103,6 +101,7 @@
         <p class="beneath" id="beneath"></p>
       </div>
     </div>
+  </section>
   </main>
 
   <footer class="page-foot">

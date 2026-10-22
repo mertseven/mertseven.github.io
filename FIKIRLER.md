@@ -48,6 +48,9 @@ Zahmet: yüksek. Motorun yönlendirmesine müdahale gerektirir.
 
 ## Rafta
 
+### Çizgi roman (Marvel) açılışı
+Proje panelleri çizgi roman kesmeleri gibi hızlanarak geçip duvara dönüşüyordu. Beğenilmedi, kaldırıldı; yerine doğrudan Burst geldi. Kodu: `b7bbdde` (`assets/js/intro.js`).
+
 ### Dalış
 Ana sayfada aşağı kaydırınca okyanus gece mavisine kararıyor, indeks yüzeyin altından çıkıyordu; sağ kenarda derinlik göstergesi (0 → 200 m). Siteyi fazla tematik yaptığı için kaldırıldı.
 Geri getirmek için: `5e941cf`. Ortak indeks modülü (`assets/js/index-grid.js`) bu işten kaldı ve kullanılıyor.
@@ -69,7 +72,7 @@ Geri getirmek için: `c3b202c` (son hali, dipten yüzen sürüm) ve `2d045f6`. K
 - Paylaşılabilir arama: `/?q=…` kutuyu doldurup sonuçları açar, yazdıkça adres güncellenir
 - Dönen ipuçları: boş kutuda sabit "try" ve alttan yükselen kelime ("try *networks*…"); yalnızca sonuç veren kelimeler; boş kutuda Enter görünen ipucunu arar
 - Açık/koyu tema düğmesi: header'ın sağında; önce sistemi izler, seçim hatırlanır; okyanus da birlikte değişir
-- Açılış animasyonu: proje panelleri çizgi roman kesmeleri gibi hızlanarak geçer (~1 sn), sonra duvar merkezden patlayarak yerine oturur; her ziyarette oynar, tıklama/tuş atlatır
-- Proje duvarı: ana sayfada eğik, zıt yönlere kayan üç sıra; arama yazıldıkça eşleşmeyenler söner, dönen ipucu kendi projelerini öne çıkarır
+- Proje duvarı: ana sayfa tam ekran duvarla açılır; kartlar merkezden patlayarak yerine oturur (Burst). Sıralar zıt yönlere kayar, kavisli bir perde gibi: ortadakiler düz, kenardakiler izleyiciye döner
+- Kaydırınca arama: duvarın önüne kâğıt bir cam iner, soru ve arama kutusu gelir; arama yazıldıkça cam incelir, eşleşen kartlar arkada parlar, dönen ipucu kendi projelerini öne çıkarır
 - Okyanuslu arama `/search/` sayfasına taşındı; header'daki arama simgesi ve her sayfada `/` oraya götürür
 - Proje ekran görüntüleri: `tools/shoot-projects.py` (28 projeden 27'si; `conflict` çekilemedi, tipografik kart)

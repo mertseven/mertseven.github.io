@@ -1,79 +1,58 @@
-/* Home: the project wall up top, the question and the search beneath it,
-   and the comic-panel opening that bursts into the wall. */
+/* Home: the curved project wall fills the first screen and bursts in on load.
+   Scrolling down draws frosted glass over it and brings up the question and the search. */
 
-.home {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  min-height: 100dvh;
-  overflow-x: hidden;
-}
+.home { overflow-x: hidden; }
+:root { --p: 0; } /* scroll progress from the wall to the search, set by home.js */
+html:has(.home) { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html:has(.home) { scroll-behavior: auto; } }
 
-/* Wall */
+/* Wall: fixed behind the page, the full window. */
 
 .wall {
   --tile-w: 248px;
   --tile-h: 155px;
-  --tile-gap: 14px;
-  position: relative;
-  height: clamp(300px, 50vh, 560px);
+  --tile-gap: 16px;
+  position: fixed;
+  inset: 0;
+  z-index: 0;
   overflow: hidden;
-  /* Fade into the paper at the sides and the bottom so the rows seem to go on. */
-  -webkit-mask-image: linear-gradient(90deg, transparent, #000 9%, #000 91%, transparent),
-                      linear-gradient(180deg, #000 72%, transparent);
-  -webkit-mask-composite: source-in;
-  mask-image: linear-gradient(90deg, transparent, #000 9%, #000 91%, transparent),
-              linear-gradient(180deg, #000 72%, transparent);
-  mask-composite: intersect;
+  perspective: 1300px;
+  perspective-origin: 50% 50%;
 }
-
-.wall-tilt {
+.wall-field {
   position: absolute;
-  left: -10%;
-  right: -10%;
-  top: 50%;
-  display: grid;
-  gap: var(--tile-gap);
-  transform: translateY(-50%) rotate(-4deg);
+  inset: 0;
+  transform-style: preserve-3d;
 }
-
-.wall-row { overflow: visible; }
-.wall-row:nth-child(2) { margin-left: calc(var(--tile-w) * -0.45); } /* offset rows, brick-like */
-
-.wall-track {
-  display: flex;
-  gap: var(--tile-gap);
-  width: max-content;
-  animation: drift var(--dur, 60s) linear infinite;
-}
-.wall-row--reverse .wall-track { animation-direction: reverse; }
-.wall-row:hover .wall-track { animation-play-state: paused; }
-
-/* Exactly half the track is one full run, so -50% lands on an identical frame. */
-@keyframes drift {
-  from { transform: translateX(0); }
-  to { transform: translateX(calc(-50% - var(--tile-gap) / 2)); }
-}
+.wall.is-waiting .tile { opacity: 0; } /* until the images are in and the burst starts */
 
 .tile {
-  position: relative;
-  flex: none;
+  position: absolute;
+  top: 0;
+  left: 0;
   width: var(--tile-w);
   height: var(--tile-h);
+  will-change: transform;
+  backface-visibility: hidden;
+}
+.tile-card {
+  position: relative;
+  width: 100%;
+  height: 100%;
   overflow: hidden;
   border-radius: var(--radius-sm);
   background: var(--paper-raised);
-  box-shadow: 0 1px 2px rgba(22, 23, 27, 0.08), 0 10px 26px -16px rgba(22, 23, 27, 0.4);
+  box-shadow: 0 1px 2px rgba(22, 23, 27, 0.08), 0 12px 30px -18px rgba(22, 23, 27, 0.45);
   transition: transform var(--dur) var(--ease), opacity 320ms var(--ease), filter 320ms var(--ease), box-shadow var(--dur) var(--ease);
 }
-.tile img {
+.tile-card img {
   display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
   object-position: top;
 }
-.tile:hover { transform: translateY(-4px) scale(1.03); z-index: 1; }
+.tile:hover .tile-card { transform: translateY(-4px) scale(1.04); }
 
 /* Title strip on hover, on glass so it reads over any screenshot. */
 .tile-label {
@@ -96,7 +75,7 @@
   transition: opacity var(--dur) var(--ease), transform var(--dur) var(--ease);
 }
 .tile-label .label { font-size: 0.625rem; font-weight: var(--weight-regular); }
-.tile:hover .tile-label, .tile.is-match .tile-label { opacity: 1; transform: none; }
+.tile:hover .tile-label { opacity: 1; transform: none; }
 
 /* No screenshot: the title set large, like a cover. */
 .tile-fallback { display: none; }
@@ -113,82 +92,99 @@
 .tile--type .tile-label { display: none; }
 
 /* Search echo */
-.wall.is-filtering .tile:not(.is-match) { opacity: 0.16; filter: grayscale(1); }
-.wall.is-filtering .tile.is-match { box-shadow: 0 0 0 1px var(--ink), 0 14px 30px -16px rgba(22, 23, 27, 0.5); }
-.wall.is-hinting .tile.is-match { box-shadow: 0 0 0 1px var(--line-strong), 0 14px 30px -16px rgba(22, 23, 27, 0.5); }
+.wall.is-filtering .tile:not(.is-match) .tile-card { opacity: 0.14; filter: grayscale(1); }
+.wall.is-filtering .tile.is-match .tile-card { box-shadow: 0 0 0 1px var(--ink), 0 16px 34px -16px rgba(22, 23, 27, 0.55); }
+.wall.is-hinting .tile.is-match .tile-card { box-shadow: 0 0 0 1px var(--line-strong), 0 16px 34px -16px rgba(22, 23, 27, 0.55); }
 
-/* Search under the wall */
-
-.home .stage {
-  flex: 1;
-  justify-content: flex-start;
-  padding: var(--s-6) var(--gutter) var(--s-7);
-  position: relative;
-  z-index: 3; /* the results panel hangs over the footer */
-}
-
-/* Opening */
-
-.intro {
+/* The glass that slides over the wall as you scroll. home.js sets --p (0 at the top,
+   1 once the search is up); while a search is typed it thins so lit tiles show through. */
+.veil {
+  --max: 0.8;
   position: fixed;
   inset: 0;
-  z-index: 50;
+  z-index: 1;
+  pointer-events: none;
   background: var(--paper);
-  transition: opacity 180ms var(--ease);
+  -webkit-backdrop-filter: blur(14px) saturate(1.05);
+  backdrop-filter: blur(14px) saturate(1.05);
+  opacity: calc(var(--p) * var(--max));
+  transition: opacity 300ms var(--ease);
 }
-.intro.is-leaving { opacity: 0; pointer-events: none; }
+.veil.is-thin { --max: 0.5; }
 
-.intro-frame {
+/* Header over the wall: a strip of frosted glass that fades out downward keeps the nav
+   readable over any screenshot. */
+.home .site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+}
+.home .site-header::before {
+  content: "";
   position: absolute;
-  inset: 0;
-  display: grid;
-  gap: 10px;
-  padding: 10px;
-  background: var(--paper);
+  inset: 0 0 -24px;
+  z-index: -1;
+  background: var(--glass-strong);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  -webkit-mask-image: linear-gradient(180deg, #000 55%, transparent);
+  mask-image: linear-gradient(180deg, #000 55%, transparent);
 }
-.intro-frame--full { grid-template: 1fr / 1fr; padding: 0; }
-.intro-frame--split2 { grid-template: 1fr / 1.3fr 1fr; }
-.intro-frame--split2v { grid-template: 1fr 1fr / 1fr; }
-.intro-frame--split3 { grid-template: 1fr 1fr / 1.4fr 1fr; }
-.intro-frame--split3 .intro-panel:first-child { grid-row: span 2; }
-.intro-frame--row3 { grid-template: 1fr / 1fr 1.2fr 1fr; }
 
-.intro-panel {
+/* Page */
+
+.home main,
+.home .page-foot { position: relative; z-index: 2; }
+
+/* First screen: nothing but the wall, and a hint that there is more below. */
+.surface {
   position: relative;
-  overflow: hidden;
-  background: var(--ink);
+  height: 100vh;
+  height: 100svh;
 }
-.intro-panel img {
+.scroll-hint {
+  position: absolute;
+  left: 50%;
+  bottom: var(--s-6);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  padding: var(--s-2) var(--s-4);
+  transform: translateX(-50%);
+  border-radius: 999px;
+  background: var(--glass-strong);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  box-shadow: var(--shadow-glass);
+  font-size: var(--text-xs);
+  color: var(--ink-2);
+  transition: color var(--dur-fast) var(--ease);
+}
+.scroll-hint:hover { color: var(--ink); }
+.scroll-hint span { display: inline-block; animation: bob 2.4s var(--ease) infinite; }
+@keyframes bob { 50% { transform: translateY(3px); } }
+
+/* Second screen: the question and the search, over the glass. */
+.home .stage {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100svh;
+  justify-content: center;
+  padding: var(--s-8) var(--gutter) 22vh;
+}
+/* A pool of paper behind the question, so the type never sits on a busy tile. */
+.home .stage::before {
+  content: "";
   position: absolute;
   inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: top;
-  animation: punch var(--cut, 200ms) linear both;
-}
-/* Each cut lands a little too close and eases back, like a camera pushing out of a page. */
-@keyframes punch {
-  from { transform: scale(1.16) translate(var(--px, 0), var(--py, 0)); }
-  to { transform: scale(1.02); }
-}
-
-/* Until the reveal the page underneath stays hidden; then it eases in under the burst. */
-html.is-intro .home .site-header,
-html.is-intro .home .stage,
-html.is-intro .home .page-foot { opacity: 0; }
-html.is-revealing .home .site-header,
-html.is-revealing .home .page-foot { transition: opacity 600ms var(--ease) 300ms; }
-html.is-revealing .home .stage { animation: rise 700ms var(--ease) 380ms both; }
-@keyframes rise {
-  from { opacity: 0; transform: translateY(14px); }
-  to { opacity: 1; transform: none; }
+  z-index: -1;
+  pointer-events: none;
+  background: radial-gradient(ellipse 46% 34% at 50% 40%, var(--paper) 35%, transparent 100%);
+  opacity: var(--p);
 }
 
 @media (max-width: 700px) {
-  .wall { --tile-w: 168px; --tile-h: 105px; --tile-gap: 10px; height: clamp(240px, 40vh, 360px); }
-  .intro-frame--row3 { grid-template: 1fr 1fr 1fr / 1fr; }
-  .intro-frame--split2 { grid-template: 1fr 1fr / 1fr; }
-  .intro-frame--split3 { grid-template: 1.3fr 1fr / 1fr 1fr; }
-  .intro-frame--split3 .intro-panel:first-child { grid-row: auto; grid-column: span 2; }
+  .wall { --tile-w: 172px; --tile-h: 108px; --tile-gap: 12px; perspective: 900px; }
 }
