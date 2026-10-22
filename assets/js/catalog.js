@@ -51,7 +51,13 @@ function toEntries(data) {
     e.nTags = normalize(e.tags.join(" "));
     e.nBody = normalize(`${e.summary} ${e.meta}`);
   }
-  return { entries, projects: data.projects };
+  // Wall thumbnails follow the id; tools/shoot-projects.py makes them. "image": null in the
+  // catalog marks a project without one, which the wall sets as a typographic tile.
+  const projectsWithImages = data.projects.map((p) => ({
+    ...p,
+    image: p.image === null ? null : `/assets/img/projects/${p.id}.webp`,
+  }));
+  return { entries, projects: projectsWithImages };
 }
 
 // Lowercase and fold accents, including Turkish ı/İ, so "etkilesim" finds "Etkileşim".

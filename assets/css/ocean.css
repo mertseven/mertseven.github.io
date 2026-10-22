@@ -1,0 +1,42 @@
+/* /search/: the ocean under frosted glass, one question, one search box. */
+
+.ocean-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100dvh;
+  overflow-x: hidden;
+}
+
+#ocean {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  font-family: var(--font-mono);
+  z-index: 0;
+}
+
+/* The glass: blur and a pale wash, strongest in the middle and clear at the edges,
+   so fish swim sharp at the borders and dissolve as they pass under the question. */
+.frost {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: var(--glass);
+  -webkit-backdrop-filter: blur(var(--blur-glass)) saturate(1.1);
+  backdrop-filter: blur(var(--blur-glass)) saturate(1.1);
+  -webkit-mask-image: radial-gradient(ellipse 62% 58% at 50% 48%, #000 28%, rgba(0, 0, 0, 0.55) 52%, transparent 78%);
+  mask-image: radial-gradient(ellipse 62% 58% at 50% 48%, #000 28%, rgba(0, 0, 0, 0.55) 52%, transparent 78%);
+}
+
+.ocean-page .site-header,
+.ocean-page .stage,
+.ocean-page .page-foot { position: relative; z-index: 2; }
+
+.ocean-page .stage {
+  flex: 1;
+  justify-content: center;
+  padding: var(--s-7) var(--gutter) 18vh;
+}

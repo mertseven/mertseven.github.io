@@ -1,0 +1,218 @@
+/* The search box shared by the home page and /search/: the question, the bar, its hints,
+   the results panel and the count line beneath it. */
+
+.stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--s-6);
+}
+
+/* The question and the search box share one column, so the line ends where the bar ends. */
+.stage-inner {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-6);
+  width: min(640px, 100%);
+}
+
+/* search-box.js scales the font so the line spans the column exactly; this size is the fallback. */
+.prompt {
+  margin: 0;
+  font-size: var(--text-display);
+  font-weight: var(--weight-light);
+  letter-spacing: var(--tracking-display);
+  line-height: 1.05;
+  text-align: center;
+  white-space: nowrap;
+}
+.prompt-line { display: inline-block; }
+.prompt em {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  padding-right: 0.04em; /* the italic overhangs its box */
+}
+
+/* Bar */
+
+.search {
+  position: relative;
+  width: 100%;
+}
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  height: 56px;
+  padding: 0 var(--s-4) 0 var(--s-5);
+  background: var(--glass-strong);
+  -webkit-backdrop-filter: blur(24px);
+  backdrop-filter: blur(24px);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-glass);
+  transition: border-color var(--dur) var(--ease), border-radius var(--dur) var(--ease);
+}
+.search-bar:focus-within { border-color: var(--line-strong); }
+.search.is-open .search-bar { border-radius: var(--radius-lg) var(--radius-lg) 0 0; border-bottom-color: var(--line); }
+
+.search-icon { flex: none; color: var(--ink-3); }
+
+.search-field {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+/* Rotating hint drawn over the empty input in place of the placeholder. */
+.ghost {
+  position: absolute;
+  left: 0;
+  right: 0;
+  pointer-events: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: var(--text-md);
+  letter-spacing: var(--tracking-tight);
+  color: var(--ink-3);
+}
+.ghost em {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 1.12em;
+  color: var(--ink-2);
+}
+/* The word rides in a clipped slot: it leaves through the top and the next rises from the bottom.
+   The padding/margin pair gives the italic room so its ascenders and tails are not cut. */
+.ghost-slot {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+  padding: 0.12em 0.15em 0.12em 0;
+  margin: -0.12em -0.15em -0.12em 0;
+}
+.ghost-word {
+  display: inline-block;
+  transition: transform 320ms var(--ease), opacity 320ms var(--ease);
+}
+.ghost-word.is-out { transform: translateY(-110%); opacity: 0; }
+.ghost-word.is-in { transform: translateY(110%); opacity: 0; transition: none; }
+.search-field.has-value .ghost { visibility: hidden; }
+.search-field.has-ghost input::placeholder { color: transparent; }
+
+.search-bar input {
+  flex: 1;
+  width: 100%;
+  min-width: 0;
+  height: 100%;
+  border: 0;
+  background: none;
+  outline: none;
+  font-size: var(--text-md);
+  letter-spacing: var(--tracking-tight);
+}
+.search-bar input::placeholder { color: var(--ink-3); }
+.search-bar input::-webkit-search-cancel-button { display: none; }
+
+.search-hint { flex: none; }
+.search-bar:focus-within .search-hint { opacity: 0; }
+
+/* Results */
+
+.search-panel {
+  position: absolute;
+  top: 56px; /* hangs from the search bar, not from the count line under it */
+  z-index: 5;
+  left: 0;
+  right: 0;
+  max-height: min(50vh, 420px);
+  overflow-y: auto;
+  background: var(--glass-strong);
+  -webkit-backdrop-filter: blur(24px);
+  backdrop-filter: blur(24px);
+  border: 1px solid var(--line-strong);
+  border-top: 0;
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+  box-shadow: var(--shadow-glass);
+}
+
+.results { list-style: none; margin: 0; padding: var(--s-2); }
+
+.result a {
+  display: grid;
+  grid-template-columns: 76px 1fr;
+  gap: var(--s-1) var(--s-4);
+  padding: var(--s-3);
+  border-radius: var(--radius-md);
+}
+.result[aria-selected="true"] a { background: var(--line); }
+
+.result-type { grid-row: span 2; padding-top: 3px; }
+.result-title {
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  line-height: 1.35;
+}
+.result-sub {
+  font-size: var(--text-xs);
+  color: var(--ink-3);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.results mark { background: none; color: inherit; text-decoration: underline; text-decoration-color: var(--ink-4); text-underline-offset: 3px; }
+
+.results-empty { padding: var(--s-5) var(--s-4); font-size: var(--text-sm); color: var(--ink-3); }
+
+.search-foot {
+  display: flex;
+  align-items: center;
+  gap: var(--s-4);
+  padding: var(--s-3) var(--s-5);
+  border-top: 1px solid var(--line);
+  font-size: var(--text-xs);
+  color: var(--ink-3);
+}
+.search-foot kbd { margin-right: 2px; }
+.search-foot a { margin-left: auto; color: var(--ink-2); }
+.search-foot a:hover { color: var(--ink); }
+
+/* What lies beneath: a quiet count under the bar, each number a way in. */
+.beneath {
+  min-height: 1.5em; /* holds its place until the catalog arrives */
+  margin: var(--s-4) 0 0;
+  text-align: center;
+  font-size: var(--text-xs);
+  letter-spacing: 0.01em;
+  color: var(--ink-3);
+  transition: opacity var(--dur) var(--ease);
+}
+.beneath a { color: var(--ink-2); transition: color var(--dur-fast) var(--ease); }
+.beneath a:hover { color: var(--ink); }
+.beneath .mono { color: var(--ink); }
+.beneath .sep { margin: 0 var(--s-2); color: var(--ink-4); }
+.search.is-open .beneath { opacity: 0; visibility: hidden; }
+
+/* The small footer both search pages close with. */
+.page-foot {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--s-4);
+  padding: var(--s-5) var(--gutter);
+  font-size: var(--text-xs);
+  color: var(--ink-3);
+}
+
+@media (max-width: 560px) {
+  .search-foot span { display: none; }
+  .page-foot-note { display: none; }
+  .result a { grid-template-columns: 1fr; }
+  .result-type { grid-row: auto; padding: 0; }
+}

@@ -52,7 +52,7 @@
     { "id": "icebreaker", "title": "Icebreaker Session", "url": "/meet/teacher.html", "kind": "Teaching",
       "summary": "A classroom icebreaker: students join by QR code and answer live on the teacher's screen.",
       "topics": ["Education", "Real-time"], "stack": ["PeerJS", "QRCode.js"] },
-    { "id": "conflict", "title": "Collaborative Conflict Observatory", "url": "/conflict.html", "kind": "Teaching",
+    { "id": "conflict", "title": "Collaborative Conflict Observatory", "url": "/conflict.html", "kind": "Teaching", "image": null,
       "summary": "A shared, multi-user space for observing a conflict together.",
       "topics": ["Real-time", "Collaboration"], "stack": ["PeerJS"] },
     { "id": "weather-app", "title": "Weather Recommendation App", "url": "/nmed1110/web-app.html", "kind": "Teaching",

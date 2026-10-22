@@ -90,13 +90,18 @@ img, svg, canvas { display: block; }
   gap: var(--s-5);
 }
 
-/* Light/dark switch: shows the moon in light mode and the sun in dark, i.e. where a click goes. */
-.theme-toggle {
+/* Round icon buttons at the end of the header: search and the theme switch. */
+.header-icons {
+  display: flex;
+  align-items: center;
+  gap: var(--s-1);
+  margin: -6px -8px -6px 0;
+}
+.icon-btn {
   display: inline-grid;
   place-items: center;
   width: 32px;
   height: 32px;
-  margin: -6px -8px -6px 0;
   padding: 0;
   border: 1px solid transparent;
   border-radius: 999px;
@@ -105,15 +110,28 @@ img, svg, canvas { display: block; }
   cursor: pointer;
   transition: color var(--dur-fast) var(--ease), border-color var(--dur-fast) var(--ease);
 }
-.theme-toggle:hover { color: var(--ink); border-color: var(--line); }
+.icon-btn:hover, .icon-btn[aria-current="page"] { color: var(--ink); border-color: var(--line); }
+
+/* Light/dark switch: shows the moon in light mode and the sun in dark, i.e. where a click goes. */
 .theme-toggle svg { grid-area: 1 / 1; transition: opacity var(--dur) var(--ease), transform var(--dur) var(--ease); }
 .theme-toggle .icon-sun,
 .theme-toggle[data-mode="dark"] .icon-moon { opacity: 0; transform: rotate(-45deg) scale(0.7); }
 .theme-toggle[data-mode="dark"] .icon-sun { opacity: 1; transform: none; }
 
+.wordmark { white-space: nowrap; }
+
 @media (max-width: 560px) {
   .site-nav { gap: var(--s-4); }
   .header-end { gap: var(--s-3); }
+}
+
+/* Phones: the nav and icons need the room, so the wordmark keeps only its mark. */
+@media (max-width: 480px) {
+  .wordmark span:not(.wordmark-mark) {
+    position: absolute; width: 1px; height: 1px; overflow: hidden;
+    clip: rect(0 0 0 0); white-space: nowrap;
+  }
+  .site-nav { gap: var(--s-3); }
 }
 
 /* Footer */

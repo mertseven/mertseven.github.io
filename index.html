@@ -32,13 +32,19 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500&family=Geist+Mono:wght@400;600&family=Instrument+Serif:ital@1&display=swap">
   <link rel="stylesheet" href="/assets/css/tokens.css">
   <link rel="stylesheet" href="/assets/css/base.css">
+  <link rel="stylesheet" href="/assets/css/search-box.css">
   <link rel="stylesheet" href="/assets/css/home.css">
-  <script>try { const t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+  <script>
+    try { const t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
+    // Hide the page for the opening sequence (home.js plays it, then lifts this).
+    // If a script fails, the page still shows after five seconds.
+    if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      document.documentElement.classList.add("is-intro");
+      setTimeout(() => document.documentElement.classList.remove("is-intro"), 5000);
+    }
+  </script>
 </head>
 <body class="home">
-  <canvas id="ocean" aria-hidden="true"></canvas>
-  <div class="frost" aria-hidden="true"></div>
-
   <header class="site-header">
     <a class="wordmark" href="/" aria-label="Mert Seven, home">
       <span class="wordmark-mark" aria-hidden="true"></span>
@@ -51,50 +57,57 @@
         <a href="/writing.html">Writing</a>
         <a href="/contact.html">About</a>
       </nav>
-      <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch to dark mode">
-        <svg class="icon-moon" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M13.5 9.6A5.6 5.6 0 0 1 6.4 2.5a5.6 5.6 0 1 0 7.1 7.1Z" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>
-        <svg class="icon-sun" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="3" fill="none" stroke="currentColor" stroke-width="1.3"/><path d="M8 1.5v1.6M8 12.9v1.6M1.5 8h1.6M12.9 8h1.6M3.4 3.4l1.1 1.1M11.5 11.5l1.1 1.1M3.4 12.6l1.1-1.1M11.5 4.5l1.1-1.1" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
-      </button>
+      <div class="header-icons">
+        <a class="icon-btn" href="/search/" aria-label="Search">
+          <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="5" fill="none" stroke="currentColor" stroke-width="1.3"/><path d="M11 11l3.5 3.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+        </a>
+        <button class="icon-btn theme-toggle" type="button" data-theme-toggle aria-label="Switch to dark mode">
+          <svg class="icon-moon" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M13.5 9.6A5.6 5.6 0 0 1 6.4 2.5a5.6 5.6 0 1 0 7.1 7.1Z" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>
+          <svg class="icon-sun" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="3" fill="none" stroke="currentColor" stroke-width="1.3"/><path d="M8 1.5v1.6M8 12.9v1.6M1.5 8h1.6M12.9 8h1.6M3.4 3.4l1.1 1.1M11.5 11.5l1.1 1.1M3.4 12.6l1.1-1.1M11.5 4.5l1.1-1.1" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+        </button>
+      </div>
     </div>
   </header>
 
+  <section class="wall" id="wall" aria-label="Projects"></section>
+
   <main class="stage">
     <div class="stage-inner">
-    <h1 class="prompt" id="prompt"><span class="prompt-line">what are you <em>curious</em> about?</span></h1>
+      <h1 class="prompt" id="prompt"><span class="prompt-line">what are you <em>curious</em> about?</span></h1>
 
-    <div class="search" id="search">
-      <form class="search-bar" role="search" autocomplete="off" onsubmit="return false">
-        <label class="visually-hidden" for="q">Search projects, research and writing</label>
-        <svg class="search-icon" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
-          <circle cx="7" cy="7" r="5" fill="none" stroke="currentColor" stroke-width="1.3"/>
-          <path d="M11 11l3.5 3.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
-        </svg>
-        <span class="search-field">
-          <input id="q" type="search" placeholder="Search projects, research, writing…"
-                 role="combobox" aria-expanded="false" aria-controls="results" aria-autocomplete="list"
-                 spellcheck="false">
-          <span class="ghost" id="ghost" aria-hidden="true"></span>
-        </span>
-        <span class="search-hint"><kbd>/</kbd></span>
-      </form>
+      <div class="search" id="search">
+        <form class="search-bar" role="search" autocomplete="off" onsubmit="return false">
+          <label class="visually-hidden" for="q">Search projects, research and writing</label>
+          <svg class="search-icon" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
+            <circle cx="7" cy="7" r="5" fill="none" stroke="currentColor" stroke-width="1.3"/>
+            <path d="M11 11l3.5 3.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+          </svg>
+          <span class="search-field">
+            <input id="q" type="search" placeholder="Search projects, research, writing…"
+                   role="combobox" aria-expanded="false" aria-controls="results" aria-autocomplete="list"
+                   spellcheck="false">
+            <span class="ghost" id="ghost" aria-hidden="true"></span>
+          </span>
+          <span class="search-hint"><kbd>/</kbd></span>
+        </form>
 
-      <div class="search-panel" id="panel" hidden>
-        <ul class="results" id="results" role="listbox" aria-label="Results"></ul>
-        <div class="search-foot">
-          <span><kbd>↑</kbd><kbd>↓</kbd> move</span>
-          <span><kbd>↵</kbd> open</span>
-          <a href="/work/">Browse the full index →</a>
+        <div class="search-panel" id="panel" hidden>
+          <ul class="results" id="results" role="listbox" aria-label="Results"></ul>
+          <div class="search-foot">
+            <span><kbd>↑</kbd><kbd>↓</kbd> move</span>
+            <span><kbd>↵</kbd> open</span>
+            <a href="/work/">Browse the full index →</a>
+          </div>
         </div>
-      </div>
 
-      <p class="beneath" id="beneath"></p>
-    </div>
+        <p class="beneath" id="beneath"></p>
+      </div>
     </div>
   </main>
 
-  <footer class="home-footer">
+  <footer class="page-foot">
     <span>© <span id="year">2026</span> Mert Seven</span>
-    <span class="home-footer-note mono">move to stir · click to splash</span>
+    <a class="page-foot-note mono" href="/search/">search the ocean →</a>
   </footer>
 
   <script type="module" src="/assets/js/home.js"></script>

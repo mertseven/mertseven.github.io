@@ -1,4 +1,5 @@
-/* Home: the ocean under frosted glass, one question, one search box. */
+/* Home: the project wall up top, the question and the search beneath it,
+   and the comic-panel opening that bursts into the wall. */
 
 .home {
   display: flex;
@@ -8,246 +9,186 @@
   overflow-x: hidden;
 }
 
-#ocean {
-  position: fixed;
-  inset: 0;
-  width: 100vw;
-  height: 100vh;
-  font-family: var(--font-mono);
-  z-index: 0;
-}
+/* Wall */
 
-/* The glass: blur and a pale wash, strongest in the middle and clear at the edges,
-   so fish swim sharp at the borders and dissolve as they pass under the question. */
-.frost {
-  position: fixed;
-  inset: 0;
-  z-index: 1;
-  pointer-events: none;
-  background: var(--glass);
-  -webkit-backdrop-filter: blur(var(--blur-glass)) saturate(1.1);
-  backdrop-filter: blur(var(--blur-glass)) saturate(1.1);
-  -webkit-mask-image: radial-gradient(ellipse 62% 58% at 50% 48%, #000 28%, rgba(0, 0, 0, 0.55) 52%, transparent 78%);
-  mask-image: radial-gradient(ellipse 62% 58% at 50% 48%, #000 28%, rgba(0, 0, 0, 0.55) 52%, transparent 78%);
-}
-
-.home .site-header,
-.stage,
-.home-footer { position: relative; z-index: 2; }
-
-.stage {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: var(--s-6);
-  padding: var(--s-7) var(--gutter) 18vh;
-}
-
-.home-footer {
-  display: flex;
-  justify-content: space-between;
-  gap: var(--s-4);
-  padding: var(--s-5) var(--gutter);
-  font-size: var(--text-xs);
-  color: var(--ink-3);
-}
-
-/* The question and the search box share one column, so the line ends where the bar ends. */
-.stage-inner {
-  display: flex;
-  flex-direction: column;
-  gap: var(--s-6);
-  width: min(640px, 100%);
-}
-
-/* home.js scales the font so the line spans the column exactly; this size is the fallback. */
-.prompt {
-  margin: 0;
-  font-size: var(--text-display);
-  font-weight: var(--weight-light);
-  letter-spacing: var(--tracking-display);
-  line-height: 1.05;
-  text-align: center;
-  white-space: nowrap;
-}
-.prompt-line { display: inline-block; }
-.prompt em {
-  font-family: var(--font-serif);
-  font-style: italic;
-  font-weight: 400;
-  letter-spacing: -0.01em;
-  padding-right: 0.04em; /* the italic overhangs its box */
-}
-
-/* Search */
-
-.search {
+.wall {
+  --tile-w: 248px;
+  --tile-h: 155px;
+  --tile-gap: 14px;
   position: relative;
-  width: 100%;
-}
-
-.search-bar {
-  display: flex;
-  align-items: center;
-  gap: var(--s-3);
-  height: 56px;
-  padding: 0 var(--s-4) 0 var(--s-5);
-  background: var(--glass-strong);
-  -webkit-backdrop-filter: blur(24px);
-  backdrop-filter: blur(24px);
-  border: 1px solid var(--line);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-glass);
-  transition: border-color var(--dur) var(--ease), border-radius var(--dur) var(--ease);
-}
-.search-bar:focus-within { border-color: var(--line-strong); }
-.search.is-open .search-bar { border-radius: var(--radius-lg) var(--radius-lg) 0 0; border-bottom-color: var(--line); }
-
-.search-icon { flex: none; color: var(--ink-3); }
-
-.search-field {
-  position: relative;
-  flex: 1;
-  min-width: 0;
-  height: 100%;
-  display: flex;
-  align-items: center;
-}
-
-/* Rotating hint drawn over the empty input in place of the placeholder.
-   home.js swaps the words; the class pair below fades one out and the next in. */
-.ghost {
-  position: absolute;
-  left: 0;
-  right: 0;
-  pointer-events: none;
-  white-space: nowrap;
+  height: clamp(300px, 50vh, 560px);
   overflow: hidden;
-  text-overflow: ellipsis;
-  font-size: var(--text-md);
-  letter-spacing: var(--tracking-tight);
-  color: var(--ink-3);
+  /* Fade into the paper at the sides and the bottom so the rows seem to go on. */
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 9%, #000 91%, transparent),
+                      linear-gradient(180deg, #000 72%, transparent);
+  -webkit-mask-composite: source-in;
+  mask-image: linear-gradient(90deg, transparent, #000 9%, #000 91%, transparent),
+              linear-gradient(180deg, #000 72%, transparent);
+  mask-composite: intersect;
 }
-.ghost em {
-  font-family: var(--font-serif);
-  font-style: italic;
-  font-size: 1.12em;
-  color: var(--ink-2);
-}
-/* The word rides in a clipped slot: it leaves through the top and the next rises from the bottom.
-   The padding/margin pair gives the italic room so its ascenders and tails are not cut. */
-.ghost-slot {
-  display: inline-block;
-  overflow: hidden;
-  vertical-align: bottom;
-  padding: 0.12em 0.15em 0.12em 0;
-  margin: -0.12em -0.15em -0.12em 0;
-}
-.ghost-word {
-  display: inline-block;
-  transition: transform 320ms var(--ease), opacity 320ms var(--ease);
-}
-.ghost-word.is-out { transform: translateY(-110%); opacity: 0; }
-.ghost-word.is-in { transform: translateY(110%); opacity: 0; transition: none; }
-.search-field.has-value .ghost { visibility: hidden; }
-.search-field.has-ghost input::placeholder { color: transparent; }
 
-.search-bar input {
-  flex: 1;
-  width: 100%;
-  min-width: 0;
-  height: 100%;
-  border: 0;
-  background: none;
-  outline: none;
-  font-size: var(--text-md);
-  letter-spacing: var(--tracking-tight);
-}
-.search-bar input::placeholder { color: var(--ink-3); }
-.search-bar input::-webkit-search-cancel-button { display: none; }
-
-.search-hint { flex: none; }
-.search-bar:focus-within .search-hint { opacity: 0; }
-
-.search-panel {
+.wall-tilt {
   position: absolute;
-  top: 56px; /* hangs from the search bar, not from the suggestions under it */
-  z-index: 3;
-  left: 0;
-  right: 0;
-  max-height: min(50vh, 420px);
-  overflow-y: auto;
-  background: var(--glass-strong);
-  -webkit-backdrop-filter: blur(24px);
-  backdrop-filter: blur(24px);
-  border: 1px solid var(--line-strong);
-  border-top: 0;
-  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
-  box-shadow: var(--shadow-glass);
-}
-
-.results { list-style: none; margin: 0; padding: var(--s-2); }
-
-.result a {
+  left: -10%;
+  right: -10%;
+  top: 50%;
   display: grid;
-  grid-template-columns: 76px 1fr;
-  gap: var(--s-1) var(--s-4);
-  padding: var(--s-3);
-  border-radius: var(--radius-md);
+  gap: var(--tile-gap);
+  transform: translateY(-50%) rotate(-4deg);
 }
-.result[aria-selected="true"] a { background: var(--line); }
 
-.result-type { grid-row: span 2; padding-top: 3px; }
-.result-title {
-  font-size: var(--text-sm);
-  font-weight: var(--weight-medium);
-  line-height: 1.35;
-}
-.result-sub {
-  font-size: var(--text-xs);
-  color: var(--ink-3);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.results mark { background: none; color: inherit; text-decoration: underline; text-decoration-color: var(--ink-4); text-underline-offset: 3px; }
+.wall-row { overflow: visible; }
+.wall-row:nth-child(2) { margin-left: calc(var(--tile-w) * -0.45); } /* offset rows, brick-like */
 
-.results-empty { padding: var(--s-5) var(--s-4); font-size: var(--text-sm); color: var(--ink-3); }
-
-.search-foot {
+.wall-track {
   display: flex;
-  align-items: center;
-  gap: var(--s-4);
-  padding: var(--s-3) var(--s-5);
-  border-top: 1px solid var(--line);
-  font-size: var(--text-xs);
-  color: var(--ink-3);
+  gap: var(--tile-gap);
+  width: max-content;
+  animation: drift var(--dur, 60s) linear infinite;
 }
-.search-foot kbd { margin-right: 2px; }
-.search-foot a { margin-left: auto; color: var(--ink-2); }
-.search-foot a:hover { color: var(--ink); }
+.wall-row--reverse .wall-track { animation-direction: reverse; }
+.wall-row:hover .wall-track { animation-play-state: paused; }
 
-/* What lies beneath: a quiet count under the bar, each number a way down. */
-.beneath {
-  min-height: 1.5em; /* holds its place until the catalog arrives */
-  margin: var(--s-4) 0 0;
-  text-align: center;
-  font-size: var(--text-xs);
-  letter-spacing: 0.01em;
-  color: var(--ink-3);
-  transition: opacity var(--dur) var(--ease);
+/* Exactly half the track is one full run, so -50% lands on an identical frame. */
+@keyframes drift {
+  from { transform: translateX(0); }
+  to { transform: translateX(calc(-50% - var(--tile-gap) / 2)); }
 }
-.beneath a { color: var(--ink-2); transition: color var(--dur-fast) var(--ease); }
-.beneath a:hover { color: var(--ink); }
-.beneath .mono { color: var(--ink); }
-.beneath .sep { margin: 0 var(--s-2); color: var(--ink-4); }
-.search.is-open .beneath { opacity: 0; visibility: hidden; }
 
-@media (max-width: 560px) {
-  .search-foot span { display: none; }
-  .home-footer-note { display: none; }
-  .result a { grid-template-columns: 1fr; }
-  .result-type { grid-row: auto; padding: 0; }
+.tile {
+  position: relative;
+  flex: none;
+  width: var(--tile-w);
+  height: var(--tile-h);
+  overflow: hidden;
+  border-radius: var(--radius-sm);
+  background: var(--paper-raised);
+  box-shadow: 0 1px 2px rgba(22, 23, 27, 0.08), 0 10px 26px -16px rgba(22, 23, 27, 0.4);
+  transition: transform var(--dur) var(--ease), opacity 320ms var(--ease), filter 320ms var(--ease), box-shadow var(--dur) var(--ease);
+}
+.tile img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+}
+.tile:hover { transform: translateY(-4px) scale(1.03); z-index: 1; }
+
+/* Title strip on hover, on glass so it reads over any screenshot. */
+.tile-label {
+  position: absolute;
+  left: 8px;
+  right: 8px;
+  bottom: 8px;
+  display: grid;
+  gap: 2px;
+  padding: var(--s-2) var(--s-3);
+  border-radius: var(--radius-sm);
+  background: var(--glass-strong);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-medium);
+  line-height: 1.3;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity var(--dur) var(--ease), transform var(--dur) var(--ease);
+}
+.tile-label .label { font-size: 0.625rem; font-weight: var(--weight-regular); }
+.tile:hover .tile-label, .tile.is-match .tile-label { opacity: 1; transform: none; }
+
+/* No screenshot: the title set large, like a cover. */
+.tile-fallback { display: none; }
+.tile--type .tile-fallback {
+  display: flex;
+  align-items: flex-end;
+  height: 100%;
+  padding: var(--s-4);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-light);
+  letter-spacing: var(--tracking-tight);
+  line-height: 1.15;
+}
+.tile--type .tile-label { display: none; }
+
+/* Search echo */
+.wall.is-filtering .tile:not(.is-match) { opacity: 0.16; filter: grayscale(1); }
+.wall.is-filtering .tile.is-match { box-shadow: 0 0 0 1px var(--ink), 0 14px 30px -16px rgba(22, 23, 27, 0.5); }
+.wall.is-hinting .tile.is-match { box-shadow: 0 0 0 1px var(--line-strong), 0 14px 30px -16px rgba(22, 23, 27, 0.5); }
+
+/* Search under the wall */
+
+.home .stage {
+  flex: 1;
+  justify-content: flex-start;
+  padding: var(--s-6) var(--gutter) var(--s-7);
+  position: relative;
+  z-index: 3; /* the results panel hangs over the footer */
+}
+
+/* Opening */
+
+.intro {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  background: var(--paper);
+  transition: opacity 180ms var(--ease);
+}
+.intro.is-leaving { opacity: 0; pointer-events: none; }
+
+.intro-frame {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  gap: 10px;
+  padding: 10px;
+  background: var(--paper);
+}
+.intro-frame--full { grid-template: 1fr / 1fr; padding: 0; }
+.intro-frame--split2 { grid-template: 1fr / 1.3fr 1fr; }
+.intro-frame--split2v { grid-template: 1fr 1fr / 1fr; }
+.intro-frame--split3 { grid-template: 1fr 1fr / 1.4fr 1fr; }
+.intro-frame--split3 .intro-panel:first-child { grid-row: span 2; }
+.intro-frame--row3 { grid-template: 1fr / 1fr 1.2fr 1fr; }
+
+.intro-panel {
+  position: relative;
+  overflow: hidden;
+  background: var(--ink);
+}
+.intro-panel img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+  animation: punch var(--cut, 200ms) linear both;
+}
+/* Each cut lands a little too close and eases back, like a camera pushing out of a page. */
+@keyframes punch {
+  from { transform: scale(1.16) translate(var(--px, 0), var(--py, 0)); }
+  to { transform: scale(1.02); }
+}
+
+/* Until the reveal the page underneath stays hidden; then it eases in under the burst. */
+html.is-intro .home .site-header,
+html.is-intro .home .stage,
+html.is-intro .home .page-foot { opacity: 0; }
+html.is-revealing .home .site-header,
+html.is-revealing .home .page-foot { transition: opacity 600ms var(--ease) 300ms; }
+html.is-revealing .home .stage { animation: rise 700ms var(--ease) 380ms both; }
+@keyframes rise {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: none; }
+}
+
+@media (max-width: 700px) {
+  .wall { --tile-w: 168px; --tile-h: 105px; --tile-gap: 10px; height: clamp(240px, 40vh, 360px); }
+  .intro-frame--row3 { grid-template: 1fr 1fr 1fr / 1fr; }
+  .intro-frame--split2 { grid-template: 1fr 1fr / 1fr; }
+  .intro-frame--split3 { grid-template: 1.3fr 1fr / 1fr 1fr; }
+  .intro-frame--split3 .intro-panel:first-child { grid-row: auto; grid-column: span 2; }
 }

@@ -29,8 +29,8 @@ Arama kutusunun yanında küçük bir düğme ya da `?` tuşu; rastgele bir proj
 Zahmet: az
 
 ### Sonuçlarda önizleme
-Arama sonucunun üzerine gelince sağda küçük bir görsel belirir. `visuals/` klasöründe bazı projelerin görselleri var; tamamı için her projeye görsel gerekiyor.
-Zahmet: az (görseller hariç)
+Arama sonucunun üzerine gelince sağda küçük bir görsel belirir. Duvar için çekilen ekran görüntüleri (`assets/img/projects/`) hazır.
+Zahmet: az
 
 ### Gizli kelimeler
 Aramaya belirli bir kelime yazınca okyanusta bir şey olur. Örneğin "megalodon" ya da "deep" yazınca megalodon dipten geçer; sürekli değil, onu bulan kişiye özel.
@@ -69,3 +69,7 @@ Geri getirmek için: `c3b202c` (son hali, dipten yüzen sürüm) ve `2d045f6`. K
 - Paylaşılabilir arama: `/?q=…` kutuyu doldurup sonuçları açar, yazdıkça adres güncellenir
 - Dönen ipuçları: boş kutuda sabit "try" ve alttan yükselen kelime ("try *networks*…"); yalnızca sonuç veren kelimeler; boş kutuda Enter görünen ipucunu arar
 - Açık/koyu tema düğmesi: header'ın sağında; önce sistemi izler, seçim hatırlanır; okyanus da birlikte değişir
+- Açılış animasyonu: proje panelleri çizgi roman kesmeleri gibi hızlanarak geçer (~1 sn), sonra duvar merkezden patlayarak yerine oturur; her ziyarette oynar, tıklama/tuş atlatır
+- Proje duvarı: ana sayfada eğik, zıt yönlere kayan üç sıra; arama yazıldıkça eşleşmeyenler söner, dönen ipucu kendi projelerini öne çıkarır
+- Okyanuslu arama `/search/` sayfasına taşındı; header'daki arama simgesi ve her sayfada `/` oraya götürür
+- Proje ekran görüntüleri: `tools/shoot-projects.py` (28 projeden 27'si; `conflict` çekilemedi, tipografik kart)
