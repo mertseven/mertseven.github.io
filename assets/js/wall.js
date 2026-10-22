@@ -11,6 +11,9 @@ import { escapeHtml } from "./catalog.js";
 
 const KIND_LABEL = { Featured: "Featured", Teaching: "Teaching", Experiment: "Experiment" };
 
+const TILE_VW = 0.28;      // card width as a share of the screen…
+const TILE_MIN = 180;      // …but never narrower…
+const TILE_MAX = 420;      // …or wider than this (px); height is 16:9
 const CURVE_DEG = 34;      // angle of a tile at the screen edge
 const CURVE_DEPTH = 220;   // how far toward you the edges come, in px
 const EDGE_U = 1.3;        // where the curve ends, in half-widths from the centre (1 = screen edge)
@@ -46,12 +49,14 @@ export function mountWall(root, projects) {
   }
 
   function build() {
-    const cs = getComputedStyle(root);
-    const w = parseFloat(cs.getPropertyValue("--tile-w")) || 248;
-    const h = parseFloat(cs.getPropertyValue("--tile-h")) || 155;
-    const gap = parseFloat(cs.getPropertyValue("--tile-gap")) || 16;
     const vw = root.clientWidth;
     const vh = root.clientHeight;
+    // Burst's proportions: 16:9 cards about 28% of the screen wide.
+    const w = Math.round(Math.min(TILE_MAX, Math.max(TILE_MIN, vw * TILE_VW)));
+    const h = Math.round(w * 9 / 16);
+    const gap = Math.round(w * 0.05);
+    root.style.setProperty("--tile-w", `${w}px`);
+    root.style.setProperty("--tile-h", `${h}px`);
     const pitchX = w + gap;
     const pitchY = h + gap;
     const rowCount = Math.ceil(vh / pitchY) + 1;

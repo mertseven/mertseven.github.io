@@ -12,7 +12,6 @@ document.getElementById("year").textContent = new Date().getFullYear();
 const wallEl = document.getElementById("wall");
 const veil = document.getElementById("veil");
 const hint = document.getElementById("scroll-hint");
-const stage = document.getElementById("find");
 
 const projectIds = (results) =>
   new Set(results.filter((e) => e.type === "Project").map((e) => e.raw.id));
@@ -20,6 +19,7 @@ const projectIds = (results) =>
 let wall = null;
 
 const { input } = mountSearch({
+  panelUp: true,
   onQuery: (q, results) => {
     wall?.query(q ? projectIds(results) : null);
     // While searching the glass thins, so the lit tiles show through it.
@@ -28,11 +28,12 @@ const { input } = mountSearch({
   onHint: (word, results) => wall?.hint(projectIds(results)),
 });
 
-// Focusing the box (by "/", a click or ?q=) brings the search screen into view.
+// Focusing the box (by "/", a click or ?q=) scrolls down to where the search rests.
+const bottom = () => document.documentElement.scrollHeight - innerHeight;
 input.addEventListener("focus", () => {
-  if (stage.getBoundingClientRect().top > innerHeight * 0.3) stage.scrollIntoView({ behavior: "smooth" });
+  if (scrollY < bottom() - 4) scrollTo({ top: bottom(), behavior: "smooth" });
 });
-if (input.value) requestAnimationFrame(() => stage.scrollIntoView());
+if (input.value) requestAnimationFrame(() => scrollTo(0, bottom()));
 
 loadCatalog()
   .then(async ({ projects }) => {
@@ -49,7 +50,7 @@ function onScroll() {
   ticking = true;
   requestAnimationFrame(() => {
     ticking = false;
-    const p = Math.min(1, Math.max(0, scrollY / (innerHeight * 0.7)));
+    const p = Math.min(1, Math.max(0, scrollY / Math.max(1, bottom())));
     document.documentElement.style.setProperty("--p", p.toFixed(3));
     hint.style.opacity = Math.max(0, 1 - p * 3).toFixed(3);
   });

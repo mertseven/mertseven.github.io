@@ -5,8 +5,9 @@ import { loadCatalog, search, highlight, escapeHtml } from "./catalog.js";
 //
 // Expects the markup both pages carry: #prompt, #search, #q, #ghost, #panel, #results, #beneath.
 // onQuery(q, results) fires on every change (empty q when cleared); onHint(word) whenever
-// a new hint shows, so a page can echo them (the home wall does).
-export function mountSearch({ onQuery, onHint } = {}) {
+// a new hint shows, so a page can echo them (the home wall does). panelUp: the results
+// open above the bar (its CSS flips the panel; this sizes it to the room above).
+export function mountSearch({ onQuery, onHint, panelUp = false } = {}) {
   const prompt = document.getElementById("prompt");
   const root = document.getElementById("search");
   const input = document.getElementById("q");
@@ -144,7 +145,8 @@ export function mountSearch({ onQuery, onHint } = {}) {
   function setOpen(open) {
     // Keep the panel inside the window, however low the bar sits on the page.
     if (open) {
-      const room = innerHeight - root.querySelector(".search-bar").getBoundingClientRect().bottom - 16;
+      const bar = root.querySelector(".search-bar").getBoundingClientRect();
+      const room = panelUp ? bar.top - 88 : innerHeight - bar.bottom - 16;
       panel.style.maxHeight = `${Math.max(120, Math.min(420, room))}px`;
     }
     panel.hidden = !open;
