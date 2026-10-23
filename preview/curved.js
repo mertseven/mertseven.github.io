@@ -3,11 +3,21 @@ import { escapeHtml } from "/assets/js/catalog.js";
 // 4 · Names with marks, curved. At rest the names drift in rows bent like a cinema
 // screen; the answer stands up as a drum of names turning on a horizontal axis.
 // Takes the shared pieces from cevap.js: { stage, projects, KIND, askBox, hoverPeek }.
+//
+// Smoothness rules learned the hard way:
+// - Nothing is measured before the fonts are in, or the widths are wrong.
+// - A name never changes font. It carries a sans and a serif-italic copy laid in the same
+//   grid cell (so its width is the wider of the two, fixed), and "italic" is a crossfade.
+// - Drum names share one left edge, so nothing re-centres when a name changes look.
+// - The blur behind the answer is a filter on the names layer, which has stopped moving
+//   by then, not a backdrop-filter recomputed over moving 3D text every frame.
+// - Nothing is written to the DOM on a frame where nothing moved.
 
 const CURVE_DEG = 32;    // angle of a name at the screen edge
 const CURVE_DEPTH = 200; // how far toward you the edges come, in px
 const EDGE_U = 1.3;      // where the curve ends, in half-widths from the centre
 const STEP = 20;         // degrees between names on the drum
+const ITALIC_SPAN = 0.6; // how far from the front (in names) the italic fades out
 
 // A placeholder mark for each project until it has its own logo: a shape and an inner
 // cut picked from the id; filled for Featured, outlined for Teaching, dashed for Experiment.
@@ -41,7 +51,28 @@ export function mark(p) {
   </svg>`;
 }
 
-export function ab4({ stage, projects, KIND, askBox, hoverPeek }) {
+const smooth = (a, b, x) => {
+  const t = Math.min(1, Math.max(0, (x - a) / (b - a)));
+  return t * t * (3 - 2 * t);
+};
+
+// The title twice in one cell: sans for rest, serif italic for emphasis.
+const dual = (t) => `<span class="tw"><span class="ts">${t}</span><span class="ti" aria-hidden="true">${t}</span></span>`;
+
+const fontsReady = () => Promise.all([
+  document.fonts.load('300 64px "Geist"'),
+  document.fonts.load('italic 400 64px "Instrument Serif"'),
+  document.fonts.load('400 12px "Geist Mono"'),
+]).catch(() => {});
+
+export function ab4(ctx) {
+  let cleanup = null;
+  let cancelled = false;
+  fontsReady().then(() => { if (!cancelled) cleanup = build(ctx); });
+  return () => { cancelled = true; cleanup?.(); };
+}
+
+function build({ stage, projects, KIND, askBox, hoverPeek }) {
   const W = stage.clientWidth;
   const H = stage.clientHeight - 150;
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -72,11 +103,11 @@ export function ab4({ stage, projects, KIND, askBox, hoverPeek }) {
         el.rel = "noopener";
         el.dataset.i = projects.indexOf(p);
         el.dataset.id = p.id;
-        el.innerHTML = `${mark(p)}${escapeHtml(p.title)}<sup>${no(p)}</sup>`;
+        el.innerHTML = `${mark(p)}${dual(escapeHtml(p.title))}<sup>${no(p)}</sup>`;
         field.append(el);
         const w = el.offsetWidth;
         const em = parseFloat(getComputedStyle(el).fontSize);
-        row.items.push({ el, base: x, w });
+        row.items.push({ el, base: x, w, vis: true });
         x += w + GAP_EM * em;
       }
     } while (x < W * 1.7);
@@ -87,7 +118,7 @@ export function ab4({ stage, projects, KIND, askBox, hoverPeek }) {
   const top = (H - rowsN * lineH) / 2;
   rows.forEach((row, r) => { row.y = top + r * lineH; });
 
-  let held = false; // a row stops while the cursor is on the names
+  let held = false; // the rows stop while the cursor is on the names
   const place = () => {
     const half = W / 2;
     for (const row of rows) {
@@ -95,18 +126,18 @@ export function ab4({ stage, projects, KIND, askBox, hoverPeek }) {
       for (const it of row.items) {
         const x = start + ((((it.base + row.offset) % row.loop) + row.loop) % row.loop);
         const u = (x + it.w / 2 - half) / half;
-        const out = Math.abs(u) > EDGE_U;
-        it.el.style.visibility = out ? "hidden" : "";
-        if (out) continue;
+        const vis = Math.abs(u) <= EDGE_U;
+        if (vis !== it.vis) { it.el.style.visibility = vis ? "" : "hidden"; it.vis = vis; }
+        if (!vis) continue;
         it.el.style.transform = `translate3d(${x.toFixed(1)}px, ${row.y.toFixed(1)}px, ${(CURVE_DEPTH * u * u).toFixed(1)}px) rotateY(${(-CURVE_DEG * u).toFixed(2)}deg)`;
       }
     }
   };
 
-  // Frosted glass that slides in between the names and the answer.
-  const glass = document.createElement("div");
-  glass.className = "frost-glass";
-  stage.append(glass);
+  // A pale wash behind the answer (no backdrop blur: the names blur themselves).
+  const wash = document.createElement("div");
+  wash.className = "frost-glass";
+  stage.append(wash);
 
   // ——— The answer: a drum ———
   const drum = document.createElement("div");
@@ -119,11 +150,14 @@ export function ab4({ stage, projects, KIND, askBox, hoverPeek }) {
   let center = 0;
   let target = 0;
   let R = 0;
+  let left = 0;   // shared left edge of every name on the drum
+  let front = -1;
 
   const fill = (ids, q) => {
     axis.replaceChildren();
     drum.querySelector(".none")?.remove();
     dn = [];
+    front = -1;
     drum.classList.toggle("is-active", Boolean(q));
     if (!q) return;
     const ps = projects.filter((p) => ids.has(p.id));
@@ -138,32 +172,47 @@ export function ab4({ stage, projects, KIND, askBox, hoverPeek }) {
       el.target = "_blank";
       el.rel = "noopener";
       el.dataset.i = projects.indexOf(p);
-      el.innerHTML = `<span class="k">${KIND[p.kind]}</span>${mark(p)}${escapeHtml(p.title)}<sup>${no(p)}</sup>`;
+      el.innerHTML = `<span class="k">${KIND[p.kind]}</span>${mark(p)}${dual(escapeHtml(p.title))}<sup>${no(p)}</sup>`;
       axis.append(el);
-      dn.push({ el, w: el.offsetWidth, h: el.offsetHeight });
+      dn.push({ el, w: el.offsetWidth, h: el.offsetHeight, vis: true });
     }
-    const itemH = dn[0].h * 1.3;
-    R = itemH / 2 / Math.tan(((STEP / 2) * Math.PI) / 180);
+    // One left edge for all, centred on the widest name: labels line up in a column,
+    // marks on one vertical, and no name ever re-centres.
+    left = -Math.max(...dn.map((d) => d.w)) / 2;
+    R = (dn[0].h * 1.3) / 2 / Math.tan(((STEP / 2) * Math.PI) / 180);
     target = Math.floor((dn.length - 1) / 2);
     center = reduce ? target : target - 2.5; // the drum rolls into place
+    turn(true);
   };
 
-  const turn = () => {
+  const turn = (force) => {
+    const before = center;
     center += (target - center) * (reduce ? 1 : 0.12);
-    if (Math.abs(target - center) < 0.001) center = target;
-    let front = -1;
+    if (Math.abs(target - center) < 0.0005) center = target;
+    if (!force && center === before) return; // at rest: nothing to write
+    let near = -1;
     let best = Infinity;
     dn.forEach((d, i) => {
-      const a = (i - center) * STEP;
-      const hide = Math.abs(a) > 84;
-      d.el.style.visibility = hide ? "hidden" : "";
-      if (Math.abs(i - center) < best) { best = Math.abs(i - center); front = i; }
-      if (hide) return;
+      const off = i - center;
+      if (Math.abs(off) < best) { best = Math.abs(off); near = i; }
+      const a = off * STEP;
+      const vis = Math.abs(a) <= 84;
+      if (vis !== d.vis) { d.el.style.visibility = vis ? "" : "hidden"; d.vis = vis; }
+      if (!vis) return;
       const c = Math.cos((a * Math.PI) / 180);
-      d.el.style.transform = `translate(${-d.w / 2}px, ${-d.h / 2}px) translateZ(${-R}px) rotateX(${(-a).toFixed(2)}deg) translateZ(${R}px)`;
+      d.el.style.transform = `translate(${left.toFixed(1)}px, ${(-d.h / 2).toFixed(1)}px) translateZ(${(-R).toFixed(1)}px) rotateX(${(-a).toFixed(2)}deg) translateZ(${R.toFixed(1)}px)`;
       d.el.style.opacity = Math.max(0, c ** 1.6).toFixed(3);
+      // Italic rises as a name nears the front. The sans copy leaves in the first half of
+      // the change and the italic arrives in the second, so the two never show at once.
+      const it = Math.max(0, 1 - Math.abs(off) / ITALIC_SPAN);
+      d.el.style.setProperty("--ts", (1 - smooth(0, 0.5, it)).toFixed(3));
+      d.el.style.setProperty("--ti", smooth(0.5, 1, it).toFixed(3));
     });
-    dn.forEach((d, i) => d.el.classList.toggle("is-front", i === front));
+    if (near !== front) {
+      dn[front]?.el.classList.remove("is-front");
+      dn[near]?.el.classList.add("is-front");
+      front = near;
+    }
   };
 
   drum.addEventListener("wheel", (e) => {
@@ -182,27 +231,31 @@ export function ab4({ stage, projects, KIND, askBox, hoverPeek }) {
   // ——— Hover: the picture beside the cursor, and every copy of the name lit ———
   const offRows = hoverPeek(curve, ".cn");
   const offDrum = hoverPeek(drum, ".dn");
-  const clearOn = () => { for (const n of field.querySelectorAll(".cn.on")) n.classList.remove("on"); };
-  curve.addEventListener("pointerover", (e) => {
-    const a = e.target.closest(".cn");
-    clearOn();
-    if (a) for (const n of field.querySelectorAll(`.cn[data-id="${CSS.escape(a.dataset.id)}"]`)) n.classList.add("on");
-  });
+  let lit = null;
+  const light = (id) => {
+    if (id === lit) return;
+    if (lit) for (const n of field.querySelectorAll(`.cn[data-id="${CSS.escape(lit)}"]`)) n.classList.remove("on");
+    if (id) for (const n of field.querySelectorAll(`.cn[data-id="${CSS.escape(id)}"]`)) n.classList.add("on");
+    lit = id;
+  };
+  curve.addEventListener("pointerover", (e) => light(e.target.closest(".cn")?.dataset.id || null));
   curve.addEventListener("pointerenter", () => { held = true; });
-  curve.addEventListener("pointerleave", () => { held = false; clearOn(); });
+  curve.addEventListener("pointerleave", () => { held = false; light(null); });
 
   const markRows = (cls, ids) => {
     for (const row of rows) for (const it of row.items) it.el.classList.toggle(cls, Boolean(ids?.has(it.el.dataset.id)));
   };
 
+  let listing = false;
   const stopAsk = askBox(
     (q, ids) => {
-      curve.classList.toggle("is-listing", Boolean(q));
-      glass.classList.toggle("is-on", Boolean(q));
+      listing = Boolean(q);
+      curve.classList.toggle("is-listing", listing);
+      wash.classList.toggle("is-on", listing);
       markRows("hint", null);
       fill(ids, q);
     },
-    (ids) => { if (!curve.classList.contains("is-listing")) markRows("hint", ids); },
+    (ids) => { if (!listing) markRows("hint", ids); },
   );
 
   let raf;
@@ -210,11 +263,11 @@ export function ab4({ stage, projects, KIND, askBox, hoverPeek }) {
   const frame = (now) => {
     const dt = Math.min(0.05, (now - last) / 1000);
     last = now;
-    if (!held && !reduce && !curve.classList.contains("is-listing")) {
+    if (!held && !reduce && !listing) {
       for (const row of rows) row.offset += row.dir * row.speed * dt;
+      place();
     }
-    place();
-    if (dn.length) turn();
+    if (dn.length) turn(false);
     raf = requestAnimationFrame(frame);
   };
   place();

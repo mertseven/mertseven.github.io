@@ -97,38 +97,41 @@
       white-space: nowrap;
       color: var(--ink);
       will-change: transform;
-      backface-visibility: hidden;
       transition: color 320ms var(--ease);
     }
     .cn sup { font-family: var(--font-mono); font-size: 0.16em; letter-spacing: var(--tracking-label); color: var(--ink-3); transform: translateY(-1.8em); }
     .cn.k-Teaching { color: var(--ink-2); }
     .cn.k-Experiment { color: var(--ink-3); }
-    .cn.hint { color: var(--ink); font-family: var(--font-serif); font-style: italic; font-weight: 400; letter-spacing: -0.01em; }
+    .cn.hint, .curve.has-hover .cn.on { color: var(--ink); }
     .curve.has-hover .cn { color: var(--ink-4); }
-    .curve.has-hover .cn.on { color: var(--ink); font-family: var(--font-serif); font-style: italic; font-weight: 400; letter-spacing: -0.01em; }
-    /* Behind the glass the names stay as soft, blurred shapes instead of vanishing. */
-    .curve.is-listing { opacity: 0.55; pointer-events: none; }
 
-    /* Frosted glass between the names and the answer: blur and a pale wash, eased in
-       as the results arrive, strongest where the drum stands. */
+    /* A title carries both looks in one grid cell, so its width never changes:
+       "italic" is a crossfade between the two copies, not a change of font. */
+    .tw { display: inline-grid; }
+    .tw > span { grid-area: 1 / 1; white-space: nowrap; }
+    .ti { font-family: var(--font-serif); font-style: italic; font-weight: 400; letter-spacing: -0.01em; }
+    /* The leaving copy fades first and the arriving one after it, so they never overlap. */
+    .cn .ts { transition: opacity 160ms ease-in 140ms; }
+    .cn .ti { opacity: 0; transition: opacity 160ms ease-in; }
+    .cn.hint .ti, .curve.has-hover .cn.on .ti { opacity: 1; transition: opacity 200ms ease-out 140ms; }
+    .cn.hint .ts, .curve.has-hover .cn.on .ts { opacity: 0; transition: opacity 140ms ease-in; }
+
+    /* Behind the answer the names, which have stopped by now, blur themselves once:
+       a still layer, cheap, instead of a backdrop blur recomputed over moving 3D text. */
+    .curve { transition: opacity 520ms var(--ease), filter 520ms var(--ease); }
+    .curve.is-listing { opacity: 0.32; filter: blur(7px); pointer-events: none; }
+
+    /* A pale wash where the drum stands. */
     .frost-glass {
       position: absolute;
       inset: 0 0 150px 0;
       z-index: 15;
       pointer-events: none;
-      background: color-mix(in srgb, var(--paper) 58%, transparent);
-      -webkit-backdrop-filter: blur(0px);
-      backdrop-filter: blur(0px);
-      -webkit-mask-image: radial-gradient(ellipse 70% 75% at 50% 50%, #000 45%, rgba(0, 0, 0, 0.75) 75%, rgba(0, 0, 0, 0.5) 100%);
-      mask-image: radial-gradient(ellipse 70% 75% at 50% 50%, #000 45%, rgba(0, 0, 0, 0.75) 75%, rgba(0, 0, 0, 0.5) 100%);
+      background: radial-gradient(ellipse 62% 70% at 50% 50%, color-mix(in srgb, var(--paper) 70%, transparent) 40%, transparent 100%);
       opacity: 0;
-      transition: opacity 520ms var(--ease), backdrop-filter 520ms var(--ease), -webkit-backdrop-filter 520ms var(--ease);
+      transition: opacity 520ms var(--ease);
     }
-    .frost-glass.is-on {
-      opacity: 1;
-      -webkit-backdrop-filter: blur(14px) saturate(1.05);
-      backdrop-filter: blur(14px) saturate(1.05);
-    }
+    .frost-glass.is-on { opacity: 1; }
 
     /* The answer: a drum of names turning on a horizontal axis; the wheel turns it. */
     .drum {
@@ -139,26 +142,32 @@
       pointer-events: none;
     }
     .drum-axis { position: absolute; left: 50%; top: 50%; transform-style: preserve-3d; }
+    /* Every drum name is the same grid: a right-aligned label column, the mark, the
+       title, the number. With one shared left edge they stack in clean columns. */
     .dn {
       position: absolute;
       left: 0;
       top: 0;
-      display: inline-flex;
+      display: grid;
+      grid-template-columns: 1.7em auto auto auto;
       align-items: baseline;
-      gap: 0.32em;
+      column-gap: 0.32em;
       font-size: clamp(1.8rem, 1rem + 2.6vw, 3.6rem);
       font-weight: var(--weight-light);
       letter-spacing: var(--tracking-display);
       line-height: 1;
       white-space: nowrap;
       color: var(--ink);
-      backface-visibility: hidden;
       pointer-events: auto;
-      transition: color 200ms var(--ease);
     }
-    .dn .k { font-family: var(--font-mono); font-size: 0.2em; letter-spacing: var(--tracking-label); text-transform: uppercase; color: var(--ink-3); margin-right: 0.4em; }
+    .dn .k { justify-self: end; font-family: var(--font-mono); font-size: 0.2em; letter-spacing: var(--tracking-label); text-transform: uppercase; color: var(--ink-3); }
     .dn sup { font-family: var(--font-mono); font-size: 0.2em; color: var(--ink-3); transform: translateY(-1.6em); }
-    .dn.is-front, .dn:hover { font-family: var(--font-serif); font-style: italic; font-weight: 400; letter-spacing: -0.01em; }
+    .dn .tw { justify-self: start; }
+    /* --ts / --ti are set by script as the name nears the front; hovering also brings it up. */
+    .dn .ti { opacity: var(--ti, 0); }
+    .dn .ts { opacity: var(--ts, 1); }
+    .dn:hover .ti { opacity: 1; }
+    .dn:hover .ts { opacity: 0; }
     .drum.is-active { pointer-events: auto; }
     .drum .none { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); color: var(--ink-3); }
   </style>
