@@ -120,6 +120,13 @@
 .views button { height: 28px; padding: 0 14px; border: 0; border-radius: 999px; background: none; font-size: var(--text-xs); color: var(--ink-2); cursor: pointer; }
 .views button[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
 .ix-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 28px 18px; }
+.ix-grid .c[hidden] { display: none; }
+.ix-side { display: flex; align-items: center; gap: var(--s-4); }
+
+/* In the combination both views live in every chapter; the switch picks one. */
+.ix-wrap .chapter .ix-grid { display: none; }
+.ix-wrap.is-grid .chapter .ix-grid { display: grid; padding-top: var(--s-3); }
+.ix-wrap.is-grid .chapter .ix-list { display: none; }
 .ix-grid .c-img { aspect-ratio: 16 / 9; }
 .ix-grid .c-cap { display: grid; }
 

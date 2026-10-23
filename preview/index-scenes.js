@@ -29,8 +29,8 @@ const MODES = [
     about: "<b>Ana sayfadaki künye.</b> Bir satıra tıkla: aynı kart açılıyor ve adres <code>#socrates</code> gibi oluyor; bu adresle açılan sayfa doğrudan o künyeyle geliyor. ← → projeler arasında geziyor, Esc kapatıyor." },
   { id: "views", label: "7 · Liste ↔ Görseller",
     about: "<b>İki görünüm.</b> Liste varsayılan; isteyen için ekran görüntülerinin baskı dokulu bir ızgarası. Üzerine gelince görsel renkleniyor." },
-  { id: "pick", label: "Önerim · 1 + 2 + 3 + 5 + 6 (+ hafif 4)", pick: true,
-    about: "<b>Önerdiğim birleşim.</b> Bölümlere ayrılmış katalog listesi, üstte cümle filtresi; filtrelerken satırlar çökerek kapanıyor, boşalan bölümler kayboluyor. Satıra tıklayınca künye ve derin link. Kaydırırken çok hafif bir silindir." },
+  { id: "pick", label: "Önerim · 1 + 2 + 3 + 5 + 6 + 7 (+ hafif 4)", pick: true,
+    about: "<b>Önerdiğim birleşim.</b> Bölümlere ayrılmış katalog listesi, üstte cümle filtresi; filtrelerken satırlar çökerek kapanıyor, boşalan bölümler kayboluyor. Satıra tıklayınca künye ve derin link. Kaydırırken çok hafif bir silindir. Sağ üstte <b>List / Images</b>: görseller görünümünde de bölümler, filtre, sayılar ve künye aynı; seçim hatırlanıyor." },
 ];
 
 const stage = document.getElementById("stage");
@@ -121,6 +121,19 @@ function list(host, ps) {
   return el;
 }
 
+// The image view: screenshots in print texture, each with its museum label.
+function grid(host, ps) {
+  const g = document.createElement("div");
+  g.className = "ix-grid is-print is-labels";
+  g.innerHTML = ps.map((p) => `
+    <a class="c" href="${escapeHtml(p.url)}" data-i="${projects.indexOf(p)}" data-id="${escapeHtml(p.id)}">
+      <div class="c-img">${p.image ? `<img src="${escapeHtml(p.image)}" alt="" loading="lazy">` : `<span class="c-type">${escapeHtml(p.title)}</span>`}</div>
+      <div class="c-cap"><span class="c-no">No.&nbsp;${no(p)}</span><span class="c-title">${escapeHtml(p.title)}</span><span class="c-med">${KIND[p.kind]} · ${p.stack.map(escapeHtml).join(", ")}</span></div>
+    </a>`).join("");
+  host.append(g);
+  return g;
+}
+
 // The picture beside the cursor, and the other rows stepping back, for any list in `root`.
 function hover(root) {
   root.addEventListener("pointerover", (e) => {
@@ -142,7 +155,7 @@ function hover(root) {
 // A plain click opens the card (and, if asked, puts the project in the address).
 function openOnClick(root, { deep = false } = {}) {
   root.addEventListener("click", (e) => {
-    const a = e.target.closest(".ix");
+    const a = e.target.closest(".ix, .ix-grid .c");
     if (!a || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
     e.preventDefault();
     peek.classList.remove("on");
@@ -349,15 +362,8 @@ const SCENES = {
     t.innerHTML = `<button type="button" data-v="list" aria-pressed="true">List</button><button type="button" data-v="grid" aria-pressed="false">Images</button>`;
     wrap.querySelector(".ix-count").replaceWith(t);
     const l = list(wrap, projects);
-    const g = document.createElement("div");
-    g.className = "ix-grid is-print is-labels";
+    const g = grid(wrap, projects);
     g.hidden = true;
-    g.innerHTML = projects.map((p) => `
-      <a class="c" href="${escapeHtml(p.url)}" data-i="${projects.indexOf(p)}">
-        <div class="c-img">${p.image ? `<img src="${escapeHtml(p.image)}" alt="" loading="lazy">` : `<span class="c-type">${escapeHtml(p.title)}</span>`}</div>
-        <div class="c-cap"><span class="c-no">No.&nbsp;${no(p)}</span><span class="c-title">${escapeHtml(p.title)}</span><span class="c-med">${KIND[p.kind]} · ${p.stack.map(escapeHtml).join(", ")}</span></div>
-      </a>`).join("");
-    wrap.append(g);
     hover(wrap);
     t.addEventListener("click", (e) => {
       const b = e.target.closest("button");
@@ -375,6 +381,37 @@ const SCENES = {
     const wrap = frame("Index", "");
     const count = wrap.querySelector(".ix-count");
     const state = { kind: "", topic: "", stack: "" };
+
+    // List or images: one switch for the whole page, remembered for the next visit.
+    // Both views live in every chapter, so the filter, the counts and the card never change.
+    const views = document.createElement("div");
+    views.className = "views";
+    views.innerHTML = `<button type="button" data-v="list">List</button><button type="button" data-v="grid">Images</button>`;
+    const side = document.createElement("div");
+    side.className = "ix-side";
+    count.replaceWith(side);
+    side.append(count, views);
+    let view = "list";
+    try { view = localStorage.getItem("index-view") === "grid" ? "grid" : "list"; } catch {}
+    const setView = (v, animate) => {
+      view = v;
+      wrap.classList.toggle("is-grid", v === "grid");
+      views.querySelectorAll("button").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.v === v)));
+      try { localStorage.setItem("index-view", v); } catch {}
+      if (animate) {
+        for (const sec of chapters) {
+          if (sec.hidden) continue;
+          sec.querySelector(v === "grid" ? ".ix-grid" : ".ix-list").animate(
+            [{ opacity: 0, transform: "translateY(10px)" }, { opacity: 1, transform: "none" }],
+            { duration: 360, easing: "cubic-bezier(0.2, 0.8, 0.2, 1)" },
+          );
+        }
+      }
+    };
+    views.addEventListener("click", (e) => {
+      const b = e.target.closest("button");
+      if (b && b.dataset.v !== view) setView(b.dataset.v, true);
+    });
     const chapters = KINDS.map((k) => {
       const sec = document.createElement("section");
       sec.className = "chapter";
@@ -388,8 +425,15 @@ const SCENES = {
         let m = 0;
         for (const el of sec.querySelectorAll(".ix")) {
           const on = ok(projects[el.dataset.i]);
-          setVisible(el, on, animate);
+          setVisible(el, on, animate && view === "list");
           m += on;
+        }
+        // In the image view the cards that leave simply go; the ones that stay close up.
+        for (const el of sec.querySelectorAll(".ix-grid .c")) {
+          const on = ok(projects[el.dataset.i]);
+          if (on === !el.hidden) continue;
+          el.hidden = !on;
+          if (on && animate && view === "grid") el.animate([{ opacity: 0, transform: "scale(0.96)" }, { opacity: 1, transform: "none" }], { duration: 320, easing: "cubic-bezier(0.2, 0.8, 0.2, 1)" });
         }
         sec.querySelector(".n").textContent = String(m).padStart(2, "0");
         setVisible(sec, m > 0, animate);
@@ -404,7 +448,9 @@ const SCENES = {
       sec.innerHTML = `<div class="chapter-head"><h3>${CHAPTER[k].title} <em>${CHAPTER[k].em}</em></h3><span class="n">${String(ps.length).padStart(2, "0")}</span><p>${CHAPTER[k].note}</p></div>`;
       wrap.append(sec);
       list(sec, ps);
+      grid(sec, ps);
     }
+    setView(view, false);
     go(false);
     hover(wrap);
     openOnClick(wrap, { deep: true });
