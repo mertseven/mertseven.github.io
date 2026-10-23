@@ -1,0 +1,138 @@
+/* Index preview: the catalogue list and its variations. Scratch page. */
+
+.stage--scroll { overflow-y: auto; overflow-x: hidden; }
+/* These set their own display, which would otherwise beat the hidden attribute. */
+.ix[hidden], .chapter[hidden], .ix-grid[hidden], .ix-list[hidden] { display: none; }
+.ix-wrap { max-width: 1200px; margin: 0 auto; padding: var(--s-6) var(--gutter) var(--s-8); }
+.ix-head { display: flex; align-items: baseline; justify-content: space-between; gap: var(--s-4); margin-bottom: var(--s-5); flex-wrap: wrap; }
+.ix-head h2 { margin: 0; font-size: clamp(2.4rem, 1.4rem + 3vw, 4rem); font-weight: var(--weight-light); letter-spacing: var(--tracking-display); line-height: 1; }
+.ix-head h2 em { font-family: var(--font-serif); font-style: italic; font-weight: 400; }
+.ix-count { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--ink-3); }
+
+/* 1 · Catalogue rows */
+.ix-list { border-top: 1px solid var(--line); }
+.ix {
+  display: grid;
+  grid-template-columns: 2.4rem 1.6rem minmax(0, 1fr) 7.5rem 13rem 11rem;
+  align-items: baseline;
+  column-gap: var(--s-4);
+  padding: 14px 0 12px;
+  border-bottom: 1px solid var(--line);
+  color: var(--ink);
+  overflow: hidden;
+  transform-origin: 50% 50%;
+}
+.ix-no { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--ink-3); }
+.ix-mk { font-size: 1.5rem; display: flex; align-self: center; }
+.ix-mk .mk { width: 0.9em; height: 0.9em; }
+.ix-title { font-size: clamp(1.35rem, 0.9rem + 1.5vw, 2.3rem); font-weight: var(--weight-light); letter-spacing: var(--tracking-display); line-height: 1.12; min-width: 0; }
+.ix-title .tw > span { white-space: normal; }
+.ix-kind { white-space: nowrap; }
+.ix-topics { font-size: var(--text-xs); color: var(--ink-2); }
+.ix-stack { font-family: var(--font-mono); font-size: 0.6875rem; color: var(--ink-3); }
+.ix.k-Teaching .ix-title { color: var(--ink); }
+.ix.k-Experiment .ix-title { color: var(--ink-2); }
+
+/* Hover: the old copy leaves, then the italic arrives (never both at once). */
+.ix .ts { transition: opacity 160ms ease-in 140ms; }
+.ix .ti { opacity: 0; transition: opacity 160ms ease-in; }
+.ix:hover .ti, .ix:focus-visible .ti { opacity: 1; transition: opacity 200ms ease-out 140ms; }
+.ix:hover .ts, .ix:focus-visible .ts { opacity: 0; transition: opacity 140ms ease-in; }
+.ix-list.has-hover .ix:not(:hover) .ix-title { color: var(--ink-3); }
+.ix-title { transition: color 240ms var(--ease); }
+
+/* 2 · Sentence filter */
+.sentence {
+  margin: 0 0 var(--s-6);
+  font-size: clamp(1.5rem, 1rem + 1.8vw, 2.6rem);
+  font-weight: var(--weight-light);
+  letter-spacing: var(--tracking-display);
+  line-height: 1.3;
+  color: var(--ink-2);
+}
+.pick {
+  position: relative;
+  display: inline-block;
+  padding: 0;
+  border: 0;
+  border-bottom: 1px solid var(--line-strong);
+  background: none;
+  font: inherit;
+  letter-spacing: inherit;
+  color: var(--ink);
+  cursor: pointer;
+}
+.pick:hover, .pick[aria-expanded="true"] { border-bottom-color: var(--ink); }
+.pick .tw { vertical-align: baseline; }
+.pick:hover .ts { opacity: 0; }
+.pick:hover .ti { opacity: 1; }
+.pick .ts, .pick .ti { transition: opacity 180ms var(--ease); }
+.pick .ti { opacity: 0; }
+.menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  z-index: 10;
+  min-width: 220px;
+  max-height: 300px;
+  overflow-y: auto;
+  padding: 6px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: var(--paper-raised);
+  box-shadow: var(--shadow-glass);
+  font-size: var(--text-sm);
+  letter-spacing: 0;
+  line-height: 1.3;
+  text-align: left;
+}
+.menu button {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  gap: var(--s-4);
+  padding: 7px 10px;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: none;
+  font: inherit;
+  color: var(--ink);
+  cursor: pointer;
+}
+.menu button:hover, .menu button[aria-current="true"] { background: var(--line); }
+.menu .n { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--ink-3); }
+.sentence-reset { margin-left: var(--s-3); font-size: var(--text-xs); letter-spacing: 0; color: var(--ink-3); background: none; border: 0; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; vertical-align: middle; }
+
+/* 3 · Chapters */
+.chapter { margin-top: var(--s-7); overflow: hidden; }
+.chapter:first-child { margin-top: 0; }
+.chapter-head { display: flex; align-items: baseline; gap: var(--s-4); margin-bottom: var(--s-3); }
+.chapter-head h3 { margin: 0; font-size: clamp(1.8rem, 1rem + 2.4vw, 3rem); font-weight: var(--weight-light); letter-spacing: var(--tracking-display); }
+.chapter-head h3 em { font-family: var(--font-serif); font-style: italic; font-weight: 400; }
+.chapter-head .n { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--ink-3); }
+.chapter-head p { margin: 0 0 0 auto; font-size: var(--text-xs); color: var(--ink-3); max-width: 34ch; text-align: right; }
+
+/* 5 · A plain collection switch, to show the rows collapsing and closing up */
+.switch { display: flex; gap: var(--s-2); margin-bottom: var(--s-5); flex-wrap: wrap; }
+
+/* 7 · View toggle and the image view */
+.views { display: inline-flex; padding: 3px; border: 1px solid var(--line); border-radius: 999px; }
+.views button { height: 28px; padding: 0 14px; border: 0; border-radius: 999px; background: none; font-size: var(--text-xs); color: var(--ink-2); cursor: pointer; }
+.views button[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
+.ix-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 28px 18px; }
+.ix-grid .c-img { aspect-ratio: 16 / 9; }
+.ix-grid .c-cap { display: grid; }
+
+@media (max-width: 760px) {
+  .ix {
+    grid-template-columns: 2rem 1.4rem minmax(0, 1fr);
+    grid-template-areas: "no mk title" ". . meta";
+    row-gap: 4px;
+  }
+  .ix-no { grid-area: no; }
+  .ix-mk { grid-area: mk; }
+  .ix-title { grid-area: title; }
+  .ix-kind, .ix-topics, .ix-stack { grid-area: meta; }
+  .ix-topics, .ix-stack { display: none; }
+  .chapter-head p { display: none; }
+}
