@@ -67,6 +67,78 @@
     .answer-list a:hover { font-family: var(--font-serif); font-style: italic; font-weight: 400; letter-spacing: -0.01em; }
     .answer-list.has-hover a:not(:hover) { color: var(--ink-4); }
     .answer-list .none { font-size: var(--text-md); color: var(--ink-3); }
+
+    /* 4 · Names with marks, curved */
+
+    /* Placeholder marks until each project has its own logo. */
+    .mk { flex: none; width: 0.78em; height: 0.78em; align-self: center; color: currentColor; }
+    .mk .cut { stroke: var(--paper); } /* the cut in a filled mark is paper, not ink */
+
+    /* At rest: the names drift in rows bent like a cinema screen (placed by script). */
+    .curve {
+      position: absolute;
+      inset: 0 0 150px 0;
+      overflow: hidden;
+      perspective: 1200px;
+      transition: opacity 420ms var(--ease);
+    }
+    .curve-field { position: absolute; inset: 0; transform-style: preserve-3d; }
+    .cn {
+      position: absolute;
+      top: 0;
+      left: 0;
+      display: inline-flex;
+      align-items: baseline;
+      gap: 0.32em;
+      font-size: clamp(2rem, 0.8rem + 3.8vw, 4.6rem);
+      font-weight: var(--weight-light);
+      letter-spacing: var(--tracking-display);
+      line-height: 1.1;
+      white-space: nowrap;
+      color: var(--ink);
+      will-change: transform;
+      backface-visibility: hidden;
+      transition: color 320ms var(--ease);
+    }
+    .cn sup { font-family: var(--font-mono); font-size: 0.16em; letter-spacing: var(--tracking-label); color: var(--ink-3); transform: translateY(-1.8em); }
+    .cn.k-Teaching { color: var(--ink-2); }
+    .cn.k-Experiment { color: var(--ink-3); }
+    .cn.hint { color: var(--ink); font-family: var(--font-serif); font-style: italic; font-weight: 400; letter-spacing: -0.01em; }
+    .curve.has-hover .cn { color: var(--ink-4); }
+    .curve.has-hover .cn.on { color: var(--ink); font-family: var(--font-serif); font-style: italic; font-weight: 400; letter-spacing: -0.01em; }
+    .curve.is-listing { opacity: 0.07; pointer-events: none; }
+
+    /* The answer: a drum of names turning on a horizontal axis; the wheel turns it. */
+    .drum {
+      position: absolute;
+      inset: 0 0 150px 0;
+      z-index: 20;
+      perspective: 1000px;
+      pointer-events: none;
+    }
+    .drum-axis { position: absolute; left: 50%; top: 50%; transform-style: preserve-3d; }
+    .dn {
+      position: absolute;
+      left: 0;
+      top: 0;
+      display: inline-flex;
+      align-items: baseline;
+      gap: 0.32em;
+      font-size: clamp(1.8rem, 1rem + 2.6vw, 3.6rem);
+      font-weight: var(--weight-light);
+      letter-spacing: var(--tracking-display);
+      line-height: 1;
+      white-space: nowrap;
+      color: var(--ink);
+      backface-visibility: hidden;
+      pointer-events: auto;
+      transition: color 200ms var(--ease);
+    }
+    .dn .k { font-family: var(--font-mono); font-size: 0.2em; letter-spacing: var(--tracking-label); text-transform: uppercase; color: var(--ink-3); }
+    .dn sup { font-family: var(--font-mono); font-size: 0.2em; color: var(--ink-3); transform: translateY(-1.6em); }
+    .dn.is-front, .dn:hover { font-family: var(--font-serif); font-style: italic; font-weight: 400; letter-spacing: -0.01em; }
+    .drum.is-active { pointer-events: auto; }
+    .drum .none { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); color: var(--ink-3); }
   </style>
 </head>
 <body>

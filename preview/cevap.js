@@ -1,5 +1,6 @@
 import { loadCatalog, escapeHtml, search } from "/assets/js/catalog.js";
 import { answer } from "./approaches.js";
+import { ab4 as curvedNames } from "./curved.js";
 
 // A + B: three ways to put the name wall together with the answer wall.
 
@@ -9,12 +10,16 @@ const HINT_MS = 3200;
 
 const MODES = [
   {
-    id: "ab1", label: "1 · İsimler sakin hal, kartlar cevap", pick: true,
+    id: "ab1", label: "1 · İsimler sakin hal, kartlar cevap",
     about: "<b>Önerdiğim.</b> Başta yalnızca proje adları akıyor, görsel yok. Yazınca eşleşen adlar koyulaşıp italiğe dönüyor, gerisi soluyor; eşleşen projelerin kartları <b>isimlerinin bulunduğu yerden</b> öne uçup toplanıyor. Kutu boşken dönen ipucunun adları italik olarak öne çıkıyor.",
   },
   {
     id: "ab2", label: "2 · İsimler arka planda filigran",
     about: "<b>Cevap duvarı olduğu gibi, arkasında isimler.</b> Kartlar önde süzülüyor; arkada çok soluk, büyük harflerle proje adları akıyor. Yazınca eşleşen adlar arkada da biraz koyulaşıyor. Daha zengin, ama iki hareketli katman kalabalıklaşabilir.",
+  },
+  {
+    id: "ab4", label: "4 · İsim + logo, kavisli", pick: true,
+    about: "<b>3 numaranın kavisli ve logolu hali.</b> Her adın başında projenin işareti var (şimdilik yer tutucu: Featured dolu, öğretim kontur, deney kesik çizgili). Şeritler ana sayfadaki duvar gibi kavisli: ortadakiler düz, kenardakiler sana dönüyor. Yazınca cevap, yatay ekseninde dönen bir silindir gibi diziliyor; <b>fare tekerleğiyle çevir</b>, öndekine tıklayınca açılır.",
   },
   {
     id: "ab3", label: "3 · Cevap isimlerle geliyor",
@@ -46,7 +51,7 @@ for (const m of MODES) {
   row.append(b);
 }
 modesEl.append(row);
-show(MODES.some((m) => m.id === location.hash.slice(1)) ? location.hash.slice(1) : "ab1");
+show(MODES.some((m) => m.id === location.hash.slice(1)) ? location.hash.slice(1) : "ab4");
 
 let resizeTimer;
 addEventListener("resize", () => {
@@ -64,7 +69,7 @@ function show(id) {
   peek.classList.remove("on");
   stage.className = "stage";
   stage.replaceChildren();
-  stop = ({ ab1, ab2, ab3 })[id]() || (() => {});
+  stop = ({ ab1, ab2, ab3, ab4 })[id]() || (() => {});
 }
 
 // ——— Shared pieces ———
@@ -257,6 +262,12 @@ function ab2() {
     names.mark("hit", q ? idsFor(q) : null);
   });
   return () => { stopWall?.(); names.off(); };
+}
+
+// ——— 4 · Names with marks, curved (preview/curved.js) ———
+
+function ab4() {
+  return curvedNames({ stage, projects, KIND, askBox, hoverPeek });
 }
 
 // ——— 3 · The answer is names ———
