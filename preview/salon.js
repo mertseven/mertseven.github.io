@@ -1,4 +1,5 @@
 import { loadCatalog, escapeHtml } from "/assets/js/catalog.js";
+import * as approaches from "./approaches.js";
 
 // Scratch page: the home wall in eight directions, side by side, with real catalog content.
 // Every scene draws into #stage; the chips above switch between them (and set #hash).
@@ -38,6 +39,40 @@ const MODES = [
     id: "pick", label: "Önerim · Salon (1 + 2 + 3 + 4)", scene: "salon", cls: ["is-print", "is-labels"], mixed: true, pick: true,
     about: "<b>Önerdiğim birleşim.</b> Baskı dokusu, karışık boylu sergi asması, müze etiketleri ve araya karışan yazı ile sayılar. Fare bir kartın üzerine gelince renkleniyor. Kavisli perde ve tıklayınca açılan künye bunun üstüne olduğu gibi oturur.",
   },
+
+  // Approaches: other ways to think about the wall, not just how it looks.
+  {
+    group: "approach", id: "answer", label: "A · Cevap duvarı", scene: "answer", cls: [], pick: true,
+    about: "<b>Duvar sorunun cevabı.</b> Başta sakin ve seyrek: kartlar küçük ve soluk süzülüyor. Kutuya yazdıkça ilgili projeler öne gelip toplanıyor, gerisi kenarlara dağılıyor. Kutu boşken dönen ipucunun projeleri hafifçe yüzeye çıkıyor. <b>Yazmayı dene:</b> networks, philosophy, journalism.",
+  },
+  {
+    group: "approach", id: "names", label: "B · İsim duvarı", scene: "names", cls: [],
+    about: "<b>Görsel yok, isimler var.</b> Proje adları büyük harflerle sergi afişi gibi akıyor; ağırlık koleksiyona göre (Featured koyu, deneyler soluk). Bir adın üzerine gelince o projenin görseli imlecin yanında beliriyor. Dağınık ekran görüntüleri ancak istendiğinde, tek başına görünüyor.",
+  },
+  {
+    group: "approach", id: "ascii", label: "C · ASCII baskı", scene: "ascii", cls: ["ascii", "is-labels"],
+    about: "<b>Hepsi tek dilde.</b> Her ekran görüntüsü okyanustaki gibi karakterlerle yeniden çiziliyor; bütün projeler aynı malzemeden yapılmış gibi duruyor. Üzerine gelince gerçek hali beliriyor. (Burada basit bir dönüştürücü var; gerçekte okyanus motorunun renderer'ı kullanılır.)",
+  },
+  {
+    group: "approach", id: "live", label: "D · Canlı duvar", scene: "live", cls: [],
+    about: "<b>Ekran görüntüsü değil, çalışan iş.</b> Projeler hareket halinde. Gerçekte her biri 3–4 saniyelik sessiz bir döngü videosu olur; burada fikir görünsün diye projelerin kendisi küçültülmüş canlı pencerelerde açık (tıklanmıyor). Yüklenmesi birkaç saniye sürebilir.",
+  },
+  {
+    group: "approach", id: "contact", label: "E · Kontakt baskı", scene: "contact", cls: [],
+    about: "<b>Fotoğrafçının negatif şeridi.</b> Kare numaraları, film perforasyonu ve öne çıkan işlerin etrafında kırmızı kalemle çizilmiş daireler. Editoryal ve arşivsel; “seçilmiş işler” duygusu veriyor. (Daireler şimdilik Featured projelerde.)",
+  },
+  {
+    group: "approach", id: "table", label: "F · Masa", scene: "table", cls: [],
+    about: "<b>Masaya dağılmış baskılar.</b> Kartlar fotoğraf kâğıdına basılmış gibi, hafif açılarla üst üste. <b>Sürükle</b>, karıştır, birini öne çek. Oyunbaz ve meraklı; ama en az “sakin premium” olanı.",
+  },
+  {
+    group: "approach", id: "one", label: "G · Tek iş", scene: "one", cls: [],
+    about: "<b>Duvarın tersi: küratörlük.</b> Ekranı tek bir proje kaplıyor, birkaç saniyede bir yavaşça diğerine geçiyor. Genişliği daha geç gösteriyor ama ilk izlenim çok güçlü. Oklarla da geçilebilir.",
+  },
+  {
+    group: "approach", id: "map", label: "H · Kavram haritası", scene: "map", cls: [],
+    about: "<b>Projeler bir düzlemde.</b> Yatayda kuram ↔ pratik, dikeyde öğretim ↔ deney. <b>Sürükleyerek gez, tekerlekle yakınlaştır.</b> Konumlar şimdilik konu etiketlerinden kaba bir tahmin; gerçekte senin yerleştirmen olur.",
+  },
 ];
 
 const stage = document.getElementById("stage");
@@ -46,22 +81,31 @@ const about = document.getElementById("about");
 const bar = document.getElementById("bar");
 
 let projects = [];
+let entries = [];
 let texts = [];
 let current = null;
 let stop = () => {};
 
 const catalog = await loadCatalog();
 projects = catalog.projects;
+entries = catalog.entries;
 texts = buildTexts(catalog);
 
-for (const m of MODES) {
-  const b = document.createElement("button");
-  b.type = "button";
-  b.className = `chip${m.pick ? " chip--pick" : ""}`;
-  b.textContent = m.label;
-  b.dataset.id = m.id;
-  b.addEventListener("click", () => show(m.id));
-  modesEl.append(b);
+const groups = { look: "Görünüm", approach: "Yaklaşım" };
+for (const [g, name] of Object.entries(groups)) {
+  const row = document.createElement("div");
+  row.className = "modes-row";
+  row.innerHTML = `<span class="label">${name}</span>`;
+  for (const m of MODES.filter((m) => (m.group || "look") === g)) {
+    const b = document.createElement("button");
+    b.type = "button";
+    b.className = `chip${m.pick ? " chip--pick" : ""}`;
+    b.textContent = m.label;
+    b.dataset.id = m.id;
+    b.addEventListener("click", () => show(m.id));
+    row.append(b);
+  }
+  modesEl.append(row);
 }
 
 show(MODES.some((m) => m.id === location.hash.slice(1)) ? location.hash.slice(1) : "pick");
@@ -75,7 +119,7 @@ addEventListener("resize", () => {
 function show(id) {
   current = MODES.find((m) => m.id === id);
   history.replaceState(null, "", `#${id}`);
-  for (const b of modesEl.children) b.setAttribute("aria-pressed", String(b.dataset.id === id));
+  for (const b of modesEl.querySelectorAll(".chip")) b.setAttribute("aria-pressed", String(b.dataset.id === id));
   about.innerHTML = current.about;
   document.documentElement.style.setProperty("--bar-h", `${bar.offsetHeight}px`);
 
@@ -83,8 +127,10 @@ function show(id) {
   stop = () => {};
   stage.className = `stage ${current.cls.join(" ")}`;
   stage.replaceChildren();
-  const scene = { rows, salon, shoal, field }[current.scene];
-  stop = scene(current) || (() => {});
+  document.getElementById("peek").classList.remove("on");
+  const local = { rows, salon, shoal, field }[current.scene];
+  const ctx = { stage, projects, entries, card, rows, KIND, mode: current };
+  stop = (local ? local(current) : approaches[current.scene](ctx)) || (() => {});
 }
 
 // ——— Content ———
