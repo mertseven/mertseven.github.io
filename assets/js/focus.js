@@ -1,5 +1,6 @@
 import { escapeHtml } from "./catalog.js";
-import { KIND_LABEL } from "./wall.js";
+
+const KIND_LABEL = { Featured: "Featured", Teaching: "Teaching", Experiment: "Experiment" };
 
 // The project card, opened from the wall as in Burst: the clicked tile lifts out of the
 // wall and flies to a large frame on the left while the wall dims behind it, and the

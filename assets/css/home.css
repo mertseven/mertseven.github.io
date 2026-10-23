@@ -1,226 +1,166 @@
-/* Home: the curved project wall fills the first screen and bursts in on load.
-   Scrolling a little brings the question and the search up into the lower third,
-   with paper rising behind them; the wall stays in view above. */
+/* Home: one screen. The name wall fills it (assets/js/names-wall.js), the question and the
+   search sit underneath, and a plain click on a name opens its project card. */
 
-.home { overflow-x: hidden; }
-:root { --p: 0; } /* scroll progress from the wall to the search, set by home.js */
-html:has(.home) { scroll-behavior: smooth; }
-@media (prefers-reduced-motion: reduce) { html:has(.home) { scroll-behavior: auto; } }
-
-/* Wall: fixed behind the page, the full window. wall.js sizes the cards (16:9). */
-
-.wall {
-  --tile-w: 356px;
-  --tile-h: 200px;
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  overflow: hidden;
-  perspective: 1300px;
-  perspective-origin: 50% 50%;
+.home {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100dvh;
+  overflow-x: hidden;
 }
-.wall-field {
-  position: absolute;
-  inset: 0;
-  transform-style: preserve-3d;
+.home-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
 }
-.wall.is-waiting .tile { opacity: 0; } /* until the images are in and the burst starts */
 
-.tile {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: var(--tile-w);
-  height: var(--tile-h);
-  will-change: transform;
-  backface-visibility: hidden;
-}
-/* Flat photographs, square corners, no frame: the screenshots are the whole card. */
-.tile-card {
+/* The wall takes whatever height the question and the box leave. */
+.names-wall {
   position: relative;
-  width: 100%;
-  height: 100%;
+  flex: 1;
+  min-height: 300px;
   overflow: hidden;
-  background: var(--paper-raised);
-  transition: transform var(--dur) var(--ease), opacity 320ms var(--ease), filter 320ms var(--ease), outline-color var(--dur) var(--ease);
-  outline: 1px solid transparent;
-  outline-offset: 3px;
+  opacity: 0;
+  transition: opacity 600ms var(--ease);
 }
-.tile-card img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: top;
-}
-.tile { cursor: pointer; }
-.tile:hover .tile-card { transform: scale(1.04); }
-.tile.is-lifted .tile-card { opacity: 0; } /* its frame is out on the project card */
+.names-wall.is-ready { opacity: 1; } /* only once the fonts are in and the rows are laid out */
 
-/* The name of the card under the cursor, in a pill that follows it. */
-.wall-pill {
-  position: fixed;
+/* Marks: placeholders until each project has its own logo. */
+.mk { flex: none; width: 0.78em; height: 0.78em; align-self: center; color: currentColor; }
+.mk .cut { stroke: var(--paper); } /* the cut in a filled mark is paper, not ink */
+
+/* A title carries both looks in one grid cell, so its width never changes:
+   "italic" is a fade between the two copies, not a change of font. */
+.tw { display: inline-grid; }
+.tw > span { grid-area: 1 / 1; white-space: nowrap; }
+.ti { font-family: var(--font-serif); font-style: italic; font-weight: 400; letter-spacing: -0.01em; }
+
+/* At rest: rows bent like a cinema screen (placed by script). */
+.curve {
+  position: absolute;
+  inset: 0;
+  perspective: 1200px;
+  transition: opacity 520ms var(--ease), filter 520ms var(--ease);
+}
+.curve-field { position: absolute; inset: 0; transform-style: preserve-3d; }
+.cn {
+  position: absolute;
   top: 0;
   left: 0;
-  z-index: 15;
   display: inline-flex;
   align-items: baseline;
-  gap: var(--s-2);
-  padding: 6px 14px;
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  background: var(--glass-strong);
-  -webkit-backdrop-filter: blur(14px);
-  backdrop-filter: blur(14px);
-  box-shadow: var(--shadow-glass);
-  font-family: var(--font-mono);
-  font-size: 0.6875rem;
-  letter-spacing: var(--tracking-label);
-  text-transform: uppercase;
+  gap: 0.32em;
+  font-size: clamp(2rem, 0.8rem + 3.8vw, 4.6rem);
+  font-weight: var(--weight-light);
+  letter-spacing: var(--tracking-display);
+  line-height: 1.1;
   white-space: nowrap;
   color: var(--ink);
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity var(--dur-fast) var(--ease);
+  cursor: pointer;
+  will-change: transform;
+  transition: color 320ms var(--ease);
 }
-.wall-pill .label { font-size: 0.625rem; }
-.wall-pill.is-on { opacity: 1; }
-html.has-focus .wall-pill { opacity: 0; }
+.cn sup { font-family: var(--font-mono); font-size: 0.16em; letter-spacing: var(--tracking-label); color: var(--ink-3); transform: translateY(-1.8em); }
+.cn.k-Teaching { color: var(--ink-2); }
+.cn.k-Experiment { color: var(--ink-3); }
+.names-wall.has-hover .cn { color: var(--ink-4); }
+.cn.hint, .names-wall.has-hover .cn.on { color: var(--ink); }
 
-/* No screenshot: the title set large, like a cover. */
-.tile-fallback { display: none; }
-.tile--type .tile-fallback {
-  display: flex;
-  align-items: flex-end;
-  height: 100%;
-  padding: var(--s-4);
-  font-size: var(--text-lg);
-  font-weight: var(--weight-light);
-  letter-spacing: var(--tracking-tight);
-  line-height: 1.15;
-}
+/* The leaving copy fades first and the arriving one after it, so they never overlap. */
+.cn .ts { transition: opacity 160ms ease-in 140ms; }
+.cn .ti { opacity: 0; transition: opacity 160ms ease-in; }
+.cn.hint .ti, .names-wall.has-hover .cn.on .ti { opacity: 1; transition: opacity 200ms ease-out 140ms; }
+.cn.hint .ts, .names-wall.has-hover .cn.on .ts { opacity: 0; transition: opacity 140ms ease-in; }
 
-/* Search echo */
-.wall.is-filtering .tile:not(.is-match) .tile-card { opacity: 0.14; filter: grayscale(1); }
-.wall.is-filtering .tile.is-match .tile-card { outline-color: var(--ink); }
-.wall.is-hinting .tile.is-match .tile-card { outline-color: var(--line-strong); }
+/* Behind the answer the names, which have stopped by now, blur themselves once:
+   a still layer, cheap, instead of a backdrop blur over moving 3D text. */
+.names-wall.is-listing .curve { opacity: 0.32; filter: blur(7px); pointer-events: none; }
 
-/* Paper rising from the bottom as you scroll: it covers the lower part of the wall,
-   where the search sits, and leaves the top clear. While a search is typed it thins,
-   so the lit tiles show through. */
-.veil {
-  --max: 0.9;
-  position: fixed;
+/* A pale wash where the drum stands. */
+.wash {
+  position: absolute;
   inset: 0;
   z-index: 1;
   pointer-events: none;
-  background: var(--paper);
-  -webkit-backdrop-filter: blur(14px) saturate(1.05);
-  backdrop-filter: blur(14px) saturate(1.05);
-  -webkit-mask-image: linear-gradient(180deg, transparent 18%, rgba(0, 0, 0, 0.6) 46%, #000 66%);
-  mask-image: linear-gradient(180deg, transparent 18%, rgba(0, 0, 0, 0.6) 46%, #000 66%);
-  opacity: calc(var(--p) * var(--max));
-  transition: opacity 300ms var(--ease);
+  background: radial-gradient(ellipse 62% 70% at 50% 50%, color-mix(in srgb, var(--paper) 70%, transparent) 40%, transparent 100%);
+  opacity: 0;
+  transition: opacity 520ms var(--ease);
 }
-.veil.is-thin { --max: 0.6; }
+.names-wall.is-listing .wash { opacity: 1; }
 
-/* Header over the wall: a strip of frosted glass that fades out downward keeps the nav
-   readable over any screenshot. */
-.home .site-header {
+/* The answer: a drum of names turning on a horizontal axis; the wheel or ↑ ↓ turn it. */
+.drum {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  perspective: 1000px;
+  pointer-events: none;
+}
+.drum.is-active { pointer-events: auto; }
+.drum-axis { position: absolute; left: 50%; top: 50%; transform-style: preserve-3d; }
+
+/* Every drum name is the same grid: a right-aligned label column, the mark, the title,
+   the number. With one shared left edge they stack in clean columns. */
+.dn {
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: grid;
+  grid-template-columns: 1.7em auto auto auto;
+  align-items: baseline;
+  column-gap: 0.32em;
+  font-size: clamp(1.8rem, 1rem + 2.6vw, 3.6rem);
+  font-weight: var(--weight-light);
+  letter-spacing: var(--tracking-display);
+  line-height: 1;
+  white-space: nowrap;
+  color: var(--ink);
+  cursor: pointer;
+}
+.dn .k { justify-self: end; font-family: var(--font-mono); font-size: 0.2em; letter-spacing: var(--tracking-label); text-transform: uppercase; color: var(--ink-3); }
+.dn sup { font-family: var(--font-mono); font-size: 0.2em; color: var(--ink-3); transform: translateY(-1.6em); }
+.dn .tw { justify-self: start; }
+/* --ts / --ti are set by script as a name nears the front; hovering also brings it up. */
+.dn .ti { opacity: var(--ti, 0); }
+.dn .ts { opacity: var(--ts, 1); }
+.dn:hover .ti { opacity: 1; }
+.dn:hover .ts { opacity: 0; }
+.drum .none { position: absolute; left: 50%; top: 50%; margin: 0; transform: translate(-50%, -50%); color: var(--ink-3); }
+
+/* The picture of the name under the cursor, riding beside it. */
+.peek {
   position: fixed;
   top: 0;
   left: 0;
-  right: 0;
-  z-index: 10;
-}
-.home .site-header::before {
-  content: "";
-  position: absolute;
-  inset: 0 0 -24px;
-  z-index: -1;
-  background: var(--glass-strong);
-  -webkit-backdrop-filter: blur(16px);
-  backdrop-filter: blur(16px);
-  -webkit-mask-image: linear-gradient(180deg, #000 55%, transparent);
-  mask-image: linear-gradient(180deg, #000 55%, transparent);
-}
-
-/* Page */
-
-.home main,
-.home .page-foot { position: relative; z-index: 2; }
-/* The page lies over the wall, so it lets the pointer through to the cards everywhere
-   except on its own controls. */
-.home main,
-.home .stage { pointer-events: none; }
-.home .scroll-hint,
-.home .stage-inner { pointer-events: auto; }
-
-/* First screen: nothing but the wall, and a hint that there is more below. */
-.surface {
-  position: relative;
-  height: 100vh;
-  height: 100svh;
-}
-.scroll-hint {
-  position: absolute;
-  left: 50%;
-  bottom: var(--s-6);
-  display: inline-flex;
-  align-items: center;
-  gap: var(--s-2);
-  padding: var(--s-2) var(--s-4);
-  transform: translateX(-50%);
-  border-radius: 999px;
-  background: var(--glass-strong);
-  -webkit-backdrop-filter: blur(12px);
-  backdrop-filter: blur(12px);
-  box-shadow: var(--shadow-glass);
-  font-size: var(--text-xs);
-  color: var(--ink-2);
-  transition: color var(--dur-fast) var(--ease);
-}
-.scroll-hint:hover { color: var(--ink); }
-.scroll-hint span { display: inline-block; animation: bob 2.4s var(--ease) infinite; }
-@keyframes bob { 50% { transform: translateY(3px); } }
-
-/* The search screen is short on purpose: scrolled all the way, it fills only the lower
-   third of the window, and the wall keeps the top two thirds. */
-.home .stage {
-  position: relative;
-  height: 36vh;
-  height: 36svh;
-  min-height: 250px;
-  justify-content: flex-start;
-  padding: 0 var(--gutter);
-}
-.home .page-foot { padding-top: var(--s-4); }
-
-/* A pool of paper behind the question, so the type never sits on a busy tile. */
-.home .stage::before {
-  content: "";
-  position: absolute;
-  inset: -30% 0 -20%;
-  z-index: -1;
+  z-index: 25;
+  width: 340px;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
   pointer-events: none;
-  background: radial-gradient(ellipse 48% 46% at 50% 45%, var(--paper) 40%, transparent 100%);
-  opacity: var(--p);
+  opacity: 0;
+  transition: opacity 160ms var(--ease);
+  background: var(--paper-raised);
+  box-shadow: 0 24px 60px -24px rgba(0, 0, 0, 0.5);
+}
+.peek.on { opacity: 1; }
+html.has-focus .peek { opacity: 0; }
+.peek img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top; }
+.peek-type { display: flex; align-items: flex-end; height: 100%; padding: var(--s-4); font-size: var(--text-lg); font-weight: var(--weight-light); }
+
+/* The question and the box, under the wall. */
+.home .stage {
+  flex: none;
+  padding: var(--s-4) var(--gutter) var(--s-5);
+}
+.beneath a.all { color: var(--ink); text-decoration: underline; text-decoration-color: var(--ink-4); text-underline-offset: 3px; }
+
+@media (max-width: 700px) {
+  .names-wall { min-height: 260px; }
+  .peek { width: 220px; }
 }
 
-/* Down here the results open upward, over the wall, where there is room. */
-.home .search-panel {
-  top: auto;
-  bottom: 100%; /* the bar is the top of .search, so this hangs the panel from its upper edge */
-  border: 1px solid var(--line-strong);
-  border-bottom: 0;
-  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
-}
-.home .search.is-open .search-bar { border-radius: 0 0 var(--radius-lg) var(--radius-lg); border-top-color: var(--line); border-bottom-color: var(--line-strong); }
-.home .search-panel .search-foot { border-top: 0; border-bottom: 1px solid var(--line); }
-.home .search-panel { display: flex; flex-direction: column-reverse; }
-.home .search-panel[hidden] { display: none; }
-
-/* Project card, opened from the wall: a large frame on the left, its label on the right. */
+/* Project card, opened from a name: a large frame on the left, its label on the right. */
 
 .focus {
   position: fixed;
@@ -344,7 +284,6 @@ html.has-focus .wall-pill { opacity: 0; }
 html.has-focus { overflow: hidden; }
 
 @media (max-width: 700px) {
-  .wall { perspective: 900px; }
   .focus {
     grid-template-columns: 1fr;
     align-content: center;

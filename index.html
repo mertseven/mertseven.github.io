@@ -37,9 +37,6 @@
   <script>try { const t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
 </head>
 <body class="home">
-  <section class="wall is-waiting" id="wall" aria-label="Projects"></section>
-  <div class="veil" id="veil" aria-hidden="true"></div>
-
   <header class="site-header">
     <a class="wordmark" href="/" aria-label="Mert Seven, home">
       <span class="wordmark-mark" aria-hidden="true"></span>
@@ -64,10 +61,8 @@
     </div>
   </header>
 
-  <main>
-  <section class="surface">
-    <a class="scroll-hint mono" id="scroll-hint" href="#find">scroll to search <span aria-hidden="true">↓</span></a>
-  </section>
+  <main class="home-main">
+  <section class="names-wall" id="names" aria-label="Projects"></section>
 
   <section class="stage" id="find">
     <div class="stage-inner">
@@ -82,21 +77,11 @@
           </svg>
           <span class="search-field">
             <input id="q" type="search" placeholder="Search projects, research, writing…"
-                   role="combobox" aria-expanded="false" aria-controls="results" aria-autocomplete="list"
-                   spellcheck="false">
+                   aria-controls="names" spellcheck="false">
             <span class="ghost" id="ghost" aria-hidden="true"></span>
           </span>
           <span class="search-hint"><kbd>/</kbd></span>
         </form>
-
-        <div class="search-panel" id="panel" hidden>
-          <ul class="results" id="results" role="listbox" aria-label="Results"></ul>
-          <div class="search-foot">
-            <span><kbd>↑</kbd><kbd>↓</kbd> move</span>
-            <span><kbd>↵</kbd> open</span>
-            <a href="/work/">Browse the full index →</a>
-          </div>
-        </div>
 
         <p class="beneath" id="beneath"></p>
       </div>

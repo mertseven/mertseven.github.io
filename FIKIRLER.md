@@ -48,6 +48,9 @@ Zahmet: yüksek. Motorun yönlendirmesine müdahale gerektirir.
 
 ## Rafta
 
+### Ekran görüntülü kavisli duvar
+Ana sayfa tam ekran, kavisli, zıt yönlere kayan ekran görüntüsü kartlarıyla açılıyor, kartlar merkezden patlıyordu (Burst); kaydırınca arama alttan geliyordu. Yerini isim duvarı aldı. Kodu: `4212b54` (`assets/js/wall.js`). Ekran görüntüleri künyede ve imlecin yanındaki önizlemede kullanılmaya devam ediyor.
+
 ### Çizgi roman (Marvel) açılışı
 Proje panelleri çizgi roman kesmeleri gibi hızlanarak geçip duvara dönüşüyordu. Beğenilmedi, kaldırıldı; yerine doğrudan Burst geldi. Kodu: `b7bbdde` (`assets/js/intro.js`).
 
@@ -72,8 +75,8 @@ Geri getirmek için: `c3b202c` (son hali, dipten yüzen sürüm) ve `2d045f6`. K
 - Paylaşılabilir arama: `/?q=…` kutuyu doldurup sonuçları açar, yazdıkça adres güncellenir
 - Dönen ipuçları: boş kutuda sabit "try" ve alttan yükselen kelime ("try *networks*…"); yalnızca sonuç veren kelimeler; boş kutuda Enter görünen ipucunu arar
 - Açık/koyu tema düğmesi: header'ın sağında; önce sistemi izler, seçim hatırlanır; okyanus da birlikte değişir
-- Proje duvarı: ana sayfa tam ekran duvarla açılır; kartlar merkezden patlayarak yerine oturur (Burst). Sıralar zıt yönlere kayar, kavisli bir perde gibi: ortadakiler düz, kenardakiler izleyiciye döner
-- Tıklanabilir duvar (Burst gibi): imleci izleyen hap etiket proje adını gösterir; tıklanan kart yerinden kalkıp büyük bir çerçeveye uçar, yanında künye (koleksiyon, başlık, açıklama, konular, stack, "Open project", sayaç). ← → gezinir, Esc/dışarı tıklama kartı yerine döndürür, Ctrl/⌘ tıklama doğrudan açar
-- Kaydırınca arama: duvarın önüne kâğıt bir cam iner, soru ve arama kutusu gelir; arama yazıldıkça cam incelir, eşleşen kartlar arkada parlar, dönen ipucu kendi projelerini öne çıkarır
+- İsim duvarı (ana sayfa, tek ekran): proje adları işaretleriyle kavisli şeritlerde akar; yazınca arkadakiler bulanıklaşır, eşleşen projeler yatay ekseninde dönen bir silindir olarak dizilir (↑ ↓ / tekerlek çevirir, Enter ya da öndekine tıklama künyeyi açar). Eşleşen yayın/yazı varsa altta "all results →" ile `/search/`'e gider. Önizlemeler: `preview/salon.html`, `preview/cevap.html`
+- Proje künyesi (Burst gibi): büyük görsel, koleksiyon, başlık, açıklama, konular, stack, "Open project", sayaç; ← → gezinir, Esc kapatır, Ctrl/⌘ tıklama doğrudan açar
+- Yer tutucu proje işaretleri: kimlikten türetilen geometrik semboller; katalogda bir projeye `"logo": "/yol/logo.svg"` eklenince onun yerini alır
 - Okyanuslu arama `/search/` sayfasına taşındı; header'daki arama simgesi ve her sayfada `/` oraya götürür
 - Proje ekran görüntüleri: `tools/shoot-projects.py` (28 projeden 27'si; `conflict` çekilemedi, tipografik kart)

@@ -1,62 +1,82 @@
-import { loadCatalog } from "./catalog.js";
+import { loadCatalog, escapeHtml } from "./catalog.js";
 import { mountSearch } from "./search-box.js";
-import { mountWall } from "./wall.js";
+import { mountNamesWall } from "./names-wall.js";
 import { mountFocus } from "./focus.js";
 import "./theme.js";
 
-// Home: the curved project wall bursts in and fills the first screen. Scrolling draws
-// frosted glass over it and brings up the question and the search. Typing lights the
-// matching tiles behind the glass; the rotating hint lifts its own.
+// Home: the name wall over the question and the search. Typing turns the matching projects
+// into a drum of names (↑ ↓ or the wheel turn it, Enter opens the one in front); a plain
+// click on any name opens its project card. Papers and writing that match are counted
+// under the box, with a way to the full results on /search/.
 
 document.getElementById("year").textContent = new Date().getFullYear();
 
-const wallEl = document.getElementById("wall");
-const veil = document.getElementById("veil");
-const hint = document.getElementById("scroll-hint");
+const plural = (n, one, many) => `${n} ${n === 1 ? one : many}`;
+const projectIds = (results) => new Set(results.filter((e) => e.type === "Project").map((e) => e.raw.id));
 
-const projectIds = (results) =>
-  new Set(results.filter((e) => e.type === "Project").map((e) => e.raw.id));
+let names = null;     // the wall, once its fonts are in
+let focus = null;     // the project card
+let last = { q: "", ids: null, hint: null }; // what arrived before the wall was ready
+let baseBeneath = ""; // the resting count line, restored when the box is cleared
 
-let wall = null;
-
-const { input } = mountSearch({
-  panelUp: true,
-  onQuery: (q, results) => {
-    wall?.query(q ? projectIds(results) : null);
-    // While searching the glass thins, so the lit tiles show through it.
-    veil.classList.toggle("is-thin", Boolean(q));
+const { input, beneath, ready } = mountSearch({
+  panel: false,
+  onQuery(q, results) {
+    const ids = q ? projectIds(results) : null;
+    last.q = q;
+    last.ids = ids;
+    names?.query(q, ids);
+    writeBeneath(q, results);
   },
-  onHint: (word, results) => wall?.hint(projectIds(results)),
+  onHint(word, results) {
+    last.hint = projectIds(results);
+    names?.hint(last.hint);
+  },
 });
+ready.then(() => { baseBeneath = beneath.innerHTML; if (last.q) writeBeneath(last.q, null); });
 
-// Focusing the box (by "/", a click or ?q=) scrolls down to where the search rests.
-const bottom = () => document.documentElement.scrollHeight - innerHeight;
-input.addEventListener("focus", () => {
-  if (scrollY < bottom() - 4) scrollTo({ top: bottom(), behavior: "smooth" });
+// Under the box: the count while typing, the resting line otherwise.
+function writeBeneath(q, results) {
+  if (!beneath) return;
+  if (!q) {
+    if (baseBeneath) beneath.innerHTML = baseBeneath;
+    return;
+  }
+  if (!results) return;
+  const n = (type) => results.filter((e) => e.type === type).length;
+  const parts = [];
+  if (n("Project")) parts.push(plural(n("Project"), "project", "projects"));
+  if (n("Research")) parts.push(plural(n("Research"), "paper", "papers"));
+  if (n("Writing")) parts.push(plural(n("Writing"), "writing", "writings"));
+  beneath.innerHTML = parts.length
+    ? `${parts.join('<span class="sep" aria-hidden="true">·</span>')}<span class="sep" aria-hidden="true">—</span><a class="all" href="/search/?q=${encodeURIComponent(q)}">all results →</a>`
+    : `Nothing for “${escapeHtml(q)}” yet. Try a broader word.`;
+}
+
+// The drum answers to the keys while the box has focus.
+input.addEventListener("keydown", (e) => {
+  if (!names || !input.value.trim()) return;
+  if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+    e.preventDefault();
+    names.step(e.key === "ArrowDown" ? 1 : -1);
+  } else if (e.key === "Enter") {
+    const i = names.front();
+    if (i < 0) return;
+    // Keep this Enter from reaching the card's own "Enter opens the project" once it is up.
+    e.preventDefault();
+    e.stopPropagation();
+    focus?.open(i);
+  }
 });
-if (input.value) requestAnimationFrame(() => scrollTo(0, bottom()));
 
 loadCatalog()
   .then(async ({ projects }) => {
-    let focus = null;
-    wall = mountWall(wallEl, projects, { onSelect: (i, tile) => focus?.open(i, tile) });
-    focus = mountFocus(projects, wall);
-    await wall.ready();
-    wall.burst();
+    // The card opens from a name, not a tile: there is no frame to fly from or back to.
+    focus = mountFocus(projects, { hold() {}, tileFor: () => null });
+    names = await mountNamesWall(document.getElementById("names"), projects, {
+      onSelect: (i) => focus.open(i),
+    });
+    if (last.hint) names.hint(last.hint);
+    if (last.q) names.query(last.q, last.ids);
   })
-  .catch(() => wallEl.classList.remove("is-waiting"));
-
-// Scroll: the glass thickens over the first screen as the search rises.
-let ticking = false;
-function onScroll() {
-  if (ticking) return;
-  ticking = true;
-  requestAnimationFrame(() => {
-    ticking = false;
-    const p = Math.min(1, Math.max(0, scrollY / Math.max(1, bottom())));
-    document.documentElement.style.setProperty("--p", p.toFixed(3));
-    hint.style.opacity = Math.max(0, 1 - p * 3).toFixed(3);
-  });
-}
-addEventListener("scroll", onScroll, { passive: true });
-onScroll();
+  .catch(() => document.getElementById("names").classList.add("is-ready"));

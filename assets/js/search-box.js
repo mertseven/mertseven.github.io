@@ -7,7 +7,9 @@ import { loadCatalog, search, highlight, escapeHtml } from "./catalog.js";
 // onQuery(q, results) fires on every change (empty q when cleared); onHint(word) whenever
 // a new hint shows, so a page can echo them (the home wall does). panelUp: the results
 // open above the bar (its CSS flips the panel; this sizes it to the room above).
-export function mountSearch({ onQuery, onHint, panelUp = false } = {}) {
+// panel: false for a page that shows the answer itself; it then needs no #panel markup,
+// and the arrow keys and Enter are left to the page.
+export function mountSearch({ onQuery, onHint, panelUp = false, panel: usePanel = true } = {}) {
   const prompt = document.getElementById("prompt");
   const root = document.getElementById("search");
   const input = document.getElementById("q");
@@ -46,7 +48,7 @@ export function mountSearch({ onQuery, onHint, panelUp = false } = {}) {
       return c;
     })
     .catch(() => {
-      list.innerHTML = `<li class="results-empty">The index could not load. <a href="/work/">Open it directly</a>.</li>`;
+      if (list) list.innerHTML = `<li class="results-empty">The index could not load. <a href="/work/">Open it directly</a>.</li>`;
     });
 
   // "28 projects · 9 papers · 2 writings beneath the surface", counted from the catalog.
@@ -123,6 +125,7 @@ export function mountSearch({ onQuery, onHint, panelUp = false } = {}) {
     active = results.length ? 0 : -1;
     writeQuery(q);
     onQuery?.(q, q ? search(entries, q, Infinity) : []);
+    if (!usePanel) return; // the page shows the answer itself
 
     if (!q) {
       setOpen(false);
@@ -169,7 +172,7 @@ export function mountSearch({ onQuery, onHint, panelUp = false } = {}) {
 
   input.addEventListener("keydown", (e) => {
     if (e.key === "ArrowDown" || e.key === "ArrowUp") {
-      if (!results.length) return;
+      if (!usePanel || !results.length) return;
       e.preventDefault();
       const step = e.key === "ArrowDown" ? 1 : -1;
       active = (active + step + results.length) % results.length;
@@ -178,7 +181,7 @@ export function mountSearch({ onQuery, onHint, panelUp = false } = {}) {
       if (!input.value && hints.length) {
         input.value = hints[hintAt];
         render();
-      } else if (active >= 0) {
+      } else if (usePanel && active >= 0) {
         window.location.href = results[active].url;
       }
     } else if (e.key === "Escape") {
@@ -191,7 +194,7 @@ export function mountSearch({ onQuery, onHint, panelUp = false } = {}) {
     }
   });
 
-  list.addEventListener("mousemove", (e) => {
+  list?.addEventListener("mousemove", (e) => {
     const li = e.target.closest(".result");
     if (!li) return;
     const i = [...list.children].indexOf(li);
@@ -203,7 +206,7 @@ export function mountSearch({ onQuery, onHint, panelUp = false } = {}) {
 
   // Close when clicking away; "/" brings the search back from anywhere.
   document.addEventListener("pointerdown", (e) => {
-    if (!root.contains(e.target)) setOpen(false);
+    if (usePanel && !root.contains(e.target)) setOpen(false);
   });
   document.addEventListener("keydown", (e) => {
     const typing = e.target.closest?.("input, textarea, [contenteditable]");
@@ -214,5 +217,5 @@ export function mountSearch({ onQuery, onHint, panelUp = false } = {}) {
     }
   });
 
-  return { ready, input };
+  return { ready, input, field, beneath };
 }
