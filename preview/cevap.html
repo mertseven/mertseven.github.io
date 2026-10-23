@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="tr" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cevap Duvarı · İsimlerle</title>
+  <meta name="robots" content="noindex">
+  <link rel="icon" href="/images/ms-favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500&family=Geist+Mono:wght@400;600&family=Instrument+Serif:ital@0;1&display=swap">
+  <link rel="stylesheet" href="/assets/css/tokens.css">
+  <link rel="stylesheet" href="/assets/css/base.css">
+  <link rel="stylesheet" href="/preview/salon.css">
+  <style>
+    /* A + B: the answer wall with the name wall, three ways. Scratch page. */
+
+    /* The names keep clear of the question at the bottom. */
+    .names-area { position: absolute; inset: 0 0 150px 0; }
+    .names-area .names { font-size: clamp(2rem, 0.8rem + 4vw, 5rem); }
+
+    /* States the scenes switch on the names. */
+    .nm.hint { color: var(--ink); font-family: var(--font-serif); font-style: italic; font-weight: 400; letter-spacing: -0.01em; }
+    .names.is-q .track { animation-play-state: paused; }
+    .names.is-q .nm { color: var(--ink-4); }
+    .names.is-q .nm.hit { color: var(--ink); font-family: var(--font-serif); font-style: italic; font-weight: 400; letter-spacing: -0.01em; }
+    .names .nm { transition: color 320ms var(--ease), opacity 320ms var(--ease); }
+
+    /* 1 · Cards fly out of their names */
+    .fly { position: absolute; top: 0; left: 0; z-index: 30; width: var(--fw); box-shadow: 0 24px 50px -26px rgba(0, 0, 0, 0.5); }
+    .fly .c-img { flex: none; height: calc(var(--fw) * 0.5625); }
+    .fly .c-cap { display: grid; padding: 8px 10px; background: var(--paper-raised); }
+
+    /* 2 · Watermark: the names, very faint, behind the answer wall */
+    .watermark { position: absolute; inset: 0; pointer-events: none; }
+    .watermark .names { font-size: clamp(3rem, 1rem + 7vw, 8rem); }
+    .watermark .nm { color: var(--ink); opacity: 0.07; }
+    .watermark .nm.hit { opacity: 0.22; font-family: var(--font-serif); font-style: italic; font-weight: 400; }
+
+    /* 3 · The answer is a list of names */
+    .names-area .names { transition: opacity 420ms var(--ease); }
+    .names-area.is-listing .names { opacity: 0.08; pointer-events: none; }
+    .answer-list {
+      position: absolute;
+      inset: 0 0 150px 0;
+      z-index: 20;
+      display: grid;
+      align-content: center;
+      justify-items: center;
+      gap: 2px;
+      pointer-events: none;
+    }
+    .answer-list a {
+      display: inline-flex;
+      align-items: baseline;
+      gap: 0.35em;
+      font-size: clamp(1.8rem, 1rem + 2.6vw, 3.6rem);
+      font-weight: var(--weight-light);
+      letter-spacing: var(--tracking-display);
+      line-height: 1.1;
+      color: var(--ink);
+      pointer-events: auto;
+      transition: color 200ms var(--ease);
+    }
+    .answer-list a sup { font-family: var(--font-mono); font-size: 0.2em; letter-spacing: var(--tracking-label); color: var(--ink-3); transform: translateY(-1.6em); }
+    .answer-list a .k { font-family: var(--font-mono); font-size: 0.2em; letter-spacing: var(--tracking-label); text-transform: uppercase; color: var(--ink-3); }
+    .answer-list a:hover { font-family: var(--font-serif); font-style: italic; font-weight: 400; letter-spacing: -0.01em; }
+    .answer-list.has-hover a:not(:hover) { color: var(--ink-4); }
+    .answer-list .none { font-size: var(--text-md); color: var(--ink-3); }
+  </style>
+</head>
+<body>
+  <header class="bar" id="bar">
+    <div class="bar-top">
+      <h1>Cevap duvarı + isim duvarı <span>· üç birleşim</span></h1>
+      <a class="label" href="/preview/salon.html#answer">← tüm yönler</a>
+    </div>
+    <div class="modes" id="modes"></div>
+    <p class="about" id="about"></p>
+  </header>
+
+  <main class="stage" id="stage" aria-live="polite"></main>
+
+  <p class="note">Hepsinde aşağıdaki kutuya yazmayı dene: <b>philosophy</b>, <b>journalism</b>, <b>networks</b>, <b>teaching</b>. Kutu boşken dönen ipucunun projeleri isimlerde italik olarak öne çıkıyor. Bir ismin üzerine gelince görseli imlecin yanında beliriyor.</p>
+  <div class="peek" id="peek" aria-hidden="true"></div>
+
+  <script type="module" src="/preview/cevap.js"></script>
+</body>
+</html>
