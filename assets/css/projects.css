@@ -1,0 +1,171 @@
+/* Project pieces shared by the home page and the index: marks, the two-copy title,
+   the picture beside the cursor, and the project card. */
+
+/* Marks: placeholders until each project has its own logo. */
+.mk { flex: none; width: 0.78em; height: 0.78em; align-self: center; color: currentColor; }
+.mk .cut { stroke: var(--paper); } /* the cut in a filled mark is paper, not ink */
+
+/* A title carries both looks in one grid cell, so its width never changes:
+   "italic" is a fade between the two copies, not a change of font. */
+.tw { display: inline-grid; }
+.tw > span { grid-area: 1 / 1; white-space: nowrap; }
+.ti { font-family: var(--font-serif); font-style: italic; font-weight: 400; letter-spacing: -0.01em; }
+
+/* The picture of the name under the cursor, riding beside it. */
+.peek {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 25;
+  width: 340px;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 160ms var(--ease);
+  background: var(--paper-raised);
+  box-shadow: 0 24px 60px -24px rgba(0, 0, 0, 0.5);
+}
+.peek.on { opacity: 1; }
+html.has-focus .peek { opacity: 0; }
+.peek img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top; }
+.peek-type { display: flex; align-items: flex-end; height: 100%; padding: var(--s-4); font-size: var(--text-lg); font-weight: var(--weight-light); }
+
+@media (max-width: 700px) {
+  .peek { width: 220px; }
+}
+
+/* Project card, opened from a name: a large frame on the left, its label on the right. */
+
+.focus {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  display: grid;
+  grid-template-columns: minmax(0, 1.55fr) minmax(260px, 1fr);
+  align-items: center;
+  gap: clamp(24px, 4vw, 64px);
+  padding: 96px var(--gutter) 64px;
+}
+.focus[hidden] { display: none; }
+
+.focus-backdrop {
+  position: absolute;
+  inset: 0;
+  background: var(--paper);
+  opacity: 0;
+  transition: opacity 420ms var(--ease);
+}
+.focus.is-open .focus-backdrop { opacity: 0.86; }
+
+.focus-media {
+  position: relative;
+  margin: 0;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: var(--paper-raised);
+  transform-origin: 0 0;
+  box-shadow: 0 30px 80px -40px rgba(0, 0, 0, 0.55);
+}
+.focus-media img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top; }
+.focus-type {
+  display: flex;
+  align-items: flex-end;
+  height: 100%;
+  padding: var(--s-7);
+  font-size: var(--text-xl);
+  font-weight: var(--weight-light);
+  letter-spacing: var(--tracking-tight);
+  line-height: 1.1;
+}
+
+.focus-info {
+  position: relative;
+  display: grid;
+  gap: var(--s-4);
+  align-content: center;
+  max-width: 420px;
+  opacity: 0;
+  transform: translateX(16px);
+  transition: opacity 380ms var(--ease) 180ms, transform 480ms var(--ease) 180ms;
+}
+.focus.is-open .focus-info { opacity: 1; transform: none; }
+
+.focus-rule { width: 64px; height: 1px; background: var(--line-strong); }
+.focus-kind { margin: 0; }
+.focus-title {
+  margin: 0;
+  font-size: clamp(2rem, 1.2rem + 2.6vw, 3.5rem);
+  font-weight: var(--weight-light);
+  letter-spacing: var(--tracking-display);
+  line-height: 1.02;
+}
+.focus-summary { margin: 0; color: var(--ink-2); font-size: var(--text-md); line-height: 1.55; }
+.focus-meta {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 4px var(--s-4);
+  margin: 0;
+  font-size: var(--text-xs);
+}
+.focus-meta dt { color: var(--ink-3); }
+.focus-meta dd { margin: 0; color: var(--ink-2); }
+
+.focus-open {
+  justify-self: start;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  margin-top: var(--s-2);
+  padding: 10px 18px;
+  border-radius: 999px;
+  background: var(--ink);
+  color: var(--paper);
+  font-size: var(--text-sm);
+  transition: opacity var(--dur-fast) var(--ease);
+}
+.focus-open:hover { opacity: 0.86; }
+
+.focus-nav {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  margin-top: var(--s-5);
+  font-size: var(--text-xs);
+  color: var(--ink-3);
+  letter-spacing: var(--tracking-label);
+}
+.focus-step {
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: none;
+  color: var(--ink-2);
+  cursor: pointer;
+  transition: color var(--dur-fast) var(--ease), border-color var(--dur-fast) var(--ease);
+}
+.focus-step:hover { color: var(--ink); border-color: var(--line-strong); }
+
+.focus-close {
+  position: absolute;
+  top: 76px;
+  right: var(--gutter);
+  opacity: 0;
+  transition: opacity var(--dur) var(--ease) 200ms;
+}
+.focus.is-open .focus-close { opacity: 1; }
+
+html.has-focus { overflow: hidden; }
+
+@media (max-width: 700px) {
+  .focus {
+    grid-template-columns: 1fr;
+    align-content: center;
+    gap: var(--s-5);
+    padding: 80px var(--gutter) 32px;
+    overflow-y: auto;
+  }
+  .focus-info { max-width: none; }
+  .focus-nav { margin-top: var(--s-2); }
+}

@@ -67,7 +67,6 @@ Geri getirmek için: `c3b202c` (son hali, dipten yüzen sürüm) ve `2d045f6`. K
 ## Yapıldı
 
 - Arama ekranı ve buzlu cam altında ASCII okyanus
-- Filtrelenebilir proje indeksi (`/work/`)
 - Daha sık okyanus dokusu (5–8 px hücre)
 - Vatoz
 - Başlık arama kutusu genişliğinde, "curious" serif italik
@@ -78,5 +77,6 @@ Geri getirmek için: `c3b202c` (son hali, dipten yüzen sürüm) ve `2d045f6`. K
 - İsim duvarı (ana sayfa, tek ekran): proje adları işaretleriyle kavisli şeritlerde akar; yazınca arkadakiler bulanıklaşır, eşleşen projeler yatay ekseninde dönen bir silindir olarak dizilir (↑ ↓ / tekerlek çevirir, Enter ya da öndekine tıklama künyeyi açar). Eşleşen yayın/yazı varsa altta "all results →" ile `/search/`'e gider. Önizlemeler: `preview/salon.html`, `preview/cevap.html`
 - Proje künyesi (Burst gibi): büyük görsel, koleksiyon, başlık, açıklama, konular, stack, "Open project", sayaç; ← → gezinir, Esc kapatır, Ctrl/⌘ tıklama doğrudan açar
 - Yer tutucu proje işaretleri: kimlikten türetilen geometrik semboller; katalogda bir projeye `"logo": "/yol/logo.svg"` eklenince onun yerini alır
+- İndeks (`/work/`) katalog olarak: cümle filtresi ("Show teaching projects about networks, made with D3."), üç bölüm, tek satırlık projeler (numara, işaret, ad, koleksiyon, konular, araçlar), filtrelerken satırlar çökerek kapanır; List / Images düğmesi (baskı dokulu görseller, seçim hatırlanır); künye ve derin link `/work/#socrates`; filtre adreste `?collection=&topic=&stack=`; kaydırırken hafif silindir. Önizleme: `preview/index.html`
 - Okyanuslu arama `/search/` sayfasına taşındı; header'daki arama simgesi ve her sayfada `/` oraya götürür
 - Proje ekran görüntüleri: `tools/shoot-projects.py` (28 projeden 27'si; `conflict` çekilemedi, tipografik kart)
