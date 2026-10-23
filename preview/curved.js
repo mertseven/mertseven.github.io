@@ -103,6 +103,11 @@ export function ab4({ stage, projects, KIND, askBox, hoverPeek }) {
     }
   };
 
+  // Frosted glass that slides in between the names and the answer.
+  const glass = document.createElement("div");
+  glass.className = "frost-glass";
+  stage.append(glass);
+
   // ——— The answer: a drum ———
   const drum = document.createElement("div");
   drum.className = "drum";
@@ -133,7 +138,7 @@ export function ab4({ stage, projects, KIND, askBox, hoverPeek }) {
       el.target = "_blank";
       el.rel = "noopener";
       el.dataset.i = projects.indexOf(p);
-      el.innerHTML = `${mark(p)}<span class="k">${KIND[p.kind]}</span>${escapeHtml(p.title)}<sup>${no(p)}</sup>`;
+      el.innerHTML = `<span class="k">${KIND[p.kind]}</span>${mark(p)}${escapeHtml(p.title)}<sup>${no(p)}</sup>`;
       axis.append(el);
       dn.push({ el, w: el.offsetWidth, h: el.offsetHeight });
     }
@@ -193,6 +198,7 @@ export function ab4({ stage, projects, KIND, askBox, hoverPeek }) {
   const stopAsk = askBox(
     (q, ids) => {
       curve.classList.toggle("is-listing", Boolean(q));
+      glass.classList.toggle("is-on", Boolean(q));
       markRows("hint", null);
       fill(ids, q);
     },
