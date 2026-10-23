@@ -207,7 +207,8 @@ export function mountSearch({ onQuery, onHint, panelUp = false } = {}) {
   });
   document.addEventListener("keydown", (e) => {
     const typing = e.target.closest?.("input, textarea, [contenteditable]");
-    if (e.key === "/" && !typing) {
+    // Not while a project card is open over the page.
+    if (e.key === "/" && !typing && !document.documentElement.classList.contains("has-focus")) {
       e.preventDefault();
       input.focus();
     }

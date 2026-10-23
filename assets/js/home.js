@@ -1,6 +1,7 @@
 import { loadCatalog } from "./catalog.js";
 import { mountSearch } from "./search-box.js";
 import { mountWall } from "./wall.js";
+import { mountFocus } from "./focus.js";
 import "./theme.js";
 
 // Home: the curved project wall bursts in and fills the first screen. Scrolling draws
@@ -37,7 +38,9 @@ if (input.value) requestAnimationFrame(() => scrollTo(0, bottom()));
 
 loadCatalog()
   .then(async ({ projects }) => {
-    wall = mountWall(wallEl, projects);
+    let focus = null;
+    wall = mountWall(wallEl, projects, { onSelect: (i, tile) => focus?.open(i, tile) });
+    focus = mountFocus(projects, wall);
     await wall.ready();
     wall.burst();
   })

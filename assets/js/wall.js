@@ -9,7 +9,7 @@ import { escapeHtml } from "./catalog.js";
 // curve depends on where a tile is on screen at that moment. The burst animates the
 // card inside each tile, so the two transforms never fight.
 
-const KIND_LABEL = { Featured: "Featured", Teaching: "Teaching", Experiment: "Experiment" };
+export const KIND_LABEL = { Featured: "Featured", Teaching: "Teaching", Experiment: "Experiment" };
 
 const TILE_VW = 0.28;      // card width as a share of the screen…
 const TILE_MIN = 180;      // …but never narrower…
@@ -24,8 +24,9 @@ const BURST_SPREAD = 520;  // stagger: centre tiles first, edges last
 const rand = (a, b) => a + Math.random() * (b - a);
 const mod = (a, n) => ((a % n) + n) % n;
 
-export function mountWall(root, projects) {
+export function mountWall(root, projects, { onSelect } = {}) {
   const reduce = matchMedia("(prefers-reduced-motion: reduce)");
+  let held = false;     // the whole wall stops while a project card is open
   const field = document.createElement("div");
   field.className = "wall-field";
   root.append(field);
@@ -44,9 +45,42 @@ export function mountWall(root, projects) {
       <div class="tile-card">
         ${img}
         <span class="tile-fallback" aria-hidden="true">${escapeHtml(p.title)}</span>
-        <span class="tile-label"><span class="label">${KIND_LABEL[p.kind]}</span>${escapeHtml(p.title)}</span>
       </div>`;
   }
+
+  // The name of the card under the cursor rides beside it in a small pill, as in Burst.
+  const pill = document.createElement("div");
+  pill.className = "wall-pill";
+  pill.setAttribute("aria-hidden", "true");
+  document.body.append(pill);
+  let pillOn = null;
+  field.addEventListener("pointerover", (e) => {
+    const el = e.target.closest(".tile");
+    if (!el || el === pillOn || e.pointerType === "touch") return;
+    pillOn = el;
+    const p = projects[el.dataset.index];
+    pill.innerHTML = `<span class="label">${KIND_LABEL[p.kind]}</span>${escapeHtml(p.title)}`;
+    pill.classList.add("is-on");
+  });
+  field.addEventListener("pointerout", (e) => {
+    if (!e.relatedTarget?.closest?.(".tile")) {
+      pillOn = null;
+      pill.classList.remove("is-on");
+    }
+  });
+  addEventListener("pointermove", (e) => {
+    pill.style.transform = `translate(${e.clientX + 18}px, ${e.clientY + 18}px)`;
+  }, { passive: true });
+
+  // A plain click opens the project's card (onSelect); a modified click keeps the link.
+  field.addEventListener("click", (e) => {
+    const el = e.target.closest(".tile");
+    if (!el || !onSelect || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    e.preventDefault();
+    pillOn = null;
+    pill.classList.remove("is-on");
+    onSelect(Number(el.dataset.index), el);
+  });
 
   function build() {
     const vw = root.clientWidth;
@@ -79,11 +113,13 @@ export function mountWall(root, projects) {
       };
       for (let i = 0; i < perRow; i++) {
         // Each row starts somewhere else in the list, so neighbours rarely repeat.
-        const p = projects[(i + r * 5) % projects.length];
+        const index = (i + r * 5) % projects.length;
+        const p = projects[index];
         const el = document.createElement("a");
         el.className = `tile${p.image ? "" : " tile--type"}`;
         el.href = p.url;
         el.dataset.id = p.id;
+        el.dataset.index = index;
         el.tabIndex = -1;
         el.innerHTML = tileHtml(p);
         el.addEventListener("pointerenter", () => (row.paused = true));
@@ -119,8 +155,10 @@ export function mountWall(root, projects) {
   function frame(now) {
     const dt = Math.min(0.05, (now - last) / 1000);
     last = now;
-    for (const row of rows) {
-      if (!row.paused) row.offset += row.dir * row.speed * dt;
+    if (!held) {
+      for (const row of rows) {
+        if (!row.paused) row.offset += row.dir * row.speed * dt;
+      }
     }
     place();
     raf = requestAnimationFrame(frame);
@@ -159,6 +197,25 @@ export function mountWall(root, projects) {
       const imgs = [...field.querySelectorAll(".tile img")].filter((img) => img.closest(".tile").style.visibility !== "hidden");
       const loads = imgs.map((img) => (img.complete ? null : new Promise((r) => { img.onload = r; img.addEventListener("error", r); })));
       return Promise.race([Promise.all(loads), new Promise((r) => setTimeout(r, ms))]);
+    },
+    /** Stop (true) or restart (false) the drift, e.g. while a project card is open. */
+    hold(v) {
+      held = v;
+    },
+    /** The on-screen tile showing project `index` nearest the centre, or null. */
+    tileFor(index) {
+      let best = null;
+      let bestD = Infinity;
+      for (const row of rows) {
+        for (const t of row.tiles) {
+          if (Number(t.el.dataset.index) !== index || t.el.style.visibility === "hidden") continue;
+          const r = t.el.getBoundingClientRect();
+          if (r.right < 0 || r.left > innerWidth || r.bottom < 0 || r.top > innerHeight) continue;
+          const d = Math.hypot(r.left + r.width / 2 - innerWidth / 2, r.top + r.height / 2 - innerHeight / 2);
+          if (d < bestD) { bestD = d; best = t.el; }
+        }
+      }
+      return best;
     },
     query: (ids) => mark(ids, "query"),
     hint: (ids) => {

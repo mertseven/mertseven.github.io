@@ -73,6 +73,7 @@ Geri getirmek için: `c3b202c` (son hali, dipten yüzen sürüm) ve `2d045f6`. K
 - Dönen ipuçları: boş kutuda sabit "try" ve alttan yükselen kelime ("try *networks*…"); yalnızca sonuç veren kelimeler; boş kutuda Enter görünen ipucunu arar
 - Açık/koyu tema düğmesi: header'ın sağında; önce sistemi izler, seçim hatırlanır; okyanus da birlikte değişir
 - Proje duvarı: ana sayfa tam ekran duvarla açılır; kartlar merkezden patlayarak yerine oturur (Burst). Sıralar zıt yönlere kayar, kavisli bir perde gibi: ortadakiler düz, kenardakiler izleyiciye döner
+- Tıklanabilir duvar (Burst gibi): imleci izleyen hap etiket proje adını gösterir; tıklanan kart yerinden kalkıp büyük bir çerçeveye uçar, yanında künye (koleksiyon, başlık, açıklama, konular, stack, "Open project", sayaç). ← → gezinir, Esc/dışarı tıklama kartı yerine döndürür, Ctrl/⌘ tıklama doğrudan açar
 - Kaydırınca arama: duvarın önüne kâğıt bir cam iner, soru ve arama kutusu gelir; arama yazıldıkça cam incelir, eşleşen kartlar arkada parlar, dönen ipucu kendi projelerini öne çıkarır
 - Okyanuslu arama `/search/` sayfasına taşındı; header'daki arama simgesi ve her sayfada `/` oraya götürür
 - Proje ekran görüntüleri: `tools/shoot-projects.py` (28 projeden 27'si; `conflict` çekilemedi, tipografik kart)
