@@ -1,0 +1,26 @@
+/* Equal bars as a code (mors.html). Builds on brand.css, ag.css and aile.css. */
+
+.cb { fill: currentColor; }
+.cb.thin { fill: none; stroke: currentColor; stroke-width: 0.4; }
+.bd { fill: currentColor; }
+.hub { fill: currentColor; }
+.stem, .ground { stroke: currentColor; stroke-width: 0.35; opacity: 0.5; }
+.turn { transform-box: fill-box; transform-origin: center; transition: transform 700ms var(--ease), opacity 450ms var(--ease); }
+
+.looks { margin-left: auto; font-family: var(--font-serif); font-style: italic; font-size: 1.05rem; color: var(--ink-3); }
+.mors-top { display: flex; flex-wrap: wrap; gap: var(--s-6); align-items: flex-start; }
+.mors-owner { display: grid; justify-items: start; gap: 10px; padding: 18px; border: 1px solid var(--line); border-radius: var(--radius-md); color: var(--ink); }
+.mors-owner svg { overflow: visible; zoom: 2; }
+.mors-owner > span { font-family: var(--font-mono); font-size: 0.625rem; color: var(--ink-3); }
+.mors-projects { flex: 1 1 360px; display: flex; flex-wrap: wrap; gap: 18px 22px; align-items: flex-end; }
+.mp { display: grid; justify-items: start; gap: 4px; color: var(--ink); max-width: 120px; }
+.mp svg { overflow: visible; }
+.mp b { font-family: var(--font-mono); font-size: 0.625rem; font-weight: 400; color: var(--ink-3); }
+.mp > span { font-size: 0.625rem; line-height: 1.2; color: var(--ink-3); }
+
+.key summary { cursor: pointer; font-family: var(--font-mono); font-size: 0.6875rem; letter-spacing: var(--tracking-label); text-transform: uppercase; color: var(--ink-3); }
+.key-row { display: flex; flex-wrap: wrap; gap: 12px 16px; padding-top: var(--s-4); color: var(--ink); }
+.key-l { display: grid; justify-items: center; align-content: end; gap: 4px; font-family: var(--font-mono); font-size: 0.625rem; color: var(--ink-3); }
+.key-l svg { overflow: visible; color: var(--ink); }
+
+.morph-stage svg { width: 70%; }
