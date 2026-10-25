@@ -1,4 +1,5 @@
 import { loadCatalog, escapeHtml } from "/assets/js/catalog.js";
+import { A, LOOKALIKE, wordsOf } from "/preview/bar-alphabet.js";
 
 // Bars that spell. One alphabet of bars on a small grid; the owner's monogram is "m" over
 // "s", and every project writes its own two letters the same way. A mark always says
@@ -16,37 +17,6 @@ const T = 1.5;
 const C = (i) => 3 + i * PITCH;
 const f = (n) => +n.toFixed(2);
 
-const A = {
-  a: [[0, 0, 6, 0], [6, 0, 6, 2], [0, 1, 6, 1], [0, 1, 0, 2], [0, 2, 6, 2]],
-  b: [[0, 0, 0, 2], [0, 1, 6, 1], [6, 1, 6, 2], [0, 2, 6, 2]],
-  c: [[0, 0, 6, 0], [0, 0, 0, 2], [0, 2, 6, 2]],
-  d: [[6, 0, 6, 2], [0, 1, 6, 1], [0, 1, 0, 2], [0, 2, 6, 2]],
-  e: [[0, 0, 6, 0], [0, 0, 0, 2], [6, 0, 6, 1], [0, 1, 6, 1], [0, 2, 6, 2]],
-  f: [[0, 0, 6, 0], [0, 0, 0, 2], [0, 1, 3, 1]],
-  g: [[0, 0, 6, 0], [0, 0, 0, 2], [0, 2, 6, 2], [6, 1, 6, 2], [3, 1, 6, 1]],
-  h: [[0, 0, 0, 2], [0, 1, 6, 1], [6, 1, 6, 2]],
-  i: [[0, 0, 6, 0], [3, 0, 3, 2], [0, 2, 6, 2]],
-  j: [[6, 0, 6, 2], [0, 2, 6, 2], [0, 1, 0, 2]],
-  k: [[0, 0, 0, 2], [0, 1, 3, 1], [3, 0, 3, 2], [3, 0, 6, 0], [3, 2, 6, 2]],
-  l: [[0, 0, 0, 2], [0, 2, 6, 2]],
-  m: [[0, 0, 6, 0], [0, 0, 0, 2], [3, 0, 3, 2], [6, 0, 6, 2]],
-  n: [[0, 0, 6, 0], [0, 0, 0, 2], [6, 0, 6, 2]],
-  o: [[0, 0, 6, 0], [0, 0, 0, 2], [6, 0, 6, 2], [0, 2, 6, 2]],
-  p: [[0, 0, 6, 0], [0, 0, 0, 2], [6, 0, 6, 1], [0, 1, 6, 1]],
-  q: [[0, 0, 6, 0], [0, 0, 0, 1], [6, 0, 6, 2], [0, 1, 6, 1]],
-  r: [[0, 0, 6, 0], [0, 0, 0, 2]],
-  s: [[0, 0, 6, 0], [0, 0, 0, 1], [0, 1, 6, 1], [6, 1, 6, 2], [0, 2, 6, 2]],
-  t: [[0, 0, 6, 0], [3, 0, 3, 2]],
-  u: [[0, 0, 0, 2], [6, 0, 6, 2], [0, 2, 6, 2]],
-  v: [[0, 0, 0, 2], [0, 2, 3, 2], [3, 1, 3, 2], [3, 1, 6, 1], [6, 0, 6, 1]],
-  w: [[0, 0, 0, 2], [3, 0, 3, 2], [6, 0, 6, 2], [0, 2, 6, 2]],
-  x: [[0, 1, 6, 1], [3, 0, 3, 2], [0, 0, 0, 1], [6, 1, 6, 2]],
-  y: [[0, 0, 0, 1], [0, 1, 6, 1], [6, 0, 6, 2], [0, 2, 6, 2]],
-  z: [[0, 0, 6, 0], [6, 0, 6, 1], [0, 1, 6, 1], [0, 1, 0, 2], [0, 2, 6, 2]],
-};
-// Letters that also read as digits in this alphabet; worth knowing, not worth hiding.
-const LOOKALIKE = { s: "5", z: "2", g: "6", o: "0", i: "1", b: "6" };
-
 // Two layouts of the same alphabet. Stacked: wide letters (7 × 3), one above the other.
 // Side by side: the same letters condensed (3 × 7), the points moved to x ∈ {0, 1, 2},
 // y ∈ {0, 3, 6}; every bar keeps its place in the letter, only the proportion changes.
@@ -59,9 +29,6 @@ const glyphBars = ([a, b]) => {
 
 // ——— Codes: two letters from the name ———
 
-const STOP = new Set(["of", "the", "for", "and", "s", "a"]);
-const fold = (s) => s.toLocaleLowerCase("tr").replace(/ı/g, "i").normalize("NFD").replace(/[̀-ͯ]/g, "");
-const wordsOf = (t) => fold(t).split(/[^a-z]+/).filter((w) => w && !STOP.has(w));
 function codes() {
   const used = new Set(["ms"]);
   const out = new Map();

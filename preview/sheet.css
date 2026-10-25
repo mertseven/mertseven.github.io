@@ -1,0 +1,34 @@
+/* The code sheet (sheet.html). Builds on brand.css, ag.css, aile.css and harf.css. */
+
+.abc2 { display: grid; gap: var(--s-3); padding-top: var(--s-4); border-top: 1px solid var(--line); }
+.abc2-row { display: flex; flex-wrap: wrap; gap: 14px 18px; color: var(--ink); }
+.abc2-l { display: grid; justify-items: center; align-content: end; gap: 6px; font-family: var(--font-mono); font-size: 0.6875rem; }
+.abc2-l svg { display: block; overflow: visible; }
+.abc2-l > span { color: var(--ink-3); }
+.abc2-l.look > span { text-decoration: underline; text-underline-offset: 3px; }
+
+.logo2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: var(--s-5); }
+.logo2-c { display: grid; align-content: start; gap: var(--s-4); padding: 20px; border: 1px solid var(--line); border-radius: var(--radius-md); color: var(--ink); }
+.logo2-big { display: grid; place-items: center; min-height: 150px; }
+.logo2-big svg, .logo2 .lockup svg { overflow: visible; }
+.logo2 .lockup svg { width: auto; }
+
+.words { gap: 16px; align-items: flex-end; }
+.words svg { width: auto; height: auto; overflow: visible; }
+.words > svg:first-child { width: auto; height: auto; margin-right: 10px; }
+/* Sheet bars have no pathLength, so the draw-in from harf.css would dash them. */
+.vc:hover .hb { animation: none; }
+
+.cs-wrap { overflow-x: auto; }
+.cs-table { width: 100%; border-collapse: collapse; font-size: var(--text-xs); color: var(--ink); }
+.cs-table th { padding: 8px 12px; font-family: var(--font-mono); font-size: 0.625rem; font-weight: 400; letter-spacing: var(--tracking-label); text-transform: uppercase; color: var(--ink-3); text-align: left; white-space: nowrap; }
+.cs-table td { padding: 12px; border-top: 1px solid var(--line); vertical-align: middle; }
+.cs-table td:first-child { min-width: 180px; }
+.cs-table td b { font-weight: var(--weight-regular); }
+.cs-table td b + span { display: block; color: var(--ink-3); }
+.cs-table .grp th { padding-top: 22px; color: var(--ink-2); }
+.cs-table .own td { background: color-mix(in srgb, var(--ink) 4%, var(--paper)); }
+.cs-table .na { color: var(--ink-4); }
+.cs-table code, .sc code { font-family: var(--font-mono); font-size: 0.625rem; color: var(--ink-3); }
+.sc { display: grid; justify-items: start; gap: 6px; }
+.sc svg { display: block; overflow: visible; }
