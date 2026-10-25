@@ -46,6 +46,20 @@ Zahmet: yüksek. Motorun yönlendirmesine müdahale gerektirir.
 
 ---
 
+## Marka (beklemede)
+
+Logo ve proje kimlikleri sistemi sonraya bırakıldı. Şimdiye kadar denenenler, hepsi `preview/` altında:
+
+- `brand.html`: dört yön (yedi segment, hücre, ağ, tipografik imza). 7 fikri beğenilmedi.
+- `ag.html`, `ag2.html`: ağın türevleri; 7'siz dört çıkış (bağ, işlerin haritası, dallanma, örgü). **Ağ fikri** ve **örgünün proje işaretleri** beğenildi; örgünün ana logosu fazla karmaşık bulundu.
+- `orgu.html`, `cubuk.html`: örgü için sade logolar; sonra örgü değil **çubuk fikri** öne çıktı.
+- `sistem.html`, `aile.html`: çubuk sistemi kuralları, logo ile projelerin aile bağları.
+- `harf.html`, `sheet.html`: çubuk alfabesi, 2–3 harfli kodlar. Okunuyor ama "alfabeye döndük", sembol ve logo niteliği kayboldu.
+- `mors.html`: eşit çubuklarla kodlar (hasır, silüet, sap, sinyal). Olmadı.
+- `metre.html`: katlanır metre (M, döndürünce Σ). Olmadı.
+
+Öğrenilenler: çubuklar eşit uzunlukta olmalı; logo harfi taşımalı ama önce bir sembol gibi görünmeli; proje işaretleri logodan türemeli (aile bağı önce); MIT Media Lab'deki gibi modüler bir mantık aranıyor. Veriden gelen ama tek başına bir şey söylemeyen şekiller, düz harfler ve 7 istenmiyor.
+
 ## Rafta
 
 ### Ekran görüntülü kavisli duvar
