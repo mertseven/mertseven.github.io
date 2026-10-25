@@ -1,0 +1,32 @@
+/* Bars that spell (harf.html). Builds on brand.css, ag.css and aile.css. */
+
+.hb { fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: square; }
+.hb.thin { stroke-width: 0.75; }
+.hb.dots { stroke-width: 1.15; stroke-linecap: round; stroke-dasharray: 0.01 1.5; }
+.ag[data-caps="round"] .hb, .ag[data-caps="round"] .mb path { stroke-linecap: round; }
+.mb path { stroke-width: 1.5; }
+.vc:hover .hb:not(.dots) { animation: draw 700ms var(--ease) both; }
+
+.abc { display: grid; grid-template-columns: repeat(auto-fill, minmax(84px, 1fr)); gap: 1px; border: 1px solid var(--line); background: var(--line); }
+.abc-l { display: grid; justify-items: center; gap: 6px; padding: 14px 8px 10px; background: var(--paper); color: var(--ink); font-family: var(--font-mono); font-size: 0.6875rem; }
+.abc-l svg { width: 64px; height: 32px; overflow: visible; }
+.abc-l > span { color: var(--ink-3); }
+.abc-l.look > span { text-decoration: underline; text-underline-offset: 3px; }
+
+.hero2 { grid-template-columns: 220px minmax(0, 1fr); }
+
+.word { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; color: var(--ink); }
+.word svg { display: block; width: 44px; height: 44px; overflow: visible; }
+.word > svg:first-child { margin-right: 10px; }
+
+.kind { display: grid; gap: var(--s-3); padding-top: var(--s-4); border-top: 1px solid var(--line); }
+.all { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px 16px; }
+.all-i { display: grid; grid-template-columns: 40px 1fr; grid-template-rows: auto auto; column-gap: 12px; align-items: center; color: var(--ink); }
+.all-i svg { grid-row: span 2; width: 40px; height: 40px; overflow: visible; }
+.all-i b { font-family: var(--font-mono); font-size: 0.6875rem; font-weight: 400; color: var(--ink-3); }
+.all-i span { font-size: var(--text-xs); line-height: 1.25; }
+
+@media (max-width: 560px) {
+  .hero2 { grid-template-columns: 1fr; }
+  .word svg { width: 36px; height: 36px; }
+}
