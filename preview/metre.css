@@ -1,0 +1,21 @@
+/* The folding rule (metre.html). Builds on brand.css, ag.css, aile.css and harf.css. */
+
+.fr { fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; }
+.fr.sq { stroke-linecap: butt; }
+.fr-in { fill: none; stroke: var(--bg, var(--paper)); stroke-linecap: round; stroke-linejoin: round; }
+.fr-in.sq { stroke-linecap: butt; }
+/* Beads a quarter of a bar apart, so each bar carries five of them. */
+.fr.dots { stroke-dasharray: 0.01 3.25; stroke-linecap: round; }
+.pin { fill: currentColor; }
+
+/* The M turns a quarter to the left and reads as Σ. */
+g.m { transform-origin: 12px 12px; transition: transform 700ms var(--ease); }
+.flip:hover g.m, .sigma g.m { transform: rotate(-90deg); }
+
+.ms-pair { display: flex; gap: var(--s-5); }
+.ms-pair > span { display: grid; justify-items: center; gap: 4px; color: var(--ink); }
+.ms-pair svg { width: 48px; height: 48px; overflow: visible; }
+.ms-pair b { font-family: var(--font-serif); font-style: italic; font-weight: 400; font-size: 1.2rem; }
+.ms-pair i { font-style: normal; font-family: var(--font-mono); font-size: 0.625rem; color: var(--ink-3); }
+
+.morph-stage svg { width: 72%; height: auto; overflow: visible; }
