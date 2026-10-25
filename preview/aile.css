@@ -1,0 +1,43 @@
+/* The family page (aile.html). Builds on brand.css, ag.css and sistem.css. */
+
+.vc:hover .b:not(.dots), .vc:hover .b-in { animation: none; }
+.vc-head h2 em, .sig-title h3 em, .sig-crumb em { font-family: var(--font-serif); font-style: italic; font-weight: 400; }
+.b.faint, .b-in.faint { opacity: 0.16; }
+
+.morph { display: flex; align-items: center; gap: var(--s-6); flex-wrap: wrap; }
+.morph-stage { display: grid; place-items: center; width: min(100%, 260px); aspect-ratio: 1; border: 1px solid var(--line); border-radius: var(--radius-md); color: var(--ink); }
+.morph-stage svg { width: 78%; height: auto; overflow: visible; }
+.mb path { fill: none; stroke: currentColor; stroke-linecap: square; }
+.ag[data-caps="round"] .mb path { stroke-linecap: round; }
+.morph-cap { flex: 1 1 200px; margin: 0; font-size: var(--text-md); font-weight: var(--weight-light); color: var(--ink); min-height: 3em; }
+.morph-cap b { font-weight: var(--weight-regular); }
+.morph-cap span { display: block; margin-top: 6px; font-size: var(--text-xs); color: var(--ink-3); }
+
+.line { display: grid; grid-template-columns: 6rem minmax(0, 1fr); align-items: center; gap: var(--s-4); padding: 14px 0; border-top: 1px solid var(--line); }
+.line-k { font-family: var(--font-mono); font-size: 0.625rem; letter-spacing: var(--tracking-label); text-transform: uppercase; color: var(--ink-3); }
+.line-row { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; color: var(--ink); }
+.line-row svg { display: block; width: 34px; height: 34px; overflow: visible; }
+.line-row > svg:first-child { width: 40px; height: 40px; margin-right: 8px; }
+
+.vc--wide .vm > span { -webkit-line-clamp: 3; }
+
+.sig-mocks { display: grid; gap: var(--s-4); }
+.sig-page { display: grid; gap: var(--s-5); padding: 22px 24px 28px; border: 1px solid var(--line); border-radius: var(--radius-md); }
+.sig-crumb { display: flex; align-items: center; gap: 8px; font-size: var(--text-sm); color: var(--ink-2); }
+.sig-crumb svg { width: 18px; height: 18px; overflow: visible; color: var(--ink); }
+.sig-crumb .sep { color: var(--ink-4); }
+.sig-title { display: flex; align-items: center; gap: var(--s-4); color: var(--ink); }
+.sig-title svg { width: 64px; height: 64px; flex: none; overflow: visible; }
+.sig-title h3 { margin: 0; font-size: clamp(1.8rem, 1rem + 3vw, 3rem); font-weight: var(--weight-light); letter-spacing: var(--tracking-display); line-height: 1; }
+.sig-meta { margin: 0; font-size: var(--text-xs); color: var(--ink-3); }
+.sig-foot { display: flex; justify-content: space-between; align-items: center; gap: var(--s-4); flex-wrap: wrap; padding: 14px 24px; border: 1px solid var(--line); border-radius: var(--radius-md); font-family: var(--font-mono); font-size: 0.6875rem; color: var(--ink-3); }
+.sig-pair { display: inline-flex; align-items: center; gap: 8px; color: var(--ink); }
+.sig-pair svg { width: 20px; height: 20px; overflow: visible; }
+.sig-pair .plus { color: var(--ink-4); }
+
+@media (max-width: 560px) {
+  .bar-top { flex-wrap: wrap; }
+  .bar-tools { flex-wrap: wrap; gap: var(--s-2); }
+  .line { grid-template-columns: 1fr; gap: 8px; }
+  .line-row svg { width: 28px; height: 28px; }
+}
