@@ -47,8 +47,15 @@ const A = {
 // Letters that also read as digits in this alphabet; worth knowing, not worth hiding.
 const LOOKALIKE = { s: "5", z: "2", g: "6", o: "0", i: "1", b: "6" };
 
-const glyphBars = ([top, bottom]) => [...A[top], ...A[bottom].map(([x1, y1, x2, y2]) => [x1, y1 + 4, x2, y2 + 4])];
-const letterBars = (ch) => A[ch];
+// Two layouts of the same alphabet. Stacked: wide letters (7 × 3), one above the other.
+// Side by side: the same letters condensed (3 × 7), the points moved to x ∈ {0, 1, 2},
+// y ∈ {0, 3, 6}; every bar keeps its place in the letter, only the proportion changes.
+const state = { layout: "stack" };
+const letterBars = (ch) => (state.layout === "side" ? A[ch].map(([x1, y1, x2, y2]) => [x1 / 3, y1 * 3, x2 / 3, y2 * 3]) : A[ch]);
+const glyphBars = ([a, b]) => {
+  const [dx, dy] = state.layout === "side" ? [4, 0] : [0, 4];
+  return [...letterBars(a), ...letterBars(b).map(([x1, y1, x2, y2]) => [x1 + dx, y1 + dy, x2 + dx, y2 + dy])];
+};
 
 // ——— Codes: two letters from the name ———
 
@@ -79,13 +86,15 @@ const d = ([x1, y1, x2, y2]) => `M${f(C(x1))},${f(C(y1))} L${f(C(x2))},${f(C(y2)
 // Filled: the full bar. Thin: half the weight, for teaching. Dots: the bar as a row of
 // beads one track apart, for experiments.
 const bar = (b, st = "", k = 0) => `<path class="hb${st ? ` ${st}` : ""}"${st === "dots" ? "" : ' pathLength="1"'} d="${d(b)}" style="animation-delay:${k * 60}ms"/>`;
-const gridDots = (rows = 7) => Array.from({ length: 7 * rows }, (_, i) => `<circle class="g" cx="${f(C(i % 7))}" cy="${f(C(Math.floor(i / 7)))}" r="0.3"/>`).join("");
+const gridDots = (cols = 7, rows = 7) => Array.from({ length: cols * rows }, (_, i) => `<circle class="g" cx="${f(C(i % cols))}" cy="${f(C(Math.floor(i / cols)))}" r="0.3"/>`).join("");
 const svg = (body, vb = "0 0 24 24") => `<svg viewBox="${vb}" aria-hidden="true">${body}</svg>`;
 const glyph = (bars, st = "", grid = false) => svg((grid ? gridDots() : "") + bars.map((b, k) => bar(b, st, k)).join(""));
-const OWNER = glyphBars(["m", "s"]);
-const owner = (grid = false) => glyph(OWNER, "", grid);
+const ownerBars = () => glyphBars(["m", "s"]);
+const owner = (grid = false) => glyph(ownerBars(), "", grid);
 const markOf = (p, grid = false) => glyph(glyphBars(CODE.get(p.id)), kindState(p), grid);
-const letter = (ch) => svg(gridDots(3) + letterBars(ch).map((b) => bar(b)).join(""), "0 0 24 12");
+const letter = (ch) => (state.layout === "side"
+  ? svg(gridDots(3, 7) + letterBars(ch).map((b) => bar(b)).join(""), "0 0 12 24")
+  : svg(gridDots(7, 3) + letterBars(ch).map((b) => bar(b)).join(""), "0 0 24 12"));
 
 // ——— Morph: one pair of letters becomes another ———
 
@@ -102,14 +111,19 @@ function pairUp(a, b) {
   return out;
 }
 const ease = (t) => t * t * (3 - 2 * t);
+// Each run gets a token; a re-render starts a new run and the old one stops at its next tick.
+let run = 0;
 function runMorph(stage, cap) {
+  const me = ++run;
   const list = SHOW.map((id) => projects.find((p) => p.id === id)).filter(Boolean);
   const host = stage.querySelector("g.mb");
+  const OWNER = ownerBars();
   let shape = OWNER, step = 0;
   const draw = (bars) => { host.innerHTML = bars.map((b) => `<path d="${d(b)}"/>`).join(""); };
   draw(shape);
   cap.innerHTML = "<b>ms</b> <span>Mert Seven</span>";
   const next = () => {
+    if (me !== run) return;
     const toOwner = step % 2 === 1, p = list[Math.floor(step / 2) % list.length];
     const target = toOwner ? OWNER : glyphBars(CODE.get(p.id));
     const pairs = pairUp(shape, target);
@@ -117,6 +131,7 @@ function runMorph(stage, cap) {
     const paths = [...host.children], t0 = performance.now();
     cap.innerHTML = toOwner ? "<b>ms</b> <span>Mert Seven</span>" : `<b>${CODE.get(p.id)}</b> <span>${escapeHtml(p.title)}</span>`;
     const frame = (now) => {
+      if (me !== run) return;
       const t = ease(Math.min(1, (now - t0) / 800));
       pairs.forEach(({ from, to, oa, ob }, i) => {
         paths[i].setAttribute("d", d(from.map((v, k) => v + (to[k] - v) * t)));
@@ -140,15 +155,20 @@ const ORDER = ["Featured", "Teaching", "Experiment"];
 const byKind = ORDER.map((k) => [k, projects.filter((p) => p.kind === k)]);
 const KIND_TR = { Featured: "Featured · dolu", Teaching: "Öğretim · ince", Experiment: "Deney · boncuk" };
 
+function render() {
+const side = state.layout === "side";
+root.dataset.layout = state.layout;
 root.innerHTML = `
   <article class="vc vc--wide">
     <div class="vc-head"><span class="label">Fikir</span><h2>Çubuklar artık <em>yazıyor</em></h2></div>
-    <p class="vc-desc">Haklıydın: veriden gelen şekiller, projenin adı yanında yokken hiçbir şey söylemiyordu. Şimdi kural tek ve logo ile aynı: <b>her işaret iki harf.</b> Senin logon <b>m</b> üstte <b>s</b> altta; her proje de adının iki harfini aynı alfabeyle, aynı yerde yazıyor. Journalism Studio <b>js</b>, Network Canvas <b>nc</b>. Koleksiyon harfin dokusunda: dolu, ince ya da boncuk. Konular ve araçlar işarette değil, yazıda kalıyor.</p>
+    <p class="vc-desc">Haklıydın: veriden gelen şekiller, projenin adı yanında yokken hiçbir şey söylemiyordu. Şimdi kural tek ve logo ile aynı: <b>her işaret iki harf.</b> Senin logon ${side ? "<b>m</b> solda <b>s</b> sağda" : "<b>m</b> üstte <b>s</b> altta"}; her proje de adının iki harfini aynı alfabeyle, aynı yerde yazıyor. Journalism Studio <b>js</b>, Network Canvas <b>nc</b>. Koleksiyon harfin dokusunda: dolu, ince ya da boncuk. Konular ve araçlar işarette değil, yazıda kalıyor.</p>
   </article>
 
   <article class="vc vc--wide">
     <div class="vc-head"><span class="label">1</span><h2>Alfabe</h2></div>
-    <p class="vc-desc">Her harf yedi iz genişliğinde, üç iz yüksekliğinde. Çubuklar yalnızca dokuz noktanın arasında: sol, orta, sağ; üst, orta, alt. Basık, geniş harfler; ekran yazısı ile kilim motifi arasında bir yerde. Altı çizili olanlar bir rakama benzeyebilir.</p>
+    <p class="vc-desc">${side
+      ? "Yan yana dizmek için aynı harfler daraltıldı: üç iz genişliğinde, yedi iz yüksekliğinde. Her çubuk harfteki yerini koruyor; yalnızca oran değişiyor. Dar, uzun harfler; bir tabela ya da bir sütun yazısı gibi."
+      : "Her harf yedi iz genişliğinde, üç iz yüksekliğinde. Basık, geniş harfler; ekran yazısı ile kilim motifi arasında bir yerde."} Çubuklar yalnızca dokuz noktanın arasında: sol, orta, sağ; üst, orta, alt. Altı çizili olanlar bir rakama benzeyebilir.</p>
     <div class="abc">${Object.keys(A).map((ch) => `<span class="abc-l${LOOKALIKE[ch] ? " look" : ""}" title="${LOOKALIKE[ch] ? `${ch} ≈ ${LOOKALIKE[ch]}` : ch}">${letter(ch)}<span>${ch}</span></span>`).join("")}</div>
   </article>
 
@@ -159,7 +179,7 @@ root.innerHTML = `
       <div class="vc-side">
         <span class="lockup vc-lock">${owner()}<span>Mert <em>Seven</em></span></span>
         <div class="vc-favs">${[48, 32, 16].map((s) => `<span class="fav-tile" style="width:${s}px;height:${s}px">${owner()}</span>`).join("")}<span class="vc-px">48 · 32 · 16 px</span></div>
-        <p class="vc-desc">Üstte m, altta s. Projelerle aynı ızgara, aynı çubuk, aynı boşluk; tek farkı senin harflerin olması.</p>
+        <p class="vc-desc">${side ? "Solda m, sağda s" : "Üstte m, altta s"}. Projelerle aynı ızgara, aynı çubuk, aynı boşluk; tek farkı senin harflerin olması.</p>
       </div>
     </div>
   </article>
@@ -202,8 +222,17 @@ root.innerHTML = `
       </div>
     </div>
   </article>`;
-
 runMorph(root.querySelector(".morph-stage"), root.querySelector("#morph-cap"));
+}
+render();
+
+for (const b of document.querySelectorAll("[data-layout]")) {
+  b.addEventListener("click", () => {
+    state.layout = b.dataset.layout;
+    document.querySelectorAll("[data-layout]").forEach((x) => x.setAttribute("aria-pressed", String(x === b)));
+    render();
+  });
+}
 
 for (const b of document.querySelectorAll("[data-theme-set]")) {
   b.addEventListener("click", () => {

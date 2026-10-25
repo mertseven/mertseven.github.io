@@ -11,6 +11,8 @@
 .abc-l { display: grid; justify-items: center; gap: 6px; padding: 14px 8px 10px; background: var(--paper); color: var(--ink); font-family: var(--font-mono); font-size: 0.6875rem; }
 .abc-l svg { width: 64px; height: 32px; overflow: visible; }
 .abc-l > span { color: var(--ink-3); }
+.ag[data-layout="side"] .abc { grid-template-columns: repeat(auto-fill, minmax(56px, 1fr)); }
+.ag[data-layout="side"] .abc-l svg { width: 26px; height: 52px; }
 .abc-l.look > span { text-decoration: underline; text-underline-offset: 3px; }
 
 .hero2 { grid-template-columns: 220px minmax(0, 1fr); }
