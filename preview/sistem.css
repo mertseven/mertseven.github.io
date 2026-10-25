@@ -1,0 +1,17 @@
+/* The bar system (sistem.html). Builds on brand.css and ag.css. */
+
+.b { fill: none; stroke: currentColor; stroke-linecap: square; }
+.b-in { fill: none; stroke: var(--bg, var(--paper)); stroke-linecap: square; }
+.ag[data-caps="round"] .b, .ag[data-caps="round"] .b-in { stroke-linecap: round; }
+.vc:hover .b:not(.dots), .vc:hover .b-in { animation: draw 900ms var(--ease) both; }
+
+.rules { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1px; border: 1px solid var(--line); background: var(--line); }
+.rule { display: grid; align-content: start; gap: 8px; padding: 18px; background: var(--paper); }
+.rule-art { display: flex; align-items: center; height: 72px; color: var(--ink); }
+.rule-art svg { width: 64px; height: 64px; overflow: visible; }
+.rule h3 { margin: 0; font-size: var(--text-sm); font-weight: var(--weight-medium); }
+.rule p { margin: 0; font-size: var(--text-xs); line-height: 1.5; color: var(--ink-2); }
+.rule-type { display: grid; gap: 6px; font-size: 1.6rem; font-weight: var(--weight-light); letter-spacing: var(--tracking-display); line-height: 1; }
+.rule-type em { font-family: var(--font-serif); font-style: italic; font-weight: 400; }
+.rule-sw { display: flex; gap: 8px; }
+.rule-sw span { width: 40px; height: 40px; border: 1px solid var(--line-strong); border-radius: 50%; }
