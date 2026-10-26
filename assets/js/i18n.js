@@ -7,7 +7,7 @@ export const lang = document.documentElement.lang === "tr" ? "tr" : "en";
 
 // Pages that exist in both languages. Links to any other page keep the English address
 // until that page has a Turkish one.
-const BOTH = ["/", "/work/", "/search/"];
+const BOTH = ["/", "/work/", "/search/", "/research/"];
 
 /** The address of `path` in this page's language, keeping its query and hash. */
 export function href(path) {
@@ -74,6 +74,17 @@ const STRINGS = {
     shown: (n, total) => (n === total ? count(n, "project", "projects") : `${n} of ${total} projects`),
     toLight: "Switch to light mode",
     toDark: "Switch to dark mode",
+    research: "Research",
+    researchLead: "Papers on how <em>knowledge</em> moves through networks, classrooms and screens.",
+    paperCount: (n) => `${n} papers, newest first`,
+    papersNav: "Papers",
+    paperKind: { dissertation: "PhD", presentation: "Talk", article: "" },
+    inPress: "In press",
+    cite: "Cite",
+    copied: "Copied",
+    copyFail: "Select and copy",
+    fullText: "Full text",
+    file: { "Dissertation (PDF)": "Dissertation (PDF)", "Visual booklet (PDF)": "Visual booklet (PDF)" },
   },
   tr: {
     projects: (n) => `${n} proje`,
@@ -111,6 +122,17 @@ const STRINGS = {
     shown: (n, total) => (n === total ? `${n} proje` : `${n} / ${total} proje`),
     toLight: "Açık temaya geç",
     toDark: "Koyu temaya geç",
+    research: "Araştırma",
+    researchLead: "<em>Bilginin</em> ağlarda, sınıflarda ve ekranlarda nasıl dolaştığı üzerine çalışmalar.",
+    paperCount: (n) => `${n} yayın, en yenisi başta`,
+    papersNav: "Yayınlar",
+    paperKind: { dissertation: "Doktora tezi", presentation: "Bildiri", article: "" },
+    inPress: "Basımda",
+    cite: "Atıf",
+    copied: "Kopyalandı",
+    copyFail: "Seçip kopyala",
+    fullText: "Tam metin",
+    file: { "Dissertation (PDF)": "Tez (PDF)", "Visual booklet (PDF)": "Görsel kitapçık (PDF)" },
   },
 };
 

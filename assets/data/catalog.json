@@ -1,125 +1,615 @@
 {
   "projects": [
-    { "id": "jstudio", "title": "Journalism Studio", "url": "/jstudio/", "kind": "Featured",
+    {
+      "id": "jstudio",
+      "title": "Journalism Studio",
+      "url": "/jstudio/",
+      "kind": "Featured",
       "summary": "A newsroom platform for student journalism at Yaşar University: archive, articles, team and long-form city dossiers.",
-      "topics": ["Journalism", "Education", "Mapping"], "stack": ["Tailwind", "Leaflet", "JavaScript"] },
-    { "id": "networkcanvas", "title": "Network Canvas", "url": "/networkcanvas/", "kind": "Featured",
+      "topics": [
+        "Journalism",
+        "Education",
+        "Mapping"
+      ],
+      "stack": [
+        "Tailwind",
+        "Leaflet",
+        "JavaScript"
+      ]
+    },
+    {
+      "id": "networkcanvas",
+      "title": "Network Canvas",
+      "url": "/networkcanvas/",
+      "kind": "Featured",
       "summary": "A browser tool for drawing, analysing and exporting social networks, with community detection.",
-      "topics": ["Networks", "Data"], "stack": ["D3", "Graphology", "jsnetworkx", "jStat"] },
-    { "id": "philosophical-networks", "title": "Philosophical Networks", "url": "/philosophical-networks/", "kind": "Featured",
+      "topics": [
+        "Networks",
+        "Data"
+      ],
+      "stack": [
+        "D3",
+        "Graphology",
+        "jsnetworkx",
+        "jStat"
+      ]
+    },
+    {
+      "id": "philosophical-networks",
+      "title": "Philosophical Networks",
+      "url": "/philosophical-networks/",
+      "kind": "Featured",
       "summary": "Seven schools of thought drawn as networks of ideas: Bergson, the Enlightenment, Hegel, Leninism, Marxism, Nietzsche and Romanticism.",
-      "topics": ["Philosophy", "Networks"], "stack": ["D3", "JavaScript"] },
-    { "id": "critical-theory", "title": "Critical Theory", "url": "/critical_theory/", "kind": "Featured",
+      "topics": [
+        "Philosophy",
+        "Networks"
+      ],
+      "stack": [
+        "D3",
+        "JavaScript"
+      ]
+    },
+    {
+      "id": "critical-theory",
+      "title": "Critical Theory",
+      "url": "/critical_theory/",
+      "kind": "Featured",
       "summary": "The Frankfurt School drawn with hierarchical edge bundling.",
-      "topics": ["Philosophy", "Networks"], "stack": ["D3"] },
-    { "id": "curriculum-whiteboard", "title": "Curriculum Whiteboard", "url": "/curr-wb/", "kind": "Featured",
+      "topics": [
+        "Philosophy",
+        "Networks"
+      ],
+      "stack": [
+        "D3"
+      ]
+    },
+    {
+      "id": "curriculum-whiteboard",
+      "title": "Curriculum Whiteboard",
+      "url": "/curr-wb/",
+      "kind": "Featured",
       "summary": "Planning board for the New Media & Communication curriculum: courses, lecturers and workload.",
-      "topics": ["Education", "Data"], "stack": ["D3", "JavaScript"] },
-    { "id": "digijournalism", "title": "Digital Journalism Workflow", "url": "/digijournalism/", "kind": "Featured",
+      "topics": [
+        "Education",
+        "Data"
+      ],
+      "stack": [
+        "D3",
+        "JavaScript"
+      ]
+    },
+    {
+      "id": "digijournalism",
+      "title": "Digital Journalism Workflow",
+      "url": "/digijournalism/",
+      "kind": "Featured",
       "summary": "The digital newsroom workflow, its tools and examples, plus a journalism lifecycle map.",
-      "topics": ["Journalism", "Education"], "stack": ["JavaScript"] },
-    { "id": "kafka", "title": "Project KAFKA", "url": "/kafka/", "kind": "Featured",
+      "topics": [
+        "Journalism",
+        "Education"
+      ],
+      "stack": [
+        "JavaScript"
+      ]
+    },
+    {
+      "id": "kafka",
+      "title": "Project KAFKA",
+      "url": "/kafka/",
+      "kind": "Featured",
       "summary": "A camera-driven piece that reacts to hand movement.",
-      "topics": ["Interaction", "Computer vision"], "stack": ["p5.js", "MediaPipe"] },
-    { "id": "know-res", "title": "Knowledge & Research", "url": "/know_res/", "kind": "Featured",
+      "topics": [
+        "Interaction",
+        "Computer vision"
+      ],
+      "stack": [
+        "p5.js",
+        "MediaPipe"
+      ]
+    },
+    {
+      "id": "know-res",
+      "title": "Knowledge & Research",
+      "url": "/know_res/",
+      "kind": "Featured",
       "summary": "Concepts of knowledge and research laid out on an interactive network canvas.",
-      "topics": ["Philosophy", "Networks"], "stack": ["Canvas", "JavaScript"] },
-    { "id": "socrates", "title": "Socrates' Quest for Knowledge", "url": "/socrates/socrates.html", "kind": "Featured",
+      "topics": [
+        "Philosophy",
+        "Networks"
+      ],
+      "stack": [
+        "Canvas",
+        "JavaScript"
+      ]
+    },
+    {
+      "id": "socrates",
+      "title": "Socrates' Quest for Knowledge",
+      "url": "/socrates/socrates.html",
+      "kind": "Featured",
       "summary": "An interactive telling of Socrates' search for knowledge in ancient Athens.",
-      "topics": ["Philosophy", "Storytelling"], "stack": ["D3", "JavaScript"] },
-    { "id": "fortune-wheel", "title": "Fortune Wheel", "url": "/wheel-html.html", "kind": "Featured",
+      "topics": [
+        "Philosophy",
+        "Storytelling"
+      ],
+      "stack": [
+        "D3",
+        "JavaScript"
+      ]
+    },
+    {
+      "id": "fortune-wheel",
+      "title": "Fortune Wheel",
+      "url": "/wheel-html.html",
+      "kind": "Featured",
       "summary": "A spinning wheel from the Moonbase I universe.",
-      "topics": ["Play"], "stack": ["Canvas", "JavaScript"] },
-    { "id": "form-builder", "title": "Jury Form Builder", "url": "/form-builder.html", "kind": "Featured",
+      "topics": [
+        "Play"
+      ],
+      "stack": [
+        "Canvas",
+        "JavaScript"
+      ]
+    },
+    {
+      "id": "form-builder",
+      "title": "Jury Form Builder",
+      "url": "/form-builder.html",
+      "kind": "Featured",
       "summary": "Builds evaluation forms for graduation project juries.",
-      "topics": ["Education", "Tools"], "stack": ["JavaScript"] },
-    { "id": "design-cookbook", "title": "The Design Cookbook", "url": "/design-system.html", "kind": "Featured",
+      "topics": [
+        "Education",
+        "Tools"
+      ],
+      "stack": [
+        "JavaScript"
+      ]
+    },
+    {
+      "id": "design-cookbook",
+      "title": "The Design Cookbook",
+      "url": "/design-system.html",
+      "kind": "Featured",
       "summary": "The previous design system of this site.",
-      "topics": ["Design"], "stack": ["HTML", "CSS"] },
-
-    { "id": "ima-lab", "title": "Interactive Media Applications Lab", "url": "/ima/lab/", "kind": "Teaching",
+      "topics": [
+        "Design"
+      ],
+      "stack": [
+        "HTML",
+        "CSS"
+      ]
+    },
+    {
+      "id": "ima-lab",
+      "title": "Interactive Media Applications Lab",
+      "url": "/ima/lab/",
+      "kind": "Teaching",
       "summary": "A course lab of eight playable experiments on agency, feedback, emergence and other qualities of interaction.",
-      "topics": ["Interaction", "Education", "3D"], "stack": ["Three.js", "JavaScript"] },
-    { "id": "etkilesim-atlasi", "title": "Interaction Atlas", "url": "/etkilesim-atlas.html", "kind": "Teaching",
+      "topics": [
+        "Interaction",
+        "Education",
+        "3D"
+      ],
+      "stack": [
+        "Three.js",
+        "JavaScript"
+      ]
+    },
+    {
+      "id": "etkilesim-atlasi",
+      "title": "Interaction Atlas",
+      "url": "/etkilesim-atlas.html",
+      "kind": "Teaching",
       "summary": "An atlas of 162 JavaScript libraries behind interactive media and 118 journalism works made with them.",
-      "topics": ["Journalism", "Interaction", "Data"], "stack": ["JavaScript", "Python"] },
-    { "id": "grad-projects", "title": "NMED Showcase", "url": "/grad-projects/", "kind": "Teaching",
+      "topics": [
+        "Journalism",
+        "Interaction",
+        "Data"
+      ],
+      "stack": [
+        "JavaScript",
+        "Python"
+      ]
+    },
+    {
+      "id": "grad-projects",
+      "title": "NMED Showcase",
+      "url": "/grad-projects/",
+      "kind": "Teaching",
       "summary": "Graduation projects of the New Media & Communication department, 2025–2026.",
-      "topics": ["Education", "Exhibition"], "stack": ["HTML", "CSS", "JavaScript"] },
-    { "id": "jury-form", "title": "Graduation Project Jury Form", "url": "/juryform.html", "kind": "Teaching",
+      "topics": [
+        "Education",
+        "Exhibition"
+      ],
+      "stack": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ]
+    },
+    {
+      "id": "jury-form",
+      "title": "Graduation Project Jury Form",
+      "url": "/juryform.html",
+      "kind": "Teaching",
       "summary": "The jury evaluation form for New Media Graduation Project I.",
-      "topics": ["Education", "Tools"], "stack": ["JavaScript"] },
-    { "id": "icebreaker", "title": "Icebreaker Session", "url": "/meet/teacher.html", "kind": "Teaching",
+      "topics": [
+        "Education",
+        "Tools"
+      ],
+      "stack": [
+        "JavaScript"
+      ]
+    },
+    {
+      "id": "icebreaker",
+      "title": "Icebreaker Session",
+      "url": "/meet/teacher.html",
+      "kind": "Teaching",
       "summary": "A classroom icebreaker: students join by QR code and answer live on the teacher's screen.",
-      "topics": ["Education", "Real-time"], "stack": ["PeerJS", "QRCode.js"] },
-    { "id": "conflict", "title": "Collaborative Conflict Observatory", "url": "/conflict.html", "kind": "Teaching", "image": null,
+      "topics": [
+        "Education",
+        "Real-time"
+      ],
+      "stack": [
+        "PeerJS",
+        "QRCode.js"
+      ]
+    },
+    {
+      "id": "conflict",
+      "title": "Collaborative Conflict Observatory",
+      "url": "/conflict.html",
+      "kind": "Teaching",
+      "image": null,
       "summary": "A shared, multi-user space for observing a conflict together.",
-      "topics": ["Real-time", "Collaboration"], "stack": ["PeerJS"] },
-    { "id": "weather-app", "title": "Weather Recommendation App", "url": "/nmed1110/web-app.html", "kind": "Teaching",
+      "topics": [
+        "Real-time",
+        "Collaboration"
+      ],
+      "stack": [
+        "PeerJS"
+      ]
+    },
+    {
+      "id": "weather-app",
+      "title": "Weather Recommendation App",
+      "url": "/nmed1110/web-app.html",
+      "kind": "Teaching",
       "summary": "A course example that suggests what to do based on the weather.",
-      "topics": ["Education"], "stack": ["HTML", "JavaScript"] },
-    { "id": "genai-news", "title": "GenAI-Assisted News Writing", "url": "/yapayzeka.html", "kind": "Teaching",
+      "topics": [
+        "Education"
+      ],
+      "stack": [
+        "HTML",
+        "JavaScript"
+      ]
+    },
+    {
+      "id": "genai-news",
+      "title": "GenAI-Assisted News Writing",
+      "url": "/yapayzeka.html",
+      "kind": "Teaching",
       "summary": "Findings of a study on writing news with generative AI.",
-      "topics": ["Journalism", "AI"], "stack": ["HTML", "CSS"] },
-    { "id": "inciralti", "title": "İnciraltı City Dossier", "url": "/kentdosyasi/inciralti.html", "kind": "Teaching",
+      "topics": [
+        "Journalism",
+        "AI"
+      ],
+      "stack": [
+        "HTML",
+        "CSS"
+      ]
+    },
+    {
+      "id": "inciralti",
+      "title": "İnciraltı City Dossier",
+      "url": "/kentdosyasi/inciralti.html",
+      "kind": "Teaching",
       "summary": "A news dossier on the İnciraltı zoning plan change in İzmir.",
-      "topics": ["Journalism", "Mapping"], "stack": ["Tailwind", "Leaflet"] },
-
-    { "id": "find-the-university", "title": "Find the University!", "url": "/compass/", "kind": "Experiment",
+      "topics": [
+        "Journalism",
+        "Mapping"
+      ],
+      "stack": [
+        "Tailwind",
+        "Leaflet"
+      ]
+    },
+    {
+      "id": "find-the-university",
+      "title": "Find the University!",
+      "url": "/compass/",
+      "kind": "Experiment",
       "summary": "A phone compass that points to Ege University from wherever you stand.",
-      "topics": ["Mobile", "Location"], "stack": ["Geolocation", "DeviceOrientation"] },
-    { "id": "find-the-university-ar", "title": "Find the University! AR", "url": "/compass2/", "kind": "Experiment",
+      "topics": [
+        "Mobile",
+        "Location"
+      ],
+      "stack": [
+        "Geolocation",
+        "DeviceOrientation"
+      ]
+    },
+    {
+      "id": "find-the-university-ar",
+      "title": "Find the University! AR",
+      "url": "/compass2/",
+      "kind": "Experiment",
       "summary": "The AR take on the university compass.",
-      "topics": ["Mobile", "Location", "AR"], "stack": ["Geolocation", "DeviceOrientation"] },
-    { "id": "indoor-gps", "title": "AR Indoor GPS Test", "url": "/compass3/", "kind": "Experiment",
+      "topics": [
+        "Mobile",
+        "Location",
+        "AR"
+      ],
+      "stack": [
+        "Geolocation",
+        "DeviceOrientation"
+      ]
+    },
+    {
+      "id": "indoor-gps",
+      "title": "AR Indoor GPS Test",
+      "url": "/compass3/",
+      "kind": "Experiment",
       "summary": "A test of indoor positioning for AR.",
-      "topics": ["Mobile", "Location", "AR"], "stack": ["JavaScript"] },
-    { "id": "visualizing-sep", "title": "Visualizing SEP", "url": "/visualizing/", "kind": "Experiment",
+      "topics": [
+        "Mobile",
+        "Location",
+        "AR"
+      ],
+      "stack": [
+        "JavaScript"
+      ]
+    },
+    {
+      "id": "visualizing-sep",
+      "title": "Visualizing SEP",
+      "url": "/visualizing/",
+      "kind": "Experiment",
       "summary": "The Stanford Encyclopedia of Philosophy as a network of entries.",
-      "topics": ["Philosophy", "Networks", "Data"], "stack": ["D3"] },
-    { "id": "mind-shift", "title": "Mind/Shift", "url": "/Yeni%20klas%C3%B6r/", "kind": "Experiment",
+      "topics": [
+        "Philosophy",
+        "Networks",
+        "Data"
+      ],
+      "stack": [
+        "D3"
+      ]
+    },
+    {
+      "id": "mind-shift",
+      "title": "Mind/Shift",
+      "url": "/Yeni%20klas%C3%B6r/",
+      "kind": "Experiment",
       "summary": "A single page about deconstructing your own thinking.",
-      "topics": ["Philosophy"], "stack": ["JavaScript"] },
-    { "id": "login-portal", "title": "Not So Secure Access Portal", "url": "/login-page/login.html", "kind": "Experiment",
+      "topics": [
+        "Philosophy"
+      ],
+      "stack": [
+        "JavaScript"
+      ]
+    },
+    {
+      "id": "login-portal",
+      "title": "Not So Secure Access Portal",
+      "url": "/login-page/login.html",
+      "kind": "Experiment",
       "summary": "A login screen study.",
-      "topics": ["Interface"], "stack": ["JavaScript"] },
-    { "id": "donate", "title": "Animal Friends Donation Page", "url": "/testingtesting/", "kind": "Experiment",
+      "topics": [
+        "Interface"
+      ],
+      "stack": [
+        "JavaScript"
+      ]
+    },
+    {
+      "id": "donate",
+      "title": "Animal Friends Donation Page",
+      "url": "/testingtesting/",
+      "kind": "Experiment",
       "summary": "An interface study for a donation page.",
-      "topics": ["Interface"], "stack": ["JavaScript"] }
+      "topics": [
+        "Interface"
+      ],
+      "stack": [
+        "JavaScript"
+      ]
+    }
   ],
   "publications": [
-    { "title": "Prompting Future Journalists to Prompt: An Experiential Study on GenAI, Critical Literacy, and Reflective Practice in Data News",
-      "authors": "Seven, M., Ozan, Ö., Emirtekin, E.", "year": 2025, "url": "https://doi.org/10.34190/icair.5.1.4358",
-      "keywords": ["Generative AI", "Journalism education", "Critical AI literacy", "Human-AI collaboration"] },
-    { "title": "Homophily studies in higher education: Bibliometric and methodological analysis of the literature",
-      "authors": "Seven, M., Aysel, K.", "year": 2025, "url": "https://doi.org/10.48146/odusobiad.1473688",
-      "keywords": ["Higher education", "Social networks", "Social learning"] },
-    { "title": "A bibliometric analysis of extended reality research trends in communication studies written in English",
-      "authors": "Uğurluer, S., Seven, M.", "year": 2024, "url": "https://doi.org/10.26650/CONNECTIST2024-1441592",
-      "keywords": ["Extended reality", "Communication studies", "Bibliometric analysis"] },
-    { "title": "Information in social epistemic structures: An analysis of conversations about Syrian refugees on social networks",
-      "authors": "Seven, M.", "year": 2023, "url": "/dissertation.html", "note": "PhD dissertation",
-      "keywords": ["Epistemology of testimony", "Misinformation", "Uncertainty"] },
-    { "title": "Küresel bir hayaletin yerel gölgeleri: Türkiye'de cadılar bayramı üzerine bir analiz",
-      "authors": "Seven, M., Uğurluer, S., Aysel, K.", "year": 2023, "url": "https://doi.org/10.19145/e-gifder.1297604",
-      "keywords": ["Cultural globalization", "Localization", "Content analysis"] },
-    { "title": "The decay of the face in co-living: The many revelations and concealings of face masks",
-      "authors": "Seven, M., Aysel, K.", "year": 2021, "url": "/publications.html", "note": "In press",
-      "keywords": ["Co-presence", "Ethics of face", "Artifactual communication"] },
-    { "title": "Excluding the excluders: Cybergoth masks as physical and mental barricades",
-      "authors": "Aysel, K., Seven, M.", "year": 2021, "url": "/publications.html", "note": "In press",
-      "keywords": ["Cybergoths", "Subculture", "Resistance"] },
-    { "title": "Ergenlerde suç, madde kullanımı ve şiddetle ilişkili durumlar",
-      "authors": "Havaçeliği Atlam, D., Yüncü, Z., Seven, M., Onat, B.", "year": 2017, "url": "/publications.html",
-      "keywords": ["Adolescence", "Crime", "Substance use"] },
-    { "title": "A study on characteristics of illicit drugs among adolescent drug users in prison in Izmir, Turkey",
-      "authors": "Havaçeliği Atlam, D., Yüncü, Z., Seven, M., Onat, B.", "year": 2016, "url": "/publications.html",
-      "keywords": ["Illicit drugs", "Adolescents", "Prison", "Turkey"] }
+    {
+      "id": "prompting-future-journalists-to-2025",
+      "title": "Prompting Future Journalists to Prompt: An Experiential Study on GenAI, Critical Literacy, and Reflective Practice in Data News",
+      "authors": "Seven, M., Ozan, Ö., Emirtekin, E.",
+      "year": 2025,
+      "venue": "5th International Conference on AI Research (ICAIR), 5(1)",
+      "kind": "article",
+      "url": "/research/#prompting-future-journalists-to-2025",
+      "link": "https://doi.org/10.34190/icair.5.1.4358",
+      "pdf": "",
+      "abstract": "This study investigates the integration of Generative AI in journalism education, focusing on critical literacy and reflective practice. It explores how future journalists engage with AI tools for data news creation, highlighting the importance of human-AI collaboration and the development of critical prompting skills.",
+      "citation": "Seven, M., Ozan, Ö., & Emirtekin, E. (2025). Prompting Future Journalists to Prompt: An Experiential Study on GenAI, Critical Literacy, and Reflective Practice in Data News. 5th International Conference on AI Research (ICAIR), 5(1). https://doi.org/10.34190/icair.5.1.4358",
+      "keywords": [
+        "Generative AI",
+        "Journalism education",
+        "Critical AI literacy",
+        "Human-AI collaboration"
+      ]
+    },
+    {
+      "id": "homophily-studies-in-higher-2025",
+      "title": "Homophily studies in higher education: Bibliometric and methodological analysis of the literature",
+      "authors": "Seven, M., Aysel, K.",
+      "year": 2025,
+      "venue": "Ordu Üniversitesi Sosyal Bilimler Enstitüsü Sosyal Bilimler Araştırmaları Dergisi, 15(1), 426-471",
+      "kind": "article",
+      "url": "/research/#homophily-studies-in-higher-2025",
+      "link": "https://doi.org/10.48146/odusobiad.1473688",
+      "pdf": "https://dergipark.org.tr/tr/pub/odusobiad/issue/90913/1473688",
+      "abstract": "A bibliometric study investigating homophily in higher education, revealing patterns in how similar individuals form relationships within university settings and their impact on educational networks.",
+      "citation": "Seven, M., & Aysel, K. (2025). Homophily studies in higher education: Bibliometric and methodological analysis of the international literature. Ordu Üniversitesi Sosyal Bilimler Enstitüsü Sosyal Bilimler Araştırmaları Dergisi, 15(1), 426-471. https://doi.org/10.48146/odusobiad.1473688",
+      "keywords": [
+        "Higher education",
+        "Social networks",
+        "Social learning"
+      ]
+    },
+    {
+      "id": "a-bibliometric-analysis-of-2024",
+      "title": "A bibliometric analysis of extended reality research trends in communication studies written in English: Mapping the increasing adoption of extended reality technologies",
+      "authors": "Uğurluer, S., Seven, M.",
+      "year": 2024,
+      "venue": "Connectist: İstanbul University Journal of Communication Sciences, 66, 147-181",
+      "kind": "article",
+      "url": "/research/#a-bibliometric-analysis-of-2024",
+      "link": "https://doi.org/10.26650/CONNECTIST2024-1441592",
+      "pdf": "https://cdn.istanbul.edu.tr/file/JTA6CLJ8T5/B089B5EC87554457B9176B390C068841",
+      "abstract": "This study provides a comprehensive bibliometric analysis of extended reality research in communication studies, mapping trends and revealing the increasing adoption of XR technologies across different fields.",
+      "citation": "Uğurluer, S., & Seven, M. (2024). A bibliometric analysis of extended reality research trends in communication studies written in English: Mapping the increasing adoption of extended reality technologies. Connectist: İstanbul University Journal of Communication Sciences, 66, 147-181.",
+      "keywords": [
+        "Extended reality",
+        "Communication studies",
+        "Bibliometric analysis"
+      ]
+    },
+    {
+      "id": "dissertation",
+      "title": "Information in social epistemic structures: An analysis of conversations about Syrian refugees on social networks",
+      "authors": "Seven, M.",
+      "year": 2023,
+      "venue": "Doctoral dissertation, Ege University",
+      "kind": "dissertation",
+      "url": "/research/#dissertation",
+      "link": "",
+      "pdf": "https://tez.yok.gov.tr/UlusalTezMerkezi/TezGoster?key=weFMBHaUra8rsS5wi2bmHMd_ouHxllM4_WqpFQ-Zq03GmP7Q5uAxL8bnudpT3nq5",
+      "abstract": "This research examines how individuals process and trust information about Syrian refugees on social media, focusing on the epistemology of testimony and misinformation dynamics. Through quantitative analysis of 608 respondents, the study reveals how social media environments affect information exchange and attitude formation in the context of migration communication.",
+      "citation": "Seven, M. (2023). Information in social epistemic structures: An analysis of conversations about Syrian refugees on social networks [Doctoral dissertation, Ege University]",
+      "keywords": [
+        "Epistemology of testimony",
+        "Misinformation",
+        "Uncertainty"
+      ],
+      "files": [
+        {
+          "label": "Dissertation (PDF)",
+          "href": "/Seven_Tez.pdf"
+        },
+        {
+          "label": "Visual booklet (PDF)",
+          "href": "/Seven_VP.pdf"
+        }
+      ]
+    },
+    {
+      "id": "kuresel-bir-hayaletin-yerel-2023",
+      "title": "Küresel bir hayaletin yerel gölgeleri: Türkiye'de cadılar bayramı üzerine bir analiz",
+      "authors": "Seven, M., Uğurluer, S., Aysel, K.",
+      "year": 2023,
+      "venue": "Gümüşhane Üniversitesi İletişim Fakültesi Elektronik Dergisi, 11(2), 1430-1461",
+      "kind": "article",
+      "url": "/research/#kuresel-bir-hayaletin-yerel-2023",
+      "link": "https://doi.org/10.19145/e-gifder.1297604",
+      "pdf": "https://dergipark.org.tr/en/download/article-file/3144777",
+      "abstract": "An analysis of Halloween event posters in Turkish cities, examining how cultural globalization influences local celebrations and transforms traditional festivities into commercialized entertainment events.",
+      "citation": "Seven, M., Uğurluer, S., & Aysel, K. (2023). Küresel bir hayaletin yerel gölgeleri: Türkiye'de cadilar bayrami Üzerine bir analiz. Gümüşhane Üniversitesi İletişim Fakültesi Elektronik Dergisi, 11(2), 1430-1461. https://doi.org/10.19145/e-gifder.1297604",
+      "keywords": [
+        "Cultural globalization",
+        "Localization",
+        "Content analysis"
+      ]
+    },
+    {
+      "id": "the-decay-of-the-2021",
+      "title": "The decay of the face in co-living: The many revelations and concealings of face masks",
+      "authors": "Seven, M., Aysel, K.",
+      "year": 2021,
+      "venue": "In press",
+      "kind": "article",
+      "url": "/research/#the-decay-of-the-2021",
+      "link": "",
+      "pdf": "",
+      "abstract": "An exploration of masks as social and philosophical mediators, examining their dual nature in concealing and revealing aspects of human interaction. Drawing from Levinas' ethics of the face and contemporary social theory, this study investigates how masks function beyond their protective purposes to shape social relationships, cultural meanings, and ethical responsibilities in co-living spaces.",
+      "citation": "Seven, M., & Aysel, K. (2021). The decay of the face in co-living: The many revelations and concealings of face masks. In press.",
+      "keywords": [
+        "Co-presence",
+        "Ethics of face",
+        "Artifactual communication"
+      ],
+      "note": "In press"
+    },
+    {
+      "id": "excluding-the-excluders-cybergoth-2021",
+      "title": "Excluding the excluders: Cybergoth masks as physical and mental barricades",
+      "authors": "Aysel, K., Seven, M.",
+      "year": 2021,
+      "venue": "In press",
+      "kind": "article",
+      "url": "/research/#excluding-the-excluders-cybergoth-2021",
+      "link": "",
+      "pdf": "",
+      "abstract": "An analysis of how cybergoth subculture uses medical masks as a symbolic barrier, examining both their protective and communicative functions. Through the study of fashion, subculture, and visual identity, this paper explores how cybergoths embody masks as performative agents to maintain boundaries between themselves and mainstream society, while simultaneously creating internal group cohesion.",
+      "citation": "Aysel, K., & Seven, M. (2021). Excluding the excluders: Cybergoth masks as physical and mental barricades. In press.",
+      "keywords": [
+        "Cybergoths",
+        "Subculture",
+        "Resistance"
+      ],
+      "note": "In press"
+    },
+    {
+      "id": "ergenlerde-suc-madde-kullanimi-2017",
+      "title": "Ergenlerde suç, madde kullanımı ve şiddetle ilişkili durumlar",
+      "authors": "Havaçeliği Atlam, D., Yüncü, Z., Seven, M., Onat, B.",
+      "year": 2017,
+      "venue": "",
+      "kind": "article",
+      "url": "/research/#ergenlerde-suc-madde-kullanimi-2017",
+      "link": "",
+      "pdf": "",
+      "abstract": "A study focusing on the interrelation of crime, substance use, and violence-related situations among adolescents. This research likely explores risk factors and patterns within this demographic.",
+      "citation": "Havaçeliği Atlam, D., Yüncü, Z., Seven, M., & Onat, B. (2017). Ergenlerde suç, madde kullanımı ve şiddetle ilişkili durumlar.",
+      "keywords": [
+        "Adolescence",
+        "Crime",
+        "Substance use"
+      ]
+    },
+    {
+      "id": "a-study-on-characteristics-2016",
+      "title": "A study on characteristics of illicit drugs among adolescent drug users in prison in Izmir, Turkey",
+      "authors": "Havaçeliği Atlam, D., Yüncü, Z., Seven, M., Onat, B.",
+      "year": 2016,
+      "venue": "Oral presentation, 2nd Regional TIAFT Meeting, Turkey",
+      "kind": "presentation",
+      "url": "/research/#a-study-on-characteristics-2016",
+      "link": "",
+      "pdf": "",
+      "abstract": "This study investigates the characteristics of illicit drug use among adolescent populations within the prison system in Izmir, Turkey. It likely presented findings at the 2nd Regional TIAFT Meeting.",
+      "citation": "Havaçeliği Atlam, D., Yüncü, Z., Seven, M., & Onat, B. (2016). A study on characteristics of illicit drugs among adolescent drug users in prison in Izmir, Turkey. (Oral Presentation). 2nd Regional TIAFT Meeting, Turkey.",
+      "keywords": [
+        "Illicit drugs",
+        "Adolescents",
+        "Prison",
+        "Turkey"
+      ]
+    }
   ],
   "writings": [
-    { "title": "Gökyüzü", "date": "2013-03-04", "language": "tr", "type": "Prose", "url": "/writing.html",
-      "excerpt": "Gökyüzünü boyayan adamın ölümünü ve sonrasını anlatan bir yazı." },
-    { "title": "The Hand Revisited", "date": "2023-04-16", "language": "en", "type": "Poetry", "url": "/writing.html",
-      "excerpt": "An extended meditation on the meaning of creation." }
+    {
+      "title": "Gökyüzü",
+      "date": "2013-03-04",
+      "language": "tr",
+      "type": "Prose",
+      "url": "/writing.html",
+      "excerpt": "Gökyüzünü boyayan adamın ölümünü ve sonrasını anlatan bir yazı."
+    },
+    {
+      "title": "The Hand Revisited",
+      "date": "2023-04-16",
+      "language": "en",
+      "type": "Poetry",
+      "url": "/writing.html",
+      "excerpt": "An extended meditation on the meaning of creation."
+    }
   ]
 }

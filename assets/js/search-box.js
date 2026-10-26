@@ -63,7 +63,7 @@ export function mountSearch({ onQuery, onHint, panelUp = false, panel: usePanel 
     };
     beneath.innerHTML = [
       part(n("Project"), t.projects, "/work/"),
-      part(n("Research"), t.papers, "/publications.html"),
+      part(n("Research"), t.papers, "/research/"),
     ].join('<span class="sep" aria-hidden="true">·</span>') + ` <span>${t.beneath}</span>`;
   }
 
@@ -134,7 +134,7 @@ export function mountSearch({ onQuery, onHint, panelUp = false, panel: usePanel 
     list.innerHTML = results.length
       ? results.map((e, i) => `
           <li class="result" id="r${i}" role="option" aria-selected="${i === active}">
-            <a href="${escapeHtml(e.url)}" tabindex="-1">
+            <a href="${escapeHtml(href(e.url))}" tabindex="-1">
               <span class="result-type label">${t.type[e.type]}</span>
               <span class="result-title">${highlight(e.title, q)}</span>
               <span class="result-sub">${escapeHtml([e.meta, e.summary].filter(Boolean).join(" — "))}</span>
@@ -182,7 +182,7 @@ export function mountSearch({ onQuery, onHint, panelUp = false, panel: usePanel 
         input.value = hints[hintAt];
         render();
       } else if (usePanel && active >= 0) {
-        window.location.href = results[active].url;
+        window.location.href = href(results[active].url);
       }
     } else if (e.key === "Escape") {
       if (input.value) {

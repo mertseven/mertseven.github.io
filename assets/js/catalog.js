@@ -8,7 +8,8 @@ const DATA_URL = new URL("../data/catalog.json", import.meta.url);
 let cache;
 
 export function loadCatalog() {
-  cache ??= fetch(DATA_URL)
+  // "no-cache" revalidates with the server, so an edited catalogue shows on the next visit.
+  cache ??= fetch(DATA_URL, { cache: "no-cache" })
     .then((r) => {
       if (!r.ok) throw new Error(`catalog ${r.status}`);
       return r.json();
@@ -33,9 +34,10 @@ function toEntries(data) {
     type: "Research",
     title: p.title,
     url: p.url,
-    meta: [p.year, p.note].filter(Boolean).join(" · "),
+    meta: [p.year, p.note || p.venue].filter(Boolean).join(" · "),
     summary: p.authors,
     tags: [...p.keywords, String(p.year)],
+    body: p.abstract,
     raw: p,
   }));
   // Writing is off the site for now: data.writings stays in the catalog but is not searched.
@@ -43,7 +45,7 @@ function toEntries(data) {
   for (const e of entries) {
     e.nTitle = normalize(e.title);
     e.nTags = normalize(e.tags.join(" "));
-    e.nBody = normalize(`${e.summary} ${e.meta}`);
+    e.nBody = normalize(`${e.summary} ${e.meta} ${e.body ?? ""}`);
   }
   // Wall thumbnails follow the id; tools/shoot-projects.py makes them. "image": null in the
   // catalog marks a project without one, which the wall sets as a typographic tile.
@@ -51,7 +53,7 @@ function toEntries(data) {
     ...p,
     image: p.image === null ? null : `/assets/img/projects/${p.id}.webp`,
   }));
-  return { entries, projects: projectsWithImages };
+  return { entries, projects: projectsWithImages, publications: data.publications };
 }
 
 // Lowercase and fold accents, including Turkish ı/İ, so "etkilesim" finds "Etkileşim".
