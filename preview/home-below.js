@@ -43,6 +43,91 @@ const colophon = () => `
     <div class="hb-col-bottom mono"><span>Set in Geist &amp; Instrument Serif · Made by hand in İzmir · © ${new Date().getFullYear()}</span><span>Open source on <a href="https://github.com/mertseven/mertseven.github.io">GitHub</a></span></div>
   </footer>`;
 
+// ——— Three words: think, teach, make ———
+// Each word fills the screen; its letters are windows onto the work of that kind. Scrolling
+// into a word lays out what belongs to it.
+const byId = (id) => projects.find((p) => p.id === id);
+const WORDS = [
+  {
+    word: "think", em: "Research", line: "Papers, a dissertation and visual essays on how knowledge moves.",
+    pics: ["philosophical-networks", "critical-theory", "visualizing-sep"],
+    items: () => [
+      ...publications.slice(0, 6).map((p) => ({ t: p.title.split(":")[0], m: `${p.year} · paper`, to: href(p.url) })),
+      ...projects.filter((p) => p.topics.includes("Philosophy")).map((p) => ({ t: p.title, m: "visual essay", to: workLink(p) })),
+    ],
+  },
+  {
+    word: "teach", em: "Classroom", line: "Tools, labs and platforms made for courses, juries and students.",
+    pics: ["ima-lab", "jstudio", "grad-projects"],
+    items: () => projects.filter((p) => p.kind === "Teaching" || (p.kind === "Featured" && p.topics.includes("Education"))).map((p) => ({ t: p.title, m: p.topics.join(", ").toLowerCase(), to: workLink(p) })),
+  },
+  {
+    word: "make", em: "Workshop", line: "Systems, instruments and small experiments, built by hand.",
+    pics: ["networkcanvas", "kafka", "find-the-university"],
+    items: () => projects.filter((p) => p.kind !== "Teaching" && !p.topics.includes("Philosophy") && !p.topics.includes("Education")).map((p) => ({ t: p.title, m: p.stack.join(", "), to: workLink(p) })),
+  },
+];
+const wordsHtml = () => `
+  <section class="hb-words">${WORDS.map((w, n) => {
+    // Single quotes: this goes inside a double-quoted style attribute.
+    const bg = w.pics.map((id) => `url('${byId(id)?.image}')`).join(", ");
+    return `
+    <article class="hb-word" data-w="${w.word}">
+      <p class="hb-word-k"><span class="mono">0${n + 1}</span><span class="label">${w.em}</span></p>
+      <h2 class="hb-word-big" style="background-image:${bg}">${w.word}</h2>
+      <div class="hb-word-body">
+        <p class="hb-word-line">${w.line}</p>
+        <ol class="hb-word-list">${w.items().map((it, i) => `<li style="--d:${i * 40}ms"><a href="${it.to}"><span>${escapeHtml(it.t)}</span><span class="mono">${escapeHtml(it.m)}</span></a></li>`).join("")}</ol>
+      </div>
+    </article>`;
+  }).join("")}
+  </section>`;
+
+// ——— Glossary: the concepts behind the work ———
+const GLOSSARY = [
+  ["AI", "Systems that predict, generate or decide; here mostly something to teach with, and to question."],
+  ["AR", "Digital layers laid over the place you stand in."],
+  ["Co-presence", "Being with others, and the many ways screens and masks change it."],
+  ["Cultural globalization", "Global forms that cast local shadows."],
+  ["Data", "Records made legible: counted, mapped, drawn."],
+  ["Education", "Learning by building; the classroom as a studio."],
+  ["Extended reality", "AR, VR and everything between them."],
+  ["Homophily", "Birds of a feather: why networks fill up with people like us."],
+  ["Interaction", "What a system does back when you do something to it."],
+  ["Journalism", "Finding out, checking and telling, now with data and code."],
+  ["Mapping", "Putting knowledge in space so it can be walked through."],
+  ["Misinformation", "False claims that travel on trust."],
+  ["Networks", "Things known by their connections."],
+  ["Philosophy", "Old questions about knowing, asked again with new media."],
+  ["Real-time", "Many people, one moment, one shared screen."],
+  ["Testimony", "Knowing something because someone told you: the epistemology of trust."],
+];
+// Whole words only, so "AR" does not turn up inside "learning".
+const word = (term) => new RegExp(`(^|[^a-z])${term.replace(/[-]/g, "\\-")}($|[^a-z])`, "i");
+const has = (list, term) => list.some((k) => word(term).test(k));
+const worksFor = (term) => [
+  ...projects.filter((p) => has(p.topics, term)).map((p) => ({ t: p.title, to: workLink(p), k: "project" })),
+  ...publications.filter((p) => has(p.keywords, term) || word(term).test(p.title)).map((p) => ({ t: p.title.split(":")[0], to: href(p.url), k: "paper" })),
+];
+const glossaryHtml = (compact = false) => {
+  const entries = GLOSSARY.map(([term, def]) => ({ term, def, works: worksFor(term) })).filter((e) => e.works.length);
+  const letters = [...new Set(entries.map((e) => e.term[0]))];
+  return `
+  <section class="hb-gloss${compact ? " is-compact" : ""}">
+    ${head("Glossary", `A <em>lexicon</em> of the work <span class="hb-gloss-n mono">${entries.length} concepts</span>`)}
+    <nav class="hb-gloss-az mono">${letters.map((l) => `<a href="#g-${l}">${l}</a>`).join("")}</nav>
+    ${letters.map((l) => `
+      <div class="hb-gloss-l" id="g-${l}"><span class="hb-gloss-letter">${l}</span>
+        <dl>${entries.filter((e) => e.term[0] === l).map((e) => `
+          <div class="hb-gloss-e">
+            <dt><span class="hb-gloss-term">${escapeHtml(e.term)}</span><span class="mono">n. · ${e.works.length} ${e.works.length === 1 ? "work" : "works"}</span></dt>
+            <dd><p>${escapeHtml(e.def)}</p><ul>${e.works.map((w) => `<li><a href="${w.to}">${escapeHtml(w.t)}</a><span class="label">${w.k}</span></li>`).join("")}</ul></dd>
+          </div>`).join("")}
+        </dl>
+      </div>`).join("")}
+  </section>`;
+};
+
 const LAYOUTS = {
   dergi: {
     label: "A · Dergi",
@@ -95,6 +180,21 @@ const LAYOUTS = {
       </section>
       <div class="hb-pair">${hello()}${colophon()}</div>`,
   },
+  kelime: {
+    label: "D · Üç kelime",
+    note: "Ekranı dolduran üç kelime: think, teach, make. Harfler o türdeki işlerin görsellerine açılan pencereler; üzerine gelince renkleniyor. Bir kelimeye inince altındaki işler sırayla diziliyor.",
+    html: () => `${wordsHtml()}${hello()}${colophon()}`,
+  },
+  sozluk: {
+    label: "E · Sözlük",
+    note: "İşlerin arkasındaki kavramlar bir sözlük gibi, harf harf. Her kavramın kısa bir tanımı ve onu taşıyan projeler ile yayınlar var. Üstteki harfler sözlükte atlamaya yarıyor.",
+    html: () => `${glossaryHtml()}${hello()}${colophon()}`,
+  },
+  ikisi: {
+    label: "F · İkisi",
+    note: "Önce üç kelime, sonra sözlük: biri işleri rollere, öteki kavramlara göre açıyor. En uzun ve en zengin olanı.",
+    html: () => `${wordsHtml()}${glossaryHtml(true)}${hello()}${colophon()}`,
+  },
 };
 
 // ——— Page ———
@@ -111,6 +211,11 @@ function show(id) {
   pill.querySelectorAll("button").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.v === key)));
   pill.querySelector(".hb-pill-note").textContent = l.note;
   history.replaceState(null, "", `${location.pathname}${location.search}#${key}`);
+  // A word lays out its works once it is well into the window.
+  const seen = new IntersectionObserver((list) => {
+    for (const e of list) if (e.isIntersecting) { e.target.classList.add("is-in"); seen.unobserve(e.target); }
+  }, { rootMargin: "0px 0px -35% 0px" });
+  host.querySelectorAll(".hb-word").forEach((w) => seen.observe(w));
 }
 pill.addEventListener("click", (e) => { const b = e.target.closest("button"); if (b) show(b.dataset.v); });
 show(location.hash.slice(1));
