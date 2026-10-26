@@ -1,5 +1,5 @@
-import { escapeHtml } from "./catalog.js";
-import { t, kindName } from "./i18n.js";
+import { escapeHtml } from "./catalog.js?v=989238ef33";
+import { t, kindName } from "./i18n.js?v=438fcf2133";
 
 // The home page's name wall. At rest every project's name, with its mark, drifts in rows
 // bent like a cinema screen. Asked something, the names behind blur and the matches stand

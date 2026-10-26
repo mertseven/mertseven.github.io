@@ -1,5 +1,5 @@
-import { escapeHtml } from "./catalog.js";
-import { t, kindName, topicName } from "./i18n.js";
+import { escapeHtml } from "./catalog.js?v=989238ef33";
+import { t, kindName, topicName } from "./i18n.js?v=438fcf2133";
 
 // The project card, opened from the wall as in Burst: the clicked tile lifts out of the
 // wall and flies to a large frame on the left while the wall dims behind it, and the
