@@ -103,6 +103,17 @@ const STRINGS = {
     aboutLink: "About →",
     colophon: "Set in Geist & Instrument Serif · Made by hand in İzmir",
     openSource: "Open source on",
+    nf: {
+      title: "Not found · Mert Seven",
+      label: "404 · Not found",
+      prompt: "what were you <em>looking</em> for?",
+      line: "This address leads nowhere, yet. Search for it, or take one of the doors below.",
+      fromPath: (w) => `Searching for “${w}”, from the address you followed.`,
+      placeholder: "Search projects and research…",
+      searchLabel: "Search projects and research",
+      doors: [["/", "Home"], ["/work/", "Index"], ["/research/", "Research"], ["/about/", "About"]],
+      nav: { main: "Main", index: "Index", research: "Research", about: "About", search: "Search", home: "Mert Seven, home" },
+    },
   },
   tr: {
     projects: (n) => `${n} proje`,
@@ -169,6 +180,17 @@ const STRINGS = {
     aboutLink: "Hakkında →",
     colophon: "Geist ve Instrument Serif ile dizildi · İzmir'de elle yapıldı",
     openSource: "Açık kaynak:",
+    nf: {
+      title: "Bulunamadı · Mert Seven",
+      label: "404 · Bulunamadı",
+      prompt: "ne <em>arıyordun</em>?",
+      line: "Bu adres henüz bir yere çıkmıyor. Aradığını ara ya da aşağıdaki kapılardan birini seç.",
+      fromPath: (w) => `Geldiğin adresten yola çıkarak “${w}” aranıyor.`,
+      placeholder: "Proje ve araştırma ara…",
+      searchLabel: "Projelerde ve araştırmalarda ara",
+      doors: [["/", "Ana sayfa"], ["/work/", "İndeks"], ["/research/", "Araştırma"], ["/about/", "Hakkında"]],
+      nav: { main: "Ana menü", index: "İndeks", research: "Araştırma", about: "Hakkında", search: "Ara", home: "Mert Seven, ana sayfa" },
+    },
   },
 };
 

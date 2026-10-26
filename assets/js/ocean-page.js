@@ -1,7 +1,7 @@
 import { OceanEngine } from "./ocean.js?v=8d4ae8cf02";
-import { mountSearch } from "./search-box.js?v=b64033297f";
-import { currentTheme, onThemeChange } from "./theme.js?v=643f2d9888";
-import "./lang.js?v=cf96f32183";
+import { mountSearch } from "./search-box.js?v=81783ec0eb";
+import { currentTheme, onThemeChange } from "./theme.js?v=88b86c6ab4";
+import "./lang.js?v=6cb74bcf69";
 
 // /search/: the search box alone, over the ASCII ocean under frosted glass.
 

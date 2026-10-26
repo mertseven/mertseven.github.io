@@ -1,7 +1,7 @@
-import { loadCatalog, escapeHtml } from "./catalog.js?v=989238ef33";
-import { lang, href } from "./i18n.js?v=438fcf2133";
-import "./theme.js?v=643f2d9888";
-import "./lang.js?v=cf96f32183";
+import { loadCatalog, escapeHtml } from "./catalog.js?v=c4f34ca626";
+import { lang, href } from "./i18n.js?v=6e6214bd19";
+import "./theme.js?v=88b86c6ab4";
+import "./lang.js?v=6cb74bcf69";
 
 // /about/: a colophon. One sentence, then labelled rows: now, practice, teaching, path,
 // selected papers, elsewhere, contact. The portrait sits beside them in the same print

@@ -12,7 +12,7 @@ import { readFileSync, writeFileSync, readdirSync } from "node:fs";
 import { createHash } from "node:crypto";
 import { join } from "node:path";
 
-const PAGES = ["", "work", "search", "research", "about"].flatMap((p) => [join(p, "index.html"), join("tr", p, "index.html")]);
+const PAGES = [...["", "work", "search", "research", "about"].flatMap((p) => [join(p, "index.html"), join("tr", p, "index.html")]), "404.html"];
 const hash = (s) => createHash("sha256").update(s).digest("hex").slice(0, 10);
 
 // Modules first, leaves before the modules that import them.

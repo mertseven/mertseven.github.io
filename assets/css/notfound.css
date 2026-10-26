@@ -1,0 +1,11 @@
+/* 404 (assets/js/notfound.js): the question, the search and four doors, in one screen. */
+
+.nf-page { display: flex; flex-direction: column; min-height: 100vh; min-height: 100dvh; }
+.nf-page .stage { flex: 1; justify-content: center; padding: var(--s-7) var(--gutter) 14vh; }
+.nf-page .stage-inner { gap: var(--s-5); }
+.nf-label { margin: 0; color: var(--ink-3); }
+.nf-line { margin: 0; font-size: var(--text-sm); line-height: 1.5; color: var(--ink-2); }
+.nf-doors { display: flex; flex-wrap: wrap; gap: 8px; }
+.nf-doors a { padding: 8px 16px; border: 1px solid var(--line); border-radius: 999px; font-size: var(--text-sm); color: var(--ink-2); transition: border-color var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease); }
+.nf-doors a:hover { border-color: var(--ink); color: var(--ink); }
+.nf-doors a span { color: var(--ink-3); }
