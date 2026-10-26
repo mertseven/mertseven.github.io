@@ -1,12 +1,13 @@
-/* Home: one screen. The name wall fills it (assets/js/names-wall.js), the question and the
-   search sit underneath, and a plain click on a name opens its project card. */
+/* Home: the first screen is the window exactly. The name wall fills it (assets/js/names-wall.js),
+   the question and the search sit underneath, and a plain click on a name opens its project
+   card. The page goes on below (home-below.css). */
 
-.home {
+.home { overflow-x: hidden; }
+.first {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
-  min-height: 100dvh;
-  overflow-x: hidden;
+  height: 100vh;
+  height: 100dvh;
 }
 .home-main {
   flex: 1;

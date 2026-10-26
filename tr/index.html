@@ -38,9 +38,11 @@
   <link rel="stylesheet" href="/assets/css/search-box.css">
   <link rel="stylesheet" href="/assets/css/projects.css">
   <link rel="stylesheet" href="/assets/css/home.css">
+  <link rel="stylesheet" href="/assets/css/home-below.css">
   <script>try { const t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
 </head>
 <body class="home">
+  <div class="first">
   <header class="site-header">
     <a class="wordmark" href="/tr/" aria-label="Mert Seven, ana sayfa">
       <span class="wordmark-mark" aria-hidden="true"></span>
@@ -92,10 +94,24 @@
     </div>
   </section>
   </main>
+  </div>
 
-  <footer class="page-foot">
-    <span>© <span id="year">2026</span> Mert Seven</span>
-    <a class="page-foot-note mono" href="/tr/search/">okyanusta ara →</a>
+  <div class="below" id="below"></div>
+
+  <footer class="hb-colophon">
+    <div class="hb-col-top">
+      <a class="wordmark" href="/tr/"><span class="wordmark-mark" aria-hidden="true"></span><span>Mert Seven</span></a>
+      <nav aria-label="Alt menü">
+        <a href="/tr/work/">İndeks</a>
+        <a href="/tr/research/">Araştırma</a>
+        <a href="/tr/about/">Hakkında</a>
+        <a href="/tr/search/">Okyanusta ara</a>
+      </nav>
+    </div>
+    <div class="hb-col-bottom mono">
+      <span>Geist ve Instrument Serif ile dizildi · İzmir'de elle yapıldı · © <span id="year">2026</span></span>
+      <span>Açık kaynak: <a href="https://github.com/mertseven/mertseven.github.io">GitHub</a></span>
+    </div>
   </footer>
 
   <script type="module" src="/assets/js/home.js"></script>

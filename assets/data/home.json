@@ -1,0 +1,12 @@
+{
+  "note": "What the home page shows under its first screen. `picks` are project ids from catalog.json; the latest paper is the newest one in the catalogue.",
+  "picks": ["jstudio", "networkcanvas", "socrates", "kafka"],
+  "now": {
+    "teaching": {
+      "project": "ima-lab",
+      "en": { "title": "Interactive Media Applications", "line": "Eight playable experiments on agency, feedback and emergence, this term at Yaşar." },
+      "tr": { "title": "Interactive Media Applications", "line": "Bu dönem Yaşar'da: faillik, geri bildirim ve beliriş üzerine sekiz oynanabilir deney." }
+    },
+    "making": "etkilesim-atlasi"
+  }
+}
