@@ -1,0 +1,61 @@
+/* The marks as a design language (isaret.html). Builds on brand.css, ag.css and aile.css. */
+
+.im { display: block; width: 36px; height: 36px; overflow: visible; color: var(--ink); }
+.im .cut { stroke: var(--bg, var(--paper)); }
+.im.big { width: 62%; height: auto; }
+.vc-hero.is-logo { color: var(--ink); }
+.lockup .im, .lockup .im-spin { width: 1em; height: 1em; }
+.fav-tile .im, .fav-tile .im-spin { width: 64%; height: 64%; color: var(--paper); }
+.vc-family .im, .vc-family .im-spin { width: 34px; height: 34px; }
+.vc-own .im, .vc-own .im-spin { width: 40px; height: 40px; }
+
+/* The turning logo: the ring stays, the six vessels come and go around it in turn. */
+.im-spin { position: relative; display: inline-grid; width: 36px; height: 36px; }
+.im-spin > .im, .im-spin-v { grid-area: 1 / 1; }
+.im-spin > .im { width: 100%; height: 100%; }
+.im-spin-v { opacity: 0; }
+.im-spin-v .im { width: 100%; height: 100%; color: inherit; }
+.im-spin.big { width: 62%; height: auto; aspect-ratio: 1; }
+.vc:hover .im-spin-v, .im-spin.is-loading .im-spin-v { animation: vessel 7.2s var(--ease) infinite; animation-delay: calc(var(--i) * 1.2s); }
+@keyframes vessel { 0% { opacity: 0; transform: scale(0.9); } 6% { opacity: 1; transform: none; } 14% { opacity: 1; } 18% { opacity: 0; transform: scale(1.06); } 100% { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .vc:hover .im-spin-v, .im-spin.is-loading .im-spin-v { animation: none; } }
+
+/* The key */
+.key3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--s-6); }
+.key3 > div { display: grid; align-content: start; gap: 12px; }
+.key-i { display: grid; grid-template-columns: 36px 1fr; gap: 12px; align-items: center; margin: 0; font-size: var(--text-sm); }
+.key-i i { display: block; font-style: normal; font-size: var(--text-xs); color: var(--ink-3); }
+
+/* All projects, by vessel */
+.grp { display: grid; gap: var(--s-3); padding-top: var(--s-4); border-top: 1px solid var(--line); }
+.grp-h { display: flex; align-items: center; gap: 10px; margin: 0; font-size: var(--text-md); }
+.grp-h .im { width: 22px; height: 22px; }
+.grp-h .mono { font-size: var(--text-xs); color: var(--ink-3); }
+.grp-row { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 14px 18px; padding-bottom: var(--s-4); }
+.pi { display: grid; grid-template-columns: 40px 1fr; grid-template-rows: auto auto; column-gap: 12px; align-items: center; }
+.pi .im { grid-row: span 2; width: 36px; height: 36px; }
+.pi b { font-size: var(--text-sm); font-weight: var(--weight-regular); line-height: 1.25; }
+.pi > span { font-size: 0.6875rem; line-height: 1.35; color: var(--ink-3); }
+
+/* At work */
+.apps { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: var(--s-5); }
+.app { display: grid; align-content: start; gap: 10px; }
+.app-head { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; border: 1px solid var(--line); border-radius: var(--radius-md); }
+.app-head nav { display: flex; gap: var(--s-4); font-size: var(--text-sm); color: var(--ink-2); }
+.app-card { display: grid; grid-template-columns: 72px 1fr; gap: var(--s-4); padding: 20px; border: 1px solid var(--line); border-radius: var(--radius-md); }
+.app-card .im { width: 64px; height: 64px; }
+.app-card h3 { margin: 4px 0 8px; font-size: 1.6rem; font-weight: var(--weight-light); letter-spacing: var(--tracking-display); }
+.app-card h3 em { font-family: var(--font-serif); font-style: italic; font-weight: 400; }
+.app-card p:last-child { margin: 0; font-size: var(--text-xs); color: var(--ink-2); line-height: 1.5; }
+.app-foot { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 14px 20px; border: 1px solid var(--line); border-radius: var(--radius-md); font-size: 0.6875rem; color: var(--ink-3); }
+.app-sig { display: inline-flex; align-items: center; gap: 8px; color: var(--ink); }
+.app-sig .im { width: 18px; height: 18px; }
+.app-load { display: grid; place-items: center; height: 120px; border: 1px solid var(--line); border-radius: var(--radius-md); }
+.app-load .im-spin { width: 56px; height: 56px; }
+.app-list { margin: 0; padding: 16px 20px; list-style: none; display: grid; gap: 8px; border: 1px solid var(--line); border-radius: var(--radius-md); font-size: var(--text-sm); }
+.app-list li { display: flex; align-items: center; gap: 10px; }
+.app-list .im { width: 14px; height: 14px; }
+
+@media (max-width: 760px) {
+  .key3 { grid-template-columns: 1fr; }
+}
