@@ -1,5 +1,5 @@
-import { escapeHtml } from "./catalog.js?v=c4f34ca626";
-import { t, lang, href, kindName } from "./i18n.js?v=6e6214bd19";
+import { escapeHtml } from "./catalog.js?v=36fa2c107a";
+import { t, lang, href, kindName } from "./i18n.js?v=137ec0cac8";
 
 // Under the home page's first screen, as a magazine: four selected projects in large
 // alternating rows, a "now" band (this term's course, the latest paper, the work on the

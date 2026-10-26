@@ -105,9 +105,9 @@ const STRINGS = {
     openSource: "Open source on",
     nf: {
       title: "Not found · Mert Seven",
-      label: "404 · Not found",
+      label: "404 · Space Oddity",
       prompt: "what were you <em>looking</em> for?",
-      line: "This address leads nowhere, yet. Search for it, or take one of the doors below.",
+      line: "This address has drifted off into space. Search for it, or take one of the doors back to ground control.",
       fromPath: (w) => `Searching for “${w}”, from the address you followed.`,
       placeholder: "Search projects and research…",
       searchLabel: "Search projects and research",
@@ -182,9 +182,9 @@ const STRINGS = {
     openSource: "Açık kaynak:",
     nf: {
       title: "Bulunamadı · Mert Seven",
-      label: "404 · Bulunamadı",
+      label: "404 · Space Oddity",
       prompt: "ne <em>arıyordun</em>?",
-      line: "Bu adres henüz bir yere çıkmıyor. Aradığını ara ya da aşağıdaki kapılardan birini seç.",
+      line: "Bu adres uzay boşluğuna sürüklenmiş. Aradığını ara ya da yer kontrolüne dönen kapılardan birini seç.",
       fromPath: (w) => `Geldiğin adresten yola çıkarak “${w}” aranıyor.`,
       placeholder: "Proje ve araştırma ara…",
       searchLabel: "Projelerde ve araştırmalarda ara",
