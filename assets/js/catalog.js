@@ -1,7 +1,7 @@
 import { TOPIC_TR, KIND_TR } from "./i18n.js";
 
 // Loads assets/data/catalog.json once and searches it.
-// One flat list of entries so projects, publications and writing rank against each other.
+// One flat list of entries so projects and publications rank against each other.
 
 const DATA_URL = new URL("../data/catalog.json", import.meta.url);
 
@@ -38,17 +38,8 @@ function toEntries(data) {
     tags: [...p.keywords, String(p.year)],
     raw: p,
   }));
-  const writings = data.writings.map((w) => ({
-    type: "Writing",
-    title: w.title,
-    url: w.url,
-    meta: [w.type, w.date.slice(0, 4)].join(" · "),
-    summary: w.excerpt,
-    tags: [w.type, w.language === "tr" ? "Turkish" : "English"],
-    raw: w,
-  }));
-
-  const entries = [...projects, ...publications, ...writings];
+  // Writing is off the site for now: data.writings stays in the catalog but is not searched.
+  const entries = [...projects, ...publications];
   for (const e of entries) {
     e.nTitle = normalize(e.title);
     e.nTags = normalize(e.tags.join(" "));

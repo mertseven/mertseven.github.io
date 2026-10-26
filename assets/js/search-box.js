@@ -64,7 +64,6 @@ export function mountSearch({ onQuery, onHint, panelUp = false, panel: usePanel 
     beneath.innerHTML = [
       part(n("Project"), t.projects, "/work/"),
       part(n("Research"), t.papers, "/publications.html"),
-      part(n("Writing"), t.writings, "/writing.html"),
     ].join('<span class="sep" aria-hidden="true">·</span>') + ` <span>${t.beneath}</span>`;
   }
 
