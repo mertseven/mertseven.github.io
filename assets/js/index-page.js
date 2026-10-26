@@ -1,6 +1,7 @@
 import { loadCatalog, escapeHtml } from "./catalog.js";
 import { mark } from "./names-wall.js";
 import { mountFocus } from "./focus.js";
+import { t, kindName, topicName } from "./i18n.js";
 
 // /work/: the catalogue. Projects in three chapters, one row each — number, mark, title,
 // collection, topics, tools — under a sentence that filters them ("Show teaching projects
@@ -13,14 +14,9 @@ import { mountFocus } from "./focus.js";
 // The filter lives in the query (?collection=Teaching&topic=Networks&stack=D3), the open
 // card in the hash (#socrates), and the chosen view in localStorage.
 
-const KIND = { Featured: "Featured", Teaching: "Teaching", Experiment: "Experiment" };
 const KINDS = ["Featured", "Teaching", "Experiment"];
-const CHAPTER = {
-  Featured: { title: "Featured", em: "work", note: "Systems, tools and visual essays at full scale." },
-  Teaching: { title: "For the", em: "classroom", note: "Made for courses, juries and students." },
-  Experiment: { title: "Small", em: "experiments", note: "Sketches, tests and things that might grow." },
-};
-const WORD = { "": "all", Featured: "featured", Teaching: "teaching", Experiment: "experimental" };
+const CHAPTER = t.chapter;
+const WORD = t.kindWord;
 const LEAN_DEG = 8; // how far rows lean back at the top and bottom of the window
 
 const reduce = () => matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -33,10 +29,10 @@ export async function mountIndexPage(root) {
 
   root.innerHTML = `
     <div class="ix-head">
-      <h1 class="ix-h1">Index</h1>
+      <h1 class="ix-h1">${t.index}</h1>
       <div class="ix-side"><span class="ix-count mono" aria-live="polite"></span>
-        <div class="views" role="group" aria-label="View">
-          <button type="button" data-v="list">List</button><button type="button" data-v="grid">Images</button>
+        <div class="views" role="group" aria-label="${t.view}">
+          <button type="button" data-v="list">${t.list}</button><button type="button" data-v="grid">${t.images}</button>
         </div>
       </div>
     </div>
@@ -70,8 +66,8 @@ export async function mountIndexPage(root) {
         <span class="ix-no mono">${no(p)}</span>
         <span class="ix-mk">${mark(p)}</span>
         <span class="ix-title">${dual(escapeHtml(p.title))}</span>
-        <span class="ix-kind label">${KIND[p.kind]}</span>
-        <span class="ix-topics">${p.topics.map(escapeHtml).join(", ")}</span>
+        <span class="ix-kind label">${kindName(p.kind)}</span>
+        <span class="ix-topics">${p.topics.map((x) => escapeHtml(topicName(x))).join(", ")}</span>
         <span class="ix-stack mono">${p.stack.map(escapeHtml).join(", ")}</span>
       </a>`;
   }
@@ -86,7 +82,7 @@ export async function mountIndexPage(root) {
         <span class="ic-cap">
           <span class="ic-no mono">No.&nbsp;${no(p)}</span>
           <span class="ic-title">${escapeHtml(p.title)}</span>
-          <span class="ic-med">${KIND[p.kind]} · ${p.stack.map(escapeHtml).join(", ")}</span>
+          <span class="ic-med">${kindName(p.kind)} ·${p.stack.map(escapeHtml).join(", ")}</span>
         </span>
       </a>`;
   }
@@ -104,8 +100,8 @@ export async function mountIndexPage(root) {
   };
   const options = {
     kind: [["", WORD[""]], ...KINDS.map((k) => [k, WORD[k]])],
-    topic: [["", "any topic"], ...tally("topics").map(([t]) => [t, t.toLowerCase()])],
-    stack: [["", "any tool"], ...tally("stack").map(([t]) => [t, t])],
+    topic: [["", t.anyTopic], ...tally("topics").map(([x]) => [x, topicName(x).toLocaleLowerCase(document.documentElement.lang)])],
+    stack: [["", t.anyTool], ...tally("stack").map(([x]) => [x, x])],
   };
   // Drop values from the address that no project has.
   for (const k of ["kind", "topic", "stack"]) if (!options[k].some(([v]) => v === state[k])) state[k] = "";
@@ -117,7 +113,7 @@ export async function mountIndexPage(root) {
   function writeSentence() {
     const pick = (k) => `<button class="pick" type="button" data-k="${k}" aria-haspopup="listbox" aria-expanded="false">${dual(escapeHtml(word(k)))}</button>`;
     const any = state.kind || state.topic || state.stack;
-    sentenceEl.innerHTML = `Show ${pick("kind")} projects about ${pick("topic")}, made with ${pick("stack")}.${any ? ` <button class="sentence-reset" type="button">reset</button>` : ""}`;
+    sentenceEl.innerHTML = `${t.sentence(pick("kind"), pick("topic"), pick("stack"))}${any ? ` <button class="sentence-reset" type="button">${t.reset}</button>` : ""}`;
   }
 
   let menu = null;
@@ -228,7 +224,7 @@ export async function mountIndexPage(root) {
       fold(sec, m > 0, animate);
       total += m;
     }
-    count.textContent = total === projects.length ? `${total} projects` : `${total} of ${projects.length} projects`;
+    count.textContent = t.shown(total, projects.length);
     lean();
   }
 

@@ -1,3 +1,5 @@
+import { t } from "./i18n.js";
+
 // Light/dark switch shared by every page.
 //
 // Until someone uses the toggle the site follows the system setting. A choice is kept in
@@ -30,7 +32,7 @@ function sync() {
   const theme = currentTheme();
   for (const b of document.querySelectorAll("[data-theme-toggle]")) {
     b.dataset.mode = theme;
-    b.setAttribute("aria-label", theme === "dark" ? "Switch to light mode" : "Switch to dark mode");
+    b.setAttribute("aria-label", theme === "dark" ? t.toLight : t.toDark);
   }
   for (const fn of listeners) fn(theme);
 }

@@ -1,4 +1,5 @@
 import { escapeHtml } from "./catalog.js";
+import { t, kindName } from "./i18n.js";
 
 // The home page's name wall. At rest every project's name, with its mark, drifts in rows
 // bent like a cinema screen. Asked something, the names behind blur and the matches stand
@@ -12,8 +13,6 @@ import { escapeHtml } from "./catalog.js";
 // - The blur behind the answer is a filter on the names layer, which has stopped by then,
 //   not a backdrop-filter recomputed over moving 3D text.
 // - Nothing is written to the page on a frame where nothing moved.
-
-const KIND = { Featured: "Featured", Teaching: "Teaching", Experiment: "Experiment" };
 
 const ROWS = 4;
 const GAP_EM = 0.9;      // space between names in a row
@@ -159,7 +158,7 @@ export async function mountNamesWall(host, projects, { onSelect } = {}) {
     if (!q) return;
     const ps = projects.filter((p) => ids.has(p.id));
     if (!ps.length) {
-      drum.insertAdjacentHTML("beforeend", `<p class="none">No project for “${escapeHtml(q)}” yet.</p>`);
+      drum.insertAdjacentHTML("beforeend", `<p class="none">${t.noProject(escapeHtml(q))}</p>`);
       return;
     }
     for (const p of ps) {
@@ -168,7 +167,7 @@ export async function mountNamesWall(host, projects, { onSelect } = {}) {
       el.href = p.url;
       el.dataset.i = projects.indexOf(p);
       el.tabIndex = -1;
-      el.innerHTML = `<span class="k">${KIND[p.kind]}</span>${mark(p)}${dual(escapeHtml(p.title))}<sup>${no(p)}</sup>`;
+      el.innerHTML = `<span class="k">${kindName(p.kind)}</span>${mark(p)}${dual(escapeHtml(p.title))}<sup>${no(p)}</sup>`;
       axis.append(el);
       dn.push({ el, w: el.offsetWidth, h: el.offsetHeight, vis: true });
     }

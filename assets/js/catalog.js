@@ -1,3 +1,5 @@
+import { TOPIC_TR, KIND_TR } from "./i18n.js";
+
 // Loads assets/data/catalog.json once and searches it.
 // One flat list of entries so projects, publications and writing rank against each other.
 
@@ -22,8 +24,9 @@ function toEntries(data) {
     url: p.url,
     meta: p.kind,
     summary: p.summary,
-    // The id carries the folder name, so Turkish names like "etkilesim-atlasi" still match.
-    tags: [...p.topics, ...p.stack, p.kind, p.id.replace(/-/g, " ")],
+    // The id carries the folder name, so Turkish names like "etkilesim-atlasi" still match;
+    // topics and collections are tagged in Turkish too, in either language, so "ağlar" works.
+    tags: [...p.topics, ...p.topics.map((x) => TOPIC_TR[x] ?? ""), ...p.stack, p.kind, KIND_TR[p.kind] ?? "", p.id.replace(/-/g, " ")],
     raw: p,
   }));
   const publications = data.publications.map((p) => ({

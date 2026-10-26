@@ -2,7 +2,9 @@ import { loadCatalog, escapeHtml } from "./catalog.js";
 import { mountSearch } from "./search-box.js";
 import { mountNamesWall } from "./names-wall.js";
 import { mountFocus } from "./focus.js";
+import { t, href } from "./i18n.js";
 import "./theme.js";
+import "./lang.js";
 
 // Home: the name wall over the question and the search. Typing turns the matching projects
 // into a drum of names (↑ ↓ or the wheel turn it, Enter opens the one in front); a plain
@@ -11,7 +13,6 @@ import "./theme.js";
 
 document.getElementById("year").textContent = new Date().getFullYear();
 
-const plural = (n, one, many) => `${n} ${n === 1 ? one : many}`;
 const projectIds = (results) => new Set(results.filter((e) => e.type === "Project").map((e) => e.raw.id));
 
 let names = null;     // the wall, once its fonts are in
@@ -45,12 +46,12 @@ function writeBeneath(q, results) {
   if (!results) return;
   const n = (type) => results.filter((e) => e.type === type).length;
   const parts = [];
-  if (n("Project")) parts.push(plural(n("Project"), "project", "projects"));
-  if (n("Research")) parts.push(plural(n("Research"), "paper", "papers"));
-  if (n("Writing")) parts.push(plural(n("Writing"), "writing", "writings"));
+  if (n("Project")) parts.push(t.projects(n("Project")));
+  if (n("Research")) parts.push(t.papers(n("Research")));
+  if (n("Writing")) parts.push(t.writings(n("Writing")));
   beneath.innerHTML = parts.length
-    ? `${parts.join('<span class="sep" aria-hidden="true">·</span>')}<span class="sep" aria-hidden="true">—</span><a class="all" href="/search/?q=${encodeURIComponent(q)}">all results →</a>`
-    : `Nothing for “${escapeHtml(q)}” yet. Try a broader word.`;
+    ? `${parts.join('<span class="sep" aria-hidden="true">·</span>')}<span class="sep" aria-hidden="true">—</span><a class="all" href="${href(`/search/?q=${encodeURIComponent(q)}`)}">${t.allResults}</a>`
+    : t.nothing(escapeHtml(q));
 }
 
 // The drum answers to the keys while the box has focus.

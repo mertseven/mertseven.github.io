@@ -1,6 +1,5 @@
 import { escapeHtml } from "./catalog.js";
-
-const KIND_LABEL = { Featured: "Featured", Teaching: "Teaching", Experiment: "Experiment" };
+import { t, kindName, topicName } from "./i18n.js";
 
 // The project card, opened from the wall as in Burst: the clicked tile lifts out of the
 // wall and flies to a large frame on the left while the wall dims behind it, and the
@@ -28,14 +27,14 @@ export function mountFocus(projects, wall) {
       <h2 class="focus-title" id="focus-title"></h2>
       <p class="focus-summary"></p>
       <dl class="focus-meta"></dl>
-      <a class="focus-open" href="#">Open project <span aria-hidden="true">↗</span></a>
+      <a class="focus-open" href="#">${t.openProject} <span aria-hidden="true">↗</span></a>
       <div class="focus-nav">
-        <button type="button" class="focus-step" data-step="-1" aria-label="Previous project">←</button>
+        <button type="button" class="focus-step" data-step="-1" aria-label="${t.prevProject}">←</button>
         <span class="focus-count mono"></span>
-        <button type="button" class="focus-step" data-step="1" aria-label="Next project">→</button>
+        <button type="button" class="focus-step" data-step="1" aria-label="${t.nextProject}">→</button>
       </div>
     </div>
-    <button type="button" class="focus-close icon-btn" data-close aria-label="Close">
+    <button type="button" class="focus-close icon-btn" data-close aria-label="${t.close}">
       <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 2l10 10M12 2L2 12" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
     </button>`;
   document.body.append(root);
@@ -52,12 +51,12 @@ export function mountFocus(projects, wall) {
     media.innerHTML = p.image
       ? `<img src="${escapeHtml(p.image)}" alt="${escapeHtml(p.title)}">`
       : `<span class="focus-type">${escapeHtml(p.title)}</span>`;
-    $(".focus-kind").textContent = KIND_LABEL[p.kind];
+    $(".focus-kind").textContent = kindName(p.kind);
     $(".focus-title").textContent = p.title;
     $(".focus-summary").textContent = p.summary;
     $(".focus-meta").innerHTML = `
-      <dt>Topics</dt><dd>${p.topics.map(escapeHtml).join(", ")}</dd>
-      <dt>Stack</dt><dd>${p.stack.map(escapeHtml).join(", ")}</dd>`;
+      <dt>${t.topics}</dt><dd>${p.topics.map((x) => escapeHtml(topicName(x))).join(", ")}</dd>
+      <dt>${t.stack}</dt><dd>${p.stack.map(escapeHtml).join(", ")}</dd>`;
     $(".focus-open").href = p.url;
     $(".focus-count").textContent = `${String(i + 1).padStart(2, "0")} / ${String(projects.length).padStart(2, "0")}`;
   }

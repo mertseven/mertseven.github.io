@@ -1,4 +1,5 @@
 import { loadCatalog, search, highlight, escapeHtml } from "./catalog.js";
+import { t, href } from "./i18n.js";
 
 // The search box shared by the home page and /search/: the question sized to the bar,
 // rotating hints, the count line, live results, keyboard control and ?q= in the URL.
@@ -48,28 +49,28 @@ export function mountSearch({ onQuery, onHint, panelUp = false, panel: usePanel 
       return c;
     })
     .catch(() => {
-      if (list) list.innerHTML = `<li class="results-empty">The index could not load. <a href="/work/">Open it directly</a>.</li>`;
+      if (list) list.innerHTML = `<li class="results-empty">${t.noLoad(href("/work/"))}</li>`;
     });
 
   // "28 projects · 9 papers · 2 writings beneath the surface", counted from the catalog.
   function writeBeneath(all) {
     if (!beneath) return;
     const n = (type) => all.filter((e) => e.type === type).length;
-    const part = (count, one, many, href) =>
-      `<a href="${href}"><span class="mono">${count}</span> ${count === 1 ? one : many}</a>`;
+    // The number set in mono, the word after it as the language counts it.
+    const part = (count, say, to) => {
+      const [num, ...word] = say(count).split(" ");
+      return `<a href="${href(to)}"><span class="mono">${num}</span> ${word.join(" ")}</a>`;
+    };
     beneath.innerHTML = [
-      part(n("Project"), "project", "projects", "/work/"),
-      part(n("Research"), "paper", "papers", "/publications.html"),
-      part(n("Writing"), "writing", "writings", "/writing.html"),
-    ].join('<span class="sep" aria-hidden="true">·</span>') + " <span>beneath the surface</span>";
+      part(n("Project"), t.projects, "/work/"),
+      part(n("Research"), t.papers, "/publications.html"),
+      part(n("Writing"), t.writings, "/writing.html"),
+    ].join('<span class="sep" aria-hidden="true">·</span>') + ` <span>${t.beneath}</span>`;
   }
 
   // Rotating hints inside the empty box: one word at a time, each a search that finds
   // something. With the box empty, Enter searches the word on show.
-  const HINTS = [
-    "networks", "Bergson", "journalism", "Three.js", "Frankfurt School",
-    "misinformation", "teaching", "mapping", "interaction", "Nietzsche", "AR",
-  ];
+  const HINTS = t.hints;
   const HINT_MS = 3200;
   let hints = [];
   let hintAt = 0;
@@ -93,7 +94,7 @@ export function mountSearch({ onQuery, onHint, panelUp = false, panel: usePanel 
     const html = `<em>${escapeHtml(hints[hintAt])}</em>…`;
     let word = ghost.querySelector(".ghost-word");
     if (!word) {
-      ghost.innerHTML = `try <span class="ghost-slot"><span class="ghost-word"></span></span>`;
+      ghost.innerHTML = `${t.try} <span class="ghost-slot"><span class="ghost-word"></span></span>`;
       word = ghost.querySelector(".ghost-word");
     }
     onHint?.(hints[hintAt], search(entries, hints[hintAt]));
@@ -135,12 +136,12 @@ export function mountSearch({ onQuery, onHint, panelUp = false, panel: usePanel 
       ? results.map((e, i) => `
           <li class="result" id="r${i}" role="option" aria-selected="${i === active}">
             <a href="${escapeHtml(e.url)}" tabindex="-1">
-              <span class="result-type label">${e.type}</span>
+              <span class="result-type label">${t.type[e.type]}</span>
               <span class="result-title">${highlight(e.title, q)}</span>
               <span class="result-sub">${escapeHtml([e.meta, e.summary].filter(Boolean).join(" — "))}</span>
             </a>
           </li>`).join("")
-      : `<li class="results-empty">Nothing for “${escapeHtml(q)}” yet. Try a broader word, or <a href="/work/">browse the index</a>.</li>`;
+      : `<li class="results-empty">${t.nothingBrowse(escapeHtml(q), href("/work/"))}</li>`;
     setOpen(true);
     syncActive();
   }

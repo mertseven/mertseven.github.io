@@ -118,6 +118,10 @@ img, svg, canvas { display: block; }
 .theme-toggle[data-mode="dark"] .icon-moon { opacity: 0; transform: rotate(-45deg) scale(0.7); }
 .theme-toggle[data-mode="dark"] .icon-sun { opacity: 1; transform: none; }
 
+/* EN / TR: the other language, named in its own tongue, as small mono type in the icon ring. */
+.lang-btn { font-family: var(--font-mono); font-size: 0.6875rem; letter-spacing: 0.04em; text-decoration: none; }
+.lang-btn[hidden] { display: none; }
+
 .wordmark { white-space: nowrap; }
 
 @media (max-width: 560px) {
@@ -131,7 +135,11 @@ img, svg, canvas { display: block; }
     position: absolute; width: 1px; height: 1px; overflow: hidden;
     clip: rect(0 0 0 0); white-space: nowrap;
   }
-  .site-nav { gap: var(--s-3); }
+  /* The Turkish names are longer and the language switch takes a place of its own. */
+  .site-nav { gap: 10px; font-size: 0.8125rem; }
+  .header-end { gap: 8px; }
+  .header-icons { gap: 0; }
+  .icon-btn { width: 28px; height: 28px; }
 }
 
 /* Footer */
