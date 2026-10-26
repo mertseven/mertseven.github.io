@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="tr" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>On Beş Logo</title>
+  <meta name="robots" content="noindex">
+  <link rel="icon" href="/images/ms-favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500&family=Geist+Mono:wght@400;600&family=Instrument+Serif:ital@0;1&display=swap">
+  <link rel="stylesheet" href="/assets/css/tokens.css">
+  <link rel="stylesheet" href="/assets/css/base.css">
+  <link rel="stylesheet" href="/preview/salon.css">
+  <link rel="stylesheet" href="/preview/brand.css">
+  <link rel="stylesheet" href="/preview/ag.css">
+  <link rel="stylesheet" href="/preview/isaret.css">
+  <style>
+    .logos { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr)); gap: 1px; max-width: 1280px; margin: var(--s-6) auto var(--s-8); padding: 0 var(--gutter); }
+    .logos { background: var(--line); border: 1px solid var(--line); padding: 0; }
+    .lg { display: grid; align-content: start; gap: 16px; padding: 22px; background: var(--paper); color: var(--ink); }
+    .lg-hero { display: grid; place-items: center; aspect-ratio: 16 / 10; border: 1px solid var(--line); border-radius: var(--radius-md); }
+    .lg-hero .im.big { width: auto; height: 58%; }
+    .lg-text { display: grid; gap: 6px; }
+    .lg-text h2 { margin: 0; font-size: 1.5rem; font-weight: var(--weight-light); letter-spacing: var(--tracking-display); }
+    .lg-text h2 em { font-family: var(--font-serif); font-style: italic; font-weight: 400; }
+    .lg-text p { margin: 0; font-size: var(--text-xs); line-height: 1.55; color: var(--ink-2); }
+    .lg-uses { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+    .lg-favs { display: flex; align-items: center; gap: 8px; }
+    .lg-family { display: flex; align-items: center; gap: 12px; padding-top: 12px; border-top: 1px solid var(--line); }
+    .lg-family .im { width: 26px; height: 26px; }
+    .lg-own { padding-right: 12px; border-right: 1px solid var(--line); }
+    .lg-own .im { width: 32px; height: 32px; }
+    .im .cut-fill { fill: var(--bg, var(--paper)); }
+    .im .cut { stroke: var(--bg, var(--paper)); }
+  </style>
+</head>
+<body>
+  <header class="bar" id="bar">
+    <div class="bar-top">
+      <h1>On beş logo <span>· proje işaretleriyle aynı dilden</span></h1>
+      <div class="bar-tools">
+        <div class="views" role="group" aria-label="Tema">
+          <button type="button" data-theme-set="light" aria-pressed="true">Açık</button><button type="button" data-theme-set="dark" aria-pressed="false">Koyu</button>
+        </div>
+        <a class="label" href="/preview/isaret.html">← işaret dili</a>
+      </div>
+    </div>
+    <p class="about">Aynı altı kap, aynı kesikler, aynı üç doku, aynı kalınlık. Her kartta: büyük hali, wordmark ile, 32 ve 16 px favicon, ve beş proje işaretinin yanında.</p>
+  </header>
+
+  <main class="logos" id="logos"></main>
+
+  <script type="module" src="/preview/logo15.js"></script>
+</body>
+</html>
