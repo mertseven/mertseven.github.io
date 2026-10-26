@@ -17,6 +17,18 @@ body {
   text-rendering: optimizeLegibility;
 }
 
+/* Paper grain: a still, faint tile on the page itself, under the content, so pictures and
+   their print keep clean. Dark grains on paper, light grains on black (tools/make-grain.py).
+   Gone where more contrast is asked for, and in print. */
+body { background-image: url("/assets/img/grain-dark.png"); background-size: 128px 128px; }
+:root[data-theme="dark"] body { background-image: url("/assets/img/grain-light.png"); }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) body { background-image: url("/assets/img/grain-light.png"); }
+}
+@media (prefers-contrast: more), print {
+  body { background-image: none; }
+}
+
 a { color: inherit; text-decoration: none; }
 button, input { font: inherit; color: inherit; }
 img, svg, canvas { display: block; }
