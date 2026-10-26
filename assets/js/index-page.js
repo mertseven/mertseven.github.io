@@ -1,15 +1,16 @@
 import { loadCatalog, escapeHtml } from "./catalog.js";
 import { mark } from "./names-wall.js";
 import { mountFocus } from "./focus.js";
-import { t, kindName, topicName } from "./i18n.js";
+import { t, lang, href, kindName, topicName } from "./i18n.js";
 
 // /work/: the catalogue. Projects in three chapters, one row each — number, mark, title,
 // collection, topics, tools — under a sentence that filters them ("Show teaching projects
 // about networks, made with D3."). Rows that stop matching fold away and empty chapters
 // close; the rest glide into place. Hovering a row brings its title to serif italic and
 // its picture beside the cursor; a click opens the project card at /work/#id. A switch
-// shows the same chapters as images instead. Scrolling leans the rows back a little, a
-// quiet echo of the drum on the home page.
+// shows the same chapters as images instead, or the whole work as a glossary of the
+// concepts behind it (assets/data/glossary.json), each with the projects and papers that
+// carry it. Scrolling leans the rows back a little, a quiet echo of the drum on the home page.
 //
 // The filter lives in the query (?collection=Teaching&topic=Networks&stack=D3), the open
 // card in the hash (#socrates), and the chosen view in localStorage.
@@ -23,7 +24,10 @@ const reduce = () => matchMedia("(prefers-reduced-motion: reduce)").matches;
 const dual = (t) => `<span class="tw"><span class="ts">${t}</span><span class="ti" aria-hidden="true">${t}</span></span>`;
 
 export async function mountIndexPage(root) {
-  const { projects } = await loadCatalog();
+  const [{ projects, publications }, glossary] = await Promise.all([
+    loadCatalog(),
+    fetch(new URL("../data/glossary.json", import.meta.url), { cache: "no-cache" }).then((r) => r.json()).catch(() => ({ terms: [] })),
+  ]);
   const no = (p) => String(projects.indexOf(p) + 1).padStart(2, "0");
   const state = readQuery();
 
@@ -32,7 +36,7 @@ export async function mountIndexPage(root) {
       <h1 class="ix-h1">${t.index}</h1>
       <div class="ix-side"><span class="ix-count mono" aria-live="polite"></span>
         <div class="views" role="group" aria-label="${t.view}">
-          <button type="button" data-v="list">${t.list}</button><button type="button" data-v="grid">${t.images}</button>
+          <button type="button" data-v="list">${t.list}</button><button type="button" data-v="grid">${t.images}</button><button type="button" data-v="gloss">${t.glossary}</button>
         </div>
       </div>
     </div>
@@ -60,6 +64,68 @@ export async function mountIndexPage(root) {
     return sec;
   });
 
+  // ——— Glossary: the concepts behind the work, letter by letter ———
+  // A term is matched as a whole word, so "AR" does not turn up inside "learning".
+  const whole = (term) => new RegExp(`(^|[^a-z])${term.replace(/[.*+?^${}()|[\]\\-]/g, "\\$&")}($|[^a-z])`, "i");
+  const entries = glossary.terms.map((g) => {
+    const w = whole(g.term);
+    return {
+      ...g[lang],
+      projects: projects.filter((p) => p.topics.some((x) => w.test(x))),
+      papers: publications.filter((p) => p.keywords.some((k) => w.test(k)) || w.test(p.title)),
+    };
+  }).filter((e) => e.projects.length + e.papers.length)
+    .sort((a, b) => a.label.localeCompare(b.label, lang));
+  const initial = (e) => e.label[0].toLocaleUpperCase(lang);
+  const letters = [...new Set(entries.map(initial))];
+  const glossEl = document.createElement("section");
+  glossEl.className = "ix-gloss";
+  glossEl.setAttribute("aria-label", t.glossary);
+  glossEl.innerHTML = `
+    <nav class="gl-az mono">${letters.map((l) => `<button type="button" data-l="${l}">${l}</button>`).join("")}</nav>
+    ${letters.map((l) => `
+      <div class="gl-l" data-l="${l}"><span class="gl-letter">${l}</span>
+        <dl>${entries.filter((e) => initial(e) === l).map((e) => `
+          <div class="gl-e">
+            <dt><span class="gl-term">${escapeHtml(e.label)}</span><span class="gl-n mono"></span></dt>
+            <dd><p>${escapeHtml(e.def)}</p>
+              <ul>
+                ${e.projects.map((p) => `<li class="gl-w" data-i="${projects.indexOf(p)}"><a class="ig" href="${escapeHtml(p.url)}" data-i="${projects.indexOf(p)}" data-id="${escapeHtml(p.id)}">${escapeHtml(p.title)}</a><span class="label">${t.kindProject}</span></li>`).join("")}
+                ${e.papers.map((p) => `<li class="gl-w gl-paper"><a href="${escapeHtml(href(p.url))}">${escapeHtml(p.title.split(":")[0])}</a><span class="label">${t.kindPaper}</span></li>`).join("")}
+              </ul>
+            </dd>
+          </div>`).join("")}
+        </dl>
+      </div>`).join("")}
+    <p class="gl-none" hidden>${t.noConcept}</p>`;
+  root.append(glossEl);
+  glossEl.querySelector(".gl-az").addEventListener("click", (e) => {
+    const b = e.target.closest("button");
+    if (b) glossEl.querySelector(`.gl-l[data-l="${b.dataset.l}"]`)?.scrollIntoView({ behavior: reduce() ? "auto" : "smooth", block: "start" });
+  });
+
+  // The filter reaches the glossary too: projects that stop matching drop out, papers stay
+  // only while no collection or tool is chosen (they have neither), and an emptied concept
+  // or letter closes.
+  function filterGlossary(ok) {
+    const papersOn = !state.kind && !state.stack;
+    let any = false;
+    for (const e of glossEl.querySelectorAll(".gl-e")) {
+      let n = 0;
+      for (const li of e.querySelectorAll(".gl-w")) {
+        const on = li.classList.contains("gl-paper") ? papersOn : ok(projects[li.dataset.i]);
+        li.hidden = !on;
+        n += on;
+      }
+      e.hidden = !n;
+      e.querySelector(".gl-n").textContent = t.works(n);
+      any ||= n > 0;
+    }
+    for (const l of glossEl.querySelectorAll(".gl-l")) l.hidden = !l.querySelector(".gl-e:not([hidden])");
+    for (const b of glossEl.querySelectorAll(".gl-az button")) b.disabled = glossEl.querySelector(`.gl-l[data-l="${b.dataset.l}"]`).hidden;
+    glossEl.querySelector(".gl-none").hidden = any;
+  }
+
   function rowHtml(p) {
     return `
       <a class="ix k-${p.kind}" href="${escapeHtml(p.url)}" data-i="${projects.indexOf(p)}" data-id="${escapeHtml(p.id)}">
@@ -82,7 +148,7 @@ export async function mountIndexPage(root) {
         <span class="ic-cap">
           <span class="ic-no mono">No.&nbsp;${no(p)}</span>
           <span class="ic-title">${escapeHtml(p.title)}</span>
-          <span class="ic-med">${kindName(p.kind)} ·${p.stack.map(escapeHtml).join(", ")}</span>
+          <span class="ic-med">${kindName(p.kind)} &middot; ${p.stack.map(escapeHtml).join(", ")}</span>
         </span>
       </a>`;
   }
@@ -225,18 +291,22 @@ export async function mountIndexPage(root) {
       total += m;
     }
     count.textContent = t.shown(total, projects.length);
+    filterGlossary(ok);
     lean();
   }
 
   // ——— List or images ———
   let view = "list";
-  try { view = localStorage.getItem("index-view") === "grid" ? "grid" : "list"; } catch {}
+  try { view = ["grid", "gloss"].includes(localStorage.getItem("index-view")) ? localStorage.getItem("index-view") : "list"; } catch {}
   function setView(v, animate) {
     view = v;
     root.classList.toggle("is-grid", v === "grid");
+    root.classList.toggle("is-gloss", v === "gloss");
     viewsEl.querySelectorAll("button").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.v === v)));
     try { localStorage.setItem("index-view", v); } catch {}
-    if (animate && !reduce()) {
+    if (animate && !reduce() && v === "gloss") {
+      glossEl.animate([{ opacity: 0, transform: "translateY(10px)" }, { opacity: 1, transform: "none" }], { duration: 360, easing: "cubic-bezier(0.2, 0.8, 0.2, 1)" });
+    } else if (animate && !reduce()) {
       for (const sec of chapters) {
         if (sec.hidden) continue;
         sec.querySelector(v === "grid" ? ".ix-grid" : ".ix-list").animate(
@@ -286,7 +356,7 @@ export async function mountIndexPage(root) {
     focus.open(i);
   };
   root.addEventListener("click", (e) => {
-    const a = e.target.closest(".ix, .ic");
+    const a = e.target.closest(".ix, .ic, .ig");
     if (!a || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
     e.preventDefault();
     openCard(Number(a.dataset.i));

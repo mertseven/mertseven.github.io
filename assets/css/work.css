@@ -223,7 +223,34 @@
 :root[data-theme="dark"] .ic-img img { filter: grayscale(1) contrast(1.15) brightness(0.85); mix-blend-mode: normal; }
 :root[data-theme="dark"] .ic-img::after { background-image: radial-gradient(rgba(236, 238, 243, 0.4) 0.85px, transparent 1.15px); mix-blend-mode: normal; opacity: 0.35; }
 
+/* ——— Glossary: the concepts behind the work, letter by letter ——— */
+
+.ix-gloss { display: none; }
+.work.is-gloss .ix-gloss { display: block; }
+.work.is-gloss .chapter { display: none; }
+.gl-e[hidden], .gl-l[hidden], .gl-w[hidden] { display: none; }
+.gl-az { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 var(--s-5); }
+.gl-az button { display: grid; place-items: center; width: 32px; height: 32px; padding: 0; border: 1px solid var(--line); border-radius: 999px; background: none; font: inherit; font-size: var(--text-xs); color: var(--ink-2); cursor: pointer; }
+.gl-az button:hover { border-color: var(--ink); color: var(--ink); }
+.gl-az button:disabled { opacity: 0.35; cursor: default; border-color: var(--line); color: var(--ink-3); }
+.gl-l { display: grid; grid-template-columns: 7rem minmax(0, 1fr); gap: var(--s-5); padding: var(--s-5) 0; border-top: 1px solid var(--line); scroll-margin-top: 24px; }
+.gl-letter { font-family: var(--font-serif); font-style: italic; font-size: clamp(3.5rem, 2rem + 4vw, 6rem); line-height: 0.8; color: var(--ink-3); }
+.gl-l dl { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s-5) var(--s-6); margin: 0; }
+.gl-e dt { display: flex; align-items: baseline; justify-content: space-between; gap: var(--s-3); }
+.gl-term { font-size: clamp(1.5rem, 1rem + 1.2vw, 2.2rem); font-weight: var(--weight-light); letter-spacing: var(--tracking-display); line-height: 1.1; }
+.gl-e:hover .gl-term { font-family: var(--font-serif); font-style: italic; }
+.gl-n { flex: none; font-size: 0.6875rem; color: var(--ink-3); }
+.gl-e dd { margin: 6px 0 0; }
+.gl-e dd p { margin: 0 0 10px; font-size: var(--text-sm); line-height: 1.5; color: var(--ink-2); }
+.gl-e ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 4px; }
+.gl-w { display: flex; justify-content: space-between; gap: var(--s-3); font-size: var(--text-xs); }
+.gl-w a { color: var(--ink); text-decoration: underline; text-decoration-color: var(--line-strong); text-underline-offset: 3px; }
+.gl-w a:hover { text-decoration-color: var(--ink); }
+.gl-none { margin: var(--s-6) 0; color: var(--ink-3); }
+
 @media (max-width: 760px) {
+  .gl-l { grid-template-columns: 1fr; gap: var(--s-3); }
+  .gl-l dl { grid-template-columns: 1fr; }
   .ix {
     grid-template-columns: 2rem 1.4rem minmax(0, 1fr);
     grid-template-areas: "no mk title" ". . meta";

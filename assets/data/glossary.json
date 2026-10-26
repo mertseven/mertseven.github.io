@@ -1,0 +1,21 @@
+{
+  "note": "The concepts behind the work, for the Glossary view on /work/. `term` is matched, as a whole word, against project topics and paper keywords and titles; `en` and `tr` are what each language shows.",
+  "terms": [
+    { "term": "AI", "en": { "label": "AI", "def": "Systems that predict, generate or decide; here mostly something to teach with, and to question." }, "tr": { "label": "Yapay zekâ", "def": "Tahmin eden, üreten ya da karar veren sistemler; burada çoğunlukla öğretirken kullanılan ve sorgulanan bir şey." } },
+    { "term": "AR", "en": { "label": "AR", "def": "Digital layers laid over the place you stand in." }, "tr": { "label": "Artırılmış gerçeklik", "def": "Bulunduğun yerin üstüne serilen dijital katmanlar." } },
+    { "term": "Co-presence", "en": { "label": "Co-presence", "def": "Being with others, and the many ways screens and masks change it." }, "tr": { "label": "Birlikte bulunma", "def": "Başkalarıyla birlikte olmak ve ekranların, maskelerin bunu nasıl değiştirdiği." } },
+    { "term": "Cultural globalization", "en": { "label": "Cultural globalization", "def": "Global forms that cast local shadows." }, "tr": { "label": "Kültürel küreselleşme", "def": "Yerel gölgeler düşüren küresel biçimler." } },
+    { "term": "Data", "en": { "label": "Data", "def": "Records made legible: counted, mapped, drawn." }, "tr": { "label": "Veri", "def": "Okunur hale getirilmiş kayıtlar: sayılmış, haritalanmış, çizilmiş." } },
+    { "term": "Education", "en": { "label": "Education", "def": "Learning by building; the classroom as a studio." }, "tr": { "label": "Eğitim", "def": "Yaparak öğrenmek; atölye olarak sınıf." } },
+    { "term": "Extended reality", "en": { "label": "Extended reality", "def": "AR, VR and everything between them." }, "tr": { "label": "Genişletilmiş gerçeklik", "def": "AR, VR ve ikisinin arasındaki her şey." } },
+    { "term": "Homophily", "en": { "label": "Homophily", "def": "Birds of a feather: why networks fill up with people like us." }, "tr": { "label": "Homofili", "def": "Benzer benzeri sever: ağların neden bize benzeyenlerle dolduğu." } },
+    { "term": "Interaction", "en": { "label": "Interaction", "def": "What a system does back when you do something to it." }, "tr": { "label": "Etkileşim", "def": "Bir sisteme bir şey yaptığında onun sana geri yaptığı." } },
+    { "term": "Journalism", "en": { "label": "Journalism", "def": "Finding out, checking and telling, now with data and code." }, "tr": { "label": "Gazetecilik", "def": "Bulmak, doğrulamak ve anlatmak; artık veri ve kodla." } },
+    { "term": "Mapping", "en": { "label": "Mapping", "def": "Putting knowledge in space so it can be walked through." }, "tr": { "label": "Haritalama", "def": "Bilgiyi içinde dolaşılabilsin diye mekâna yerleştirmek." } },
+    { "term": "Misinformation", "en": { "label": "Misinformation", "def": "False claims that travel on trust." }, "tr": { "label": "Yanlış bilgi", "def": "Güvene binerek yayılan yanlış iddialar." } },
+    { "term": "Networks", "en": { "label": "Networks", "def": "Things known by their connections." }, "tr": { "label": "Ağlar", "def": "Bağlantılarıyla bilinen şeyler." } },
+    { "term": "Philosophy", "en": { "label": "Philosophy", "def": "Old questions about knowing, asked again with new media." }, "tr": { "label": "Felsefe", "def": "Bilmeye dair eski sorular, yeni medyayla yeniden." } },
+    { "term": "Real-time", "en": { "label": "Real-time", "def": "Many people, one moment, one shared screen." }, "tr": { "label": "Gerçek zamanlı", "def": "Çok kişi, tek an, ortak bir ekran." } },
+    { "term": "Testimony", "en": { "label": "Testimony", "def": "Knowing something because someone told you: the epistemology of trust." }, "tr": { "label": "Tanıklık", "def": "Bir şeyi biri söylediği için bilmek: güvenin epistemolojisi." } }
+  ]
+}
