@@ -1,0 +1,73 @@
+{
+  "shared": {
+    "name": "Mert Seven",
+    "email": "mert.seven@yasar.edu.tr",
+    "phone": "+90 232 570 84 68",
+    "cv": "/MertSeven_CV.pdf",
+    "portrait": "/images/portrait.jpg",
+    "links": [
+      { "label": "Google Scholar", "href": "https://scholar.google.com/citations?user=qBnYCMsAAAAJ&hl=en" },
+      { "label": "ORCID", "href": "https://orcid.org/0000-0002-7958-2407" },
+      { "label": "GitHub", "href": "https://github.com/mertseven" },
+      { "label": "LinkedIn", "href": "https://www.linkedin.com/in/mert-seven-b31621248" },
+      { "label": "SoundCloud", "href": "https://on.soundcloud.com/HUA158qkwuKAbopF4K" }
+    ],
+    "teaching": [
+      "Interactive Media Applications",
+      "Journalism Studio",
+      "New Media Graduation Project",
+      "Technology and Epistemology",
+      "Mobile Applications in New Media",
+      "Web Applications for New Media",
+      "Digital Culture Investigations",
+      "Computational Thinking",
+      "New Media and Communication Technologies"
+    ]
+  },
+  "en": {
+    "label": "About",
+    "lead": "A new media scholar and <em>digital crafter</em>, building interactive systems as a form of <em>critical inquiry</em>.",
+    "role": "Assistant Professor, Department of New Media and Communication, Yaşar University, İzmir.",
+    "body": [
+      "I design and build interactive systems that turn abstract theories of digital culture into tangible, explorable experiences. My work, this website included, is a living artifact: a place to look at how technology shapes what we perceive and what we know.",
+      "Grounded in sociology and a PhD in Communication Research, I approach new media not as a set of tools but as a system of logic, to be used and questioned at once."
+    ],
+    "open": "Always open to new projects, research collaborations and invitations to speak.",
+    "education": [
+      { "years": "2016–2024", "title": "PhD, Communication Research", "place": "Ege University, Graduate School of Social Sciences" },
+      { "years": "2011–2015", "title": "BA, Sociology (full scholarship)", "place": "İzmir University of Economics" }
+    ],
+    "work": [
+      { "years": "2026–", "title": "Assistant Professor", "place": "Yaşar University, New Media and Communication" },
+      { "years": "2018–2025", "title": "Research Assistant", "place": "Yaşar University, New Media and Communication" },
+      { "years": "2017–2018", "title": "Research Assistant", "place": "Yaşar University, New Media and Journalism" }
+    ],
+    "rows": { "now": "Now", "practice": "Practice", "teaching": "Teaching", "education": "Education", "experience": "Experience", "papers": "Selected papers", "elsewhere": "Elsewhere", "contact": "Contact" },
+    "allPapers": "All papers →",
+    "cv": "Full CV (PDF)",
+    "place": "Yaşar University, İzmir, Türkiye"
+  },
+  "tr": {
+    "label": "Hakkında",
+    "lead": "Etkileşimli sistemleri bir <em>eleştirel sorgulama</em> biçimi olarak kuran bir yeni medya araştırmacısı ve <em>dijital zanaatkâr</em>.",
+    "role": "Dr. Öğretim Üyesi, Yeni Medya ve İletişim Bölümü, Yaşar Üniversitesi, İzmir.",
+    "body": [
+      "Dijital kültürün soyut kuramlarını elle tutulur, keşfedilebilir deneyimlere dönüştüren etkileşimli sistemler tasarlıyor ve yapıyorum. Bu site de dahil, işlerim yaşayan birer nesne: teknolojinin neyi algıladığımızı ve neyi bildiğimizi nasıl biçimlendirdiğine bakmak için bir yer.",
+      "Sosyoloji temelim ve iletişim araştırmaları alanındaki doktoramla yeni medyaya bir araçlar bütünü olarak değil, hem kullanılacak hem sorgulanacak bir mantık sistemi olarak yaklaşıyorum."
+    ],
+    "open": "Yeni projelere, araştırma iş birliklerine ve konuşma davetlerine her zaman açığım.",
+    "education": [
+      { "years": "2016–2024", "title": "Doktora, İletişim Araştırmaları", "place": "Ege Üniversitesi, Sosyal Bilimler Enstitüsü" },
+      { "years": "2011–2015", "title": "Lisans, Sosyoloji (tam burslu)", "place": "İzmir Ekonomi Üniversitesi" }
+    ],
+    "work": [
+      { "years": "2026–", "title": "Dr. Öğretim Üyesi", "place": "Yaşar Üniversitesi, Yeni Medya ve İletişim" },
+      { "years": "2018–2025", "title": "Araştırma Görevlisi", "place": "Yaşar Üniversitesi, Yeni Medya ve İletişim" },
+      { "years": "2017–2018", "title": "Araştırma Görevlisi", "place": "Yaşar Üniversitesi, Yeni Medya ve Gazetecilik" }
+    ],
+    "rows": { "now": "Şimdi", "practice": "Yaklaşım", "teaching": "Dersler", "education": "Eğitim", "experience": "Deneyim", "papers": "Seçili yayınlar", "elsewhere": "Başka yerlerde", "contact": "İletişim" },
+    "allPapers": "Bütün yayınlar →",
+    "cv": "Özgeçmiş (PDF)",
+    "place": "Yaşar Üniversitesi, İzmir, Türkiye"
+  }
+}

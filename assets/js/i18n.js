@@ -7,7 +7,7 @@ export const lang = document.documentElement.lang === "tr" ? "tr" : "en";
 
 // Pages that exist in both languages. Links to any other page keep the English address
 // until that page has a Turkish one.
-const BOTH = ["/", "/work/", "/search/", "/research/"];
+const BOTH = ["/", "/work/", "/search/", "/research/", "/about/"];
 
 /** The address of `path` in this page's language, keeping its query and hash. */
 export function href(path) {
