@@ -526,3 +526,5 @@ export const VARIANTS = [
   },
 ];
 export const ALL = { LIBS, CATS, labels };
+// For tensor.js: the same land, seen as a box.
+export const K = { LIBS, CATS, CAT_KEYS, RGB, X0, X1, Y0, Y1, GW, GH, iso, camera, hData, mix, css, clamp, rng, gauss, labels };

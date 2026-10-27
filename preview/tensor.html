@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="tr" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tensör Üslupları</title>
+  <meta name="robots" content="noindex">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,400;1,9..40,500&family=Geist:wght@400;500&family=Geist+Mono:wght@400&display=swap">
+  <link rel="stylesheet" href="/assets/css/tokens.css">
+  <link rel="stylesheet" href="/assets/css/base.css">
+  <link rel="stylesheet" href="/preview/salon.css">
+  <link rel="stylesheet" href="/preview/topo.css">
+</head>
+<body class="tp-page" data-set="./tensor.js">
+  <header class="bar">
+    <div class="bar-top">
+      <h1>Tensör uzayı <span>· yirmi üslup, aynı kutu</span></h1>
+      <a class="label" href="/preview/topo.html">yirmi harita ↗</a>
+    </div>
+    <p class="about">Haritaların sekizincisi, yirmi farklı elden. Sahne hep aynı: zemini t-SNE haritası ve eş yükselti eğrileri olan bir kutu, yüksekliği yıl; her kütüphane zemine bir iple bağlı bir nokta. Değişen yalnız üslup. Birine tıkla: büyük açılır, üzerine gelince kütüphanenin adı çıkar, sürükleyince kutu döner.</p>
+  </header>
+
+  <main class="tp-grid" id="grid"></main>
+
+  <dialog class="tv" id="view" aria-label="Büyük harita">
+    <div class="tv-head">
+      <p class="tv-title"></p>
+      <div class="tv-acts"><button type="button" class="tv-prev" aria-label="Önceki">←</button><button type="button" class="tv-next" aria-label="Sonraki">→</button><button type="button" class="tv-close" aria-label="Kapat">×</button></div>
+    </div>
+    <div class="tv-stage"><canvas class="tv-base"></canvas><canvas class="tv-top"></canvas><p class="tv-tip" hidden></p></div>
+    <p class="tv-note"></p>
+  </dialog>
+
+  <script type="module" src="/preview/topo-page.js"></script>
+</body>
+</html>

@@ -1,7 +1,8 @@
-// The gallery for topo.html: twenty small maps, each opens large with names and a pointer.
+// The gallery for topo.html and tensor.html: twenty small maps, each opens large with names and a pointer.
 // Static ones draw once; the moving ones only move while hovered or open.
 
-import { VARIANTS, ASPECT, ALL } from "./topo.js";
+// The set comes from the page: topo.js by default, tensor.js for the tensor styles.
+const { VARIANTS, ASPECT, ALL } = await import(document.body.dataset.set || "./topo.js");
 
 const { LIBS, CATS, labels } = ALL;
 const grid = document.getElementById("grid");
