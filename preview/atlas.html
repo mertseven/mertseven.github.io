@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="tr" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Atlas Yenileme</title>
+  <meta name="robots" content="noindex">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,400&family=Geist:wght@400;500&family=Geist+Mono:wght@400&display=swap">
+  <link rel="stylesheet" href="/assets/css/tokens.css">
+  <link rel="stylesheet" href="/assets/css/base.css">
+  <link rel="stylesheet" href="/preview/salon.css">
+  <link rel="stylesheet" href="/preview/ima.css">
+  <link rel="stylesheet" href="/preview/atlas.css">
+</head>
+<body class="ima-pg">
+  <header class="bar">
+    <div class="bar-top">
+      <h1>Etkileşim Atlası <span>· dört yön, aynı 162 kütüphane</span></h1>
+      <a class="label" href="/etkilesim-atlas.html">bugünkü atlas ↗</a>
+    </div>
+    <div class="modes" id="controls"></div>
+    <p class="about" id="note"></p>
+  </header>
+
+  <div class="ax" id="app">
+    <div class="ax-top">
+      <a class="ax-lock" href="/preview/ima.html" aria-label="IMA map."></a>
+      <div class="ax-head"><p class="ax-title">Etkileşim Atlası</p><p class="ax-count"></p></div>
+      <label class="ax-search"><span class="label">Ara</span><input type="search" placeholder="Leaflet, ses, harita…" autocomplete="off"></label>
+    </div>
+    <div class="ax-cats" role="group" aria-label="Kümeler"></div>
+    <div class="ax-body">
+      <main class="ax-stage" id="stage"></main>
+      <aside class="ax-drawer" id="drawer" aria-hidden="true"></aside>
+    </div>
+  </div>
+
+  <script type="module" src="/preview/atlas.js"></script>
+</body>
+</html>
