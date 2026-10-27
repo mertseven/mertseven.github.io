@@ -1,0 +1,102 @@
+/* IMA umbrella preview (ima.html). The lab's identity: petrol on white, DM Sans. */
+
+@font-face { font-family: "IMA Brand DM Sans"; font-weight: 700; font-display: swap; src: url("/ima/lab/assets/fonts/brand-dm-sans-700.woff2") format("woff2"); }
+.ima-pg { --petrol: #286375; --ima-ink: #14262d; --ima-ink-2: #44575e; --ima-line: rgba(40, 99, 117, 0.18); --ima-paper: #fbfaf7; font-family: "DM Sans", system-ui, sans-serif; color: var(--ima-ink); background: var(--ima-paper); }
+.ima-pg a { color: inherit; text-decoration: none; }
+
+/* The lockup */
+.ima-lock { display: inline-flex; align-items: center; gap: 12px; color: var(--petrol); }
+.ima-mk { display: block; width: 58px; height: auto; flex: none; }
+.ima-type { display: grid; font-family: "IMA Brand DM Sans", "DM Sans", sans-serif; font-weight: 700; }
+.ima-title { font-size: 11px; line-height: 1.2; letter-spacing: -0.015em; }
+.ima-suffix { margin-top: 2px; font-size: 28px; line-height: 0.95; letter-spacing: -0.065em; }
+.ima-course { margin-top: 4px; font-size: 12px; letter-spacing: 0.04em; opacity: 0.7; }
+.ima-lock.is-big { gap: 16px; }
+.ima-lock.is-big .ima-mk { width: 96px; }
+.ima-lock.is-big .ima-title { font-size: 15px; }
+.ima-lock.is-big .ima-suffix { font-size: 44px; }
+.ima-lock.is-big .ima-course { font-size: 14px; }
+.ima-lock.is-dim { color: #a5adb1; }
+
+/* The family and the atlas mock */
+.ima-sec { max-width: 1200px; margin: 0 auto; padding: var(--s-6) var(--gutter); }
+.ima-sec > .label { display: block; margin-bottom: var(--s-4); color: var(--ima-ink-2); }
+.fam { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1px; background: var(--ima-line); border: 1px solid var(--ima-line); }
+.fam figure { display: grid; gap: 14px; justify-items: start; margin: 0; padding: 24px; background: #fff; }
+.fam figcaption { font-size: 12px; color: var(--ima-ink-2); }
+.atlas-mock { display: grid; grid-template-columns: 280px minmax(0, 1fr); margin-top: var(--s-5); border: 1px solid var(--ima-line); background: #1d1b1f; color: #ecebe6; }
+.atlas-side { display: grid; align-content: start; gap: 10px; padding: 20px; background: #161519; }
+.atlas-side .ima-lock { color: #9fd0de; }
+.atlas-side .ima-mk { filter: brightness(1.6) saturate(0.7); }
+.atlas-k { margin: 12px 0 0; font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.08em; color: #8c8a92; }
+.atlas-side h3 { margin: 0; font-size: 26px; font-weight: 700; letter-spacing: -0.02em; }
+.atlas-side p { margin: 0; font-size: 13px; line-height: 1.5; color: #bdbab3; }
+.atlas-shot { min-height: 260px; background-size: cover; background-position: 62% 0; }
+.atlas-note { grid-column: 1 / -1; margin: 0; padding: 10px 20px; font-size: 12px; color: #bdbab3; border-top: 1px solid #2b2930; }
+
+/* The roof, in four layouts */
+.hub { border-top: 1px solid var(--ima-line); border-bottom: 1px solid var(--ima-line); }
+
+/* A · Two doors, cut in the mark's arch */
+.h-a { max-width: 1200px; margin: 0 auto; padding: var(--s-7) var(--gutter); display: grid; gap: var(--s-6); }
+.h-a-head { display: grid; gap: var(--s-4); }
+.h-a-head p { margin: 0; max-width: 60ch; font-size: 17px; line-height: 1.55; color: var(--ima-ink-2); }
+.h-a-doors { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s-5); }
+.door { display: grid; gap: 14px; }
+.door-pic { display: block; aspect-ratio: 4 / 3.4; border: 1.5px solid var(--petrol); border-radius: 50% 50% 0 0 / 34% 34% 0 0; background-color: #fff; background-size: cover; background-position: 85% 100%; filter: grayscale(1) contrast(1.05); opacity: 0.85; transition: filter 600ms var(--ease), opacity 600ms var(--ease), border-radius 700ms var(--ease); }
+.door-pic.is-map { background-position: 60% 0; }
+.door:hover .door-pic { filter: none; opacity: 1; border-radius: 50% 50% 0 0 / 40% 40% 0 0; }
+.door-cap { display: grid; gap: 8px; }
+.door-cap > span:not(.ima-lock) { font-size: 14px; line-height: 1.5; color: var(--ima-ink-2); }
+.door-cap b { font-size: 14px; color: var(--petrol); }
+
+/* B · Course cover */
+.h-b { max-width: 1200px; margin: 0 auto; padding: var(--s-7) var(--gutter); display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr); gap: var(--s-6) var(--s-7); }
+.h-b-cover { display: grid; align-content: start; gap: var(--s-4); }
+.h-b-term { margin: 0; font-family: var(--font-mono); font-size: 12px; color: var(--ima-ink-2); }
+.h-b-course { margin: 0; font-size: 20px; line-height: 1.45; }
+.h-b-weeks { margin: 0; padding: 0; list-style: none; border-top: 1.5px solid var(--petrol); }
+.h-b-weeks li { display: grid; grid-template-columns: 7rem 1fr; gap: 10px; padding: 12px 0; border-bottom: 1px solid var(--ima-line); font-size: 14px; }
+.h-b-weeks span { font-family: var(--font-mono); font-size: 12px; color: var(--ima-ink-2); }
+.h-b-weeks b { font-weight: 500; }
+.h-b-shelf { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--s-4); }
+.tool { display: grid; align-content: start; gap: 12px; padding: 20px; border: 1.5px solid var(--petrol); background: #fff; transition: background 300ms var(--ease), color 300ms var(--ease); }
+.tool > span:not(.ima-lock) { font-size: 13px; line-height: 1.5; color: var(--ima-ink-2); }
+a.tool:hover { background: var(--petrol); color: #fff; }
+a.tool:hover .ima-lock, a.tool:hover > span { color: #fff; }
+.tool.is-next { border-style: dashed; border-color: #c3c9cc; background: none; }
+
+/* C · Island and atlas, split */
+.h-c { position: relative; display: flex; height: min(76vh, 720px); min-height: 460px; }
+.half { position: relative; flex: 1; overflow: hidden; transition: flex 700ms var(--ease); }
+.half:hover { flex: 1.5; }
+.half-pic { position: absolute; inset: 0; background-size: cover; transition: transform 900ms var(--ease); }
+.half.is-lab .half-pic { background-color: #fff; background-position: 85% 100%; }
+.half.is-map { background: #1d1b1f; }
+.half.is-map .half-pic { background-position: 60% 0; opacity: 0.85; }
+.half:hover .half-pic { transform: scale(1.03); }
+.half-cap { position: absolute; left: 32px; right: 32px; bottom: 32px; display: grid; gap: 10px; max-width: 360px; padding: 18px; background: rgba(255, 255, 255, 0.92); }
+.half-cap > span:not(.ima-lock) { font-size: 13px; line-height: 1.5; color: var(--ima-ink-2); }
+.h-c-seam { position: absolute; top: 24px; left: 50%; transform: translateX(-50%); padding: 10px 12px; background: #fff; border: 1.5px solid var(--petrol); }
+.h-c-seam .ima-mk { width: 64px; }
+
+/* D · Words */
+.h-d { max-width: 1200px; margin: 0 auto; padding: var(--s-6) var(--gutter) var(--s-7); }
+.h-d header { margin-bottom: var(--s-5); }
+.word { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: var(--s-5); padding: 6px 0; border-bottom: 1.5px solid var(--petrol); color: var(--petrol); }
+.word b { font-family: "IMA Brand DM Sans", "DM Sans", sans-serif; font-weight: 700; font-size: clamp(5rem, 3rem + 9vw, 12rem); letter-spacing: -0.07em; line-height: 0.9; }
+.word > span { max-width: 34ch; font-size: 15px; line-height: 1.5; color: var(--ima-ink-2); }
+.word .ima-mk { width: 120px; opacity: 0; transform: translateX(-12px); transition: opacity 400ms var(--ease), transform 500ms var(--ease); }
+a.word:hover .ima-mk { opacity: 1; transform: none; }
+.word.is-next { color: #c3c9cc; border-bottom-style: dashed; border-bottom-color: #c3c9cc; }
+.h-d-course { max-width: 60ch; margin: var(--s-5) 0 0; font-size: 15px; line-height: 1.55; color: var(--ima-ink-2); }
+
+@media (max-width: 760px) {
+  .h-a-doors, .h-b, .h-b-shelf { grid-template-columns: 1fr; }
+  .h-c { flex-direction: column; height: auto; }
+  .half { min-height: 320px; }
+  .half:hover { flex: 1; }
+  .word { grid-template-columns: 1fr; gap: 6px; padding: 14px 0; }
+  .word .ima-mk { display: none; }
+  .atlas-mock { grid-template-columns: 1fr; }
+}
