@@ -1,0 +1,100 @@
+/* Silk curtains for the home page (perde.html). */
+
+.perde-page { display: flex; flex-direction: column; min-height: 100vh; min-height: 100dvh; }
+.drape { --g: 46px; position: relative; flex: 1; min-height: 480px; overflow: hidden; }
+
+/* The rod the curtains hang from */
+.drape::before { content: ""; position: absolute; top: 0; left: 0; right: 0; z-index: 3; height: 3px; background: var(--ink); opacity: 0.85; }
+
+.curtain {
+  position: absolute;
+  top: 3px;
+  bottom: 0;
+  left: calc(var(--i) * 25%);
+  width: calc(25% + 6px); /* a little overlap, so the sway never opens a gap between two */
+  z-index: 2;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  transition: left 1000ms cubic-bezier(0.6, 0, 0.2, 1), width 1000ms cubic-bezier(0.6, 0, 0.2, 1);
+  transition-delay: calc(var(--i) * 50ms);
+}
+.cloth { position: absolute; inset: 0; transform-origin: 50% 0; will-change: transform; }
+.cloth canvas { position: absolute; inset: 0; width: 100%; height: 100%; image-rendering: auto; }
+/* Depth: a shadow under the rod, the hem a little darker, an edge where two curtains meet. */
+.cloth::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(0, 0, 0, 0.28) 0, rgba(0, 0, 0, 0) 9%, rgba(0, 0, 0, 0) 78%, rgba(0, 0, 0, 0.18) 100%),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.22) 0, rgba(0, 0, 0, 0) 4%, rgba(0, 0, 0, 0) 96%, rgba(0, 0, 0, 0.12) 100%);
+}
+.cur-name {
+  position: absolute;
+  left: 12%;
+  right: 10%;
+  bottom: 9%;
+  z-index: 1;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: clamp(1.6rem, 0.8rem + 2.4vw, 3.4rem);
+  line-height: 1.02;
+  text-align: left;
+  color: var(--silk-ink);
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.12), 0 -1px 0 rgba(0, 0, 0, 0.12);
+  transition: opacity 400ms var(--ease);
+}
+.cur-no { position: absolute; top: 18px; left: 12%; z-index: 1; font-size: 0.6875rem; color: var(--silk-ink); opacity: 0.7; }
+.curtain:hover .cur-name, .curtain:focus-visible .cur-name { letter-spacing: 0.01em; }
+.curtain:focus-visible { outline: 2px solid var(--ink); outline-offset: -4px; }
+
+/* Drawn aside: every curtain gathered into a pleat at the left, the banner behind. */
+.drape.is-open .curtain { left: calc(var(--i) * var(--g)); width: calc(var(--g) + 4px); transition-delay: calc((3 - var(--i)) * 50ms); }
+.drape.is-open .cur-name { opacity: 0; }
+.drape.is-open .cur-no { left: 50%; transform: translateX(-50%); }
+.drape.is-open .curtain.is-current .cloth { filter: brightness(1.12); }
+.drape.is-open .curtain:not(.is-current):hover .cloth { filter: brightness(1.06); }
+
+.banner {
+  position: absolute;
+  inset: 3px 0 0 0;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+  gap: var(--s-7);
+  align-items: center;
+  padding: var(--s-7) var(--gutter) var(--s-7) calc(4 * var(--g) + var(--s-7));
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 500ms var(--ease) 300ms;
+}
+.drape.is-open .banner { opacity: 1; pointer-events: auto; }
+.bn-pic { margin: 0; aspect-ratio: 16 / 10; overflow: hidden; background: var(--paper-raised, var(--paper)); box-shadow: 0 30px 80px rgba(0, 0, 0, 0.18); }
+.bn-pic img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
+.bn-text { display: grid; gap: var(--s-4); }
+.bn-text .label { margin: 0; }
+.bn-text h2 { margin: 0; font-size: clamp(2.2rem, 1.2rem + 3vw, 4.2rem); font-weight: var(--weight-light); letter-spacing: var(--tracking-display); line-height: 1; }
+.bn-sum { margin: 0; max-width: 42ch; font-size: var(--text-md); line-height: 1.55; color: var(--ink-2); }
+.bn-meta { display: grid; grid-template-columns: 4.5rem 1fr; gap: 6px 12px; margin: 0; font-size: var(--text-sm); }
+.bn-meta dt { font-family: var(--font-mono); font-size: 0.6875rem; letter-spacing: var(--tracking-label); text-transform: uppercase; color: var(--ink-3); padding-top: 2px; }
+.bn-meta dd { margin: 0; color: var(--ink-2); }
+.bn-acts { display: flex; align-items: center; gap: var(--s-5); margin: 0; }
+.bn-open { padding: 10px 18px; border-radius: 999px; background: var(--ink); color: var(--paper); font-size: var(--text-sm); }
+.bn-close { padding: 0; border: 0; background: none; font: inherit; font-size: var(--text-sm); color: var(--ink-2); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+
+/* The palette switch, floating */
+.pal { position: fixed; right: 16px; bottom: 16px; z-index: 50; display: flex; gap: 6px; padding: 8px; border: 1px solid var(--line-strong); border-radius: 999px; background: color-mix(in srgb, var(--paper) 92%, transparent); backdrop-filter: blur(10px); }
+.pal button { height: 28px; padding: 0 12px; border: 1px solid var(--line); border-radius: 999px; background: none; font: inherit; font-size: var(--text-xs); color: var(--ink-2); cursor: pointer; }
+.pal button[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: var(--paper); }
+
+@media (max-width: 760px) {
+  .drape { --g: 30px; }
+  .cur-name { font-size: 1.3rem; left: 10%; }
+  .banner { grid-template-columns: 1fr; gap: var(--s-4); align-content: center; padding: var(--s-5) var(--gutter) var(--s-5) calc(4 * var(--g) + var(--s-4)); }
+  .bn-sum { font-size: var(--text-sm); }
+  .bn-meta { display: none; }
+}
+@media (prefers-reduced-motion: reduce) { .curtain { transition-duration: 1ms; } }
