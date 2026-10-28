@@ -70,12 +70,12 @@ def build_yerlesim(state):
 # Dile göre değişen her şey burada.
 LANGS = {
     "en": dict(out=os.path.join(os.path.dirname(HERE), "etkilesim-atlas.html"),
-               lang="en", base="", alt="tr/etkilesim-atlas.html",
+               lang="en", base="", alt="tr/etkilesim-atlas.html", path="etkilesim-atlas.html", locale="en_US",
                title="Interaction Atlas",
                desc="The {n_lib} JavaScript libraries that make interactive media possible, and {n_proj} journalism works made with them.",
                nos_p="This atlas runs entirely in the browser and needs JavaScript."),
     "tr": dict(out=os.path.join(os.path.dirname(HERE), "tr", "etkilesim-atlas.html"),
-               lang="tr", base="../", alt="../etkilesim-atlas.html",
+               lang="tr", base="../", alt="../etkilesim-atlas.html", path="tr/etkilesim-atlas.html", locale="tr_TR",
                title="Etkileşim Atlası",
                desc="İnteraktif medyayı mümkün kılan {n_lib} JavaScript kütüphanesi ve onlarla yapılmış {n_proj} gazetecilik işi.",
                nos_p="Bu atlas tamamen tarayıcıda çalışır ve JavaScript gerektirir."),
@@ -199,6 +199,9 @@ def build_standalone(fragment, n_lib, n_proj, L):
 <html lang="{L["lang"]}" data-alt="{L["alt"]}"{base}>
 <head>
 <meta charset="utf-8">
+<!-- Google tag (gtag.js): sitenin geri kalanıyla aynı ölçüm -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CS83EW7TN6"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){{dataLayer.push(arguments);}}gtag('js',new Date());gtag('config','G-CS83EW7TN6');</script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="color-scheme" content="light dark">
 <!-- iPhone Safari'de Fullscreen API yok. Orada adres cubugundan kurtulmanin
@@ -209,6 +212,16 @@ def build_standalone(fragment, n_lib, n_proj, L):
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="{L["title"]}">
 <meta name="description" content="{desc}">
+<link rel="canonical" href="{SITE}{L["path"]}">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Mert Seven">
+<meta property="og:locale" content="{L["locale"]}">
+<meta property="og:url" content="{SITE}{L["path"]}">
+<meta property="og:title" content="{L["title"]} · Mert Seven">
+<meta property="og:description" content="{desc}">
+<meta property="og:image" content="{SITE}images/webcard.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="{SITE}images/webcard.png">
 <link rel="alternate" hreflang="en" href="{SITE}etkilesim-atlas.html">
 <link rel="alternate" hreflang="tr" href="{SITE}tr/etkilesim-atlas.html">
 <link rel="icon" href="{FAVICON}">
