@@ -69,9 +69,13 @@
 }
 
 /* ——— Dragging ——— */
-/* The map selects no text while it is dragged; the sheet panel stays selectable. */
-.stage{-webkit-user-select:none;user-select:none}
-.ui-kp,.ui-kp *{-webkit-user-select:text;user-select:text}
+/* Nothing in the atlas selects as text while it is dragged, the bar above the map included
+   (a drag that began on the title used to select its way down across the map). What is
+   there to be read and copied stays selectable: the search field, the card sheet, the
+   reading notes and the comparison. */
+.app{-webkit-user-select:none;user-select:none}
+.app input,.ui-kp,.ui-kp *,.ui-how .body,.ui-how .body *,.ui-cmp-in,.ui-cmp-in *{-webkit-user-select:text;user-select:text}
+.app img,.app canvas,.app svg{-webkit-user-drag:none}
 .card{cursor:pointer}
 .stage.dragging,.stage.dragging .card{cursor:grabbing}
 /* A card held long enough to be moved by hand lifts off the map. */

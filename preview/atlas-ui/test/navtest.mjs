@@ -22,7 +22,8 @@ ws.onmessage = (m) => { const d = JSON.parse(m.data); if (d.id && pending.has(d.
 const send = (method, params = {}) => new Promise((r) => { const i = ++id; pending.set(i, r); ws.send(JSON.stringify({ id: i, method, params })); });
 const run = async (expr) => { const r = await send("Runtime.evaluate", { expression: expr, awaitPromise: true, returnByValue: true }); if (r.result?.exceptionDetails) return { error: r.result.exceptionDetails.exception?.description }; return r.result?.result?.value; };
 await send("Runtime.enable");
-await sleep(5000);
+for (let i = 0; i < 40; i++) { if (await run(`!!(window.atlas && atlas.cards)`)) break; await sleep(250); }
+await sleep(2500);
 await run(`window.__errs=[]; addEventListener('error', e => __errs.push(e.message)); 1`);
 
 const mouse = (type, x, y, extra = {}) => send("Input.dispatchMouseEvent", { type, x, y, button: "left", buttons: type === "mouseReleased" ? 0 : 1, clickCount: 1, ...extra });
@@ -33,7 +34,7 @@ async function drag(x, y, dx, dy, steps = 24, mods = 0) {
   await mouse("mouseReleased", x + dx, y + dy, { modifiers: mods });
   await sleep(250);
 }
-const state = () => run(`({ tx: atlas.view.tx, ty: atlas.view.ty, k: atlas.view.k, sel: typeof atlas.sel === "number" ? atlas.sel : -2, selText: String(getSelection()), lay: Array.from(atlas.LAY.slice(0, 324)).join(",").length + ":" + Array.from(atlas.LAY).reduce((s, v) => s + v, 0).toFixed(1) })`);
+const state = () => run(`({ tx: atlas.view.tx, ty: atlas.view.ty, k: atlas.view.k, sel: typeof atlas.sel === "number" ? atlas.sel : -2, selText: (getSelection().rangeCount && !getSelection().isCollapsed) ? (String(getSelection()) || "(non-text range)") : "", lay: Array.from(atlas.LAY.slice(0, 324)).join(",").length + ":" + Array.from(atlas.LAY).reduce((s, v) => s + v, 0).toFixed(1) })`);
 // Find points: empty ground, a card's plate, its caption text, a live demo plate.
 const spot = (what) => run(`(() => {
   const st = document.getElementById("stage").getBoundingClientRect();
@@ -83,7 +84,7 @@ await panTest("drag starting on a live demo", "live", "atlas.centerOn(66,0.75)")
   }
 }
 // Moving a card by hand: press and hold, then drag; or drag with Alt. The map stays.
-for (const [name, hold, mods] of [["press and hold a card, then drag: the card moves", 600, 0], ["Alt + drag a card: the card moves", 0, 1]]) {
+for (const [name, hold, mods] of [["Alt + drag a card: the card moves", 0, 1]]) {
   await run(`atlas.deselect && atlas.deselect(); atlas.centerOn(20,0.7); 1`); await sleep(900);
   const p = await spot("title"); const a = await state();
   await send("Input.dispatchMouseEvent", { type: "mouseMoved", x: p[0], y: p[1], modifiers: mods });
@@ -92,6 +93,41 @@ for (const [name, hold, mods] of [["press and hold a card, then drag: the card m
   await mouse("mouseReleased", p[0] + 160, p[1] + 80, { modifiers: mods }); await sleep(900);
   const b = await state();
   check(name, a.lay !== b.lay && Math.abs(b.tx - a.tx) < 2 && !b.selText, `card moved: ${a.lay !== b.lay}; map moved ${Math.round(b.tx - a.tx)}; text: ${JSON.stringify(b.selText.slice(0, 30))}`);
+}
+// Any selection at all (a range over images or canvases shows blue but has no text), for
+// drags that start outside the map too, and for double clicks.
+{
+  const sel = () => run(`(() => { const s = getSelection(); return s.rangeCount && !s.isCollapsed ? (String(s).slice(0, 40) || "(non-text range: " + (s.anchorNode?.nodeName || "") + ")") : ""; })()`);
+  const starts = {
+    "top bar title": `document.querySelector(".ui-brand b")`, "top bar counts": `document.querySelector(".ui-brand span")`,
+    "cluster ribbon note": `document.querySelector("#catNote")`, "cluster ribbon chip": `document.querySelector("#legend .cat b")`,
+    "region name on the map": `document.querySelector(".rlabel b")`, "counter (HUD)": `document.querySelector(".hud")`,
+    "overview label": `document.querySelector(".minilabel")`, "empty ground": null,
+  };
+  for (const [name, q] of Object.entries(starts)) {
+    await run(`getSelection().removeAllRanges(); atlas.deselect && atlas.deselect(); atlas.centerOn(20,0.6); document.querySelector(".ui-ribbon-show")?.click(); 1`); await sleep(500);
+    const p = q ? await run(`(() => { const e = ${q}; if (!e) return null; const r = e.getBoundingClientRect(); return r.width ? [r.left + Math.min(20, r.width / 2), r.top + r.height / 2] : null; })()`) : await spot("empty");
+    if (!p) { check(`no selection: drag from ${name}`, null, "element not shown"); continue; }
+    await drag(p[0], p[1], 300, 260, 30);
+    const s = await sel();
+    check(`no selection: drag from ${name}`, !s, s ? `selected ${JSON.stringify(s)}` : "nothing selected");
+  }
+  for (const [name, where] of [["double click on a caption", "caption"], ["double click on a title", "title"], ["triple click on a caption", "caption"]]) {
+    await run(`getSelection().removeAllRanges(); atlas.deselect && atlas.deselect(); atlas.centerOn(20,0.7); 1`); await sleep(500);
+    const p = await spot(where); const n = name.startsWith("triple") ? 3 : 2;
+    for (let c = 1; c <= n; c++) { await send("Input.dispatchMouseEvent", { type: "mousePressed", x: p[0], y: p[1], button: "left", buttons: 1, clickCount: c }); await send("Input.dispatchMouseEvent", { type: "mouseReleased", x: p[0], y: p[1], button: "left", buttons: 0, clickCount: c }); }
+    await sleep(300);
+    const s = await sel();
+    check(`no selection: ${name}`, !s, s ? `selected ${JSON.stringify(s)}` : "nothing selected");
+  }
+  // A press, a natural pause before moving (~0.5 s), then a drag: should still pan.
+  await run(`getSelection().removeAllRanges(); atlas.deselect && atlas.deselect(); atlas.centerOn(20,0.7); 1`); await sleep(600);
+  const p = await spot("caption"); const a = await state();
+  await mouse("mousePressed", p[0], p[1]); await sleep(500);
+  for (let s = 1; s <= 20; s++) { await mouse("mouseMoved", p[0] + s * 12, p[1] + s * 5); await sleep(12); }
+  await mouse("mouseReleased", p[0] + 240, p[1] + 100); await sleep(300);
+  const b = await state();
+  check("press, pause half a second, then drag: the map pans", Math.abs(b.tx - a.tx - 240) < 6 && a.lay === b.lay, `map moved ${Math.round(b.tx - a.tx)} of 240; card moved: ${a.lay !== b.lay}`);
 }
 // Mouse released outside the window.
 {
@@ -150,7 +186,16 @@ for (const [name, hold, mods] of [["press and hold a card, then drag: the card m
   await send("Input.dispatchTouchEvent", { type: "touchEnd", touchPoints: [] }); await sleep(300);
   const b = await state();
   check("touch: one-finger pan starting on a card", Math.abs(b.tx - a.tx - 200) < 8 && a.lay === b.lay, `map moved ${Math.round(b.tx - a.tx)},${Math.round(b.ty - a.ty)} of 200,100; card moved: ${a.lay !== b.lay}`);
-  const c = { x: 700, y: 450 }; const k0 = b.k;
+  {
+    await run(`atlas.centerOn(20,0.6); 1`); await sleep(500);
+    const q = await spot("title"); const a2 = await state();
+    await send("Input.dispatchTouchEvent", { type: "touchStart", touchPoints: [{ x: q[0], y: q[1], id: 1 }] }); await sleep(750);
+    for (let s = 1; s <= 20; s++) { await send("Input.dispatchTouchEvent", { type: "touchMove", touchPoints: [{ x: q[0] + s * 8, y: q[1] + s * 4, id: 1 }] }); await sleep(12); }
+    await send("Input.dispatchTouchEvent", { type: "touchEnd", touchPoints: [] }); await sleep(900);
+    const b2 = await state();
+    check("touch: press and hold a card, then drag: the card moves", a2.lay !== b2.lay && Math.abs(b2.tx - a2.tx) < 2, `card moved: ${a2.lay !== b2.lay}; map moved ${Math.round(b2.tx - a2.tx)}`);
+  }
+  const c = { x: 700, y: 450 }; const k0 = (await state()).k;
   await send("Input.dispatchTouchEvent", { type: "touchStart", touchPoints: [{ x: c.x - 50, y: c.y, id: 1 }, { x: c.x + 50, y: c.y, id: 2 }] });
   for (let s = 1; s <= 20; s++) { await send("Input.dispatchTouchEvent", { type: "touchMove", touchPoints: [{ x: c.x - 50 - s * 6, y: c.y, id: 1 }, { x: c.x + 50 + s * 6, y: c.y, id: 2 }] }); await sleep(12); }
   await send("Input.dispatchTouchEvent", { type: "touchEnd", touchPoints: [] }); await sleep(500);

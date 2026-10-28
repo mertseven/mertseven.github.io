@@ -2069,8 +2069,8 @@ stage.addEventListener("pointerdown",e=>{
     dragged=0;
     const el=e.target.closest(".card");
     const guard=e.target.closest('.sheet,.gate,a,.mini,.wing,.expand,.plate[data-live] .live');
-    /* Sürükleme her yerde haritayı kaydırır ve yazı seçmez. Kartı elle taşımak için
-       üstüne basılı tutulur (ya da Alt ile sürüklenir); kart o zaman kalkar. */
+    /* Sürükleme her yerde haritayı kaydırır ve yazı seçmez. Kart elle Alt ile sürüklenerek
+       taşınır; dokunmatikte üstüne basılı tutulur. Kart o zaman kalkar. */
     if(!guard) e.preventDefault();
     down={x:e.clientX,y:e.clientY,tx:view.tx,ty:view.ty};
     stage.classList.add("dragging");
@@ -2080,7 +2080,7 @@ stage.addEventListener("pointerdown",e=>{
       dragCard={i, sx:e.clientX, sy:e.clientY, lx:LAY[i*2], ly:LAY[i*2+1], armed:false};
       const lift=()=>{ if(!dragCard || dragCard.i!==i || dragged>4) return;
         dragCard.armed=true; down=null; stage.classList.remove("dragging"); el.setAttribute("data-lift",""); };
-      if(e.altKey) lift(); else liftT=setTimeout(lift, e.pointerType==="touch" ? 450 : 380);
+      if(e.altKey) lift(); else if(e.pointerType==="touch") liftT=setTimeout(lift, 550);
     }
   }
   else if(ptrs.size===2){ const p=[...ptrs.values()]; pinch=Math.hypot(p[0].x-p[1].x,p[0].y-p[1].y); down=null; dragCard=null; }
@@ -3068,14 +3068,14 @@ const DEMOS = {
     });
     /* Yerleşim, tuval ölçüsü kesinleştikten sonra çalışmalı; yoksa
        düğümler tek bir çizgiye dizilip çöküyor. */
-    let dead=false, running=false;
+    let dead=false, running=false, cur=null;
     const run=()=>{
       if(dead) return;
       try{
         cy.resize();
         const lo=cy.layout({name:"cose",animate:true,animationDuration:1500,
                             padding:S*.14,randomize:true,nodeRepulsion:9000});
-        running=true;
+        running=true; cur=lo;
         lo.on("layoutstop",()=>{ running=false; if(dead) return; try{ cy.zoom(1); cy.center(); }catch(e){} });
         lo.run();
       }catch(e){}
@@ -3083,8 +3083,10 @@ const DEMOS = {
     const t0=setTimeout(run,80);
     const iv=setInterval(run,5400);
     return ()=>{ dead=true; clearTimeout(t0); clearInterval(iv); host.innerHTML="";
-                 const end=()=>{ try{cy.destroy();}catch(e){} };
-                 if(running){ cy.one("layoutstop", ()=>setTimeout(end,120)); setTimeout(end,4000); } else end(); };
+                 const end=()=>{ try{ cy.elements().stop(true,true); cy.destroy(); }catch(e){} };
+                 let done=false; const fin=()=>{ if(!done){ done=true; end(); } };
+                 try{ if(cur) cur.stop(); }catch(e){}
+                 setTimeout(fin, running ? 1200 : 400); };
   },
 
   /* gerçek Observable Plot: tek işaret tanımı, ölçekler kendiliğinden */

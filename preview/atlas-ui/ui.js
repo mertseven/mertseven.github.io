@@ -34,7 +34,7 @@
           <li>Karta tıklayınca künyesi açılır: boyut, lisans, yıl, ne yaptığı ve en çok benzediği kütüphaneler.</li>
           <li><b>⇄</b> ile en çok üç kütüphaneyi yan yana koyup karşılaştırabilirsiniz.</li></ul>
         <h4>Gezinme</h4>
-        <p>Sürükleyerek kaydırın, tekerlekle ya da iki parmakla yakınlaşın. <kbd>/</kbd> ile arayın, <kbd>Esc</kbd> ile kapatın. Bir kartı elle yerleştirmek için üstüne basılı tutup (ya da Alt ile) sürükleyin; diğerleri ona yer açar. Adres çubuğu seçtiğiniz kütüphaneyi tutar, bağlantıyı paylaşabilirsiniz.</p>
+        <p>Sürükleyerek kaydırın, tekerlekle ya da iki parmakla yakınlaşın. <kbd>/</kbd> ile arayın, <kbd>Esc</kbd> ile kapatın. Bir kartı elle yerleştirmek için Alt tuşuna basılı tutarak sürükleyin (dokunmatik ekranda karta basılı tutun); diğerleri ona yer açar. Adres çubuğu seçtiğiniz kütüphaneyi tutar, bağlantıyı paylaşabilirsiniz.</p>
         <h4>Nasıl hesaplandı?</h4>
         <p>Her kütüphane on üç soruya verdiği cevaplarla (neyin üstüne çiziyor, hangi âlemde çalışıyor, ne kadarı hesap…) ve boyutu, yaşı, ilgisiyle bir sayı dizisine dönüşüyor. Harita bu dizilerden t-SNE ile hesaplanıyor, sonra kartlar çakışmasın diye aralanıyor. Boyut, yıldız ve yıl değerleri yaklaşık.</p>`,
       more: (n) => `ve ${n} tane daha · haritada işaretli`, none: "Bir şey bulunamadı.",
@@ -64,7 +64,7 @@
           <li>Click a card to open its details: size, licence, year, what it does and the libraries it is closest to.</li>
           <li>With <b>⇄</b> you can put up to three libraries side by side and compare them.</li></ul>
         <h4>Getting around</h4>
-        <p>Drag to pan, zoom with the wheel or two fingers. <kbd>/</kbd> searches, <kbd>Esc</kbd> closes. To place a card by hand, press and hold it (or hold Alt) and drag; the others make room. The address bar keeps the library you picked, so you can share the link.</p>
+        <p>Drag to pan, zoom with the wheel or two fingers. <kbd>/</kbd> searches, <kbd>Esc</kbd> closes. To place a card by hand, drag it with Alt held down (on a touch screen, press and hold it); the others make room. The address bar keeps the library you picked, so you can share the link.</p>
         <h4>How was it made?</h4>
         <p>Each library becomes a row of numbers from its answers to thirteen questions (what it draws on, which realm it works in, how much of it is computation…) plus its size, age and popularity. The map is computed from those rows with t-SNE, then spaced out so that no two cards overlap. Size, star and year figures are approximate.</p>`,
       more: (n) => `and ${n} more · highlighted on the map`, none: "Nothing found.",
