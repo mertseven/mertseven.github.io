@@ -158,10 +158,24 @@
       tools.append(pop("Kümeler ▾", [legend, note], "is-cats"), live, pop("Tur ▾", [tour]), museum, howBtn());
       top.append(brand, sw, tools);
     }
-    // b2 · two storeys: the clusters always in view under the bar
+    // b2 · two storeys: the clusters in view under the bar, a ribbon that can be folded away
+    // (open by default; the choice is remembered). No live-demo filter here.
     if (VAR === "b2") {
-      tools.append(live, pop("Tur ▾", [tour]), museum, howBtn());
-      const row = el("div", "ui-catrow"); row.append(legend, note);
+      const KEY = "atlas-kumeler";
+      const show = el("button", "ui-ribbon-show", "Kümeler ▾"); show.type = "button";
+      const hide = el("button", "ui-ribbon-hide", "Gizle ▴"); hide.type = "button";
+      tools.append(show, pop("Tur ▾", [tour]), museum, howBtn());
+      const row = el("div", "ui-catrow"); row.append(legend, note, hide);
+      const set = (open) => {
+        top.toggleAttribute("data-ribbon-off", !open);
+        show.setAttribute("aria-expanded", String(open)); hide.setAttribute("aria-expanded", String(open));
+        try { localStorage.setItem(KEY, open ? "1" : "0"); } catch {}
+      };
+      let open = true;
+      try { open = localStorage.getItem(KEY) !== "0"; } catch {}
+      set(open);
+      show.addEventListener("click", () => set(true));
+      hide.addEventListener("click", () => set(false));
       top.append(brand, sw, tools, row);
     }
     // b3 · the search in the middle, as the main way in
