@@ -103,6 +103,24 @@ window.KUTUPHANE = window.KUTUPHANE || {};
         { type: 'char', id: 'char.captain', at: [0.35, 0.43, 1.6], rot: [0, -0.3, 0] }
       ] },
     // ======================================================================
+    // Pazarlık Adacığı: öğrenci işi (Nihat Türkan, NMED 3203). Oyun ayrı sayfada açılır: experiments/02b-pazarlik-tezgahi
+    { id: 'place.pazarlik', version: 1, kind: 'place', place: 'pz', name: 'Pazarlık Tezgâhı', premise: 'Reciprocity', promise: 'Every action expects a response.', game: 'Pazarlık Tezgâhı', credit: 'Nihat Türkan',
+      footprint: 1.8, height: 1.9,
+      parts: [
+        disk(1.6, 0.05, { pattern: 'dots', colors: ['paper', 'warm'], repeat: [5, 5] }),
+        { type: 'box', size: [1.7, 0.5, 0.6], at: [0, 0.25, 0], paint: { pattern: 'planks', colors: ['wood', 'ink'], repeat: [3, 1] } },
+        { type: 'box', size: [1.76, 0.06, 0.66], at: [0, 0.53, 0], paint: { color: 'paper' } },
+        { type: 'cyl', r: 0.04, h: 1.5, at: [-0.88, 0.75, -0.28], paint: { color: 'ink' } },
+        { type: 'cyl', r: 0.04, h: 1.5, at: [0.88, 0.75, -0.28], paint: { color: 'ink' } },
+        { type: 'box', size: [2.0, 0.06, 1.0], at: [0, 1.55, 0.02], rot: [0.22, 0, 0], paint: { pattern: 'stripe', colors: ['hot', 'paper'], repeat: [6, 1] } },
+        { type: 'box', size: [0.34, 0.1, 0.18], at: [-0.5, 0.61, 0.08], paint: { color: 'cool' } },
+        { type: 'box', size: [0.28, 0.08, 0.16], at: [-0.1, 0.6, 0.1], paint: { color: 'cool' } },
+        { type: 'box', size: [0.3, 0.3, 0.3], at: [-1.15, 0.15, 0.55], paint: { pattern: 'planks', colors: ['wood', 'ink'], repeat: [2, 2] } },
+        { type: 'box', size: [0.26, 0.26, 0.26], at: [-1.0, 0.13, 0.9], rot: [0, 0.5, 0], paint: { pattern: 'planks', colors: ['wood', 'ink'], repeat: [2, 2] } },
+        { type: 'group', at: [1.25, 0, 0.7], parts: [lamp(0, 0, 1.0)] },
+        { type: 'char', id: 'char.captain', at: [0, 0.05, -0.65], rot: [0, 0, 0] }
+      ] },
+    // ======================================================================
     { id: 'place.beach', version: 1, kind: 'place', place: '05', name: 'Beach', premise: 'Possibility', promise: 'Design the space of possibilities, not the object.', game: 'Sand Box',
       footprint: 2.6, height: 2.0,
       parts: [
