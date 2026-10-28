@@ -140,14 +140,79 @@
     stage.appendChild(kp); // used only on a phone; on a desktop the sheet stays under the card
   }
 
-  // ——— B · a top bar, and the sheet in a drawer on the right ———
-  if (VAR === "b") {
-    const top = document.createElement("header"); top.className = "ui-top";
-    const brand = document.createElement("div"); brand.className = "ui-brand"; brand.innerHTML = `<b>Etkileşim Atlası</b><span>${A.LIBS.length} kütüphane · ${LIVE} canlı</span>`;
-    const sw = document.createElement("div"); sw.className = "ui-searchwrap"; sw.append(search, results);
-    const tools = document.createElement("div"); tools.className = "ui-tools";
-    tools.append(pop("Kümeler ▾", [$("#legend"), $("#catNote")], "is-cats"), $("#onlyLive"), pop("Tur ▾", [$("#tour")]), museum, howBtn());
-    top.append(brand, sw, tools);
+  // ——— B · a top bar, and the sheet in a drawer on the right; b2–b6 are its derivatives ———
+  if (VAR[0] === "b") {
+    const el = (tag, cls, html = "") => { const e = document.createElement(tag); e.className = cls; e.innerHTML = html; return e; };
+    const top = el("header", "ui-top");
+    const brand = el("div", "ui-brand", `<b>Etkileşim Atlası</b><span>${A.LIBS.length} kütüphane · ${LIVE} canlı</span>`);
+    const sw = el("div", "ui-searchwrap"); sw.append(search, results);
+    const tools = el("div", "ui-tools");
+    const legend = $("#legend"), note = $("#catNote"), tour = $("#tour"), live = $("#onlyLive");
+    // The tour stops and the clusters can carry their own sentence, for the variants with room for it.
+    const withNotes = () => {
+      [...legend.children].forEach((b) => b.insertAdjacentHTML("beforeend", `<em class="ui-catnote">${esc(A.CATS[b.dataset.cat].note)}</em>`));
+      [...tour.children].forEach((b, n) => b.insertAdjacentHTML("beforeend", `<em class="ui-stopnote">${esc(A.TOUR[n].d.split(". ")[0])}.</em>`));
+    };
+
+    if (VAR === "b" || VAR === "b1") {
+      tools.append(pop("Kümeler ▾", [legend, note], "is-cats"), live, pop("Tur ▾", [tour]), museum, howBtn());
+      top.append(brand, sw, tools);
+    }
+    // b2 · two storeys: the clusters always in view under the bar
+    if (VAR === "b2") {
+      tools.append(live, pop("Tur ▾", [tour]), museum, howBtn());
+      const row = el("div", "ui-catrow"); row.append(legend, note);
+      top.append(brand, sw, tools, row);
+    }
+    // b3 · the search in the middle, as the main way in
+    if (VAR === "b3") {
+      q.placeholder = "Ne yapmak istiyorsunuz? Harita, ses, fizik, D3…";
+      tools.append(pop("Kümeler", [legend, note], "is-cats"), pop("Tur", [tour]), live, museum, howBtn());
+      top.append(brand, sw, tools);
+    }
+    // b4 · tabs that open a wide panel under the bar
+    if (VAR === "b4") {
+      withNotes();
+      const tabs = el("nav", "ui-tabs"), panel = el("div", "ui-mega"); panel.hidden = true;
+      const P = {
+        kumeler: ["Kümeler", () => [el("p", "ui-mega-lead", "Bir kümeyi tıklayınca yalnız o kalır; yeniden tıklayınca hepsi döner."), legend]],
+        tur: ["Tur", () => [el("p", "ui-mega-lead", "Altı durakta atlasın söyledikleri. Her durak haritada bir yere götürür ve ilgili kartları açar."), tour]],
+        muze: ["Müze", () => [el("p", "ui-mega-lead", "Bu kütüphanelerle yapılmış 118 gazetecilik işi, Bell Labs'in Holmdel binasını örnek alan bir müzede. Dört kat, sekiz kanat; kuzey kapısından çıkınca mezuniyet projelerinin pavyonu."), museum]],
+        nasil: ["Nasıl okunur?", null],
+      };
+      const sec = {};
+      Object.entries(P).forEach(([k, [label, make]]) => {
+        const b = el("button", "ui-tab", label); b.type = "button"; b.dataset.tab = k; tabs.append(b);
+        if (make) { sec[k] = el("div", "ui-mega-sec"); sec[k].append(...make()); panel.append(sec[k]); }
+      });
+      let open = null;
+      const show = (k) => {
+        open = open === k ? null : k;
+        panel.hidden = !open;
+        Object.entries(sec).forEach(([n, s]) => { s.hidden = n !== open; });
+        tabs.querySelectorAll(".ui-tab").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.tab === open)));
+      };
+      tabs.addEventListener("click", (e) => { const b = e.target.closest(".ui-tab"); if (!b) return; if (b.dataset.tab === "nasil") { show(null); return openHow(); } show(b.dataset.tab); });
+      tour.addEventListener("click", (e) => { if (e.target.closest("[data-stop]")) show(null); });
+      museum.addEventListener("click", () => show(null));
+      addEventListener("keydown", (e) => { if (e.key === "Escape" && open) show(null); });
+      tools.append(live);
+      top.append(brand, tabs, sw, tools, panel);
+    }
+    // b5 · compact: one thin line, clusters as colour dots, search that widens when used
+    if (VAR === "b5") {
+      brand.innerHTML = `<b>Etkileşim Atlası</b>`;
+      [...legend.children].forEach((b) => { b.title = `${A.CATS[b.dataset.cat].label} · ${b.querySelector("u").textContent}`; });
+      live.innerHTML = `▶ <u>${LIVE}</u>`; live.title = "Canlı demosu olanlar";
+      tools.append(pop("Tur", [tour]), museum, howBtn());
+      top.append(brand, legend, sw, live, tools);
+    }
+    // b6 · the bar in the cards' own language: paper, ink rules, the card buttons
+    if (VAR === "b6") {
+      tools.append(live, pop("Tur ▾", [tour]), museum, howBtn());
+      const row = el("div", "ui-catrow"); row.append(legend);
+      top.append(brand, sw, tools, row);
+    }
     app.prepend(top); app.appendChild(kp);
   }
 

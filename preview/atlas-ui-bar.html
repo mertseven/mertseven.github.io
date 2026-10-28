@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="tr" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Atlas Üst Çubuk</title>
+  <meta name="robots" content="noindex">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500&family=Geist+Mono:wght@400&display=swap">
+  <link rel="stylesheet" href="/assets/css/tokens.css">
+  <link rel="stylesheet" href="/assets/css/base.css">
+  <link rel="stylesheet" href="/preview/salon.css">
+  <style>
+    .ab { max-width: 1320px; margin: 0 auto; padding: var(--s-6) var(--gutter) var(--s-8); display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 560px), 1fr)); gap: var(--s-7) var(--s-6); }
+    .ab-card { display: grid; align-content: start; gap: var(--s-3); }
+    .ab-shot { position: relative; aspect-ratio: 1440 / 560; overflow: hidden; border: 1px solid var(--line-strong); background: #1d1d1c; }
+    .ab-shot iframe { position: absolute; left: 0; top: 0; width: 1440px; height: 900px; border: 0; transform-origin: 0 0; pointer-events: none; }
+    .ab-card h2 { margin: 6px 0 0; font-size: 1.4rem; font-weight: var(--weight-medium); letter-spacing: -0.02em; }
+    .ab-card h2 .mono { margin-right: 6px; font-size: 12px; color: var(--ink-3); }
+    .ab-card p { margin: 0; color: var(--ink-2); line-height: 1.55; font-size: var(--text-sm); }
+    .ab-pc { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s-4); font-size: var(--text-sm); color: var(--ink-2); }
+    .ab-pc ul { margin: 4px 0 0; padding-left: 1em; display: grid; gap: 3px; }
+    .ab-acts { display: flex; flex-wrap: wrap; gap: 10px; }
+    .ab-acts a { padding: 7px 13px; border: 1px solid var(--ink); border-radius: 999px; font-size: var(--text-sm); }
+    .ab-acts a.is-main { background: var(--ink); color: var(--paper); }
+    @media (max-width: 640px) { .ab-pc { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <header class="bar">
+    <div class="bar-top">
+      <h1>Etkileşim Atlası <span>· üst çubuğun altı türevi</span></h1>
+      <a class="label" href="/preview/atlas-ui.html">üç yön ↗</a>
+    </div>
+    <p class="about">Hepsi aynı: harita bütün genişlikte, künye sağdan açılan çekmecede, telefonda alttan açılan sayfada. Değişen yalnız çubuğun kendisi. Küçük resimler gerçek sayfanın üst kısmı ve canlı; asıl deneme için “aç”a basın.</p>
+  </header>
+
+  <main class="ab" id="list"></main>
+
+  <script>
+    const V = [
+      { id: "b1", name: "Tek satır", hash: "",
+        d: "Önceki önizlemedeki B: ad, arama, sonra açılır menü olarak kümeler ve tur, canlı demolar, müze ve “Nasıl okunur?”. Hepsi tek satırda.",
+        pro: ["En sade, haritaya en çok yer", "Her şey bir tıkta"], con: ["Kümeler gizli; haritanın renk dili ilk bakışta okunmuyor"] },
+      { id: "b2", name: "İki kat", hash: "#d3",
+        d: "Üst katta ad, arama ve araçlar; alt katta on küme her zaman görünür etiketler olarak. Bir kümenin üzerine gelince açıklaması sağda beliriyor.",
+        pro: ["Renk ve küme bir arada, lejant da filtre de", "Kümeler tek tıkla"], con: ["Çubuk iki katına çıkıyor (~90 px)"] },
+      { id: "b3", name: "Ortada arama", hash: "",
+        d: "Arama çubuğun ortasında, geniş ve yuvarlak: atlasın ana girişi. “Ne yapmak istiyorsunuz?” diye soruyor; kümeler ve tur sağda küçük düğmeler.",
+        pro: ["Ne aradığını bilen için en hızlı yol", "Bir arama motoru gibi tanıdık"], con: ["Gezmeye gelen için harita ikinci planda kalıyor"] },
+      { id: "b4", name: "Sekmeler", hash: "",
+        d: "Çubukta sekmeler: Kümeler, Tur, Müze, Nasıl okunur. Her biri çubuğun altında geniş bir panel açıyor; kümeler açıklamalarıyla, tur durakları ilk cümleleriyle, müze ne olduğuyla.",
+        pro: ["Her bölüm kendini anlatacak yere sahip", "Öğrenci için en öğretici"], con: ["Panel açıkken haritanın üstünü örtüyor", "Bir tık daha"] },
+      { id: "b5", name: "Kompakt", hash: "",
+        d: "Tek ince satır (~40 px): kümeler on renk noktası, arama kullanırken genişliyor, canlı demolar ▶ 28. Üzerine gelince küme adı çıkıyor.",
+        pro: ["Haritaya en çok dikey yer", "Renk noktaları haritanın lejantı gibi"], con: ["Nokta tek başına bir şey söylemiyor; ad için üzerine gelmek gerek"] },
+      { id: "b6", name: "Kâğıt bant", hash: "#three",
+        d: "İki katlı düzen, ama kartların kendi dilinde: kâğıt zemin, 1,5 px mürekkep çizgisi, kartlardaki düğmeler. Çubuk haritanın üstüne yatırılmış bir kart gibi okunuyor; künye çekmecesi de aynı kâğıttan.",
+        pro: ["Atlasın dilinden doğuyor, ayrı bir arayüz gibi durmuyor", "Kümeler her zaman görünür"], con: ["Açık zeminli olduğu için koyu temada harita ile karşıtlık güçlü"] },
+    ];
+    document.getElementById("list").innerHTML = V.map((v, k) => `
+      <article class="ab-card">
+        <div class="ab-shot"><iframe src="/preview/atlas-ui/${v.id}.html${v.hash}" title="${v.name}" tabindex="-1"></iframe></div>
+        <h2><span class="mono">B${k + 1}</span>${v.name}</h2>
+        <p>${v.d}</p>
+        <div class="ab-pc"><div><b>Artısı</b><ul>${v.pro.map((x) => `<li>${x}</li>`).join("")}</ul></div><div><b>Eksisi</b><ul>${v.con.map((x) => `<li>${x}</li>`).join("")}</ul></div></div>
+        <p class="ab-acts"><a class="is-main" href="/preview/atlas-ui/${v.id}.html">Aç</a>${v.hash ? `<a href="/preview/atlas-ui/${v.id}.html${v.hash}">Seçili aç</a>` : ""}</p>
+      </article>`).join("");
+    // Each thumbnail is the top of the real page at 1440×900, scaled to its box.
+    const fit = () => document.querySelectorAll(".ab-shot").forEach((s) => { s.querySelector("iframe").style.transform = `scale(${s.clientWidth / 1440})`; });
+    new ResizeObserver(fit).observe(document.body); fit();
+  </script>
+</body>
+</html>

@@ -1,0 +1,8 @@
+/* b3 · the search in the middle, wide and round: the main way into the atlas. */
+.ui-top{grid-template-columns:minmax(0,1fr) minmax(320px,600px) minmax(0,1fr);padding:12px 18px}
+.ui-searchwrap .search input{height:44px;border-radius:22px;padding-left:40px;font-size:15px}
+.ui-searchwrap .search svg{left:16px;width:14px;height:14px}
+.ui-searchwrap .ui-results{padding:6px;border-radius:12px}
+.ui-searchwrap .ui-results button{padding:8px 10px}
+.ui-searchwrap .ui-results b{font-size:14px}
+@media (max-width:900px){.ui-top{grid-template-columns:1fr}.ui-searchwrap{order:-1}.ui-brand{order:-2}}

@@ -1,0 +1,20 @@
+/* b6 · the bar in the cards' own language: paper, a 1.5 px ink rule, the cards' buttons and
+   type. It reads as one more card laid across the top of the map. */
+.ui-top{grid-template-columns:auto minmax(220px,380px) minmax(0,1fr);row-gap:10px;background:var(--paper);color:var(--ink);border-bottom:1.5px solid var(--rule)}
+.ui-brand b{font-size:26px;letter-spacing:-.025em}
+.ui-brand span{color:var(--ink-2)}
+.ui-top .search input{background:var(--paper);border:1.5px solid var(--ink);border-radius:4px;color:var(--ink)}
+.ui-top .search input::placeholder{color:var(--ink-2)}
+.ui-top .search svg{color:var(--ink-2)}
+.ui-top .ui-popbtn,.ui-top #onlyLive,.ui-top .ui-museum{background:none!important;border:1.5px solid var(--ink)!important;border-radius:4px!important;color:var(--ink)!important;font-size:12px}
+.ui-top .ui-popbtn:hover,.ui-top #onlyLive:hover,.ui-top .ui-museum:hover,.ui-top #onlyLive[aria-pressed="true"]{background:var(--ink)!important;color:var(--paper)!important}
+.ui-top .ui-howbtn{color:var(--ink-2)}
+.ui-catrow{grid-column:1/-1;margin:0 -18px -10px;padding:8px 18px;border-top:1.5px solid var(--rule)}
+.ui-catrow #legend{flex-direction:row;flex-wrap:nowrap;gap:5px;overflow-x:auto;scrollbar-width:none}
+.ui-catrow .cat{display:inline-flex;gap:6px;padding:3px 9px;border:1.5px solid var(--ink);border-radius:4px;color:var(--ink);white-space:nowrap}
+.ui-catrow .cat:hover{background:var(--ink);color:var(--paper)}
+.ui-catrow .cat b{font-size:12px}
+.ui-catrow .cat u{font-size:9.5px;color:inherit;opacity:.6}
+.ui-catrow .cat[data-off]{opacity:.35}
+.ui-kp{border-left:1.5px solid var(--rule)!important}
+@media (max-width:900px){.ui-top{grid-template-columns:1fr}.ui-catrow{margin:0 -12px -10px;padding:8px 12px}}

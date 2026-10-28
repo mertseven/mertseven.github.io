@@ -1,0 +1,23 @@
+/* b4 · tabs in the bar; each opens a wide panel under it, with room to explain itself. */
+.ui-top{position:relative;grid-template-columns:auto auto minmax(200px,340px) auto;justify-content:start}
+.ui-tabs{display:flex;gap:2px}
+.ui-tab{padding:8px 12px;border-radius:3px;font-size:13px;font-weight:500;color:var(--ui-muted)}
+.ui-tab:hover{color:var(--ui-ink);background:var(--ui-field)}
+.ui-tab[aria-pressed="true"]{color:var(--ui-ink);background:var(--ui-field);box-shadow:inset 0 -2px 0 var(--ui-ink)}
+.ui-mega{position:absolute;left:0;right:0;top:100%;z-index:35;padding:22px 26px 26px;background:var(--rail);border-bottom:1px solid var(--rail-line);box-shadow:var(--shadow)}
+.ui-mega[hidden],.ui-mega-sec[hidden]{display:none}
+.ui-mega-lead{margin:0 0 14px;max-width:70ch;font-size:13px;color:var(--ui-muted)}
+.ui-mega #legend{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
+.ui-mega .cat{display:grid;grid-template-columns:9px 1fr auto;align-content:start;gap:4px 8px;padding:10px 12px;border:1px solid var(--rail-line);border-radius:4px}
+.ui-catnote{grid-column:1/-1;font-style:normal;font-size:11.5px;line-height:1.45;color:var(--ui-muted);font-weight:400}
+.ui-mega #tour{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.ui-mega .stop{grid-template-columns:22px 1fr;align-content:start;padding:12px;border:1px solid var(--rail-line);border-radius:4px}
+.ui-stopnote{grid-column:2;font-style:normal;font-size:11.5px;line-height:1.45;color:var(--ui-muted);margin-top:4px}
+.ui-mega .ui-museum{max-width:440px}
+@media (max-width:900px){
+  .ui-top{grid-template-columns:1fr}
+  .ui-tabs{overflow-x:auto;scrollbar-width:none}
+  .ui-tab{flex:none}
+  .ui-mega{position:fixed;top:auto;bottom:0;max-height:70dvh;overflow:auto;padding:18px 14px 26px;border-radius:14px 14px 0 0}
+  .ui-mega #legend,.ui-mega #tour{grid-template-columns:1fr}
+}

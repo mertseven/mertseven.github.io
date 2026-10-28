@@ -1,0 +1,10 @@
+/* b2 · two storeys: search and tools above, the ten clusters always in view below. */
+.ui-top{grid-template-columns:auto minmax(220px,380px) minmax(0,1fr);row-gap:10px}
+.ui-catrow{grid-column:1/-1;display:flex;align-items:center;gap:16px;min-width:0;margin:0 -18px -10px;padding:8px 18px;border-top:1px solid var(--rail-line)}
+.ui-catrow #legend{flex-direction:row;flex-wrap:nowrap;gap:4px;overflow-x:auto;scrollbar-width:none;flex:none;max-width:100%}
+.ui-catrow .cat{display:inline-flex;gap:6px;padding:3px 9px;border:1px solid var(--rail-line);border-radius:999px;white-space:nowrap}
+.ui-catrow .cat b{font-size:12px}
+.ui-catrow .cat u{font-size:9.5px}
+.ui-catrow #catNote{flex:1;min-width:0;min-height:0;margin:0;padding:0;border:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:11.5px}
+@media (max-width:1240px){.ui-catrow #catNote{display:none}}
+@media (max-width:900px){.ui-top{grid-template-columns:1fr}.ui-catrow{margin:0 -12px -10px;padding:8px 12px}}

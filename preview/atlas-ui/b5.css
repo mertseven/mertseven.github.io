@@ -1,0 +1,18 @@
+/* b5 · compact: one thin line; the clusters as ten colour dots, the search widens when used. */
+.ui-top{display:flex;align-items:center;gap:16px;padding:7px 16px}
+.ui-brand b{font-size:17px}
+.ui-top #legend{flex-direction:row;gap:2px;flex:none}
+.ui-top #legend .cat{display:grid;place-items:center;width:24px;height:24px;padding:0;border-radius:50%}
+.ui-top #legend .cat i{width:12px;height:12px}
+.ui-top #legend .cat b,.ui-top #legend .cat u{display:none}
+.ui-top #legend .cat:hover i{transform:scale(1.25)}
+.ui-searchwrap{width:220px;transition:width .3s}
+.ui-searchwrap:focus-within{width:380px}
+.ui-top #onlyLive{padding:5px 9px}
+.ui-tools{margin-left:auto}
+.ui-tools .ui-popbtn,.ui-tools .ui-museum{padding:5px 10px!important}
+@media (max-width:900px){
+  .ui-top{flex-wrap:wrap;gap:8px 10px}
+  .ui-searchwrap,.ui-searchwrap:focus-within{width:100%;order:5}
+  .ui-tools{margin-left:0;width:100%;order:6}
+}

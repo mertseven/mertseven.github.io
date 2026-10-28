@@ -83,11 +83,19 @@ const VARIANTS = [
   { id: "a", mode: "rail", title: "A · Düzenli ray" },
   { id: "b", mode: "drawer", title: "B · Üst çubuk ve çekmece" },
   { id: "c", mode: "float", title: "C · Yüzen paneller" },
+  // Derivatives of B, each adding its own stylesheet on top of b.css.
+  { id: "b1", mode: "drawer", title: "B1 · Tek satır", css: ["b"] },
+  { id: "b2", mode: "drawer", title: "B2 · İki kat", css: ["b", "b2"] },
+  { id: "b3", mode: "drawer", title: "B3 · Ortada arama", css: ["b", "b3"] },
+  { id: "b4", mode: "drawer", title: "B4 · Sekmeler", css: ["b", "b4"] },
+  { id: "b5", mode: "drawer", title: "B5 · Kompakt", css: ["b", "b5"] },
+  { id: "b6", mode: "drawer", title: "B6 · Kâğıt bant", css: ["b", "b6"] },
 ];
 for (const v of VARIANTS) {
   let html = shared(SRC, v.mode);
   html = html.replace("<title>Etkileşim Atlası</title>", `<title>Atlas · ${v.title}</title>\n<meta name="robots" content="noindex">`);
-  const inject = `\n<link rel="stylesheet" href="/preview/atlas-ui/ui.css">\n<link rel="stylesheet" href="/preview/atlas-ui/${v.id}.css">\n<script src="/preview/atlas-ui/ui.js" data-mode="${v.mode}" data-variant="${v.id}"></script>\n`;
+  const links = (v.css || [v.id]).map((c) => `<link rel="stylesheet" href="/preview/atlas-ui/${c}.css">`).join("\n");
+  const inject = `\n<link rel="stylesheet" href="/preview/atlas-ui/ui.css">\n${links}\n<script src="/preview/atlas-ui/ui.js" data-mode="${v.mode}" data-variant="${v.id}"></script>\n`;
   const at = html.lastIndexOf("</body>");
   html = at >= 0 ? html.slice(0, at) + inject + html.slice(at) : html + inject;
   writeFileSync(join(here, `${v.id}.html`), html);
