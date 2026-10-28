@@ -1,5 +1,5 @@
 import { loadCatalog, escapeHtml } from "./catalog.js?v=36fa2c107a";
-import { mark } from "./names-wall.js?v=aa8971b380";
+import { mark } from "./names-wall.js?v=35c8fe462c";
 import { mountFocus } from "./focus.js?v=1defe7310a";
 import { t, lang, href, kindName, topicName } from "./i18n.js?v=137ec0cac8";
 

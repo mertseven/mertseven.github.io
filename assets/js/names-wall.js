@@ -79,7 +79,10 @@ export async function mountNamesWall(host, projects, { onSelect } = {}) {
 
   // The constants above, unless a page sets window.NAMES_WALL (the phone previews do).
   // fill: as many rows as the height takes, rather than ROWS in the middle of it.
-  const O = { rows: ROWS, gap: GAP_EM, curveDeg: CURVE_DEG, curveDepth: CURVE_DEPTH, fill: false, ...(window.NAMES_WALL || {}) };
+  // On a phone the wall is flat and dense: four curved rows left most of the height empty
+  // and showed one and a half names to a row (font size in home.css).
+  const PHONE = matchMedia("(max-width: 700px)").matches ? { fill: true, gap: 0.5, curveDeg: 0, curveDepth: 0 } : {};
+  const O = { rows: ROWS, gap: GAP_EM, curveDeg: CURVE_DEG, curveDepth: CURVE_DEPTH, fill: false, ...PHONE, ...(window.NAMES_WALL || {}) };
 
   // ——— At rest: curved rows ———
   const curve = document.createElement("div");

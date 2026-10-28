@@ -130,4 +130,5 @@
 
 @media (max-width: 700px) {
   .names-wall { min-height: 260px; }
+  .cn { font-size: 26px; } /* with the flat, dense rows set in names-wall.js */
 }

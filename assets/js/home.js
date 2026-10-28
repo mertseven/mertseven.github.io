@@ -1,6 +1,6 @@
 import { loadCatalog, escapeHtml } from "./catalog.js?v=36fa2c107a";
 import { mountSearch } from "./search-box.js?v=d6e87dba1a";
-import { mountNamesWall } from "./names-wall.js?v=aa8971b380";
+import { mountNamesWall } from "./names-wall.js?v=35c8fe462c";
 import { mountFocus } from "./focus.js?v=1defe7310a";
 import { mountBelow } from "./home-below.js?v=b6bebdb28d";
 import { t, href } from "./i18n.js?v=137ec0cac8";
