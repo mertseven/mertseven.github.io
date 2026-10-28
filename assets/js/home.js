@@ -1,11 +1,11 @@
-import { loadCatalog, escapeHtml } from "./catalog.js?v=2d38ee3fe9";
-import { mountSearch } from "./search-box.js?v=f16dd2b06f";
-import { mountNamesWall } from "./names-wall.js?v=736153637d";
-import { mountFocus } from "./focus.js?v=de1a826d9c";
-import { mountBelow } from "./home-below.js?v=bc160427fb";
-import { t, href } from "./i18n.js?v=f87d481c3f";
-import "./theme.js?v=78b07b7bd1";
-import "./lang.js?v=d6b9267e72";
+import { loadCatalog, escapeHtml } from "./catalog.js?v=749998b479";
+import { mountSearch } from "./search-box.js?v=e184dd5591";
+import { mountNamesWall } from "./names-wall.js?v=7c2f41b225";
+import { mountFocus } from "./focus.js?v=83ed1b4fbd";
+import { mountBelow } from "./home-below.js?v=e2f98a9575";
+import { t, href } from "./i18n.js?v=7d31a14007";
+import "./theme.js?v=93e79f6375";
+import "./lang.js?v=487e9aa150";
 
 // Home: the name wall over the question and the search. Typing turns the matching projects
 // into a drum of names (↑ ↓ or the wheel turn it, Enter opens the one in front); a plain
@@ -71,6 +71,40 @@ input.addEventListener("keydown", (e) => {
     focus?.open(i);
   }
 });
+
+// On a phone the keyboard covers half the screen and the browser scrolls the box up to it,
+// taking the drum off the top. While typing, the wall and the box sit pinned to the part of
+// the screen the keyboard leaves (the visual viewport); the question and the header step
+// aside for them. When the keyboard goes, the page is put back at its top.
+const phone = matchMedia("(max-width: 700px) and (pointer: coarse)");
+const vv = window.visualViewport;
+const root = document.documentElement;
+const fit = () => {
+  root.style.setProperty("--vvh", `${vv.height}px`);
+  root.style.setProperty("--vvt", `${vv.offsetTop}px`);
+};
+const keyboardGone = () => vv.height > innerHeight * 0.85;
+const leave = () => {
+  if (!root.classList.contains("is-typing") || document.activeElement === input || !keyboardGone()) return;
+  root.classList.remove("is-typing");
+  scrollTo(0, 0);
+};
+if (vv) {
+  input.addEventListener("focus", () => {
+    if (!phone.matches) return;
+    fit();
+    root.classList.add("is-typing");
+  });
+  // A keyboard that never came up (or has already gone) sends no resize to wait for.
+  input.addEventListener("blur", () => setTimeout(leave, 600));
+  const follow = () => {
+    if (!root.classList.contains("is-typing")) return;
+    fit();
+    leave();
+  };
+  vv.addEventListener("resize", follow);
+  vv.addEventListener("scroll", follow);
+}
 
 loadCatalog()
   .then(async ({ projects, publications }) => {

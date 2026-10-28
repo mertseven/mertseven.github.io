@@ -1,5 +1,5 @@
-import { escapeHtml } from "./catalog.js?v=2d38ee3fe9";
-import { t, kindName } from "./i18n.js?v=f87d481c3f";
+import { escapeHtml } from "./catalog.js?v=749998b479";
+import { t, kindName } from "./i18n.js?v=7d31a14007";
 
 // The home page's name wall. At rest every project's name, with its mark, drifts in rows
 // bent like a cinema screen. Asked something, the names behind blur and the matches stand
@@ -170,6 +170,7 @@ export async function mountNamesWall(host, projects, { onSelect } = {}) {
   let R = 0;
   let left = 0;  // shared left edge of every name on the drum
   let front = -1;
+  let scale = 1; // the drum shrinks to fit a narrow screen
 
   const fill = (ids, q) => {
     axis.replaceChildren();
@@ -197,7 +198,8 @@ export async function mountNamesWall(host, projects, { onSelect } = {}) {
     // shrinks until the widest name fits.
     const widest = Math.max(...dn.map((d) => d.w));
     left = -widest / 2;
-    axis.style.transform = `scale(${Math.min(1, (host.clientWidth * 0.92) / widest).toFixed(3)})`;
+    scale = Math.min(1, (host.clientWidth * 0.92) / widest);
+    axis.style.transform = `scale(${scale.toFixed(3)})`;
     R = (dn[0].h * 1.3) / 2 / Math.tan(((STEP / 2) * Math.PI) / 180);
     target = Math.floor((dn.length - 1) / 2);
     center = reduce.matches ? target : target - 2.5; // the drum rolls into place
@@ -243,6 +245,37 @@ export async function mountNamesWall(host, projects, { onSelect } = {}) {
     step(Math.sign(e.deltaY));
   }, { passive: false });
 
+  // A finger (or a held mouse) turns it too: the drum follows the drag a name per row's
+  // height, keeps a flick's speed for a moment, then settles on the nearest name.
+  let drag = null;
+  let dragged = false;
+  drum.addEventListener("pointerdown", (e) => {
+    if (!dn.length || (e.pointerType === "mouse" && e.button !== 0)) return;
+    drag = { id: e.pointerId, y: e.clientY, t: e.timeStamp, from: target, row: dn[0].h * 1.3 * scale, v: 0, moved: false };
+    dragged = false;
+  });
+  drum.addEventListener("pointermove", (e) => {
+    if (!drag || e.pointerId !== drag.id) return;
+    const dy = e.clientY - drag.y;
+    if (!drag.moved && Math.abs(dy) < 6) return;
+    if (!drag.moved) { drag.moved = true; drum.setPointerCapture(e.pointerId); }
+    const dt = Math.max(1, e.timeStamp - drag.t);
+    const next = Math.max(0, Math.min(dn.length - 1, drag.from - dy / drag.row));
+    drag.v = 0.7 * drag.v + 0.3 * ((next - target) / dt); // names per ms
+    drag.t = e.timeStamp;
+    target = next;
+  });
+  const release = (e) => {
+    if (!drag || e.pointerId !== drag.id) return;
+    if (drag.moved) {
+      dragged = true;
+      target = Math.max(0, Math.min(dn.length - 1, Math.round(target + drag.v * 180)));
+    }
+    drag = null;
+  };
+  drum.addEventListener("pointerup", release);
+  drum.addEventListener("pointercancel", release);
+
   // A plain click opens the project's card; a modified click keeps the link.
   const plain = (e) => e.button === 0 && !e.metaKey && !e.ctrlKey && !e.shiftKey && !e.altKey;
   field.addEventListener("click", (e) => {
@@ -254,6 +287,7 @@ export async function mountNamesWall(host, projects, { onSelect } = {}) {
   // On the drum the name in front opens; another one turns the drum to it first.
   drum.addEventListener("click", (e) => {
     const a = e.target.closest(".dn");
+    if (dragged) { dragged = false; e.preventDefault(); return; } // the end of a turn, not a pick
     if (!a || !plain(e)) return;
     e.preventDefault();
     if (a.classList.contains("is-front")) onSelect?.(Number(a.dataset.i));

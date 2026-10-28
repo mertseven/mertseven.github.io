@@ -132,3 +132,20 @@
   .names-wall { min-height: 260px; }
   .cn { font-size: 26px; } /* with the flat, dense rows set in names-wall.js */
 }
+
+/* Typing on a phone (home.js): the wall and the box are pinned to what the keyboard leaves
+   of the screen. The first screen keeps its height underneath, so nothing below moves. */
+.is-typing .home-main {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: var(--vvt, 0px);
+  height: var(--vvh, 100dvh);
+  z-index: 20;
+  background: var(--paper);
+}
+.is-typing .names-wall { min-height: 0; }
+.is-typing .home .stage { padding-top: var(--s-3); padding-bottom: var(--s-3); }
+.is-typing .prompt { display: none; }
+/* Turned by a finger (names-wall.js), so the page must not take the swipe. */
+.drum.is-active { touch-action: none; }

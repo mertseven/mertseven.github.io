@@ -1,7 +1,7 @@
-import { t, href } from "./i18n.js?v=f87d481c3f";
-import { search } from "./catalog.js?v=2d38ee3fe9";
-import { mountSearch } from "./search-box.js?v=f16dd2b06f";
-import "./theme.js?v=78b07b7bd1";
+import { t, href } from "./i18n.js?v=7d31a14007";
+import { search } from "./catalog.js?v=749998b479";
+import { mountSearch } from "./search-box.js?v=e184dd5591";
+import "./theme.js?v=93e79f6375";
 
 // 404: GitHub Pages serves this one file for every address that leads nowhere, in either
 // language; the head script has already set <html lang> from the path. The page asks what

@@ -1,5 +1,5 @@
-import { loadCatalog, search, highlight, escapeHtml } from "./catalog.js?v=2d38ee3fe9";
-import { t, href } from "./i18n.js?v=f87d481c3f";
+import { loadCatalog, search, highlight, escapeHtml } from "./catalog.js?v=749998b479";
+import { t, href } from "./i18n.js?v=7d31a14007";
 
 // The search box shared by the home page and /search/: the question sized to the bar,
 // rotating hints, the count line, live results, keyboard control and ?q= in the URL.
