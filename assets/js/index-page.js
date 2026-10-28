@@ -1,6 +1,6 @@
-import { loadCatalog, escapeHtml } from "./catalog.js?v=36fa2c107a";
-import { mark } from "./names-wall.js?v=35c8fe462c";
-import { mountFocus } from "./focus.js?v=1defe7310a";
+import { loadCatalog, escapeHtml } from "./catalog.js?v=260afc3e71";
+import { mark } from "./names-wall.js?v=ee4f180511";
+import { mountFocus } from "./focus.js?v=26769f0659";
 import { t, lang, href, kindName, topicName } from "./i18n.js?v=137ec0cac8";
 
 // /work/: the catalogue. Projects in three chapters, one row each — number, mark, title,

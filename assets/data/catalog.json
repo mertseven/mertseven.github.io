@@ -257,21 +257,6 @@
       ]
     },
     {
-      "id": "conflict",
-      "title": "Collaborative Conflict Observatory",
-      "url": "/conflict.html",
-      "kind": "Teaching",
-      "image": null,
-      "summary": "A shared, multi-user space for observing a conflict together.",
-      "topics": [
-        "Real-time",
-        "Collaboration"
-      ],
-      "stack": [
-        "PeerJS"
-      ]
-    },
-    {
       "id": "weather-app",
       "title": "Weather Recommendation App",
       "url": "/nmed1110/web-app.html",
@@ -594,22 +579,5 @@
       ]
     }
   ],
-  "writings": [
-    {
-      "title": "Gökyüzü",
-      "date": "2013-03-04",
-      "language": "tr",
-      "type": "Prose",
-      "url": "/writing.html",
-      "excerpt": "Gökyüzünü boyayan adamın ölümünü ve sonrasını anlatan bir yazı."
-    },
-    {
-      "title": "The Hand Revisited",
-      "date": "2023-04-16",
-      "language": "en",
-      "type": "Poetry",
-      "url": "/writing.html",
-      "excerpt": "An extended meditation on the meaning of creation."
-    }
-  ]
+  "writings": []
 }

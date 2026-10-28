@@ -1,5 +1,5 @@
 import { OceanEngine } from "./ocean.js?v=8d4ae8cf02";
-import { mountSearch } from "./search-box.js?v=d6e87dba1a";
+import { mountSearch } from "./search-box.js?v=edf842560a";
 import { currentTheme, onThemeChange } from "./theme.js?v=b9429d0964";
 import "./lang.js?v=61d7a584bf";
 

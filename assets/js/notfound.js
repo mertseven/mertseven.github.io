@@ -1,6 +1,6 @@
 import { t, href } from "./i18n.js?v=137ec0cac8";
-import { search } from "./catalog.js?v=36fa2c107a";
-import { mountSearch } from "./search-box.js?v=d6e87dba1a";
+import { search } from "./catalog.js?v=260afc3e71";
+import { mountSearch } from "./search-box.js?v=edf842560a";
 import "./theme.js?v=b9429d0964";
 
 // 404: GitHub Pages serves this one file for every address that leads nowhere, in either

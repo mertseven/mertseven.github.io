@@ -1,4 +1,4 @@
-import { loadCatalog, escapeHtml } from "./catalog.js?v=36fa2c107a";
+import { loadCatalog, escapeHtml } from "./catalog.js?v=260afc3e71";
 import { t } from "./i18n.js?v=137ec0cac8";
 import "./theme.js?v=b9429d0964";
 import "./lang.js?v=61d7a584bf";

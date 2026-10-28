@@ -40,7 +40,8 @@ function toEntries(data) {
     body: p.abstract,
     raw: p,
   }));
-  // Writing is off the site for now: data.writings stays in the catalog but is not searched.
+  // Writing is off the site: data.writings is empty and not searched (the Moonbase I texts
+  // and writing.html are kept in the eski-site-arsiv branch).
   const entries = [...projects, ...publications];
   for (const e of entries) {
     e.nTitle = normalize(e.title);

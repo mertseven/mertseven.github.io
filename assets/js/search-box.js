@@ -1,4 +1,4 @@
-import { loadCatalog, search, highlight, escapeHtml } from "./catalog.js?v=36fa2c107a";
+import { loadCatalog, search, highlight, escapeHtml } from "./catalog.js?v=260afc3e71";
 import { t, href } from "./i18n.js?v=137ec0cac8";
 
 // The search box shared by the home page and /search/: the question sized to the bar,

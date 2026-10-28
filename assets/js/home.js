@@ -1,8 +1,8 @@
-import { loadCatalog, escapeHtml } from "./catalog.js?v=36fa2c107a";
-import { mountSearch } from "./search-box.js?v=d6e87dba1a";
-import { mountNamesWall } from "./names-wall.js?v=35c8fe462c";
-import { mountFocus } from "./focus.js?v=1defe7310a";
-import { mountBelow } from "./home-below.js?v=b6bebdb28d";
+import { loadCatalog, escapeHtml } from "./catalog.js?v=260afc3e71";
+import { mountSearch } from "./search-box.js?v=edf842560a";
+import { mountNamesWall } from "./names-wall.js?v=ee4f180511";
+import { mountFocus } from "./focus.js?v=26769f0659";
+import { mountBelow } from "./home-below.js?v=b279d09666";
 import { t, href } from "./i18n.js?v=137ec0cac8";
 import "./theme.js?v=b9429d0964";
 import "./lang.js?v=61d7a584bf";

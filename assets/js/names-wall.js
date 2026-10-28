@@ -1,4 +1,4 @@
-import { escapeHtml } from "./catalog.js?v=36fa2c107a";
+import { escapeHtml } from "./catalog.js?v=260afc3e71";
 import { t, kindName } from "./i18n.js?v=137ec0cac8";
 
 // The home page's name wall. At rest every project's name, with its mark, drifts in rows
