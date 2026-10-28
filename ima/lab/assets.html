@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Pick characters, places, island plans, styles and fonts from the Interactive Media Applications lab. and download them as one ZIP.">
+<title>Assets &amp; downloads · Interactive Media Applications lab.</title>
+<link rel="icon" type="image/svg+xml" href="assets/brand/kemer-petrol.svg">
+<link rel="stylesheet" href="assets/fonts/fonts.css"><link rel="stylesheet" href="brand.css"><link rel="stylesheet" href="assets.css">
+</head><body>
+<main>
+ <a class="ima-bibliography-brand" href="index.html" aria-label="Interactive Media Applications lab. home"><span class="ima-brand"><img class="ima-brand__mark" src="assets/brand/kemer-petrol.svg" alt="" width="150" height="100"><span class="ima-brand__type"><span class="ima-brand__title">interactive media applications</span><span class="ima-brand__lab">lab.</span></span></span></a>
+ <nav class="top-nav"><a href="index.html">← Return to the lab</a> <a href="island/ada-c2/index.html">The island ↗</a></nav>
+ <p class="label">NMED 3203 / ASSETS</p>
+ <h1>Take the parts.<br><em>Make your own island.</em></h1>
+ <p class="lead">Every character, place, island plan, style and font used on the island is here. Tick what you want and download one ZIP. Characters come as a picture and as an editable recipe; places and islands come as recipes you can change and load into the island engine.</p>
+
+ <div class="tools">
+  <label class="search"><span class="label">FILTER</span><input id="q" type="search" placeholder="owl, pier, captain…" autocomplete="off"></label>
+  <fieldset class="formats"><legend class="label">CHARACTERS AS</legend>
+   <label><input type="checkbox" id="fmtPng" checked> PNG picture</label>
+   <label><input type="checkbox" id="fmtJson" checked> JSON recipe</label>
+  </fieldset>
+ </div>
+ <noscript><p class="notice">This page needs JavaScript to build the ZIP.</p></noscript>
+ <p class="notice" id="fileNotice" hidden>The files could not be read. Open this page through a web server (for example <code>BASLAT.cmd</code> in the lab folder) instead of double-clicking <code>assets.html</code>.</p>
+
+ <section aria-labelledby="h-chars"><div class="head"><h2 id="h-chars">Characters <small id="n-chars"></small></h2><span class="bulk"><button type="button" data-all="chars">Select all</button><button type="button" data-none="chars">Clear</button></span></div><div class="grid" id="g-chars"></div></section>
+ <section aria-labelledby="h-places"><div class="head"><h2 id="h-places">Places <small id="n-places"></small></h2><span class="bulk"><button type="button" data-all="places">Select all</button><button type="button" data-none="places">Clear</button></span></div><div class="grid wide" id="g-places"></div></section>
+ <section aria-labelledby="h-islands"><div class="head"><h2 id="h-islands">Island plans <small id="n-islands"></small></h2><span class="bulk"><button type="button" data-all="islands">Select all</button><button type="button" data-none="islands">Clear</button></span></div><div class="grid wide" id="g-islands"></div></section>
+ <section aria-labelledby="h-more"><div class="head"><h2 id="h-more">Style, fonts &amp; engine</h2></div><div class="grid wide" id="g-more"></div></section>
+ <p class="foot">Designed by Mert Seven, PhD, in collaboration with Claude and ChatGPT. Use these assets in your course work and credit “Interactive Media Applications lab., Mert Seven, PhD”. Fonts keep their own open licences (included); three.js is MIT.</p>
+</main>
+
+<div class="bar" role="region" aria-label="Download"><div class="bar-in">
+ <p id="count" aria-live="polite">Nothing selected</p>
+ <p id="hint" class="hint" hidden></p>
+ <span class="bar-btns"><button type="button" id="clear" class="ghost">Clear</button><button type="button" id="dl" class="go" disabled>Download ZIP ↓</button></span>
+</div></div>
+
+<script src="island/stiller/montour.js"></script>
+<script src="island/kutuphane/parcalar.js"></script>
+<script src="island/kutuphane/gorunum.js"></script>
+<script src="island/kutuphane/yapilar.js"></script>
+<script src="island/kutuphane/karakterler.js"></script>
+<script src="island/kutuphane/sakinler.js"></script>
+<script src="island/kutuphane/mekanlar.js"></script>
+<script src="island/adalar/ferah-koy.js"></script>
+<script src="island/adalar/pazarlik-adacigi.js"></script>
+<script type="module" src="js/assets.js"></script>
+</body></html>

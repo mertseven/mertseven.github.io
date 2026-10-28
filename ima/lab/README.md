@@ -32,6 +32,7 @@ style.css                  Web sitesinin görünümü ve mobil düzeni
 research.css               Onaylanan geniş ders düzeni ve akademik kaynak kartları
 footer.css                 Onaylanan tam genişlikte footer ve iletişim alanı
 bibliography.html          Öğretim yaklaşımı ve 35 eserlik kaynakça
+assets.html               Karakter, mekân, ada planı, stil, font ve motoru seçip tek ZIP indirme sayfası (assets.css, js/assets.js)
 js/modules.js              Sekiz bölümün metinleri, görevleri ve kaynakları
 js/research.js             Akademik künyeler, bölüm açıklamaları ve okuma soruları
 js/library.js              Ders sekmeleri, karakter görünümü ve indirmeler
