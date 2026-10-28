@@ -72,7 +72,7 @@ function crossesSeg(ax,az,bx,bz,y){
    uyguluyor). Tablo olsaydı bir gün kayardı. */
 function pavCoverURL(p){
   if(!p.cover) return null;
-  return String(p.cover).replace(/^.*\//, "atlas-varlik/kapak/")
+  return String(p.cover).replace(/^.*\//, (document.documentElement.dataset.base||"")+"atlas-varlik/kapak/")
                         .replace(/\.(png|jpe?g|webp)$/i, ".webp");
 }
 

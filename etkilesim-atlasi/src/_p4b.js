@@ -78,7 +78,8 @@ const HINTS = {
   three:"Aynı sahne, daha büyük tuvalde.",
   echarts:"Veri her iki saniyede değişiyor; geçişi ECharts yönetiyor."
 };
-const DEFAULT_HINT = "Kütüphanenin kendisi burada, tam boyutta çalışıyor.";
+if(window.ATLAS_EN) Object.assign(HINTS, ATLAS_EN.hints);
+const DEFAULT_HINT = window.ATLAS_EN ? ATLAS_EN.defaultHint : "Kütüphanenin kendisi burada, tam boyutta çalışıyor.";
 let wingIdx = -1;
 let solver=null, solving=false, perplexity=18, klNow=0;
 const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -157,7 +158,11 @@ function resettle(){
   place(true);
 }
 
-solveNow(perplexity, 700);
+/* Yerleşim derlemede bir kez hesaplanır: arac/yerlesim.mjs onu veri/yerlesim.json'a
+   yazar, derle.py de kütüphane listesi o hesaptan beri değişmediyse BAKED olarak gömer.
+   Açılış böylece ~0,6 sn kısalıyor. Liste değiştiyse gömülmez; harita eskisi gibi burada çözülür. */
+if(typeof BAKED!=="undefined" && BAKED.pos.length===N*2){ POS=Float64Array.from(BAKED.pos); klNow=BAKED.kl; }
+else solveNow(perplexity, 700);
 layout();
 
 /* ------------------------------------------------------------------
@@ -214,6 +219,15 @@ place(false);
 /* ------------------------------------------------------------------
    8. GÖRÜNÜM
 ------------------------------------------------------------------ */
+/* Tekerlek sürerken pahalı geçişler bekler; durunca bir kez yapılır. */
+let wz=null, zoomingUntil=0, lodPending=false, lastRes=0, lastVsig="";
+const zooming=()=>performance.now()<zoomingUntil;
+function stepZoom(){
+  if(!wz) return;
+  const r=wz.k/view.k;
+  if(Math.abs(r-1)<0.003){ zoomBy(r, wz.ax, wz.ay); wz=null; return; }
+  zoomBy(Math.pow(r, 0.3), wz.ax, wz.ay);
+}
 let framed=false;
 function measure(){ const r=stage.getBoundingClientRect(); VW=r.width; VH=r.height; }
 /* Açılış karesi ancak sahne gerçekten ölçüldükten sonra kurulur —
@@ -245,7 +259,7 @@ function openView(){
      bunun bir kart MANZARASI olduğu hiç anlaşılmıyordu. Kart 300 px geniş;
      VW/980 telefonda üç kartı yan yana getiriyor. 980 px'in üstünde değer
      zaten 0,82'ye sıkışıyor, yani masaüstünde hiçbir şey değişmiyor. */
-  centerOn(bestOpening(), Math.max(0.30, Math.min(0.82, VW/980)));
+  fitAll();
 }
 new ResizeObserver(()=>{ measure(); framed ? apply() : openView(); }).observe(stage);
 measure(); openView();
@@ -265,7 +279,7 @@ function apply(){
   stage.style.backgroundSize = `${g}px ${g}px`;
   stage.style.backgroundPosition = `${view.tx%g}px ${view.ty%g}px`;
   const lod = view.k < 0.34 ? "far" : view.k < 0.62 ? "mid" : "near";
-  if(world.dataset.lod !== lod) world.dataset.lod = lod;
+  if(world.dataset.lod !== lod){ if(zooming()) lodPending=true; else world.dataset.lod = lod; }
 }
 
 function zoomBy(f, ax, ay){
@@ -306,6 +320,8 @@ function frame(now){
      bir HUD innerHTML yazımı ve canlı demo bütçesi. Hepsi boşa. */
   if(museumOn){ requestAnimationFrame(frame); return; }
   if(!framed){ measure(); openView(); }
+  stepZoom();
+  if(lodPending && !zooming()){ lodPending=false; apply(); }
   if(regionsDirty){ buildRegions(); regionsDirty=false; }
 
   if(solving && solver){
@@ -321,10 +337,11 @@ function frame(now){
   }
 
   const plate = (CARD_W-33);
-  const RES = bucketFor(plate*view.k*DPR);
+  const RES = (zooming() && lastRes) ? lastRes : (lastRes = bucketFor(plate*view.k*DPR));
   const skip = visCount>44 && tick%2===1;
   let vis=0;
 
+  let resized=0;
   if(!skip){
     for(const c of cards){
       if(c.el.hasAttribute("data-off")) continue;
@@ -338,22 +355,24 @@ function frame(now){
       c.speed += (want - c.speed) * Math.min(1, dt*7);
       if(!reduced) c.tl += dt * c.speed;
       if(c.plate.hasAttribute("data-live")) continue;   /* canlı demo varken glyph çizilmez */
-      if(c.res!==RES){ c.cv.width=c.cv.height=RES; c.res=RES; }
+      if(c.res===RES && (zooming() || (view.k<0.34 && (tick+i)%10!==0))) continue;
+      if(c.res!==RES){ if(c.res && ++resized>10) continue; c.cv.width=c.cv.height=RES; c.res=RES; }
       const g=c.ctx;
       g.clearRect(0,0,RES,RES);
       drawGlyph(g, c.l.glyph, RES/2, RES/2, RES*0.86, c.tl, INK, c.l.seed);
     }
     visCount=vis;
   }
-  updateLive();
-  updateLabels();
+  if(!zooming()) updateLive();
+  /* Bölge adları ve mini harita yalnız görünüm değişince (ya da arada bir, süzgeç için) yenilenir. */
+  const vsig = view.k.toFixed(4)+","+view.tx.toFixed(1)+","+view.ty.toFixed(1)+","+VW+","+VH;
+  if(vsig!==lastVsig || tick%20===0){ lastVsig=vsig; updateLabels(); drawMini(); }
   drawLinks(hoverIdx>=0 ? hoverIdx : sel);
-  drawMini();
 
   /* innerHTML her karede yazılıyordu; yalnız değişince yaz. */
   const hudTxt =
     `<span><b>${N}</b> kütüphane</span><span><b>${CAT_KEYS.length}</b> küme</span>` +
-    `<span>ölçek <b>${view.k.toFixed(2)}×</b></span>` +
+    
     (solving?`<span>seriliyor…</span>`:"");
   if(hudTxt!==hudPrev){ hudEl.innerHTML=hudTxt; hudPrev=hudTxt; }
 
@@ -365,7 +384,7 @@ requestAnimationFrame(frame);
 /* ------------------------------------------------------------------
    10. GEZİNME
 ------------------------------------------------------------------ */
-let down=null, dragged=0, suppress=false;
+let down=null, dragged=0, suppress=false, liftT=0;
 const ptrs=new Map(); let pinch=0;
 
 function onMove(e){
@@ -374,9 +393,9 @@ function onMove(e){
     const p=[...ptrs.values()], d=Math.hypot(p[0].x-p[1].x,p[0].y-p[1].y);
     const r=stage.getBoundingClientRect();
     if(pinch>0) zoomBy(d/pinch,(p[0].x+p[1].x)/2-r.left,(p[0].y+p[1].y)/2-r.top);
-    pinch=d; dragged+=20; return;
+    pinch=d; dragged+=20; zoomingUntil=performance.now()+220; return;
   }
-  if(dragCard){
+  if(dragCard && dragCard.armed){
     const ddx=e.clientX-dragCard.sx, ddy=e.clientY-dragCard.sy;
     dragged=Math.max(dragged, Math.abs(ddx)+Math.abs(ddy));
     if(dragged>4){
@@ -393,6 +412,7 @@ function onMove(e){
   if(!down) return;
   const dx=e.clientX-down.x, dy=e.clientY-down.y;
   dragged = Math.max(dragged, Math.abs(dx)+Math.abs(dy));
+  if(dragged>4) clearTimeout(liftT);
   view.tx = down.tx+dx; view.ty = down.ty+dy;
   apply();
 }
@@ -404,10 +424,11 @@ function onUp(e){
     window.removeEventListener("pointerup",onUp);
     window.removeEventListener("pointercancel",onUp);
     stage.classList.remove("dragging");
+    clearTimeout(liftT);
     if(dragCard){
       const i=dragCard.i, c=cards[i];
-      c.el.removeAttribute("data-drag");
-      if(dragged>4){
+      c.el.removeAttribute("data-drag"); c.el.removeAttribute("data-lift");
+      if(dragCard.armed && dragged>4){
         pinned.add(i);
         c.el.setAttribute("data-pin","");
         resettle();
@@ -428,14 +449,18 @@ stage.addEventListener("pointerdown",e=>{
     dragged=0;
     const el=e.target.closest(".card");
     const guard=e.target.closest('.sheet,.gate,a,.mini,.wing,.expand,.plate[data-live] .live');
+    /* Sürükleme her yerde haritayı kaydırır ve yazı seçmez. Kart elle Alt ile sürüklenerek
+       taşınır; dokunmatikte üstüne basılı tutulur. Kart o zaman kalkar. */
+    if(!guard) e.preventDefault();
+    down={x:e.clientX,y:e.clientY,tx:view.tx,ty:view.ty};
+    stage.classList.add("dragging");
+    dragCard=null; clearTimeout(liftT);
     if(el && !guard){
       const i=+el.dataset.i;
-      dragCard={i, sx:e.clientX, sy:e.clientY, lx:LAY[i*2], ly:LAY[i*2+1]};
-      down=null;
-    } else {
-      dragCard=null;
-      down={x:e.clientX,y:e.clientY,tx:view.tx,ty:view.ty};
-      stage.classList.add("dragging");
+      dragCard={i, sx:e.clientX, sy:e.clientY, lx:LAY[i*2], ly:LAY[i*2+1], armed:false};
+      const lift=()=>{ if(!dragCard || dragCard.i!==i || dragged>4) return;
+        dragCard.armed=true; down=null; stage.classList.remove("dragging"); el.setAttribute("data-lift",""); };
+      if(e.altKey) lift(); else if(e.pointerType==="touch") liftT=setTimeout(lift, 550);
     }
   }
   else if(ptrs.size===2){ const p=[...ptrs.values()]; pinch=Math.hypot(p[0].x-p[1].x,p[0].y-p[1].y); down=null; dragCard=null; }
@@ -452,7 +477,10 @@ stage.addEventListener("pointerleave",()=>{ hoverIdx=-1; });
 stage.addEventListener("wheel",e=>{
   e.preventDefault();
   const r=stage.getBoundingClientRect();
-  zoomBy(Math.exp(-e.deltaY*0.0016), e.clientX-r.left, e.clientY-r.top);
+  const dy = e.deltaMode===1 ? e.deltaY*16 : e.deltaMode===2 ? e.deltaY*VH : e.deltaY;
+  const base = wz ? wz.k : view.k;
+  wz = { k: Math.max(.085, Math.min(2.2, base*Math.exp(-dy*0.0016))), ax:e.clientX-r.left, ay:e.clientY-r.top };
+  zoomingUntil = performance.now()+220;
 },{passive:false});
 
 world.addEventListener("click",e=>{
@@ -556,6 +584,7 @@ function deselect(){
   if(sel<0) return;
   cards[sel].el.removeAttribute("data-sel");
   sel=-1;
+  dispatchEvent(new CustomEvent("atlas:deselect"));
 }
 function select(i){
   if(sel===i){ deselect(); return; }
@@ -564,8 +593,24 @@ function select(i){
   const c=cards[i];
   buildSheet(c);
   c.el.setAttribute("data-sel","");
-  if(view.k < 0.62) { centerOn(i, 0.8); return; }
-  requestAnimationFrame(()=>ensureVisible(i));
+  dispatchEvent(new CustomEvent("atlas:select",{detail:i}));
+  requestAnimationFrame(()=>frameSel(i));
+}
+/* Seçilen kart künyesiyle birlikte görünür. Künye kartın altındaysa ikisi
+   birden sığacak ölçeğe inilir; künye bir panele taşındıysa yalnız kart, panelin
+   kapatmadığı alanın ortasına gelir. */
+const UI_MODE = "drawer";
+function frameSel(i){
+  measure();
+  const pad=28, c=cards[i], phone=VW<=900;
+  if(UI_MODE==="rail" && !phone){
+    const sh=c.el.querySelector(".sheet").offsetHeight||560;
+    const k=Math.max(0.42, Math.min(0.8, (VH-pad*2)/(CARD_H+9+sh)));
+    view.k=k; view.tx=VW/2-LAY[i*2]*k; view.ty=pad-(LAY[i*2+1]-CARD_H/2)*k; apply(); return;
+  }
+  const side = UI_MODE==="float" && !phone ? 400 : 0, bottom = phone ? VH*0.5 : 0, top = UI_MODE==="float" && phone ? 150 : 0;
+  const k=Math.max(Math.min(view.k,0.8), Math.min(0.8, (VH-top-bottom-pad*2)/CARD_H));
+  view.k=k; view.tx=(VW-side)/2-LAY[i*2]*k; view.ty=top+(VH-top-bottom)/2-LAY[i*2+1]*k; apply();
 }
 function ensureVisible(i){
   const c=cards[i], pad=26;
@@ -586,7 +631,8 @@ function goTo(j){
   deselect();
   centerOn(j, Math.max(view.k, 0.8));
   sel=j; buildSheet(cards[j]); cards[j].el.setAttribute("data-sel","");
-  requestAnimationFrame(()=>ensureVisible(j));
+  dispatchEvent(new CustomEvent("atlas:select",{detail:j}));
+  requestAnimationFrame(()=>frameSel(j));
 }
 
 /* ------------------------------------------------------------------

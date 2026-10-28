@@ -168,12 +168,12 @@ function updateLabels(){
     items.push({el, w:el._w, h:el._h,
       x: el._wx*view.k+view.tx, y: el._wy*view.k+view.ty});
   }
-  for(let pass=0; pass<9; pass++){
+  for(let pass=0; pass<18; pass++){
     let moved=false;
     for(let i=0;i<items.length;i++)for(let j=i+1;j<items.length;j++){
       const a=items[i], b=items[j];
-      const ox=(a.w+b.w)/2+16-Math.abs(a.x-b.x);
-      const oy=(a.h+b.h)/2+9 -Math.abs(a.y-b.y);
+      const ox=(a.w+b.w)/2+28-Math.abs(a.x-b.x);
+      const oy=(a.h+b.h)/2+16-Math.abs(a.y-b.y);
       if(ox>0 && oy>0){
         const push=(a.y<=b.y?-1:1)*oy*0.5;
         a.y+=push; b.y-=push; moved=true;
@@ -671,18 +671,25 @@ const DEMOS = {
     });
     /* Yerleşim, tuval ölçüsü kesinleştikten sonra çalışmalı; yoksa
        düğümler tek bir çizgiye dizilip çöküyor. */
+    let dead=false, running=false, cur=null;
     const run=()=>{
+      if(dead) return;
       try{
         cy.resize();
         const lo=cy.layout({name:"cose",animate:true,animationDuration:1500,
                             padding:S*.14,randomize:true,nodeRepulsion:9000});
-        lo.on("layoutstop",()=>{ try{ cy.zoom(1); cy.center(); }catch(e){} });
+        running=true; cur=lo;
+        lo.on("layoutstop",()=>{ running=false; if(dead) return; try{ cy.zoom(1); cy.center(); }catch(e){} });
         lo.run();
       }catch(e){}
     };
-    setTimeout(run,80);
+    const t0=setTimeout(run,80);
     const iv=setInterval(run,5400);
-    return ()=>{ clearInterval(iv); try{cy.destroy();}catch(e){} host.innerHTML=""; };
+    return ()=>{ dead=true; clearTimeout(t0); clearInterval(iv); host.innerHTML="";
+                 const end=()=>{ try{ cy.elements().stop(true,true); cy.destroy(); }catch(e){} };
+                 let done=false; const fin=()=>{ if(!done){ done=true; end(); } };
+                 try{ if(cur) cur.stop(); }catch(e){}
+                 setTimeout(fin, running ? 1200 : 400); };
   },
 
   /* gerçek Observable Plot: tek işaret tanımı, ölçekler kendiliğinden */
@@ -1130,5 +1137,5 @@ function mountOne(i){
 function updateLive(){
   const want=new Set(liveWanted());
   for(const i of [...liveMap.keys()]) if(!want.has(i)) unmountOne(i);
-  for(const i of want) if(!liveMap.has(i)) mountOne(i);
+  for(const i of want) if(!liveMap.has(i)){ mountOne(i); break; }
 }

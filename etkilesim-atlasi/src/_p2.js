@@ -244,6 +244,16 @@ const LIBS = RAW.map((r,i)=>({
   glyph:r[6], url:r[7], tag:r[8], v:r[9], seed:(i*2654435761)%100000/100000
 }));
 
+if(window.ATLAS_EN){
+  const E=window.ATLAS_EN;
+  for(const k in E.cats){ CATS[k].label=E.cats[k].label; CATS[k].note=E.cats[k].note; }
+  const info={};
+  AXES.forEach((a,i)=>{ const n=E.axes[a]||a; info[n]=E.axisInfo[n]||AXIS_INFO[a]; AXES[i]=n; });
+  for(const k in AXIS_INFO) delete AXIS_INFO[k];
+  Object.assign(AXIS_INFO, info);
+  AXIS_FAM.forEach((f,i)=>{ f.t=E.fams[i].t; f.n=E.fams[i].n; f.ax=f.ax.map(a=>E.axes[a]||a); });
+  LIBS.forEach(l=>{ if(E.tags[l.name]) l.tag=E.tags[l.name]; });
+}
 /* Türetilmiş eksenler: ağırlık (log kB), yaş, erişim (log yıldız) */
 const yMin=2006, yMax=2023;
 LIBS.forEach(l=>{

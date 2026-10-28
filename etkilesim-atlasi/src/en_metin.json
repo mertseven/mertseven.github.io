@@ -1,0 +1,167 @@
+[
+ [
+  "\" — künyeyi aç\"",
+  "\" — open details\""
+ ],
+ [
+  "title=\"Bu kart elle yerleştirildi\">elle",
+  "title=\"This card was placed by hand\">moved"
+ ],
+ [
+  "title=\"Yakınlaşınca kütüphanenin kendisi bu kartta çalışır\"",
+  "title=\"Zoom in and the library itself runs on this card\""
+ ],
+ [
+  "<b class=\"livetag\">canlı</b>",
+  "<b class=\"livetag\">live</b>",
+  true
+ ],
+ [
+  "aria-label=\"Etkileşimli kanadı aç\"",
+  "aria-label=\"Open larger and try\""
+ ],
+ [
+  "<u class=\"wing__tag\">etkileşimli</u>",
+  "<u class=\"wing__tag\">interactive</u>"
+ ],
+ [
+  "aria-label=\"Kanadı kapat\"",
+  "aria-label=\"Close\""
+ ],
+ [
+  "solveBtn.textContent=\"Manzarayı yeniden ser\";",
+  "solveBtn.textContent=\"Recompute the map\";"
+ ],
+ [
+  "\"Seriliyor…\"",
+  "\"Computing…\""
+ ],
+ [
+  "`<span><b>${N}</b> kütüphane</span><span><b>${CAT_KEYS.length}</b> küme</span>`",
+  "`<span><b>${N}</b> libraries</span><span><b>${CAT_KEYS.length}</b> clusters</span>`"
+ ],
+ [
+  "`<span>seriliyor…</span>`",
+  "`<span>computing…</span>`"
+ ],
+ [
+  "<p class=\"sec\">Künye — ${CATS[l.cat].label}</p>",
+  "<p class=\"sec\">Details — ${CATS[l.cat].label}</p>"
+ ],
+ [
+  "<dt>Yaklaşık ağırlık</dt>",
+  "<dt>Approx. size</dt>"
+ ],
+ [
+  "<dt>GitHub yıldızı</dt>",
+  "<dt>GitHub stars</dt>"
+ ],
+ [
+  "<dt>İlk sürüm</dt>",
+  "<dt>First release</dt>"
+ ],
+ [
+  "<dt>Lisans</dt><dd>${l.lic}</dd>",
+  "<dt>Licence</dt><dd>${l.lic}</dd>"
+ ],
+ [
+  "<p class=\"sec\">Ne yapar — eksen adına tıklayın</p>",
+  "<p class=\"sec\">What it does — click an axis name</p>"
+ ],
+ [
+  "<p class=\"sec\">Benzer kütüphaneler</p>",
+  "<p class=\"sec\">Similar libraries</p>"
+ ],
+ [
+  "&#8646; karşılaştırmaya ekle</button>",
+  "&#8646; add to comparison</button>"
+ ],
+ [
+  "const DEFAULT_NOTE = \"Bir kümenin üzerine gelin. Aynı işi farklı katmanlarda yapan kütüphaneler manzarada yan yana düşer.\";",
+  "const DEFAULT_NOTE = \"Hover over a cluster. Libraries that do the same job on different layers land side by side on the map.\";"
+ ],
+ [
+  "`↺ Elle taşınan ${pinned.size} kartı geri al`",
+  "`↺ Put back the ${pinned.size} card(s) moved by hand`"
+ ],
+ [
+  "<u>${members.length} kütüphane</u>",
+  "<u>${members.length} libraries</u>"
+ ],
+ [
+  "const GESTURE = { tone:\"Sesi başlat\" };",
+  "const GESTURE = { tone:\"Start sound\" };"
+ ],
+ [
+  "gate.textContent=\"başlıyor…\";",
+  "gate.textContent=\"starting…\";"
+ ],
+ [
+  "gate.textContent=\"\\u25B6 tekrar dene\";",
+  "gate.textContent=\"\\u25B6 try again\";"
+ ],
+ [
+  "hint.textContent=\"sürükle\";",
+  "hint.textContent=\"drag\";"
+ ],
+ [
+  "[\"ege\",\"marmara\",\"akdeniz\",\"iç anadolu\"]",
+  "[\"north\",\"south\",\"east\",\"west\"]"
+ ],
+ [
+  "&#8592; önceki</button>",
+  "&#8592; previous</button>"
+ ],
+ [
+  "sonraki &#8594;</button>",
+  "next &#8594;</button>"
+ ],
+ [
+  ">kapat</button>",
+  ">close</button>"
+ ],
+ [
+  "<span>tur</span>",
+  "<span>tour</span>"
+ ],
+ [
+  "<u>yüksek</u>",
+  "<u>high</u>"
+ ],
+ [
+  "<u>düşük</u>",
+  "<u>low</u>"
+ ],
+ [
+  "\"en yüksek\":\"örnek\"",
+  "\"highest\":\"examples\""
+ ],
+ [
+  "\"en düşük\"",
+  "\"lowest\""
+ ],
+ [
+  "Eksenler — kartlardaki çubuklar ne anlatıyor",
+  "Axes — what the bars on the cards mean"
+ ],
+ [
+  "aria-label=\"Yakınlaştır\"",
+  "aria-label=\"Zoom in\""
+ ],
+ [
+  "aria-label=\"Uzaklaştır\"",
+  "aria-label=\"Zoom out\""
+ ],
+ [
+  "aria-label=\"Tümünü sığdır\" title=\"Tüm manzarayı sığdır\"",
+  "aria-label=\"Fit all\" title=\"Fit the whole map\""
+ ],
+ [
+  ">manzara özeti<",
+  ">overview<"
+ ],
+ [
+  "aria-label=\"Manzara özeti — tıklayın ya da sürükleyin\"",
+  "aria-label=\"Overview — click or drag\""
+ ]
+]

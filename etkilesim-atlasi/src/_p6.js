@@ -17,6 +17,7 @@ const TOUR = [
     d:"Sık karışan üç şey. Phaser bir oyun çatısıdır: döngü, girdi, sahne yönetimi verir. Three.js bir render katmanıdır: sahneyi çizer ama oyunun kurallarını bilmez. Matter.js ise yalnız fiziktir: cisimleri hareket ettirir, çizmeyi size bırakır. Üçünü karşılaştırın." }
 ];
 
+if(window.ATLAS_EN) TOUR.forEach((s,i)=>{ s.t=ATLAS_EN.tour[i].t; s.d=ATLAS_EN.tour[i].d; });
 let tourIdx = -1;
 const tourEl = document.getElementById("tour");
 const calloutEl = document.getElementById("callout");
@@ -96,6 +97,7 @@ function syncTray(){
   trayChips.innerHTML = compare.map(i=>
     `<button data-rm="${i}" style="--nc:var(--cat-${LIBS[i].cat})">${LIBS[i].name} &#10005;</button>`).join("");
   compare.length ? trayEl.setAttribute("data-on","") : trayEl.removeAttribute("data-on");
+  dispatchEvent(new CustomEvent("atlas:compare",{detail:compare.slice()}));
   if(cmpEl.hasAttribute("data-open")) renderCmp();
 }
 trayChips.addEventListener("click",e=>{
@@ -176,7 +178,7 @@ function renderAxes(){
          const ix=AXES.indexOf(a), info=AXIS_INFO[a];
          const poles=`<div class="axpole"><u>yüksek</u><span>${info.h}</span></div>`+
                      `<div class="axpole"><u>düşük</u><span>${info.l}</span></div>`;
-         const both = (a==="Bildirimsel"||a==="Soyutlama");
+         const both = (a===AXES[10]||a===AXES[11]);
          const ex = axChips(axTop(ix,1,3), both?"en yüksek":"örnek") +
                     (both ? axChips(axTop(ix,-1,3), "en düşük") : "");
          return `<div class="axitem" id="ax-${ix}"><b>${a}</b><div><em>${info.d}</em>${poles}${ex}</div></div>`;
@@ -240,7 +242,7 @@ document.addEventListener("keydown",e=>{
 /* Konsoldan kurcalamak isteyenler için küçük bir tutamak. */
 window.atlas = { view, LAY, cards, LIBS, CATS, centerOn, fitAll, bbox, overlaps,
                  updateLive, toggleWing, closeWing, select, layout, place,
-                 goStop, addCompare, renderCmp };
+                 goStop, addCompare, renderCmp, goTo, deselect, buildSheet, endTour, TOUR, DEMO_OF, compare, removeCompare, AXES, AXIS_FAM, AXIS_INFO, get sel(){ return sel; } };
 
 /* ===================== telefonda ray bir çekmece =====================
    Masaüstünde ray hep açık duruyor ve doğru olan o: harita ile birlikte

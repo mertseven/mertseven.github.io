@@ -70,18 +70,41 @@ etkilesim-atlasi/
   veri/                 ham araştırma verisi
   BENIOKU.md            bu dosya
   arac/                 elle çalıştırılan yardımcılar (derleme adımı DEĞİL)
+    yerlesim.mjs        t-SNE yerleşimini bir kez hesaplar → veri/yerlesim.json (node)
+  veri/yerlesim.json    hazır yerleşim + kütüphane listesinin parmak izi
   etkilesim-atlasi.html IIFE parçası; söz dizimi kontrolü için, .gitignore'da
-../etkilesim-atlas.html YAYINLANAN dosya (depo kökü)
+../etkilesim-atlas.html     YAYINLANAN dosya, İngilizce (depo kökü)
+../tr/etkilesim-atlas.html  YAYINLANAN dosya, Türkçe
 ../atlas-varlik/kapak/  pavyonun kapak dokuları (.webp) — depoya işlenir
 ../grad-projects/       mezuniyet showcase'i; pavyonun VERİ KAYNAĞI
+../preview/atlas-ui/    arayüz yenilemesinin önizlemeleri ve TESTLERİ (test/)
 ```
 
 **Derleme:** `python derle.py` — başka hiçbir şey gerekmez, bağımlılık yok.
-Çıktı doğrudan `../etkilesim-atlas.html`'e, yani canlı yola yazılır.
+Çıktılar doğrudan canlı yollara yazılır: `../etkilesim-atlas.html` (İngilizce,
+varsayılan) ve `../tr/etkilesim-atlas.html` (Türkçe).
 
-> Kökteki `etkilesim-atlas.html` bir **çıktıdır**. Doğrudan düzenlemeyin; `src/`
-> içindeki parçayı düzenleyip yeniden derleyin, yoksa değişiklik bir sonraki
-> derlemede silinir. Adını da değiştirmeyin — canlı bağlantı ona bağlı.
+> Kökteki `etkilesim-atlas.html` ve `tr/etkilesim-atlas.html` **çıktıdır**. Doğrudan
+> düzenlemeyin; `src/` içindeki parçayı düzenleyip yeniden derleyin, yoksa değişiklik
+> bir sonraki derlemede silinir. Adlarını da değiştirmeyin — canlı bağlantı onlara bağlı.
+
+**Kütüphane listesini değiştirdiyseniz** (`_p2.js`: RAW, vektörler, ağırlıklar, çözücü)
+önce `node arac/yerlesim.mjs`, sonra `python derle.py`. Unutursanız bir şey bozulmaz:
+derle.py parmak izinin tutmadığını görür, yerleşimi gömmez ve `yerlesim : ESKI` diye
+uyarır; harita eskisi gibi tarayıcıda (~0,6 sn) çözülür.
+
+**Sınama:** `preview/atlas-ui/test/` altındaki üç betik, başsız Chrome'u CDP ile sürer
+(`C:/Program Files/Google/Chrome/Application/chrome.exe`; yerel sunucu açık olmalı):
+
+```
+node navtest.mjs   http://127.0.0.1:8765/etkilesim-atlas.html   # 30 gezinme durumu
+node zoombench.mjs http://127.0.0.1:8765/etkilesim-atlas.html x "atlas.centerOn(20,0.5);1"
+node errtrace.mjs  http://127.0.0.1:8765/etkilesim-atlas.html   # 28 demoyu gezip hata toplar
+```
+
+`navtest`: fareyle ve dokunarak kaydırma (boş zeminden, kartın her parçasından, canlı
+demodan), Alt ile kart taşıma, hiçbir sürüklemede seçim olmaması (üst çubuktan başlayan
+dahil), çift/üçlü tık, tekerlek, düğmeler, mini harita, iki parmak, klavye.
 
 ---
 
@@ -94,6 +117,7 @@ Sıra önemli: hepsi **tek bir IIFE** içinde birleşir. `_p2.js` açar, `_p7.js
 | `_p1.html` | İskelet, bütün CSS, ray (sol panel), sahne, müze arayüzü, modal, joystick |
 | `_p2.js`   | 10 grup, 13 eksen + açıklamaları, **162 kütüphane**, t-SNE çözücü |
 | `_p3.js`   | 44 prosedürel glyph (her kütüphanenin işini taklit eden çizimler) |
+| *(üretilen)* | **Hazır yerleşim** (`const BAKED`) — `derle.py`, `veri/yerlesim.json`'u parmak izi tutuyorsa buraya koyar |
 | `_p4b.js`  | Kart manzarası: yerleşim, çakışma ayrıştırma, sürükleme, mini harita, künye |
 | `_p5.js`   | Küme bölgeleri, CDN yükleyici, **28 canlı kütüphane demosu** |
 | `_p6.js`   | Tur (6 durak), karşılaştırma paneli, eksen sözlüğü |
@@ -102,6 +126,50 @@ Sıra önemli: hepsi **tek bir IIFE** içinde birleşir. `_p2.js` açar, `_p7.js
 | *(üretilen)* | **9 mezuniyet projesi** — `derle.py`, `grad-projects/script.js`'teki diziyi buraya kopyalar. Kaynak dosyası YOK, düzenleme oraya yapılır |
 | `_p10.js`  | **Pavyon**: on kenarlı halka, dış zemin, açılı duvar çarpışması, mezuniyet modalı |
 | `_p7.js`   | Müze: Holmdel planı (omurga + üç ışık avlusu), ışık/hava geçişi, gezinme, modal |
+| `_p11.html` | **Arayüz katmanı** (IIFE'nin dışında, ondan sonra): üst çubuk, künye çekmecesi, arama, karşılaştırma, "Nasıl okunur?". Kendi `<style>`'ı var |
+| `en.js`    | İngilizce veri: tarifler, kümeler, eksenler, sorular, tur, ipuçları. Yalnız İngilizce sayfaya, ana betikten önce konur |
+| `en_metin.json` | İngilizce sayfada derlemede değişen arayüz sözleri, `[türkçe, ingilizce, hepsi?]`. Biri kaynakta bulunamazsa derleme durur |
+
+---
+
+## Arayüz yenilemesi (Ekim 2026)
+
+`preview/atlas-ui/` altında önizlenip seçilen düzen (B2) kaynağa işlendi. Kartların,
+kâğıdın, renklerin dili aynı; değişen çevresi.
+
+- **Ray kalktı, üstte iki katlı bir çubuk var.** Üst katta ad, arama (sonuç listesiyle;
+  Enter ilkine gider, `/` aramaya atlar), tur, müze, "Nasıl okunur?", dil düğmesi. Alt
+  katta on küme her zaman görünür; şerit gizlenebilir, tercih `localStorage`'da
+  (`atlas-kumeler`). Rayın öğeleri silinmedi, `_p11.html` onları çubuğa taşıyor; ray
+  CSS ile gizli. "Yalnız canlı olanlar" düğmesi arayüzden kaldırıldı.
+- **Künye kartın altında değil, sağdan açılan çekmecede** (telefonda alttan açılan
+  sayfa). Seçilen kart, çekmecenin kapatmadığı alanın ortasına gelir (`frameSel`).
+- **Açılış bütün harita** (`fitAll`), kümelerin adları birbirinden daha geniş aralıklı.
+- **Adres çubuğu seçimi tutar:** `#d3`, `#leaflet`… Bağlantıyla açılınca oraya gider.
+- **Karşılaştırma:** kartlarda ⇄, künyede "Karşılaştır" ve "En yakınlarıyla
+  karşılaştır", altta üç renkli yuvalı bir çubuk (boş yuvaya tıklayınca aramadan
+  eklenir), ayrı bir ekran: soru soru gruplanmış renkli çubuklar, "yalnız farklar",
+  benzerlik yüzdesi, özet cümlesi. Eski tepsi ve karşılaştırma paneli CSS ile gizli;
+  `compare` dizisi yine `_p6.js`'te, değişince `atlas:compare` olayı atılır.
+- **İki dil.** Bkz. derleme notu yukarıda. Müze ve pavyon şimdilik Türkçe.
+
+**Tekerlekle yakınlaştırırken takılma.** Ölçüldü (`zoombench`): takılmalar eşik
+geçişlerinde oluyordu — kartların ayrıntı kademesi değişiyor (~4000 düğümde stil),
+bütün glyph tuvalleri yeniden boyutlanıyor, canlı demolar yükleniyordu; hepsi aynı
+karede. Ayrıca bütün harita görünürken 162 küçük glyph her karede yeniden çiziliyordu.
+Şimdi: tekerlek hedef ölçeğe yumuşak yaklaşır (`stepZoom`); kademe, tuval çözünürlüğü ve
+demolar tekerlek durunca yapılır (`zooming()`, 220 ms) ve birkaç kareye yayılır (karede
+en çok bir demo, en çok on tuval); uzak kademede glyph'ler on karede bir tazelenir; mini
+harita ve küme adları yalnız görünüm değişince. Başsız Chrome'da p95 133 ms → 17 ms.
+
+**Sürükleme.** Önceden karttan başlayan sürükleme haritayı değil kartı taşıyordu (gezinme
+"bırakıyor" gibi görünüyordu) ve yol boyunca yazı seçiyordu. Şimdi sürükleme her yerden
+haritayı kaydırır; atlasın hiçbir yerinde yazı seçilmez (arama, künye, okuma notu ve
+karşılaştırma hariç). Kart elle **Alt + sürükleme** ile, dokunmatikte **basılı tutup**
+(0,55 sn) taşınır. Farede basılı tutma kullanılmıyor: insanlar sürüklemeden önce duraksıyor.
+
+**Cytoscape demosu** animasyonlu yerleşimi sürerken sökülünce yok edilmiş grafiğe
+dokunuyordu (`reading 'notify'`). Artık önce yerleşim durdurulur, grafik sonra yok edilir.
 
 ---
 

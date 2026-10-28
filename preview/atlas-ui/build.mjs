@@ -2,6 +2,10 @@
 // Nothing under etkilesim-atlasi/ is touched: the built page is read, a few code patches are
 // applied (the same ones the real change would make in src/), and each variant's interface
 // layer (ui.css, ui.js and the variant's own css) is attached. Run: node preview/atlas-ui/build.mjs
+//
+// Since the chosen direction (B2) went into the source (--src, below), the published page
+// already carries these patches and the previews can no longer be rebuilt from it; they
+// were built from the atlas as it was before (git: c599d25 and earlier).
 
 import { readFileSync, writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
@@ -247,6 +251,35 @@ function english(html) {
     html = all ? html.split(a).join(b) : html.replace(a, b);
   }
   return html.replace("<title>Etkileşim Atlası</title>", '<title>Interaction Atlas</title>\n<script src="/preview/atlas-ui/en.js"></script>');
+}
+
+// ——— node preview/atlas-ui/build.mjs --src ———
+// Writes the chosen direction (B2) into the atlas's own source, once: the same patches as
+// above, applied to etkilesim-atlasi/src/ part by part, plus the English words for derle.py.
+// The layout is not written in as numbers: the source checks for BAKED, which derle.py
+// embeds from veri/yerlesim.json when the library list still matches (arac/yerlesim.mjs).
+// After this has run, the previews above can no longer be rebuilt from the published page.
+if (process.argv.includes("--src")) {
+  const dir = join(root, "etkilesim-atlasi", "src");
+  const FILES = ["_p1.html", "_p2.js", "_p4b.js", "_p5.js", "_p6.js", "_p8.js", "_p10.js"];
+  let all = FILES.map((f) => `\n/*@@${f}@@*/\n` + readFileSync(join(dir, f), "utf8").replace(/\r\n/g, "\n")).join("");
+  all = shared(all, "drawer");
+  const BAKED_CHECK = `/* Yerleşim derlemede bir kez hesaplanır: arac/yerlesim.mjs onu veri/yerlesim.json'a
+   yazar, derle.py de kütüphane listesi o hesaptan beri değişmediyse BAKED olarak gömer.
+   Açılış böylece ~0,6 sn kısalıyor. Liste değiştiyse gömülmez; harita eskisi gibi burada çözülür. */
+if(typeof BAKED!=="undefined" && BAKED.pos.length===N*2){ POS=Float64Array.from(BAKED.pos); klNow=BAKED.kl; }
+else solveNow(perplexity, 700);`;
+  const before = all.length;
+  all = all.replace(/\/\* önizleme: t-SNE derlemede çözüldü \*\/\nPOS = Float64Array\.from\(\[[^\]]*\]\); klNow = [^;]*;/, () => BAKED_CHECK);
+  if (all.length === before) throw new Error("baked layout block not found");
+  all = patch(all, [["return String(p.cover).replace(/^.*\\//, \"atlas-varlik/kapak/\")", "return String(p.cover).replace(/^.*\\//, (document.documentElement.dataset.base||\"\")+\"atlas-varlik/kapak/\")", "cover base"]]);
+  const parts = all.split(/\n\/\*@@(.+?)@@\*\/\n/);
+  for (let k = 1; k < parts.length; k += 2) writeFileSync(join(dir, parts[k]), parts[k + 1].replace(/\n/g, "\r\n"));
+  // The words derle.py swaps in for the English page (the first two belong to the head it writes itself).
+  writeFileSync(join(dir, "en_metin.json"), JSON.stringify(EN_UI.slice(2), null, 1) + "\n");
+  writeFileSync(join(dir, "en.js"), readFileSync(join(here, "en.js"), "utf8"));
+  console.log(`src: ${FILES.length} parts patched, en_metin.json (${EN_UI.length - 2} strings) and en.js written`);
+  process.exit(0);
 }
 
 const VARIANTS = [

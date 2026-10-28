@@ -9,14 +9,14 @@
    Ucuncu taraf betiklerden gelen yanlis eslesme olabilir.
 ================================================================== */
 const PSECT = {
-  "maps": {label:"Haritalar", wing:"geo", note:"Koordinati piksele ceviren isler: secim haritalari, akis, mekansal analiz."},
-  "storytelling": {label:"Hikâye Anlatımı", wing:"story", note:"Okuma sirasini tasarlayan isler: kaydirmali anlati, uzun form."},
-  "immersive": {label:"Sürükleyici", wing:"3d", note:"Derinlik, kamera ve mekan duygusu kuran isler."},
-  "interactives": {label:"Oynanabilirler", wing:"game", note:"Okurun oynadigi isler: quiz, tahmin, yaris, cizdirme."},
-  "visualizations": {label:"Görselleştirmeler", wing:"viz", note:"Sayiyi isarete baglayan isler: grafik, ag, karsilastirma."},
-  "investigations": {label:"Araştırmalar", wing:"viz", note:"Veriyle kurulmus arastirma dosyalari ve veritabanlari."},
-  "drone": {label:"Drone & Uydu", wing:"geo", note:"Yukaridan bakis: uydu goruntusu, hava cekimi, arazi degisimi."},
-  "portfolios": {label:"Okuma Odası", wing:"tools", note:"Ekipler, studyolar ve derlemeler - tek tek is degil, kaynak."}
+  "maps": {label:"Haritalar", wing:"geo", note:"Koordinatı piksele çeviren işler: seçim haritaları, akış, mekânsal analiz."},
+  "storytelling": {label:"Hikâye Anlatımı", wing:"story", note:"Okuma sırasını tasarlayan işler: kaydırmalı anlatı, uzun form."},
+  "immersive": {label:"Sürükleyici", wing:"3d", note:"Derinlik, kamera ve mekân duygusu kuran işler."},
+  "interactives": {label:"Oynanabilirler", wing:"game", note:"Okurun oynadığı işler: quiz, tahmin, yarış, çizdirme."},
+  "visualizations": {label:"Görselleştirmeler", wing:"viz", note:"Sayıyı işarete bağlayan işler: grafik, ağ, karşılaştırma."},
+  "investigations": {label:"Araştırmalar", wing:"viz", note:"Veriyle kurulmuş araştırma dosyaları ve veritabanları."},
+  "drone": {label:"Drone & Uydu", wing:"geo", note:"Yukarıdan bakış: uydu görüntüsü, hava çekimi, arazi değişimi."},
+  "portfolios": {label:"Okuma Odası", wing:"tools", note:"Ekipler, stüdyolar ve derlemeler: tek tek iş değil, kaynak."}
 };
 
 const PROJECTS_RAW = [

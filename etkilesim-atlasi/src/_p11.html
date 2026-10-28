@@ -1,0 +1,573 @@
+
+<!-- ==================================================================
+     19. ARAYÜZ KATMANI — üst çubuk, künye çekmecesi, arama, karşılaştırma
+================================================================== -->
+<style>
+/* —— ui —— */
+/* Shared interface layer for the atlas overhaul previews; uses the atlas's own tokens. */
+
+/* Search results */
+.ui-results{list-style:none;margin:-4px 0 0;padding:4px;display:flex;flex-direction:column;gap:1px;
+  background:var(--rail);border:1px solid var(--rail-line);border-radius:4px;box-shadow:var(--shadow);max-height:320px;overflow:auto}
+.ui-results[hidden]{display:none}
+.ui-results button{display:grid;grid-template-columns:9px minmax(0,1fr) auto;align-items:center;gap:9px;width:100%;padding:6px 8px;border-radius:3px;text-align:left}
+.ui-results button:hover,.ui-results button:focus-visible{background:var(--ui-field);outline:none}
+.ui-results i{width:9px;height:9px;border-radius:50%;background:var(--c)}
+.ui-results b{font-weight:500;font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ui-results span{font-size:11px;color:var(--ui-faint);white-space:nowrap}
+.ui-results .more{padding:6px 8px;font-family:var(--f-mono);font-size:10.5px;color:var(--ui-faint)}
+
+/* The museum as a way in */
+.ui-museum{display:grid!important;grid-template-columns:1fr auto;gap:4px 12px;align-items:end;text-align:left;
+  padding:14px 15px!important;border:1.5px solid var(--ui-ink)!important;border-radius:6px!important;background:var(--ui-field)!important;color:var(--ui-ink)!important}
+.ui-museum b{grid-column:1/-1;font-family:var(--f-disp);font-weight:800;font-size:20px;letter-spacing:-.02em;line-height:1}
+.ui-museum span{font-size:12px;line-height:1.45;color:var(--ui-muted);font-weight:400}
+.ui-museum u{text-decoration:none;font-family:var(--f-mono);font-size:11px;white-space:nowrap}
+.ui-museum:hover{background:var(--ui-ink)!important;color:var(--rail)!important}
+.ui-museum:hover span{color:inherit;opacity:.75}
+
+/* How to read */
+.ui-how .body h4{margin:4px 0 -8px;font-family:var(--f-mono);font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--ink-2);font-weight:500}
+.ui-how .body p,.ui-how .body li{margin:0;font-size:13.5px;line-height:1.55}
+.ui-how .body ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:4px}
+.ui-how kbd{font-family:var(--f-mono);font-size:11px;border:1.5px solid var(--ink);border-radius:3px;padding:0 4px}
+.ui-how-acts{display:flex;flex-wrap:wrap;gap:8px;padding-top:6px;border-top:1.5px solid var(--ink)}
+.ui-how-acts button{border:1.5px solid var(--ink)!important;border-radius:4px!important;padding:5px 10px!important;font-size:12px!important;color:var(--ink)!important;background:none!important}
+.ui-how-acts button:hover{background:var(--ink)!important;color:var(--paper)!important}
+.ui-howbtn{font-size:12px;color:var(--ui-muted);text-decoration:underline;text-underline-offset:3px}
+.ui-howbtn:hover{color:var(--ui-ink)}
+
+/* The selected card's sheet as a panel */
+.ui-kp{background:var(--paper);color:var(--ink);border:1.5px solid var(--rule);display:flex;flex-direction:column;gap:12px;padding:18px 18px 22px;overflow:auto;overscroll-behavior:contain}
+.ui-kp[hidden]{display:none}
+.ui-kp-x{position:sticky;top:0;align-self:flex-end;margin:-6px -6px -30px 0;width:28px;height:28px;border-radius:50%;font-size:13px;color:var(--ink-2);background:var(--paper)}
+.ui-kp-x:hover{background:rgba(0,0,0,.07);color:var(--ink)}
+.ui-kp-cat{display:flex;align-items:center;gap:7px;margin:0;font-family:var(--f-mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2)}
+.ui-kp-cat i{width:9px;height:9px;border-radius:50%;background:var(--c)}
+.ui-kp h2{margin:0;font-family:var(--f-disp);font-weight:800;font-size:32px;letter-spacing:-.025em;line-height:1}
+.ui-kp-tag{margin:0;font-size:14px;line-height:1.5}
+.ui-kp-live{margin:0;font-size:12.5px;line-height:1.5;color:var(--ink-2)}
+.ui-kp-live b{font-family:var(--f-mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;background:var(--ink);color:var(--paper);padding:2px 6px;margin-right:6px;font-weight:500}
+.ui-kp-live button{display:inline-block;margin-top:6px;border:1.5px solid var(--ink);border-radius:4px;padding:3px 9px;font-size:12px;color:var(--ink)}
+.ui-kp-live button:hover{background:var(--ink);color:var(--paper)}
+.ui-kp-live.is-no{font-family:var(--f-mono);font-size:10.5px;color:var(--ink-2)}
+.ui-kp-sheet{display:flex;flex-direction:column;gap:13px;border-top:1.5px solid var(--ink);padding-top:14px}
+
+/* Popovers */
+.ui-pop{position:relative}
+.ui-popbtn{border:1px solid var(--rail-line);border-radius:3px;padding:6px 10px;font-size:12.5px;font-weight:500;background:var(--ui-field)}
+.ui-popbtn[aria-expanded="true"],.ui-popbtn:hover{border-color:var(--ui-ink)}
+.ui-poppanel{position:absolute;top:calc(100% + 6px);left:0;z-index:40;width:300px;padding:8px;background:var(--rail);border:1px solid var(--rail-line);border-radius:4px;box-shadow:var(--shadow)}
+.ui-poppanel[hidden]{display:none}
+.ui-pop.is-cats .ui-poppanel{width:320px}
+.ui-poppanel .catnote{min-height:0}
+
+/* Phone: the sheet leaves the card for a bottom sheet, in every variant */
+@media (max-width:900px){
+  .card[data-sel] .sheet{display:none}
+  .ui-kp{position:fixed;left:0;right:0;bottom:0;top:auto;z-index:28;max-height:56dvh;width:auto;border-radius:14px 14px 0 0;border-bottom:0;
+    padding-bottom:calc(22px + env(safe-area-inset-bottom));box-shadow:0 -18px 50px -20px rgba(0,0,0,.55)}
+  .ui-kp h2{font-size:26px}
+  .app[data-kp] .hud{display:none}
+}
+
+/* ——— Dragging ——— */
+/* Nothing in the atlas selects as text while it is dragged, the bar above the map included
+   (a drag that began on the title used to select its way down across the map). What is
+   there to be read and copied stays selectable: the search field, the card sheet, the
+   reading notes and the comparison. */
+.app{-webkit-user-select:none;user-select:none}
+.app input,.ui-kp,.ui-kp *,.ui-how .body,.ui-how .body *,.ui-cmp-in,.ui-cmp-in *{-webkit-user-select:text;user-select:text}
+.app img,.app canvas,.app svg{-webkit-user-drag:none}
+.card{cursor:pointer}
+.stage.dragging,.stage.dragging .card{cursor:grabbing}
+/* A card held long enough to be moved by hand lifts off the map. */
+.card[data-lift]{z-index:90;cursor:grabbing;filter:drop-shadow(0 18px 26px rgba(0,0,0,.42))}
+.card[data-lift] .box{border-width:2px}
+
+/* ——— Comparison ——— */
+.tray,#cmp{display:none!important}
+/* ⇄ on each card, and the card's slot colour once it is in the comparison */
+.ui-cmpbtn{display:inline-grid;place-items:center;width:22px;height:22px;margin-right:6px;border:1.5px solid var(--ink);border-radius:4px;font-size:12px;line-height:1;color:var(--ink);opacity:.55;transition:opacity .15s,background .15s,color .15s}
+.card:hover .ui-cmpbtn,.ui-cmpbtn:focus-visible{opacity:1}
+.ui-cmpbtn:hover{background:var(--ink);color:var(--paper)}
+.card[data-cmp-n] .ui-cmpbtn{opacity:1;background:var(--slot);border-color:var(--slot);color:#fff}
+.card[data-cmp-n] .box--main{box-shadow:0 0 0 5px var(--slot)}
+.card[data-cmp-n]::before{content:attr(data-cmp-n);position:absolute;left:-14px;top:-14px;z-index:5;width:30px;height:30px;border-radius:50%;background:var(--slot);color:#fff;
+  font-family:var(--f-mono);font-size:14px;display:grid;place-items:center;box-shadow:0 0 0 3px var(--ground)}
+#world[data-lod="far"] .card[data-cmp-n] .box--main{box-shadow:0 0 0 8px var(--slot)}
+#world[data-lod="far"] .card[data-cmp-n]::before{width:64px;height:64px;left:40px;top:90px;font-size:30px}
+/* the sheet's own buttons */
+.ui-kp-cmp{display:flex;flex-wrap:wrap;gap:6px;margin:0}
+.ui-kp-cmp button{border:1.5px solid var(--ink);border-radius:4px;padding:5px 10px;font-size:12.5px;color:var(--ink)}
+.ui-kp-cmp button:hover,.ui-kp-cmp button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.ui-kp-sheet .cmpadd{display:none}
+/* the dock */
+.ui-dock{position:absolute;left:50%;bottom:14px;transform:translateX(-50%);z-index:14;display:grid;grid-template-columns:auto auto auto auto;align-items:center;gap:6px 10px;
+  padding:8px 10px 8px 14px;max-width:calc(100% - 28px);background:var(--paper);color:var(--ink);border:1.5px solid var(--rule);border-radius:8px;box-shadow:var(--shadow)}
+.ui-dock[hidden]{display:none}
+.ui-dock-t{font-family:var(--f-mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);font-weight:500}
+.ui-dock-slots{display:flex;gap:6px;margin:0;padding:0;list-style:none;min-width:0}
+.ui-dock-slots li{display:flex;align-items:center;gap:6px;height:32px;padding:0 4px;border:1.5px solid var(--slot,var(--ink));border-radius:5px;background:color-mix(in srgb,var(--slot,#fff) 10%,var(--paper))}
+.ui-dock-slots li i{display:grid;place-items:center;width:20px;height:20px;border-radius:50%;background:var(--slot);color:#fff;font-style:normal;font-family:var(--f-mono);font-size:11px}
+.ui-dock-slots li button{font-size:12.5px;font-weight:500;color:var(--ink);white-space:nowrap;max-width:150px;overflow:hidden;text-overflow:ellipsis}
+.ui-dock-slots li .x{width:22px;height:22px;border-radius:50%;font-size:11px;color:var(--ink-2)}
+.ui-dock-slots li .x:hover{background:rgba(0,0,0,.08);color:var(--ink)}
+.ui-dock-slots li.is-empty{border-style:dashed;border-color:color-mix(in srgb,var(--ink) 40%,transparent);background:none}
+.ui-dock-slots li.is-empty button{padding:0 8px;font-weight:400;color:var(--ink-2)}
+.ui-dock-slots li.is-empty button:hover{color:var(--ink)}
+.ui-dock-go{height:32px;padding:0 14px;border-radius:5px;background:var(--ink);color:var(--paper);font-size:12.5px;font-weight:500;white-space:nowrap}
+.ui-dock-go[disabled]{opacity:.35;cursor:default}
+.ui-dock-x{width:26px;height:26px;border-radius:50%;font-size:12px;color:var(--ink-2)}
+.ui-dock-x:hover{background:rgba(0,0,0,.08);color:var(--ink)}
+.ui-dock-note{grid-column:1/-1;margin:0;font-size:11.5px;color:var(--ink-2)}
+.app[data-picking] .search input{outline:2px solid #E4572E;outline-offset:1px}
+/* the comparison screen */
+.ui-cmp{position:fixed;inset:0;z-index:70;display:grid;place-items:center;padding:24px;background:rgba(10,10,9,.55)}
+.ui-cmp[hidden]{display:none}
+.ui-cmp-in{width:min(1120px,100%);max-height:100%;overflow:auto;background:var(--paper);color:var(--ink);border:1.5px solid var(--rule);border-radius:10px;box-shadow:var(--shadow)}
+.ui-cmp header{position:sticky;top:0;z-index:2;display:flex;align-items:center;gap:16px;padding:14px 20px;background:var(--paper);border-bottom:1.5px solid var(--ink)}
+.ui-cmp header h2{margin:0;font-family:var(--f-disp);font-weight:800;font-size:24px;letter-spacing:-.02em}
+.ui-cmp-diff{display:flex;align-items:center;gap:7px;margin-left:auto;font-size:13px;cursor:pointer}
+.ui-cmp-x{width:30px;height:30px;border-radius:50%;font-size:14px;color:var(--ink-2)}
+.ui-cmp-x:hover{background:rgba(0,0,0,.08);color:var(--ink)}
+.ui-cmp-sum{padding:14px 20px 4px;display:grid;gap:4px}
+.ui-cmp-sum p{margin:0;font-size:14px;line-height:1.5}
+.ui-cmp-sum p+p{font-size:12.5px;color:var(--ink-2)}
+.ui-cmp-grid{display:grid;gap:0 14px;padding:10px 20px 24px;align-items:center}
+.ui-cmp-lib{position:sticky;top:58px;z-index:1;align-self:stretch;display:flex;flex-direction:column;gap:6px;padding:12px;border-top:5px solid var(--slot);background:color-mix(in srgb,var(--slot) 7%,var(--paper));border-radius:0 0 6px 6px;margin-bottom:8px}
+.ui-cmp-k{display:flex;align-items:center;gap:7px;margin:0;font-family:var(--f-mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2)}
+.ui-cmp-k i{display:grid;place-items:center;width:20px;height:20px;border-radius:50%;background:var(--slot);color:#fff;font-style:normal}
+.ui-cmp-k span::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--c);margin-right:5px}
+.ui-cmp-lib h3{margin:0;font-family:var(--f-disp);font-weight:800;font-size:24px;letter-spacing:-.02em;line-height:1}
+.ui-cmp-tag{margin:0;font-size:12.5px;line-height:1.45;color:var(--ink-2)}
+.ui-cmp-lib dl{display:grid;grid-template-columns:1fr 1fr;gap:4px 10px;margin:4px 0 0}
+.ui-cmp-lib dt{font-family:var(--f-mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2)}
+.ui-cmp-lib dd{margin:0;font-family:var(--f-mono);font-size:12px}
+.ui-cmp-live{margin:0;align-self:flex-start;font-family:var(--f-mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;background:var(--ink);color:var(--paper);padding:2px 6px}
+.ui-cmp-acts{display:flex;gap:6px;margin:auto 0 0;padding-top:6px}
+.ui-cmp-acts button{border:1.5px solid var(--ink);border-radius:4px;padding:3px 8px;font-size:11.5px}
+.ui-cmp-acts button:hover{background:var(--ink);color:var(--paper)}
+.ui-cmp-fam{grid-column:1/-1;margin:14px 0 4px;padding-top:10px;border-top:1.5px solid var(--ink)}
+.ui-cmp-fam h4{margin:0;font-size:15px;font-weight:600}
+.ui-cmp-ax{display:grid;gap:1px;padding:7px 0;border-bottom:1px solid color-mix(in srgb,var(--ink) 12%,transparent)}
+.ui-cmp-ax b{font-family:var(--f-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;font-weight:500}
+.ui-cmp-ax span{font-size:11.5px;line-height:1.35;color:var(--ink-2)}
+.ui-cmp-ax em{justify-self:start;font-style:normal;font-family:var(--f-mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;background:var(--ink);color:var(--paper);padding:1px 5px;margin-top:2px}
+.ui-cmp-cell{display:grid;grid-template-columns:1fr 2.4em;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid color-mix(in srgb,var(--ink) 12%,transparent);align-self:stretch}
+.ui-cmp-cell i{position:relative;height:10px;border-radius:5px;background:color-mix(in srgb,var(--ink) 10%,transparent);overflow:hidden}
+.ui-cmp-cell i::after{content:"";position:absolute;inset:0 auto 0 0;width:var(--w);background:var(--slot);border-radius:5px}
+.ui-cmp-cell u{text-decoration:none;font-family:var(--f-mono);font-size:11px;color:var(--ink-2);text-align:right}
+/* the language switch */
+.ui-lang{font-size:12px;color:var(--ui-muted);border:1px solid var(--rail-line);border-radius:3px;padding:5px 9px;text-decoration:none}
+.ui-lang:hover{color:var(--ui-ink);border-color:var(--ui-ink)}
+@media (max-width:900px){
+  .ui-dock{grid-template-columns:1fr auto;bottom:10px;width:calc(100% - 20px)}
+  .ui-dock-t{display:none}
+  .ui-dock-slots{grid-column:1/-1;overflow-x:auto}
+  .ui-dock-slots li button{max-width:96px}
+  .app[data-kp] .ui-dock{display:none}
+  .ui-cmp{padding:0}
+  .ui-cmp-in{border-radius:0;height:100%}
+  .ui-cmp-grid{padding:8px 10px 20px;gap:0 8px;grid-template-columns:repeat(var(--n,2),minmax(0,1fr))!important}
+  .ui-cmp-grid>div:first-child{display:none}
+  .ui-cmp-lib{padding:8px}
+  .ui-cmp-lib h3{font-size:17px}
+  .ui-cmp-tag,.ui-cmp-lib dl{display:none}
+  .ui-cmp-ax{grid-column:1/-1;border-bottom:0;padding:8px 0 0}
+  .ui-cmp-ax span{display:none}
+  .ui-cmp-diff{font-size:12px}
+}
+
+/* —— b —— */
+/* B · no rail: a thin top bar holds search and tools, the map takes the full width, and the
+   selected card's sheet opens in a drawer on the right. */
+
+.app{grid-template-columns:minmax(0,1fr) auto!important;grid-template-rows:auto minmax(0,1fr)!important}
+.rail,.railtog,.railveil{display:none!important}
+.ui-top{grid-column:1/-1;display:grid;grid-template-columns:auto minmax(220px,380px) minmax(0,1fr);align-items:center;gap:22px;
+  padding:10px 18px;background:var(--rail);border-bottom:1px solid var(--rail-line);z-index:20}
+.ui-brand{display:grid;line-height:1.1}
+.ui-brand b{font-family:var(--f-disp);font-weight:800;font-size:21px;letter-spacing:-.02em}
+.ui-brand span{font-family:var(--f-mono);font-size:10px;color:var(--ui-faint);margin-top:3px}
+.ui-searchwrap{position:relative}
+.ui-searchwrap .ui-results{position:absolute;left:0;right:0;top:calc(100% + 6px);margin:0;z-index:40}
+.ui-tools{display:flex;align-items:center;gap:8px;justify-content:flex-end;flex-wrap:wrap}
+.ui-tools #onlyLive{padding:6px 10px}
+.ui-tools .ui-museum{grid-template-columns:auto auto;padding:6px 12px!important;border-width:1px!important;border-radius:3px!important}
+.ui-tools .ui-museum b{grid-column:auto;font-size:14px}
+.ui-tools .ui-museum span{display:none}
+.ui-tools .ui-poppanel{left:auto;right:0}
+.stage{grid-row:2;grid-column:1}
+.ui-kp{grid-row:2;grid-column:2;width:390px;border-width:0 0 0 1px;border-color:var(--rail-line)}
+.card[data-sel] .sheet{display:none}
+@media (max-width:900px){
+  .app{grid-template-columns:1fr!important}
+  .ui-top{grid-template-columns:1fr;gap:8px;padding:10px 12px}
+  .ui-brand{display:flex;align-items:baseline;gap:10px}
+  .ui-tools{justify-content:flex-start;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}
+  .ui-tools>*{flex:none}
+  .ui-tools .ui-poppanel{position:fixed;left:12px;right:12px;top:auto;width:auto}
+  .ui-kp{width:auto}
+}
+
+/* —— b2 —— */
+/* b2 · two storeys: search and tools above, the ten clusters always in view below. */
+.ui-top{grid-template-columns:auto minmax(220px,380px) minmax(0,1fr);row-gap:10px}
+.ui-catrow{grid-column:1/-1;display:flex;align-items:center;gap:16px;min-width:0;margin:0 -18px -10px;padding:8px 18px;border-top:1px solid var(--rail-line)}
+.ui-catrow #legend{flex-direction:row;flex-wrap:nowrap;gap:4px;overflow-x:auto;scrollbar-width:none;flex:0 1 auto;min-width:0}
+.ui-catrow .cat{display:inline-flex;gap:6px;padding:3px 9px;border:1px solid var(--rail-line);border-radius:999px;white-space:nowrap}
+.ui-catrow .cat b{font-size:12px}
+.ui-catrow .cat u{font-size:9.5px}
+.ui-catrow #catNote{flex:1;min-width:0;min-height:0;margin:0;padding:0;border:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:11.5px}
+@media (max-width:1240px){.ui-catrow #catNote{display:none}}
+@media (max-width:900px){.ui-top{grid-template-columns:1fr}.ui-brand{min-width:0}.ui-brand span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.ui-catrow{margin:0 -12px -10px;padding:8px 12px}}
+/* The ribbon folds away; a button in the bar brings it back. */
+.ui-ribbon-hide{flex:none;margin-left:auto;font-size:11.5px;color:var(--ui-muted);padding:3px 6px;border-radius:3px}
+.ui-ribbon-hide:hover{color:var(--ui-ink);background:var(--ui-field)}
+.ui-ribbon-show{display:none;border:1px solid var(--rail-line);border-radius:3px;padding:6px 10px;font-size:12.5px;font-weight:500;background:var(--ui-field)}
+.ui-ribbon-show:hover{border-color:var(--ui-ink)}
+.ui-top[data-ribbon-off] .ui-catrow{display:none}
+.ui-top[data-ribbon-off] .ui-ribbon-show{display:inline-block}
+</style>
+<script>
+// Arayüz katmanı: üst çubuk (iki katlı, küme şeridi gizlenebilir), arama ve sonuç listesi,
+// sağdan açılan künye çekmecesi (telefonda alttan açılan sayfa), "Nasıl okunur?" paneli,
+// müze girişi, adres çubuğu ve karşılaştırma. Ana IIFE'den sonra çalışır; window.atlas'ı ve
+// atlasın kendi öğelerini okur, onları yeniden yerleştirir. Dil <html lang>'dan gelir.
+// Önizlemede (preview/atlas-ui, B2) sınandı.
+(() => {
+  const MODE = "drawer", VAR = "b2", ALT = document.documentElement.dataset.alt;
+  const A = window.atlas, $ = (s, r = document) => r.querySelector(s);
+  const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
+  const slug = (s) => s.toLocaleLowerCase("tr").replace(/\.js$/, "").replace(/[^a-z0-9ğüşıöç]+/g, "-").replace(/^-|-$/g, "");
+  const LIVE = Object.keys(A.DEMO_OF).length, N = A.LIBS.length, K = Object.keys(A.CATS).length;
+  const app = $("#app"), stage = $("#stage");
+  app.dataset.ui = VAR;
+  document.documentElement.dataset.ui = MODE;
+
+  // ——— Words ———
+  const EN = document.documentElement.lang === "en";
+  const LOC = EN ? "en" : "tr";
+  const STR = {
+    tr: {
+      name: "Etkileşim Atlası", eyebrow: `${N} kütüphane · ${K} küme · ${LIVE} canlı demo`, counts: `${N} kütüphane · ${LIVE} canlı`,
+      intro: "İnteraktif medyayı mümkün kılan JavaScript kütüphaneleri. Birbirine benzeyenler yan yana duruyor; renk kümeyi, ▶ işareti kartın içinde çalışan bir demoyu gösteriyor.",
+      onlyLive: "▶ Canlı demosu olanlar", axes: "Kartlardaki çubuklar ne anlatıyor?", search: "Kütüphane, konu ya da teknik ara…",
+      museum: "Müze", museumLine: "Bu kütüphanelerle yapılmış 118 gazetecilik işi, bir binanın içinde.", enter: "Gir →",
+      how: "Nasıl okunur?", howTitle: "Bu atlas nasıl okunur?", close: "Kapat", recompute: "Haritayı yeniden hesapla",
+      howBody: `<h4>Harita</h4>
+        <p>Her kart bir JavaScript kütüphanesi. Birbirine benzeyen kütüphaneler yan yana düşüyor: yakınlık benzerlik demek, haritanın yönleri tek başına bir şey anlatmıyor. Renk kümeyi gösteriyor.</p>
+        <h4>Kart</h4>
+        <ul><li>Üstte kütüphanenin işini taklit eden küçük bir çizim, altında tek cümlelik tarifi.</li>
+          <li><b>▶</b> işaretli ${LIVE} kartta kütüphanenin kendisi çalışıyor; yakınlaşınca yüklenir. Köşedeki <b>⤢</b> ile büyütüp deneyebilirsiniz.</li>
+          <li>Karta tıklayınca künyesi açılır: boyut, lisans, yıl, ne yaptığı ve en çok benzediği kütüphaneler.</li>
+          <li><b>⇄</b> ile en çok üç kütüphaneyi yan yana koyup karşılaştırabilirsiniz.</li></ul>
+        <h4>Gezinme</h4>
+        <p>Sürükleyerek kaydırın, tekerlekle ya da iki parmakla yakınlaşın. <kbd>/</kbd> ile arayın, <kbd>Esc</kbd> ile kapatın. Bir kartı elle yerleştirmek için Alt tuşuna basılı tutarak sürükleyin (dokunmatik ekranda karta basılı tutun); diğerleri ona yer açar. Adres çubuğu seçtiğiniz kütüphaneyi tutar, bağlantıyı paylaşabilirsiniz.</p>
+        <h4>Nasıl hesaplandı?</h4>
+        <p>Her kütüphane on üç soruya verdiği cevaplarla (neyin üstüne çiziyor, hangi âlemde çalışıyor, ne kadarı hesap…) ve boyutu, yaşı, ilgisiyle bir sayı dizisine dönüşüyor. Harita bu dizilerden t-SNE ile hesaplanıyor, sonra kartlar çakışmasın diye aralanıyor. Boyut, yıldız ve yıl değerleri yaklaşık.</p>`,
+      more: (n) => `ve ${n} tane daha · haritada işaretli`, none: "Bir şey bulunamadı.",
+      sheet: "Künye", live: "▶ canlı", liveLine: "Kütüphanenin kendisi kartın içinde çalışıyor.", tryIt: "Büyüt ve dene ⤢", noLive: "Bu kütüphanenin atlasta canlı demosu yok.",
+      clusters: "Kümeler", tour: "Tur", hide: "Gizle ▴", other: "English",
+      // comparison
+      cmpAdd: "⇄ Karşılaştır", cmpIn: "✓ Karşılaştırmada", cmpNear: "En yakınlarıyla karşılaştır", cmpCard: "Karşılaştırmaya ekle / çıkar",
+      cmpTitle: "Karşılaştırma", cmpGo: (n) => `Karşılaştır (${n}) →`, cmpEmpty: "+ Kütüphane ekle", cmpClear: "Temizle",
+      cmpHint1: "Bir kütüphane daha seçin: kartın köşesindeki ⇄, künyedeki düğme ya da boş yuva.",
+      cmpFull: (x) => `En fazla üç kütüphane; ${x} çıkarıldı.`, cmpPick: "Karşılaştırmaya eklenecek kütüphaneyi yazın…",
+      cmpOnlyDiff: "Yalnız farkları göster", cmpOnMap: "Haritada göster", cmpRemove: "Çıkar", cmpBig: "büyük fark",
+      cmpAlike: (a, b, p) => `<b>${a}</b> ile <b>${b}</b> %${p} benziyor`,
+      cmpStory: (x, y) => `En çok <b>${x}</b> sorusunda ayrışıyorlar, en çok <b>${y}</b> sorusunda benziyorlar.`,
+      year: "Yıl", license: "Lisans", size: "Boyut", stars: "GitHub", kb: (k) => (k >= 1000 ? `${(k / 1000).toFixed(1)} MB` : `${k} kB`),
+    },
+    en: {
+      name: "Interaction Atlas", eyebrow: `${N} libraries · ${K} clusters · ${LIVE} live demos`, counts: `${N} libraries · ${LIVE} live`,
+      intro: "The JavaScript libraries that make interactive media possible. Similar ones sit side by side; colour shows the cluster, and ▶ marks a card where a live demo runs.",
+      onlyLive: "▶ With live demos", axes: "What do the bars on the cards mean?", search: "Search a library, topic or technique…",
+      museum: "Museum", museumLine: "118 journalism works made with these libraries, inside a building.", enter: "Enter →",
+      how: "How to read", howTitle: "How to read this atlas", close: "Close", recompute: "Recompute the map",
+      howBody: `<h4>The map</h4>
+        <p>Each card is a JavaScript library. Libraries that are alike land next to each other: nearness means similarity, while the directions of the map mean nothing on their own. Colour shows the cluster.</p>
+        <h4>The card</h4>
+        <ul><li>At the top, a small drawing that mimics what the library does; below it, a one-line description.</li>
+          <li>On the ${LIVE} cards marked <b>▶</b> the library itself runs; it loads when you zoom in. Open it larger with <b>⤢</b> in the corner and try it.</li>
+          <li>Click a card to open its details: size, licence, year, what it does and the libraries it is closest to.</li>
+          <li>With <b>⇄</b> you can put up to three libraries side by side and compare them.</li></ul>
+        <h4>Getting around</h4>
+        <p>Drag to pan, zoom with the wheel or two fingers. <kbd>/</kbd> searches, <kbd>Esc</kbd> closes. To place a card by hand, drag it with Alt held down (on a touch screen, press and hold it); the others make room. The address bar keeps the library you picked, so you can share the link.</p>
+        <h4>How was it made?</h4>
+        <p>Each library becomes a row of numbers from its answers to thirteen questions (what it draws on, which realm it works in, how much of it is computation…) plus its size, age and popularity. The map is computed from those rows with t-SNE, then spaced out so that no two cards overlap. Size, star and year figures are approximate.</p>`,
+      more: (n) => `and ${n} more · highlighted on the map`, none: "Nothing found.",
+      sheet: "Details", live: "▶ live", liveLine: "The library itself runs inside the card.", tryIt: "Open larger and try ⤢", noLive: "This library has no live demo in the atlas.",
+      clusters: "Clusters", tour: "Tour", hide: "Hide ▴", other: "Türkçe",
+      cmpAdd: "⇄ Compare", cmpIn: "✓ In comparison", cmpNear: "Compare with its closest", cmpCard: "Add to / remove from comparison",
+      cmpTitle: "Comparison", cmpGo: (n) => `Compare (${n}) →`, cmpEmpty: "+ Add a library", cmpClear: "Clear",
+      cmpHint1: "Pick one more: ⇄ on a card, the button in its details, or an empty slot.",
+      cmpFull: (x) => `Three at most; ${x} was taken out.`, cmpPick: "Type the library to add to the comparison…",
+      cmpOnlyDiff: "Only show differences", cmpOnMap: "Show on map", cmpRemove: "Remove", cmpBig: "big difference",
+      cmpAlike: (a, b, p) => `<b>${a}</b> and <b>${b}</b> are ${p}% alike`,
+      cmpStory: (x, y) => `They differ most on <b>${x}</b> and are most alike on <b>${y}</b>.`,
+      year: "Year", license: "Licence", size: "Size", stars: "GitHub", kb: (k) => (k >= 1000 ? `${(k / 1000).toFixed(1)} MB` : `${k} kB`),
+    },
+  };
+  const t = (k, ...a) => { const v = STR[LOC][k]; return typeof v === "function" ? v(...a) : v; };
+
+  $(".brand .eyebrow").textContent = t("eyebrow");
+  $(".brand h1").textContent = t("name");
+  $(".brand p").textContent = t("intro");
+  $("#onlyLive").innerHTML = `${t("onlyLive")} <u id="liveCount">${LIVE}</u>`;
+  $("#openAxes").textContent = t("axes");
+  $("#q").placeholder = t("search");
+  const museum = $("#enterMuseum");
+  museum.classList.add("ui-museum");
+  museum.innerHTML = `<b>${t("museum")}</b><span>${t("museumLine")}</span><u>${t("enter")}</u>`;
+
+  // ——— How to read ———
+  const how = document.createElement("section");
+  how.className = "sheet--big ui-how"; how.id = "howto"; how.setAttribute("aria-label", t("howTitle"));
+  how.innerHTML = `<header><b>${t("howTitle")}</b><button type="button" aria-label="${t("close")}" data-close>✕</button></header>
+    <div class="body">${t("howBody")}<p class="ui-how-acts"></p></div>`;
+  stage.appendChild(how);
+  $(".ui-how-acts", how).append($("#openAxes"), $("#resolve"), $("#resetPin"));
+  $("#resolve").textContent = t("recompute");
+  const openHow = () => how.setAttribute("data-open", "");
+  how.addEventListener("click", (e) => { if (e.target.closest("[data-close]") || e.target.closest("#openAxes")) how.removeAttribute("data-open"); });
+  addEventListener("keydown", (e) => { if (e.key === "Escape") how.removeAttribute("data-open"); });
+  document.querySelectorAll(".rail .note").forEach((n) => n.remove());
+  const howBtn = () => { const b = document.createElement("button"); b.type = "button"; b.className = "ui-howbtn"; b.textContent = t("how"); b.addEventListener("click", openHow); return b; };
+
+  // ——— Search with a result list ———
+  // In pick mode (an empty comparison slot was clicked) a result goes into the comparison.
+  const q = $("#q"), search = q.closest(".search");
+  const results = document.createElement("ul");
+  results.className = "ui-results"; results.hidden = true;
+  search.after(results);
+  let picking = false;
+  const matchesQ = (l, s) => `${l.name} ${l.tag} ${A.CATS[l.cat].label}`.toLocaleLowerCase(LOC).includes(s);
+  function list() {
+    const s = q.value.trim().toLocaleLowerCase(LOC);
+    if (!s) { results.hidden = true; return; }
+    const hits = A.LIBS.filter((l) => matchesQ(l, s)).sort((a, b) => (b.name.toLocaleLowerCase(LOC).startsWith(s) - a.name.toLocaleLowerCase(LOC).startsWith(s)) || b.stars - a.stars);
+    results.innerHTML = hits.length
+      ? hits.slice(0, 8).map((l) => `<li><button type="button" data-go="${l.i}"><i style="--c:var(--cat-${l.cat})"></i><b>${esc(l.name)}</b><span>${esc(A.CATS[l.cat].label)}</span></button></li>`).join("") + (hits.length > 8 ? `<li class="more">${t("more", hits.length - 8)}</li>` : "")
+      : `<li class="more">${t("none")}</li>`;
+    results.hidden = false;
+  }
+  q.addEventListener("input", list);
+  q.addEventListener("blur", () => setTimeout(() => { if (picking && document.activeElement !== q && !results.contains(document.activeElement)) endPick(); }, 200));
+  q.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") { const b = $("button[data-go]", results); if (b) { e.preventDefault(); go(+b.dataset.go); } }
+    else if (e.key === "ArrowDown") { const b = $("button[data-go]", results); if (b) { e.preventDefault(); b.focus(); } }
+    else if (e.key === "Escape") { q.value = ""; q.dispatchEvent(new Event("input")); q.blur(); endPick(); }
+  });
+  results.addEventListener("keydown", (e) => {
+    const b = e.target.closest("button"); if (!b) return;
+    const li = b.parentElement;
+    if (e.key === "ArrowDown") { e.preventDefault(); li.nextElementSibling?.querySelector("button")?.focus(); }
+    else if (e.key === "ArrowUp") { e.preventDefault(); (li.previousElementSibling?.querySelector("button") || q).focus(); }
+  });
+  results.addEventListener("click", (e) => { const b = e.target.closest("[data-go]"); if (b) go(+b.dataset.go); });
+  function go(i) {
+    results.hidden = true;
+    if (picking) { endPick(); q.value = ""; q.dispatchEvent(new Event("input")); toggleCmp(i, true); return; }
+    A.goTo(i); if (app.hasAttribute("data-rail")) A.rail(false); closePops();
+  }
+  function startPick() { picking = true; app.setAttribute("data-picking", ""); q.placeholder = t("cmpPick"); q.focus(); }
+  function endPick() { if (!picking) return; picking = false; app.removeAttribute("data-picking"); q.placeholder = t("search"); }
+  addEventListener("keydown", (e) => { if (e.key === "/" && !e.target.closest("input, textarea")) { e.preventDefault(); q.focus(); } });
+
+  // ——— The selected card's sheet, outside the card ———
+  const kp = document.createElement("aside");
+  kp.className = "ui-kp"; kp.id = "kp"; kp.hidden = true; kp.setAttribute("aria-label", t("sheet"));
+  function fill(i) {
+    const l = A.LIBS[i], c = A.cards[i], live = !!A.DEMO_OF[l.name], inC = A.compare.includes(i);
+    kp.innerHTML = `<button type="button" class="ui-kp-x" aria-label="${t("close")}">✕</button>
+      <p class="ui-kp-cat"><i style="--c:var(--cat-${l.cat})"></i>${esc(A.CATS[l.cat].label)} · ${l.year}</p>
+      <h2>${esc(l.name)}</h2><p class="ui-kp-tag">${esc(l.tag)}</p>
+      <p class="ui-kp-cmp"><button type="button" data-cmpt="${i}" aria-pressed="${inC}">${inC ? t("cmpIn") : t("cmpAdd")}</button><button type="button" data-cmpnear="${i}">${t("cmpNear")}</button></p>
+      ${live ? `<p class="ui-kp-live"><b>${t("live")}</b> ${t("liveLine")} <button type="button" data-wing="${i}">${t("tryIt")}</button></p>` : `<p class="ui-kp-live is-no">${t("noLive")}</p>`}
+      <div class="ui-kp-sheet">${$(".sheet", c.el).innerHTML}</div>`;
+  }
+  kp.addEventListener("click", (e) => {
+    if (e.target.closest(".ui-kp-x")) return A.deselect();
+    const g = e.target.closest("[data-go]"); if (g) return A.goTo(+g.dataset.go);
+    const w = e.target.closest("[data-wing]"); if (w) return A.toggleWing(+w.dataset.wing);
+    const ct = e.target.closest("[data-cmpt]"); if (ct) return toggleCmp(+ct.dataset.cmpt);
+    const cn = e.target.closest("[data-cmpnear]"); if (cn) return compareNear(+cn.dataset.cmpnear);
+    const m = e.target.closest(".cmpadd"); if (m) return toggleCmp(+m.dataset.cmp);
+    if (e.target.closest("[data-ax]")) $("#openAxes").click();
+  });
+  addEventListener("atlas:select", (e) => {
+    const i = e.detail; fill(i); kp.hidden = false; app.setAttribute("data-kp", "");
+    history.replaceState(null, "", `#${slug(A.LIBS[i].name)}`);
+  });
+  addEventListener("atlas:deselect", () => { kp.hidden = true; app.removeAttribute("data-kp"); history.replaceState(null, "", location.pathname + location.search); });
+  function fromHash() {
+    const h = decodeURIComponent(location.hash.slice(1)); if (!h) return;
+    const l = A.LIBS.find((x) => slug(x.name) === h); if (l && A.sel !== l.i) A.goTo(l.i);
+  }
+  addEventListener("hashchange", fromHash);
+  setTimeout(fromHash, 350);
+
+  // ——— Comparison ———
+  // Three slots, each with its own colour, so a library keeps one colour from the card on
+  // the map to the dock to the comparison screen.
+  const SLOT = ["#E4572E", "#2E7DD7", "#169E86"];
+  const slotOf = (i) => A.compare.indexOf(i);
+  let note = "";
+  function toggleCmp(i, add) {
+    if (A.compare.includes(i)) { if (add) return; A.removeCompare(i); return; }
+    if (A.compare.length >= 3) note = t("cmpFull", A.LIBS[A.compare[0]].name);
+    A.addCompare(i);
+  }
+  function compareNear(i) {
+    A.compare.splice(0);
+    [i, ...A.LIBS[i].near.slice(0, 2)].forEach((j) => A.addCompare(j));
+    openCmp();
+  }
+  // A ⇄ on every card, beside its number.
+  A.cards.forEach((c, i) => {
+    const b = document.createElement("button");
+    b.type = "button"; b.className = "ui-cmpbtn"; b.title = t("cmpCard"); b.setAttribute("aria-label", t("cmpCard")); b.textContent = "⇄";
+    b.addEventListener("pointerdown", (e) => e.stopPropagation());
+    b.addEventListener("click", (e) => { e.stopPropagation(); toggleCmp(i); });
+    $(".head span", c.el).prepend(b);
+  });
+  const dock = document.createElement("div");
+  dock.className = "ui-dock"; dock.hidden = true;
+  stage.appendChild(dock);
+  function syncCmp() {
+    const n = A.compare.length;
+    A.cards.forEach((c, i) => {
+      const s = slotOf(i);
+      if (s >= 0) { c.el.dataset.cmpN = s + 1; c.el.style.setProperty("--slot", SLOT[s]); }
+      else { delete c.el.dataset.cmpN; c.el.style.removeProperty("--slot"); }
+    });
+    dock.hidden = n === 0;
+    dock.innerHTML = `<b class="ui-dock-t">${t("cmpTitle")}</b>
+      <ol class="ui-dock-slots">${[0, 1, 2].map((s) => {
+        const i = A.compare[s];
+        return i === undefined
+          ? `<li class="is-empty"><button type="button" data-pick>${t("cmpEmpty")}</button></li>`
+          : `<li style="--slot:${SLOT[s]}"><i>${s + 1}</i><button type="button" data-show="${i}">${esc(A.LIBS[i].name)}</button><button type="button" class="x" data-rm="${i}" aria-label="${t("cmpRemove")}">✕</button></li>`;
+      }).join("")}</ol>
+      <button type="button" class="ui-dock-go" data-open ${n < 2 ? "disabled" : ""}>${t("cmpGo", n)}</button>
+      <button type="button" class="ui-dock-x" data-clear aria-label="${t("cmpClear")}" title="${t("cmpClear")}">✕</button>
+      ${note || n === 1 ? `<p class="ui-dock-note">${note || t("cmpHint1")}</p>` : ""}`;
+    note = "";
+    if (!kp.hidden && A.sel >= 0) fill(A.sel);
+    if (!cmp.hidden) n >= 2 ? renderCmp() : closeCmp();
+  }
+  dock.addEventListener("click", (e) => {
+    const b = e.target.closest("button"); if (!b) return;
+    if (b.dataset.rm) A.removeCompare(+b.dataset.rm);
+    else if (b.dataset.show) A.goTo(+b.dataset.show);
+    else if ("pick" in b.dataset) startPick();
+    else if ("open" in b.dataset) openCmp();
+    else if ("clear" in b.dataset) { A.compare.splice(0); A.removeCompare(-1); syncCmp(); }
+  });
+  addEventListener("atlas:compare", syncCmp);
+
+  // The comparison screen
+  const cmp = document.createElement("section");
+  cmp.className = "ui-cmp"; cmp.hidden = true; cmp.setAttribute("role", "dialog"); cmp.setAttribute("aria-label", t("cmpTitle"));
+  document.body.appendChild(cmp);
+  let onlyDiff = false;
+  const sim = (a, b) => Math.round((1 - Math.sqrt(a.v.reduce((s, x, k) => s + (x - b.v[k]) ** 2, 0) / a.v.length)) * 100);
+  function renderCmp() {
+    const L = A.compare.map((i) => A.LIBS[i]), n = L.length;
+    const cols = `minmax(150px, 1.1fr) repeat(${n}, minmax(0, 1fr))`;
+    const rows = A.AXES.map((a, ix) => { const v = L.map((l) => l.v[ix]); return { a, ix, v, span: Math.max(...v) - Math.min(...v) }; });
+    const ranked = [...rows].sort((p, q2) => q2.span - p.span);
+    // "Most alike" only counts what at least one of them actually has: two zeros say nothing.
+    const shared = ranked.filter((r) => Math.max(...r.v) >= 0.3);
+    const alike = (shared.length ? shared : ranked)[(shared.length ? shared : ranked).length - 1];
+    const pairs = [];
+    for (let x = 0; x < n; x++) for (let y = x + 1; y < n; y++) pairs.push(t("cmpAlike", esc(L[x].name), esc(L[y].name), sim(L[x], L[y])));
+    const head = L.map((l, s) => `<div class="ui-cmp-lib" style="--slot:${SLOT[s]}">
+        <p class="ui-cmp-k"><i>${s + 1}</i><span style="--c:var(--cat-${l.cat})">${esc(A.CATS[l.cat].label)}</span></p>
+        <h3>${esc(l.name)}</h3><p class="ui-cmp-tag">${esc(l.tag)}</p>
+        <dl><div><dt>${t("year")}</dt><dd>${l.year}</dd></div><div><dt>${t("license")}</dt><dd>${esc(l.lic)}</dd></div><div><dt>${t("size")}</dt><dd>${t("kb", l.kb)}</dd></div><div><dt>${t("stars")}</dt><dd>~${l.stars}k</dd></div></dl>
+        ${A.DEMO_OF[l.name] ? `<p class="ui-cmp-live">${t("live")}</p>` : ""}
+        <p class="ui-cmp-acts"><button type="button" data-show="${l.i}">${t("cmpOnMap")}</button><button type="button" data-rm="${l.i}">${t("cmpRemove")}</button></p>
+      </div>`).join("");
+    const fams = A.AXIS_FAM.map((f) => {
+      const fr = rows.filter((r) => f.ax.includes(r.a)), shown = onlyDiff ? fr.filter((r) => r.span >= 0.2) : fr;
+      if (!shown.length) return "";
+      return `<div class="ui-cmp-fam"><h4>${esc(f.t)}</h4></div>` + shown.map((r) => `
+        <div class="ui-cmp-ax${r.span >= 0.35 ? " is-big" : ""}"><b>${esc(r.a)}</b><span>${esc(A.AXIS_INFO[r.a].d)}</span>${r.span >= 0.35 ? `<em>${t("cmpBig")}</em>` : ""}</div>
+        ${r.v.map((v, s) => `<div class="ui-cmp-cell" style="--slot:${SLOT[s]}"><i style="--w:${Math.round(v * 100)}%"></i><u>${Math.round(v * 100)}</u></div>`).join("")}`).join("");
+    }).join("");
+    cmp.innerHTML = `<div class="ui-cmp-in">
+      <header><h2>${t("cmpTitle")}</h2>
+        <label class="ui-cmp-diff"><input type="checkbox" ${onlyDiff ? "checked" : ""}> ${t("cmpOnlyDiff")}</label>
+        <button type="button" class="ui-cmp-x" aria-label="${t("close")}">✕</button></header>
+      <div class="ui-cmp-sum"><p>${t("cmpStory", esc(ranked[0].a), esc(alike.a))}</p><p>${pairs.join(" · ")}</p></div>
+      <div class="ui-cmp-grid" style="grid-template-columns:${cols};--n:${n}"><div></div>${head}${fams}</div>
+    </div>`;
+  }
+  function openCmp() { if (A.compare.length < 2) return; renderCmp(); cmp.hidden = false; app.setAttribute("data-cmp", ""); $(".ui-cmp-x", cmp).focus(); }
+  function closeCmp() { cmp.hidden = true; app.removeAttribute("data-cmp"); }
+  cmp.addEventListener("click", (e) => {
+    if (e.target === cmp || e.target.closest(".ui-cmp-x")) return closeCmp();
+    const b = e.target.closest("button"); if (!b) return;
+    if (b.dataset.rm) A.removeCompare(+b.dataset.rm);
+    else if (b.dataset.show) { closeCmp(); A.goTo(+b.dataset.show); }
+  });
+  cmp.addEventListener("change", (e) => { if (e.target.matches("input[type=checkbox]")) { onlyDiff = e.target.checked; renderCmp(); } });
+  addEventListener("keydown", (e) => { if (e.key === "Escape" && !cmp.hidden) { e.stopImmediatePropagation(); closeCmp(); } }, true);
+
+  // ——— Popovers (tour, clusters) for the variants without a rail ———
+  const pops = [];
+  function pop(label, content, cls = "") {
+    const wrap = document.createElement("div"); wrap.className = `ui-pop ${cls}`;
+    const b = document.createElement("button"); b.type = "button"; b.className = "ui-popbtn"; b.textContent = label; b.setAttribute("aria-expanded", "false");
+    const panel = document.createElement("div"); panel.className = "ui-poppanel"; panel.hidden = true; panel.append(...content);
+    b.addEventListener("click", () => { const open = panel.hidden; closePops(); panel.hidden = !open; b.setAttribute("aria-expanded", String(open)); });
+    wrap.append(b, panel); pops.push([b, panel]);
+    return wrap;
+  }
+  function closePops() { pops.forEach(([b, p]) => { p.hidden = true; b.setAttribute("aria-expanded", "false"); }); }
+  addEventListener("pointerdown", (e) => { if (!e.target.closest(".ui-pop")) closePops(); });
+  $("#tour").addEventListener("click", (e) => { if (e.target.closest("[data-stop]")) closePops(); });
+  const langLink = () => { if (!ALT) return null; const a = document.createElement("a"); a.className = "ui-lang"; a.href = ALT + location.hash; a.textContent = t("other"); a.lang = EN ? "tr" : "en"; return a; };
+
+  // ——— The top bar, and the sheet in a drawer on the right ———
+  {
+    const el = (tag, cls, html = "") => { const e = document.createElement(tag); e.className = cls; e.innerHTML = html; return e; };
+    const top = el("header", "ui-top");
+    const brand = el("div", "ui-brand", `<b>${t("name")}</b><span>${t("counts")}</span>`);
+    const sw = el("div", "ui-searchwrap"); sw.append(search, results);
+    const tools = el("div", "ui-tools");
+    const legend = $("#legend"), catNote = $("#catNote"), tour = $("#tour"), live = $("#onlyLive");
+      // Two storeys: the clusters in view under the bar, a ribbon that can be folded away
+    // (open by default; the choice is remembered).
+    {
+      const KEY = "atlas-kumeler";
+      const show = el("button", "ui-ribbon-show", `${t("clusters")} ▾`); show.type = "button";
+      const hide = el("button", "ui-ribbon-hide", t("hide")); hide.type = "button";
+      tools.append(show, pop(`${t("tour")} ▾`, [tour]), museum, howBtn());
+      const ll = langLink(); if (ll) tools.append(ll);
+      const row = el("div", "ui-catrow"); row.append(legend, catNote, hide);
+      const set = (open) => {
+        top.toggleAttribute("data-ribbon-off", !open);
+        show.setAttribute("aria-expanded", String(open)); hide.setAttribute("aria-expanded", String(open));
+        try { localStorage.setItem(KEY, open ? "1" : "0"); } catch {}
+      };
+      let open = true;
+      try { open = localStorage.getItem(KEY) !== "0"; } catch {}
+      set(open);
+      show.addEventListener("click", () => set(true));
+      hide.addEventListener("click", () => set(false));
+      top.append(brand, sw, tools, row);
+    }
+    app.prepend(top); app.appendChild(kp);
+  }
+
+  // Panels that sit inside the map must not let their clicks, drags and wheel reach it:
+  // the map would read a click on a result as a click on empty ground and deselect.
+  stage.querySelectorAll(".ui-float, .ui-kp, .ui-museum, .ui-how, .ui-dock").forEach((el) =>
+    ["pointerdown", "click", "dblclick", "wheel", "touchstart"].forEach((ev) => el.addEventListener(ev, (e) => e.stopPropagation(), { passive: true })));
+  syncCmp();
+})();
+</script>
