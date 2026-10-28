@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="tr" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tensör Düzenleri</title>
+  <meta name="robots" content="noindex">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700;0,9..40,800;1,9..40,400;1,9..40,500&family=Geist:wght@400;500&family=Geist+Mono:wght@400&display=swap">
+  <link rel="stylesheet" href="/assets/css/tokens.css">
+  <link rel="stylesheet" href="/assets/css/base.css">
+  <link rel="stylesheet" href="/preview/salon.css">
+  <link rel="stylesheet" href="/preview/ima.css">
+  <link rel="stylesheet" href="/preview/layout.css">
+</head>
+<body class="lf-page">
+  <header class="bar">
+    <div class="bar-top">
+      <h1>Tensör uzayı <span>· sayfaya yerleştirmenin on beş yolu</span></h1>
+      <a class="label" href="/preview/tensor.html">yirmi üslup ↗</a>
+    </div>
+    <div class="modes" id="styles"></div>
+    <p class="about">Bu sefer üslup değil, uygulama: tam sayfa mı, kenar çubuklu mu, bölünmüş mü, dikey mi, telefonda nasıl? Her biri kendi boyutunda kurulmuş gerçek bir sayfa (masaüstü 1440×900, telefon 390×844), burada küçültülmüş duruyor. Birine tıkla: tam boy açılır; arama, kümeler, zaman aralığı ve seçim çalışır, kutu döner. Üslubu yukarıdan değiştirebilirsin.</p>
+  </header>
+
+  <main class="lf-grid" id="grid"></main>
+
+  <dialog class="lv" id="view" aria-label="Düzen, tam boy">
+    <div class="lv-head">
+      <p class="lv-title"></p>
+      <div class="lv-acts"><button type="button" class="lv-prev" aria-label="Önceki">←</button><button type="button" class="lv-next" aria-label="Sonraki">→</button><button type="button" class="lv-close" aria-label="Kapat" autofocus>×</button></div>
+    </div>
+    <div class="lv-host"><div class="lv-frame"></div></div>
+    <p class="lv-tip" hidden></p>
+  </dialog>
+
+  <script type="module" src="/preview/layout.js"></script>
+</body>
+</html>

@@ -22,10 +22,19 @@ const TRIS = (() => {
 })();
 
 // ——— The scene, projected once per frame ———
-function scene(W, H, t, { zoom = 0.66, pitch = 1.08, yaw = -0.7, spin = 0.12 } = {}) {
-  const cam = camera(W, H, yaw + t * spin, pitch, zoom);
+// A page can narrow the scene to some libraries (focus) and aim the camera (aim); layout.js
+// sets both around a single draw. The box also fits itself to the canvas: a short wide strip
+// zooms out, a tall phone canvas turns the box lengthwise and looks more from above.
+let only = null, aimed = null;
+export function focus(set) { only = set; }
+export function aim(opts) { aimed = opts; }
+function scene(W, H, t, opts = {}) {
+  const tall = H > W * 1.05;
+  const fit = tall ? { zoom: Math.min(0.6 * (H / W), 1.6), pitch: 0.78, yaw: -0.7 + Math.PI / 2 } : { zoom: 0.66 * Math.min(1, (H * 2.14) / W) };
+  const { zoom = 0.66, pitch = 1.08, yaw = -0.7, spin = 0.12, zoomBy = 1 } = { ...opts, ...fit, ...(aimed || {}) };
+  const cam = camera(W, H, yaw + t * spin, pitch, zoom * zoomBy);
   const pts = LIBS.map((l) => ({ l, p: cam(l.X, l.Y, yearZ(l)), f: cam(l.X, l.Y, 0) }));
-  const order = [...pts].sort((a, b) => a.p[2] - b.p[2]);
+  const order = [...pts].filter((q) => !only || only.has(q.l.i)).sort((a, b) => a.p[2] - b.p[2]);
   const corners = [[X0, Y0], [X1, Y0], [X1, Y1], [X0, Y1]];
   const floor = corners.map(([x, y]) => cam(x, y, 0)), roof = corners.map(([x, y]) => cam(x, y, ZMAX));
   const gx = (g) => X0 + (g / (GW - 1)) * (X1 - X0), gy = (g) => Y0 + (g / (GH - 1)) * (Y1 - Y0);
@@ -35,7 +44,7 @@ function scene(W, H, t, { zoom = 0.66, pitch = 1.08, yaw = -0.7, spin = 0.12 } =
     return out;
   };
   const years = [2006, 2012, 2018, 2023].map((y) => [y, cam(X0, Y0, ((y - 2006) / 17) * ZMAX)]);
-  return { cam, pts, order, floor, roof, contour, years, P: pts.map((q) => q.p), W, H };
+  return { cam, pts, order, floor, roof, contour, years, P: pts.map((q) => (!only || only.has(q.l.i) ? q.p : null)), W, H };
 }
 const LEVELS = [0.12, 0.3, 0.5, 0.7];
 function segs(ctx, list, style, width, dash = null) {
@@ -310,7 +319,7 @@ export const VARIANTS = [
       const S = scene(W, H, t); bg(ctx, W, H, "#0f1218");
       contours(ctx, S, "rgba(255,255,255,.08)", 0.7);
       const L = [0.4, -0.6, 0.7];
-      TRIS.map((tr) => [tr, (S.P[tr[0]][2] + S.P[tr[1]][2] + S.P[tr[2]][2]) / 3]).sort((a, b) => a[1] - b[1]).forEach(([tr]) => {
+      TRIS.filter((tr) => tr.every((i) => S.P[i])).map((tr) => [tr, (S.P[tr[0]][2] + S.P[tr[1]][2] + S.P[tr[2]][2]) / 3]).sort((a, b) => a[1] - b[1]).forEach(([tr]) => {
         const [a, b, c] = tr.map((i) => LIBS[i]);
         const u = [b.X - a.X, b.Y - a.Y, yearZ(b) - yearZ(a)], v = [c.X - a.X, c.Y - a.Y, yearZ(c) - yearZ(a)];
         const n = [u[1] * v[2] - u[2] * v[1], u[2] * v[0] - u[0] * v[2], u[0] * v[1] - u[1] * v[0]], m = Math.hypot(...n) + 1e-9;
@@ -385,7 +394,7 @@ export const VARIANTS = [
         ctx.save(); ctx.translate(q.p[0] + sw, q.p[1]); ctx.rotate(Math.sin(t * 0.6 + q.l.i) * 0.6); ctx.scale(1, 0.42);
         ctx.beginPath(); ctx.arc(0, 0, r, 0, 7); ctx.fillStyle = COL[q.l.c]; ctx.fill(); ctx.strokeStyle = "#111"; ctx.lineWidth = 0.8; ctx.stroke(); ctx.restore();
       }
-      return S.pts.map((q, i) => [q.p[0] + Math.sin(t * 0.9 + i) * 2, q.p[1], q.p[2], q.p[3]]);
+      return S.pts.map((q, i) => S.P[i] && [q.p[0] + Math.sin(t * 0.9 + i) * 2, q.p[1], q.p[2], q.p[3]]);
     }, ink: "#111", halo: "#ebe6da",
   },
   {
@@ -407,7 +416,7 @@ export const VARIANTS = [
           q.paper = p;
         }
       });
-      return S.pts.map((q) => q.paper || q.p);
+      return S.pts.map((q, i) => S.P[i] && (q.paper || q.p));
     }, ink: "#3a3028", halo: "rgba(250,246,238,.9)",
   },
   {
@@ -426,7 +435,7 @@ export const VARIANTS = [
         g.fillStyle = css(c); g.fillRect(Math.round(q.p[0]) - r, Math.round(q.p[1]) - r, 1 + r * 2, 1 + r * 2);
       }
       ctx.imageSmoothingEnabled = false; ctx.drawImage(St.off, 0, 0, w * f, h * f);
-      return S.pts.map((q) => [q.p[0] * f, q.p[1] * f]);
+      return S.pts.map((q, i) => S.P[i] && [q.p[0] * f, q.p[1] * f]);
     }, ink: "#fff1e8", halo: "#1d2b53", font: "11px 'Geist Mono', monospace",
   },
 ];
