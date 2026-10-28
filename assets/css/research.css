@@ -38,13 +38,13 @@
 .pp-abs { margin: 0; max-width: 64ch; font-size: var(--text-md); line-height: 1.6; color: var(--ink-2); }
 .pp-kw { display: flex; flex-wrap: wrap; gap: 6px; margin: 0; }
 .pp-kw span { padding: 3px 10px; border: 1px solid var(--line); border-radius: 999px; font-size: var(--text-xs); color: var(--ink-2); }
-.pp-cite { margin: 0; padding: 12px 14px; border-left: 2px solid var(--line-strong); font-family: var(--font-mono); font-size: 0.6875rem; line-height: 1.6; color: var(--ink-2); }
+.pp-cite { margin: 0; padding: 12px 14px; border-left: 2px solid var(--line-strong); font-family: var(--font-mono); font-size: 0.6875rem; line-height: 1.6; color: var(--ink-2); overflow-wrap: anywhere; }
 .pp-acts { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; margin: 0; font-family: var(--font-mono); font-size: var(--text-xs); }
 .pp-acts a, .pp-acts button { padding: 0; border: 0; background: none; font: inherit; color: var(--ink-2); text-decoration: underline; text-decoration-color: var(--line-strong); text-underline-offset: 3px; cursor: pointer; }
 .pp-acts a:hover, .pp-acts button:hover { color: var(--ink); text-decoration-color: var(--ink); }
 
 @media (max-width: 760px) {
-  .rx-body { grid-template-columns: 1fr; }
+  .rx-body { grid-template-columns: minmax(0, 1fr); } /* plain 1fr cannot shrink below a long DOI */
   /* On a phone the papers are the index: one column, read straight down. */
   .rx-index { display: none; }
 }

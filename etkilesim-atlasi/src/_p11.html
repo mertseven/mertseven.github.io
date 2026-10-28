@@ -69,6 +69,10 @@
     padding-bottom:calc(22px + env(safe-area-inset-bottom));box-shadow:0 -18px 50px -20px rgba(0,0,0,.55)}
   .ui-kp h2{font-size:26px}
   .app[data-kp] .hud{display:none}
+  /* On the whole map a phone has no room for desktop-sized cluster names: they piled up.
+     Smaller, and without the count line (the count is in the ribbon above). */
+  .rlabel b{font-size:13px}
+  .rlabel u{display:none}
 }
 
 /* ——— Dragging ——— */
