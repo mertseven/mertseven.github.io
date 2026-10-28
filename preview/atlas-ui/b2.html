@@ -2004,7 +2004,7 @@ requestAnimationFrame(frame);
 /* ------------------------------------------------------------------
    10. GEZİNME
 ------------------------------------------------------------------ */
-let down=null, dragged=0, suppress=false;
+let down=null, dragged=0, suppress=false, liftT=0;
 const ptrs=new Map(); let pinch=0;
 
 function onMove(e){
@@ -2015,7 +2015,7 @@ function onMove(e){
     if(pinch>0) zoomBy(d/pinch,(p[0].x+p[1].x)/2-r.left,(p[0].y+p[1].y)/2-r.top);
     pinch=d; dragged+=20; zoomingUntil=performance.now()+220; return;
   }
-  if(dragCard){
+  if(dragCard && dragCard.armed){
     const ddx=e.clientX-dragCard.sx, ddy=e.clientY-dragCard.sy;
     dragged=Math.max(dragged, Math.abs(ddx)+Math.abs(ddy));
     if(dragged>4){
@@ -2032,6 +2032,7 @@ function onMove(e){
   if(!down) return;
   const dx=e.clientX-down.x, dy=e.clientY-down.y;
   dragged = Math.max(dragged, Math.abs(dx)+Math.abs(dy));
+  if(dragged>4) clearTimeout(liftT);
   view.tx = down.tx+dx; view.ty = down.ty+dy;
   apply();
 }
@@ -2043,10 +2044,11 @@ function onUp(e){
     window.removeEventListener("pointerup",onUp);
     window.removeEventListener("pointercancel",onUp);
     stage.classList.remove("dragging");
+    clearTimeout(liftT);
     if(dragCard){
       const i=dragCard.i, c=cards[i];
-      c.el.removeAttribute("data-drag");
-      if(dragged>4){
+      c.el.removeAttribute("data-drag"); c.el.removeAttribute("data-lift");
+      if(dragCard.armed && dragged>4){
         pinned.add(i);
         c.el.setAttribute("data-pin","");
         resettle();
@@ -2067,14 +2069,18 @@ stage.addEventListener("pointerdown",e=>{
     dragged=0;
     const el=e.target.closest(".card");
     const guard=e.target.closest('.sheet,.gate,a,.mini,.wing,.expand,.plate[data-live] .live');
+    /* Sürükleme her yerde haritayı kaydırır ve yazı seçmez. Kartı elle taşımak için
+       üstüne basılı tutulur (ya da Alt ile sürüklenir); kart o zaman kalkar. */
+    if(!guard) e.preventDefault();
+    down={x:e.clientX,y:e.clientY,tx:view.tx,ty:view.ty};
+    stage.classList.add("dragging");
+    dragCard=null; clearTimeout(liftT);
     if(el && !guard){
       const i=+el.dataset.i;
-      dragCard={i, sx:e.clientX, sy:e.clientY, lx:LAY[i*2], ly:LAY[i*2+1]};
-      down=null;
-    } else {
-      dragCard=null;
-      down={x:e.clientX,y:e.clientY,tx:view.tx,ty:view.ty};
-      stage.classList.add("dragging");
+      dragCard={i, sx:e.clientX, sy:e.clientY, lx:LAY[i*2], ly:LAY[i*2+1], armed:false};
+      const lift=()=>{ if(!dragCard || dragCard.i!==i || dragged>4) return;
+        dragCard.armed=true; down=null; stage.classList.remove("dragging"); el.setAttribute("data-lift",""); };
+      if(e.altKey) lift(); else liftT=setTimeout(lift, e.pointerType==="touch" ? 450 : 380);
     }
   }
   else if(ptrs.size===2){ const p=[...ptrs.values()]; pinch=Math.hypot(p[0].x-p[1].x,p[0].y-p[1].y); down=null; dragCard=null; }
@@ -3062,18 +3068,23 @@ const DEMOS = {
     });
     /* Yerleşim, tuval ölçüsü kesinleştikten sonra çalışmalı; yoksa
        düğümler tek bir çizgiye dizilip çöküyor. */
+    let dead=false, running=false;
     const run=()=>{
+      if(dead) return;
       try{
         cy.resize();
         const lo=cy.layout({name:"cose",animate:true,animationDuration:1500,
                             padding:S*.14,randomize:true,nodeRepulsion:9000});
-        lo.on("layoutstop",()=>{ try{ cy.zoom(1); cy.center(); }catch(e){} });
+        running=true;
+        lo.on("layoutstop",()=>{ running=false; if(dead) return; try{ cy.zoom(1); cy.center(); }catch(e){} });
         lo.run();
       }catch(e){}
     };
-    setTimeout(run,80);
+    const t0=setTimeout(run,80);
     const iv=setInterval(run,5400);
-    return ()=>{ clearInterval(iv); try{cy.destroy();}catch(e){} host.innerHTML=""; };
+    return ()=>{ dead=true; clearTimeout(t0); clearInterval(iv); host.innerHTML="";
+                 const end=()=>{ try{cy.destroy();}catch(e){} };
+                 if(running){ cy.one("layoutstop", ()=>setTimeout(end,120)); setTimeout(end,4000); } else end(); };
   },
 
   /* gerçek Observable Plot: tek işaret tanımı, ölçekler kendiliğinden */

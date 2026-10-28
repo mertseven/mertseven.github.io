@@ -68,6 +68,16 @@
   html[data-ui="rail"] .ui-kp{display:none}
 }
 
+/* ——— Dragging ——— */
+/* The map selects no text while it is dragged; the sheet panel stays selectable. */
+.stage{-webkit-user-select:none;user-select:none}
+.ui-kp,.ui-kp *{-webkit-user-select:text;user-select:text}
+.card{cursor:pointer}
+.stage.dragging,.stage.dragging .card{cursor:grabbing}
+/* A card held long enough to be moved by hand lifts off the map. */
+.card[data-lift]{z-index:90;cursor:grabbing;filter:drop-shadow(0 18px 26px rgba(0,0,0,.42))}
+.card[data-lift] .box{border-width:2px}
+
 /* ——— Comparison ——— */
 .tray,#cmp{display:none!important}
 /* ⇄ on each card, and the card's slot colour once it is in the comparison */

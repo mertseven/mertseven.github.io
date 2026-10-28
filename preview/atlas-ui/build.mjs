@@ -113,6 +113,56 @@ let framed=false;`, "zoom state"],
   const base = wz ? wz.k : view.k;
   wz = { k: Math.max(.085, Math.min(2.2, base*Math.exp(-dy*0.0016))), ax:e.clientX-r.left, ay:e.clientY-r.top };
   zoomingUntil = performance.now()+220;`, "wheel"],
+    // 7a. Dragging. A drag that started on a card used to move the card instead of the map,
+    //     so panning seemed to "let go" whenever the pointer landed on one; and the drag
+    //     selected the cards' text along the way. Now a drag pans the map from anywhere and
+    //     selects nothing; a card is moved by hand after pressing and holding it (or with Alt).
+    ["let down=null, dragged=0, suppress=false;", "let down=null, dragged=0, suppress=false, liftT=0;", "lift timer"],
+    [`    if(el && !guard){
+      const i=+el.dataset.i;
+      dragCard={i, sx:e.clientX, sy:e.clientY, lx:LAY[i*2], ly:LAY[i*2+1]};
+      down=null;
+    } else {
+      dragCard=null;
+      down={x:e.clientX,y:e.clientY,tx:view.tx,ty:view.ty};
+      stage.classList.add("dragging");
+    }`, `    /* Sürükleme her yerde haritayı kaydırır ve yazı seçmez. Kartı elle taşımak için
+       üstüne basılı tutulur (ya da Alt ile sürüklenir); kart o zaman kalkar. */
+    if(!guard) e.preventDefault();
+    down={x:e.clientX,y:e.clientY,tx:view.tx,ty:view.ty};
+    stage.classList.add("dragging");
+    dragCard=null; clearTimeout(liftT);
+    if(el && !guard){
+      const i=+el.dataset.i;
+      dragCard={i, sx:e.clientX, sy:e.clientY, lx:LAY[i*2], ly:LAY[i*2+1], armed:false};
+      const lift=()=>{ if(!dragCard || dragCard.i!==i || dragged>4) return;
+        dragCard.armed=true; down=null; stage.classList.remove("dragging"); el.setAttribute("data-lift",""); };
+      if(e.altKey) lift(); else liftT=setTimeout(lift, e.pointerType==="touch" ? 450 : 380);
+    }`, "pointerdown"],
+    ["  if(dragCard){\n    const ddx=e.clientX-dragCard.sx", "  if(dragCard && dragCard.armed){\n    const ddx=e.clientX-dragCard.sx", "move card only when lifted"],
+    ["  dragged = Math.max(dragged, Math.abs(dx)+Math.abs(dy));\n  view.tx = down.tx+dx;", "  dragged = Math.max(dragged, Math.abs(dx)+Math.abs(dy));\n  if(dragged>4) clearTimeout(liftT);\n  view.tx = down.tx+dx;", "pan cancels lift"],
+    [`    if(dragCard){
+      const i=dragCard.i, c=cards[i];
+      c.el.removeAttribute("data-drag");
+      if(dragged>4){`, `    clearTimeout(liftT);
+    if(dragCard){
+      const i=dragCard.i, c=cards[i];
+      c.el.removeAttribute("data-drag"); c.el.removeAttribute("data-lift");
+      if(dragCard.armed && dragged>4){`, "pointerup"],
+    // 7b. The Cytoscape demo, unmounted while its animated layout was still running, kept
+    //     calling into the destroyed graph ("reading 'notify'" errors): stopping the layout
+    //     does not cancel the animation frame it already queued. The graph is now destroyed
+    //     only once a running layout has ended (or after 4 s), and no new layout starts.
+    ["    const run=()=>{\n      try{\n        cy.resize();\n        const lo=cy.layout(", "    let dead=false, running=false;\n    const run=()=>{\n      if(dead) return;\n      try{\n        cy.resize();\n        const lo=cy.layout(", "cyto run"],
+    [`        lo.on("layoutstop",()=>{ try{ cy.zoom(1); cy.center(); }catch(e){} });`,
+     `        running=true;\n        lo.on("layoutstop",()=>{ running=false; if(dead) return; try{ cy.zoom(1); cy.center(); }catch(e){} });`, "cyto stop flag"],
+    [`    setTimeout(run,80);
+    const iv=setInterval(run,5400);
+    return ()=>{ clearInterval(iv); try{cy.destroy();}catch(e){} host.innerHTML=""; };`, `    const t0=setTimeout(run,80);
+    const iv=setInterval(run,5400);
+    return ()=>{ dead=true; clearTimeout(t0); clearInterval(iv); host.innerHTML="";
+                 const end=()=>{ try{cy.destroy();}catch(e){} };
+                 if(running){ cy.one("layoutstop", ()=>setTimeout(end,120)); setTimeout(end,4000); } else end(); };`, "cyto cleanup"],
     // 7. More of the atlas reachable from the interface layer, and the comparison list
     //    announced whenever it changes (the tour fills it too).
     ["goStop, addCompare, renderCmp };", "goStop, addCompare, renderCmp, goTo, deselect, buildSheet, endTour, TOUR, DEMO_OF, compare, removeCompare, AXES, AXIS_FAM, AXIS_INFO, get sel(){ return sel; } };", "export"],
