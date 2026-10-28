@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="tr">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -11,7 +11,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Etkilesim Atlasi">
-<meta name="description" content="İnteraktif medyayı mümkün kılan 162 JavaScript kütüphanesi ve onlarla yapılmış 118 gazetecilik işi.">
+<meta name="description" content="The 162 JavaScript libraries that make interactive media possible, and 118 journalism works made with them.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23161615'/%3E%3Cg fill='%23E9E5DA'%3E%3Crect x='6' y='6' width='7' height='7' rx='1.5'/%3E%3Crect x='19' y='6' width='7' height='7' rx='1.5'/%3E%3Crect x='6' y='19' width='7' height='7' rx='1.5'/%3E%3Crect x='19' y='19' width='7' height='7' rx='1.5'/%3E%3C/g%3E%3C/svg%3E">
 <!--
   Etkileşim Atlası
@@ -29,8 +29,9 @@
 
   Derlenme: 2026-10-11
 -->
-<title>Atlas · B2 · İki kat</title>
+<title>Atlas · B2 · İki kat · EN</title>
 <meta name="robots" content="noindex">
+<script src="/preview/atlas-ui/en.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;450;500;600&display=swap">
@@ -676,9 +677,9 @@ img,svg,canvas{max-width:100%}
     <div id="world"></div>
     <div class="labels" id="labels"></div>
     <div class="zoombar">
-      <button id="zin" aria-label="Yakınlaştır">+</button>
-      <button id="zout" aria-label="Uzaklaştır">−</button>
-      <button id="zfit" aria-label="Tümünü sığdır" title="Tüm manzarayı sığdır">⤢</button>
+      <button id="zin" aria-label="Zoom in">+</button>
+      <button id="zout" aria-label="Zoom out">−</button>
+      <button id="zfit" aria-label="Fit all" title="Fit the whole map">⤢</button>
     </div>
     <div class="hud" id="hud"></div>
     <div class="callout" id="callout"></div>
@@ -690,7 +691,7 @@ img,svg,canvas{max-width:100%}
     </div>
 
     <section class="sheet--big" id="axes" aria-label="Eksenler">
-      <header><b>Eksenler — kartlardaki çubuklar ne anlatıyor</b><button id="axClose" aria-label="Kapat">&#10005;</button></header>
+      <header><b>Axes — what the bars on the cards mean</b><button id="axClose" aria-label="Kapat">&#10005;</button></header>
       <div class="body" id="axBody"></div>
     </section>
 
@@ -739,8 +740,8 @@ img,svg,canvas{max-width:100%}
       </div>
     </div>
 
-    <div class="minilabel">manzara özeti</div>
-    <canvas class="mini" id="mini" width="372" height="248" aria-label="Manzara özeti — tıklayın ya da sürükleyin"></canvas>
+    <div class="minilabel">overview</div>
+    <canvas class="mini" id="mini" width="372" height="248" aria-label="Overview — click or drag"></canvas>
   </main>
 </div>
 <script>
@@ -989,6 +990,16 @@ const LIBS = RAW.map((r,i)=>({
   glyph:r[6], url:r[7], tag:r[8], v:r[9], seed:(i*2654435761)%100000/100000
 }));
 
+if(window.ATLAS_EN){
+  const E=window.ATLAS_EN;
+  for(const k in E.cats){ CATS[k].label=E.cats[k].label; CATS[k].note=E.cats[k].note; }
+  const info={};
+  AXES.forEach((a,i)=>{ const n=E.axes[a]||a; info[n]=E.axisInfo[n]||AXIS_INFO[a]; AXES[i]=n; });
+  for(const k in AXIS_INFO) delete AXIS_INFO[k];
+  Object.assign(AXIS_INFO, info);
+  AXIS_FAM.forEach((f,i)=>{ f.t=E.fams[i].t; f.n=E.fams[i].n; f.ax=f.ax.map(a=>E.axes[a]||a); });
+  LIBS.forEach(l=>{ if(E.tags[l.name]) l.tag=E.tags[l.name]; });
+}
 /* Türetilmiş eksenler: ağırlık (log kB), yaş, erişim (log yıldız) */
 const yMin=2006, yMax=2023;
 LIBS.forEach(l=>{
@@ -1690,7 +1701,8 @@ const HINTS = {
   three:"Aynı sahne, daha büyük tuvalde.",
   echarts:"Veri her iki saniyede değişiyor; geçişi ECharts yönetiyor."
 };
-const DEFAULT_HINT = "Kütüphanenin kendisi burada, tam boyutta çalışıyor.";
+if(window.ATLAS_EN) Object.assign(HINTS, ATLAS_EN.hints);
+const DEFAULT_HINT = window.ATLAS_EN ? ATLAS_EN.defaultHint : "Kütüphanenin kendisi burada, tam boyutta çalışıyor.";
 let wingIdx = -1;
 let solver=null, solving=false, perplexity=18, klNow=0;
 const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -1782,24 +1794,24 @@ const cards = LIBS.map(l=>{
   el.tabIndex = 0;
   el.dataset.i = l.i;
   el.setAttribute("role","button");
-  el.setAttribute("aria-label", l.name + " — künyeyi aç");
+  el.setAttribute("aria-label", l.name + " — open details");
   el.style.setProperty("--c", `var(--cat-${l.cat})`);
   const hasDemo = !!DEMO_OF[l.name];
   el.innerHTML =
     `<div class="box box--main">
        <div class="head"><h3>${l.name}</h3>
-         <span><u class="pin" title="Bu kart elle yerleştirildi">elle</u>${hasDemo?'<em title="Yakınlaşınca kütüphanenin kendisi bu kartta çalışır">&#9654;</em>':''}${String(l.i+1).padStart(3,"0")}</span></div>
+         <span><u class="pin" title="This card was placed by hand">moved</u>${hasDemo?'<em title="Zoom in and the library itself runs on this card">&#9654;</em>':''}${String(l.i+1).padStart(3,"0")}</span></div>
        <div class="plate"><i class="k1"></i><i class="k2"></i><i class="k3"></i><i class="k4"></i>
-         <canvas class="glyph"></canvas><div class="live"></div><b class="livetag">canlı</b>
-         ${hasDemo?'<button class="expand" type="button" aria-label="Etkileşimli kanadı aç">&#10530;</button>':''}</div>
+         <canvas class="glyph"></canvas><div class="live"></div><b class="livetag">live</b>
+         ${hasDemo?'<button class="expand" type="button" aria-label="Open larger and try">&#10530;</button>':''}</div>
      </div>
      <div class="box box--cap"><p>${l.tag}</p><div class="dots3"><b></b><b></b><b></b></div></div>
      <div class="sheet"></div>
      ${hasDemo?`<div class="wing"><div class="box box--main">
        <div class="head"><h3>${l.name}</h3>
-         <span><u class="wing__tag">etkileşimli</u><button class="wing__close" type="button" aria-label="Kanadı kapat">&#10005;</button></span></div>
+         <span><u class="wing__tag">interactive</u><button class="wing__close" type="button" aria-label="Close">&#10005;</button></span></div>
        <div class="plate"><i class="k1"></i><i class="k2"></i><i class="k3"></i><i class="k4"></i>
-         <div class="live"></div><b class="livetag">canlı</b></div>
+         <div class="live"></div><b class="livetag">live</b></div>
        <p class="wing__hint"></p>
      </div></div>`:''}`;
   if(hasDemo) el.setAttribute("data-demo","");
@@ -1827,6 +1839,15 @@ place(false);
 /* ------------------------------------------------------------------
    8. GÖRÜNÜM
 ------------------------------------------------------------------ */
+/* Tekerlek sürerken pahalı geçişler bekler; durunca bir kez yapılır. */
+let wz=null, zoomingUntil=0, lodPending=false, lastRes=0, lastVsig="";
+const zooming=()=>performance.now()<zoomingUntil;
+function stepZoom(){
+  if(!wz) return;
+  const r=wz.k/view.k;
+  if(Math.abs(r-1)<0.003){ zoomBy(r, wz.ax, wz.ay); wz=null; return; }
+  zoomBy(Math.pow(r, 0.3), wz.ax, wz.ay);
+}
 let framed=false;
 function measure(){ const r=stage.getBoundingClientRect(); VW=r.width; VH=r.height; }
 /* Açılış karesi ancak sahne gerçekten ölçüldükten sonra kurulur —
@@ -1878,7 +1899,7 @@ function apply(){
   stage.style.backgroundSize = `${g}px ${g}px`;
   stage.style.backgroundPosition = `${view.tx%g}px ${view.ty%g}px`;
   const lod = view.k < 0.34 ? "far" : view.k < 0.62 ? "mid" : "near";
-  if(world.dataset.lod !== lod) world.dataset.lod = lod;
+  if(world.dataset.lod !== lod){ if(zooming()) lodPending=true; else world.dataset.lod = lod; }
 }
 
 function zoomBy(f, ax, ay){
@@ -1919,6 +1940,8 @@ function frame(now){
      bir HUD innerHTML yazımı ve canlı demo bütçesi. Hepsi boşa. */
   if(museumOn){ requestAnimationFrame(frame); return; }
   if(!framed){ measure(); openView(); }
+  stepZoom();
+  if(lodPending && !zooming()){ lodPending=false; apply(); }
   if(regionsDirty){ buildRegions(); regionsDirty=false; }
 
   if(solving && solver){
@@ -1926,7 +1949,7 @@ function frame(now){
     POS = fitted(solver.Y, N); klNow = solver.kl;
     spread(LAY); place(false);
     if(solver.iter>=700){
-      solving=false; solveBtn.disabled=false; solveBtn.textContent="Manzarayı yeniden ser";
+      solving=false; solveBtn.disabled=false; solveBtn.textContent="Recompute the map";
       relax(LAY, 420); place(true); regionsDirty=true; linkTarget=-2;
       cards.forEach(c=>c.sheetBuilt=false);
       if(pendingSel>=0){ const k=pendingSel; pendingSel=-1; select(k); }
@@ -1934,10 +1957,11 @@ function frame(now){
   }
 
   const plate = (CARD_W-33);
-  const RES = bucketFor(plate*view.k*DPR);
+  const RES = (zooming() && lastRes) ? lastRes : (lastRes = bucketFor(plate*view.k*DPR));
   const skip = visCount>44 && tick%2===1;
   let vis=0;
 
+  let resized=0;
   if(!skip){
     for(const c of cards){
       if(c.el.hasAttribute("data-off")) continue;
@@ -1951,23 +1975,25 @@ function frame(now){
       c.speed += (want - c.speed) * Math.min(1, dt*7);
       if(!reduced) c.tl += dt * c.speed;
       if(c.plate.hasAttribute("data-live")) continue;   /* canlı demo varken glyph çizilmez */
-      if(c.res!==RES){ c.cv.width=c.cv.height=RES; c.res=RES; }
+      if(c.res===RES && (zooming() || (view.k<0.34 && (tick+i)%10!==0))) continue;
+      if(c.res!==RES){ if(c.res && ++resized>10) continue; c.cv.width=c.cv.height=RES; c.res=RES; }
       const g=c.ctx;
       g.clearRect(0,0,RES,RES);
       drawGlyph(g, c.l.glyph, RES/2, RES/2, RES*0.86, c.tl, INK, c.l.seed);
     }
     visCount=vis;
   }
-  updateLive();
-  updateLabels();
+  if(!zooming()) updateLive();
+  /* Bölge adları ve mini harita yalnız görünüm değişince (ya da arada bir, süzgeç için) yenilenir. */
+  const vsig = view.k.toFixed(4)+","+view.tx.toFixed(1)+","+view.ty.toFixed(1)+","+VW+","+VH;
+  if(vsig!==lastVsig || tick%20===0){ lastVsig=vsig; updateLabels(); drawMini(); }
   drawLinks(hoverIdx>=0 ? hoverIdx : sel);
-  drawMini();
 
   /* innerHTML her karede yazılıyordu; yalnız değişince yaz. */
   const hudTxt =
-    `<span><b>${N}</b> kütüphane</span><span><b>${CAT_KEYS.length}</b> küme</span>` +
+    `<span><b>${N}</b> libraries</span><span><b>${CAT_KEYS.length}</b> clusters</span>` +
     
-    (solving?`<span>seriliyor…</span>`:"");
+    (solving?`<span>computing…</span>`:"");
   if(hudTxt!==hudPrev){ hudEl.innerHTML=hudTxt; hudPrev=hudTxt; }
 
   requestAnimationFrame(frame);
@@ -1987,7 +2013,7 @@ function onMove(e){
     const p=[...ptrs.values()], d=Math.hypot(p[0].x-p[1].x,p[0].y-p[1].y);
     const r=stage.getBoundingClientRect();
     if(pinch>0) zoomBy(d/pinch,(p[0].x+p[1].x)/2-r.left,(p[0].y+p[1].y)/2-r.top);
-    pinch=d; dragged+=20; return;
+    pinch=d; dragged+=20; zoomingUntil=performance.now()+220; return;
   }
   if(dragCard){
     const ddx=e.clientX-dragCard.sx, ddy=e.clientY-dragCard.sy;
@@ -2065,7 +2091,10 @@ stage.addEventListener("pointerleave",()=>{ hoverIdx=-1; });
 stage.addEventListener("wheel",e=>{
   e.preventDefault();
   const r=stage.getBoundingClientRect();
-  zoomBy(Math.exp(-e.deltaY*0.0016), e.clientX-r.left, e.clientY-r.top);
+  const dy = e.deltaMode===1 ? e.deltaY*16 : e.deltaMode===2 ? e.deltaY*VH : e.deltaY;
+  const base = wz ? wz.k : view.k;
+  wz = { k: Math.max(.085, Math.min(2.2, base*Math.exp(-dy*0.0016))), ax:e.clientX-r.left, ay:e.clientY-r.top };
+  zoomingUntil = performance.now()+220;
 },{passive:false});
 
 world.addEventListener("click",e=>{
@@ -2148,19 +2177,19 @@ function buildSheet(c){
     }).join("")
   ).join("");
   c.el.querySelector(".sheet").innerHTML = `
-    <p class="sec">Künye — ${CATS[l.cat].label}</p>
+    <p class="sec">Details — ${CATS[l.cat].label}</p>
     <dl class="facts">
-      <div><dt>Yaklaşık ağırlık</dt><dd>${fmtKb(l.kb)}</dd></div>
-      <div><dt>GitHub yıldızı</dt><dd>${fmtStars(l.stars)}</dd></div>
-      <div><dt>İlk sürüm</dt><dd>${l.year}</dd></div>
-      <div><dt>Lisans</dt><dd>${l.lic}</dd></div>
+      <div><dt>Approx. size</dt><dd>${fmtKb(l.kb)}</dd></div>
+      <div><dt>GitHub stars</dt><dd>${fmtStars(l.stars)}</dd></div>
+      <div><dt>First release</dt><dd>${l.year}</dd></div>
+      <div><dt>Licence</dt><dd>${l.lic}</dd></div>
     </dl>
-    <p class="sec">Ne yapar — eksen adına tıklayın</p>
+    <p class="sec">What it does — click an axis name</p>
     <div class="bars">${rows}</div>
-    <p class="sec">Benzer kütüphaneler</p>
+    <p class="sec">Similar libraries</p>
     <div class="near">${l.near.map(j=>
       `<button data-go="${j}" style="--nc:var(--cat-${LIBS[j].cat})">${LIBS[j].name}</button>`).join("")}</div>
-    <button class="cmpadd" data-cmp="${l.i}">&#8646; karşılaştırmaya ekle</button>
+    <button class="cmpadd" data-cmp="${l.i}">&#8646; add to comparison</button>
     <a class="out" href="https://${l.url}" target="_blank" rel="noopener noreferrer">${l.url} ↗</a>`;
   c.sheetBuilt = true;
 }
@@ -2231,7 +2260,7 @@ legendEl.innerHTML = CAT_KEYS.map(k=>
   `<button class="cat" data-cat="${k}" style="--c:var(--cat-${k})" aria-pressed="true">
      <i></i><b>${CATS[k].label}</b><u>${counts[k]}</u></button>`).join("");
 
-const DEFAULT_NOTE = "Bir kümenin üzerine gelin. Aynı işi farklı katmanlarda yapan kütüphaneler manzarada yan yana düşer.";
+const DEFAULT_NOTE = "Hover over a cluster. Libraries that do the same job on different layers land side by side on the map.";
 catNote.textContent = DEFAULT_NOTE;
 
 function matches(l){
@@ -2291,7 +2320,7 @@ const solveBtn=document.getElementById("resolve");
 const resetBtn = document.getElementById("resetPin");
 function syncPinUI(){
   resetBtn.hidden = pinned.size===0;
-  resetBtn.textContent = `↺ Elle taşınan ${pinned.size} kartı geri al`;
+  resetBtn.textContent = `↺ Put back the ${pinned.size} card(s) moved by hand`;
 }
 function unpinAll(){
   pinned.clear();
@@ -2307,7 +2336,7 @@ function startSolve(seed){
   const keep = seed!==undefined ? sel : -1;
   closeWing(); deselect(); unpinAll();
   solver = makeSolver(X, perplexity, seed!==undefined ? seed : ((Math.random()*1e9)|0));
-  solving = true; solveBtn.disabled = true; solveBtn.textContent = "Seriliyor…";
+  solving = true; solveBtn.disabled = true; solveBtn.textContent = "Computing…";
   pendingSel = keep;
 }
 let pendingSel = -1;
@@ -2452,7 +2481,7 @@ function buildRegions(){
       lab = document.createElement("div");
       lab.className = "rlabel";
       lab.style.setProperty("--c", `var(--cat-${key})`);
-      lab.innerHTML = `<b>${CATS[key].label}</b><u>${members.length} kütüphane</u>`;
+      lab.innerHTML = `<b>${CATS[key].label}</b><u>${members.length} libraries</u>`;
       labelHost.appendChild(lab);
       labelEls[key] = lab;
     }
@@ -2595,7 +2624,7 @@ const GLOBAL = { matter:"Matter", chart:"Chart", d3:"d3", zdog:"Zdog",
 
 /* Ses, tarayıcı kuralı gereği kullanıcı jesti olmadan başlayamaz — ve zaten
    kimsenin izinsiz ses duymaması gerekir. Bu demolar bir düğmeyle açılır. */
-const GESTURE = { tone:"Sesi başlat" };
+const GESTURE = { tone:"Start sound" };
 /* Bağımlılıklar. Observable Plot'un UMD paketi d3'ü içine almaz, global
    olarak bekler; yalnız Plot yüklenirse "Cannot read properties of undefined
    (reading 'timeSecond')" diye ölür. Sırayı burası garantiliyor. */
@@ -2978,7 +3007,7 @@ const DEMOS = {
       `height:${S*.34}px;border:2px solid ${ink};border-radius:5px;touch-action:none;cursor:move;`+
       `display:grid;place-items:center`;
     const hint=document.createElement("span");
-    hint.textContent="sürükle";
+    hint.textContent="drag";
     hint.style.cssText=`font-family:monospace;font-size:${S*.052}px;letter-spacing:.14em;`+
       `text-transform:uppercase;color:${ink};pointer-events:none;opacity:.7`;
     box.appendChild(hint); wrap.appendChild(box); host.appendChild(wrap);
@@ -3127,7 +3156,7 @@ const DEMOS = {
       `font-size:${S*.052}px;color:${ink};display:flex;flex-direction:column;`+
       `gap:${S*.02}px;overflow:hidden`;
     host.appendChild(el);
-    const cats=["ege","marmara","akdeniz","iç anadolu"];
+    const cats=["north","south","east","west"];
     const render=()=>{
       const rows=Array.from({length:40},()=>({
         k:cats[(Math.random()*4)|0], v:Math.round(Math.random()*100)}));
@@ -3457,12 +3486,12 @@ function mountGate(c,key,S,i,token,host,plate){
   host.appendChild(gate);
   gate.addEventListener("click", async ev=>{
     ev.stopPropagation();
-    gate.disabled=true; gate.textContent="başlıyor…";
+    gate.disabled=true; gate.textContent="starting…";
     let stop=null;
     try{ stop=await DEMOS[key](host,S,INK,{interactive: i===wingIdx}); }
     catch(err){
       console.warn("ses başlatılamadı:",err);
-      gate.disabled=false; gate.textContent="\u25B6 tekrar dene"; return;
+      gate.disabled=false; gate.textContent="\u25B6 try again"; return;
     }
     const rec=liveMap.get(i);
     if(!rec || rec.token!==token){ try{ stop(); }catch(e){} return; }
@@ -3492,7 +3521,7 @@ function mountOne(i){
 function updateLive(){
   const want=new Set(liveWanted());
   for(const i of [...liveMap.keys()]) if(!want.has(i)) unmountOne(i);
-  for(const i of want) if(!liveMap.has(i)) mountOne(i);
+  for(const i of want) if(!liveMap.has(i)){ mountOne(i); break; }
 }
 
 /* ==================================================================
@@ -3513,6 +3542,7 @@ const TOUR = [
     d:"Sık karışan üç şey. Phaser bir oyun çatısıdır: döngü, girdi, sahne yönetimi verir. Three.js bir render katmanıdır: sahneyi çizer ama oyunun kurallarını bilmez. Matter.js ise yalnız fiziktir: cisimleri hareket ettirir, çizmeyi size bırakır. Üçünü karşılaştırın." }
 ];
 
+if(window.ATLAS_EN) TOUR.forEach((s,i)=>{ s.t=ATLAS_EN.tour[i].t; s.d=ATLAS_EN.tour[i].d; });
 let tourIdx = -1;
 const tourEl = document.getElementById("tour");
 const calloutEl = document.getElementById("callout");
@@ -3549,10 +3579,10 @@ function goStop(n){
     `<div class="callout__head"><b>${st.t}</b><u>${String(n+1).padStart(2,"0")} / ${String(TOUR.length).padStart(2,"0")}</u></div>
      <p>${st.d}</p>
      <div class="callout__nav">
-       <button id="tourPrev"${n===0?" disabled":""}>&#8592; önceki</button>
-       <button id="tourNext"${n===TOUR.length-1?" disabled":""}>sonraki &#8594;</button>
-       <button id="tourEnd">kapat</button>
-       <span>tur</span>
+       <button id="tourPrev"${n===0?" disabled":""}>&#8592; previous</button>
+       <button id="tourNext"${n===TOUR.length-1?" disabled":""}>next &#8594;</button>
+       <button id="tourEnd">close</button>
+       <span>tour</span>
      </div>`;
   calloutEl.setAttribute("data-open","");
   [...tourEl.children].forEach((b,i)=>b.setAttribute("aria-current", i===n?"true":"false"));
@@ -3592,6 +3622,7 @@ function syncTray(){
   trayChips.innerHTML = compare.map(i=>
     `<button data-rm="${i}" style="--nc:var(--cat-${LIBS[i].cat})">${LIBS[i].name} &#10005;</button>`).join("");
   compare.length ? trayEl.setAttribute("data-on","") : trayEl.removeAttribute("data-on");
+  dispatchEvent(new CustomEvent("atlas:compare",{detail:compare.slice()}));
   if(cmpEl.hasAttribute("data-open")) renderCmp();
 }
 trayChips.addEventListener("click",e=>{
@@ -3670,11 +3701,11 @@ function renderAxes(){
        <p>${f.n}</p>
        ${f.ax.map(a=>{
          const ix=AXES.indexOf(a), info=AXIS_INFO[a];
-         const poles=`<div class="axpole"><u>yüksek</u><span>${info.h}</span></div>`+
-                     `<div class="axpole"><u>düşük</u><span>${info.l}</span></div>`;
-         const both = (a==="Bildirimsel"||a==="Soyutlama");
-         const ex = axChips(axTop(ix,1,3), both?"en yüksek":"örnek") +
-                    (both ? axChips(axTop(ix,-1,3), "en düşük") : "");
+         const poles=`<div class="axpole"><u>high</u><span>${info.h}</span></div>`+
+                     `<div class="axpole"><u>low</u><span>${info.l}</span></div>`;
+         const both = (a===AXES[10]||a===AXES[11]);
+         const ex = axChips(axTop(ix,1,3), both?"highest":"examples") +
+                    (both ? axChips(axTop(ix,-1,3), "lowest") : "");
          return `<div class="axitem" id="ax-${ix}"><b>${a}</b><div><em>${info.d}</em>${poles}${ex}</div></div>`;
        }).join("")}
      </section>`).join("");
@@ -3736,7 +3767,7 @@ document.addEventListener("keydown",e=>{
 /* Konsoldan kurcalamak isteyenler için küçük bir tutamak. */
 window.atlas = { view, LAY, cards, LIBS, CATS, centerOn, fitAll, bbox, overlaps,
                  updateLive, toggleWing, closeWing, select, layout, place,
-                 goStop, addCompare, renderCmp, goTo, deselect, buildSheet, endTour, TOUR, DEMO_OF, get sel(){ return sel; } };
+                 goStop, addCompare, renderCmp, goTo, deselect, buildSheet, endTour, TOUR, DEMO_OF, compare, removeCompare, AXES, AXIS_FAM, AXIS_INFO, get sel(){ return sel; } };
 
 /* ===================== telefonda ray bir çekmece =====================
    Masaüstünde ray hep açık duruyor ve doğru olan o: harita ile birlikte
@@ -6584,6 +6615,6 @@ window.atlas.mStats=()=>({floors:floors.length, ramps:ramps.length,
 <link rel="stylesheet" href="/preview/atlas-ui/ui.css">
 <link rel="stylesheet" href="/preview/atlas-ui/b.css">
 <link rel="stylesheet" href="/preview/atlas-ui/b2.css">
-<script src="/preview/atlas-ui/ui.js" data-mode="drawer" data-variant="b2"></script>
+<script src="/preview/atlas-ui/ui.js" data-mode="drawer" data-variant="b2" data-alt="b2-tr.html"></script>
 </body>
 </html>

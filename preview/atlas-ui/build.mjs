@@ -71,12 +71,129 @@ function ensureVisible(i){`, "frameSel"],
     ["for(let pass=0; pass<9; pass++){", "for(let pass=0; pass<18; pass++){", "label passes"],
     // 5. The scale readout says nothing to a reader.
     ["`<span>ölçek <b>${view.k.toFixed(2)}×</b></span>` +", "", "hud"],
-    // 6. More of the atlas reachable from the interface layer.
-    ["goStop, addCompare, renderCmp };", "goStop, addCompare, renderCmp, goTo, deselect, buildSheet, endTour, TOUR, DEMO_OF, get sel(){ return sel; } };", "export"],
+    // 6. Wheel zoom without stutter. Zooming inside one level of detail was already smooth;
+    //    the hitches came from what happens when a threshold is crossed: the cards' level of
+    //    detail flips (a style pass over ~4000 nodes), every visible glyph canvas is resized,
+    //    and live demos load or unload. The wheel now eases toward a target scale, and those
+    //    three wait until the wheel has been still for a moment.
+    ["let framed=false;", `/* Tekerlek sürerken pahalı geçişler bekler; durunca bir kez yapılır. */
+let wz=null, zoomingUntil=0, lodPending=false, lastRes=0, lastVsig="";
+const zooming=()=>performance.now()<zoomingUntil;
+function stepZoom(){
+  if(!wz) return;
+  const r=wz.k/view.k;
+  if(Math.abs(r-1)<0.003){ zoomBy(r, wz.ax, wz.ay); wz=null; return; }
+  zoomBy(Math.pow(r, 0.3), wz.ax, wz.ay);
+}
+let framed=false;`, "zoom state"],
+    ["if(world.dataset.lod !== lod) world.dataset.lod = lod;", "if(world.dataset.lod !== lod){ if(zooming()) lodPending=true; else world.dataset.lod = lod; }", "lod"],
+    ["  if(!framed){ measure(); openView(); }", "  if(!framed){ measure(); openView(); }\n  stepZoom();\n  if(lodPending && !zooming()){ lodPending=false; apply(); }", "frame zoom"],
+    // What waited for the wheel to stop is then spread over a few frames: at most one live
+    // demo starts per frame, at most ten glyph canvases change resolution per frame.
+    ["  for(const i of want) if(!liveMap.has(i)) mountOne(i);", "  for(const i of want) if(!liveMap.has(i)){ mountOne(i); break; }", "live one per frame"],
+    ["      if(c.res!==RES){ c.cv.width=c.cv.height=RES; c.res=RES; }", "      if(c.res!==RES){ if(c.res && ++resized>10) continue; c.cv.width=c.cv.height=RES; c.res=RES; }", "res spread"],
+    ["  if(!skip){", "  let resized=0;\n  if(!skip){", "res counter"],
+    ["const RES = bucketFor(plate*view.k*DPR);", "const RES = (zooming() && lastRes) ? lastRes : (lastRes = bucketFor(plate*view.k*DPR));", "res"],
+    ["  updateLive();\n  updateLabels();\n  drawLinks(hoverIdx>=0 ? hoverIdx : sel);\n  drawMini();",
+     `  if(!zooming()) updateLive();
+  /* Bölge adları ve mini harita yalnız görünüm değişince (ya da arada bir, süzgeç için) yenilenir. */
+  const vsig = view.k.toFixed(4)+","+view.tx.toFixed(1)+","+view.ty.toFixed(1)+","+VW+","+VH;
+  if(vsig!==lastVsig || tick%20===0){ lastVsig=vsig; updateLabels(); drawMini(); }
+  drawLinks(hoverIdx>=0 ? hoverIdx : sel);`, "live + labels + mini"],
+    // Glyphs: a card already drawn at this resolution is left as it is while the wheel is
+    // turning, and at the far level (cards a few dozen pixels wide) it is refreshed only
+    // every tenth frame. A card never drawn yet is always drawn, so nothing shows up blank.
+    [`      if(c.plate.hasAttribute("data-live")) continue;   /* canlı demo varken glyph çizilmez */`,
+     `      if(c.plate.hasAttribute("data-live")) continue;   /* canlı demo varken glyph çizilmez */
+      if(c.res===RES && (zooming() || (view.k<0.34 && (tick+i)%10!==0))) continue;`, "glyph throttle"],
+    ["    pinch=d; dragged+=20; return;", "    pinch=d; dragged+=20; zoomingUntil=performance.now()+220; return;", "pinch"],
+    [`  const r=stage.getBoundingClientRect();
+  zoomBy(Math.exp(-e.deltaY*0.0016), e.clientX-r.left, e.clientY-r.top);`, `  const r=stage.getBoundingClientRect();
+  const dy = e.deltaMode===1 ? e.deltaY*16 : e.deltaMode===2 ? e.deltaY*VH : e.deltaY;
+  const base = wz ? wz.k : view.k;
+  wz = { k: Math.max(.085, Math.min(2.2, base*Math.exp(-dy*0.0016))), ax:e.clientX-r.left, ay:e.clientY-r.top };
+  zoomingUntil = performance.now()+220;`, "wheel"],
+    // 7. More of the atlas reachable from the interface layer, and the comparison list
+    //    announced whenever it changes (the tour fills it too).
+    ["goStop, addCompare, renderCmp };", "goStop, addCompare, renderCmp, goTo, deselect, buildSheet, endTour, TOUR, DEMO_OF, compare, removeCompare, AXES, AXIS_FAM, AXIS_INFO, get sel(){ return sel; } };", "export"],
+    [`  compare.length ? trayEl.setAttribute("data-on","") : trayEl.removeAttribute("data-on");`,
+     `  compare.length ? trayEl.setAttribute("data-on","") : trayEl.removeAttribute("data-on");\n  dispatchEvent(new CustomEvent("atlas:compare",{detail:compare.slice()}));`, "compare event"],
+    // 8. Language: when window.ATLAS_EN is there (English pages load en.js first), the data
+    //    takes its English words. Axis names are renamed everywhere they are looked up, so
+    //    every bar, sheet and comparison follows. Without it nothing changes.
+    ["/* Türetilmiş eksenler", `if(window.ATLAS_EN){
+  const E=window.ATLAS_EN;
+  for(const k in E.cats){ CATS[k].label=E.cats[k].label; CATS[k].note=E.cats[k].note; }
+  const info={};
+  AXES.forEach((a,i)=>{ const n=E.axes[a]||a; info[n]=E.axisInfo[n]||AXIS_INFO[a]; AXES[i]=n; });
+  for(const k in AXIS_INFO) delete AXIS_INFO[k];
+  Object.assign(AXIS_INFO, info);
+  AXIS_FAM.forEach((f,i)=>{ f.t=E.fams[i].t; f.n=E.fams[i].n; f.ax=f.ax.map(a=>E.axes[a]||a); });
+  LIBS.forEach(l=>{ if(E.tags[l.name]) l.tag=E.tags[l.name]; });
+}
+/* Türetilmiş eksenler`, "en data"],
+    ["let tourIdx = -1;", "if(window.ATLAS_EN) TOUR.forEach((s,i)=>{ s.t=ATLAS_EN.tour[i].t; s.d=ATLAS_EN.tour[i].d; });\nlet tourIdx = -1;", "en tour"],
+    ["const DEFAULT_HINT = ", "if(window.ATLAS_EN) Object.assign(HINTS, ATLAS_EN.hints);\nconst DEFAULT_HINT = window.ATLAS_EN ? ATLAS_EN.defaultHint : ", "en hints"],
+    [`const both = (a==="Bildirimsel"||a==="Soyutlama");`, `const both = (a===AXES[10]||a===AXES[11]);`, "axes both"],
   ]);
-  // 7. The museum's section notes, with their Turkish letters back.
+  // 9. The museum's section notes, with their Turkish letters back.
   for (const [k, v] of Object.entries(NOTES)) html = html.replace(new RegExp(`("${k}": \\{label:"[^"]*", wing:"[^"]*", note:)"[^"]*"`), `$1${JSON.stringify(v)}`);
   return html;
+}
+
+// The interface words written into the atlas's own code and markup, for the English pages.
+// The museum and the pavilion keep their Turkish for now.
+const EN_UI = [
+  ['<html lang="tr">', '<html lang="en">'],
+  ['name="description" content="İnteraktif medyayı mümkün kılan 162 JavaScript kütüphanesi ve onlarla yapılmış 118 gazetecilik işi."', 'name="description" content="The 162 JavaScript libraries that make interactive media possible, and 118 journalism works made with them."'],
+  ['" — künyeyi aç"', '" — open details"'],
+  ['title="Bu kart elle yerleştirildi">elle', 'title="This card was placed by hand">moved'],
+  ['title="Yakınlaşınca kütüphanenin kendisi bu kartta çalışır"', 'title="Zoom in and the library itself runs on this card"'],
+  ['<b class="livetag">canlı</b>', '<b class="livetag">live</b>', true],
+  ['aria-label="Etkileşimli kanadı aç"', 'aria-label="Open larger and try"'],
+  ['<u class="wing__tag">etkileşimli</u>', '<u class="wing__tag">interactive</u>'],
+  ['aria-label="Kanadı kapat"', 'aria-label="Close"'],
+  ['solveBtn.textContent="Manzarayı yeniden ser";', 'solveBtn.textContent="Recompute the map";'],
+  ['"Seriliyor…"', '"Computing…"'],
+  ['`<span><b>${N}</b> kütüphane</span><span><b>${CAT_KEYS.length}</b> küme</span>`', '`<span><b>${N}</b> libraries</span><span><b>${CAT_KEYS.length}</b> clusters</span>`'],
+  ['`<span>seriliyor…</span>`', '`<span>computing…</span>`'],
+  ['<p class="sec">Künye — ${CATS[l.cat].label}</p>', '<p class="sec">Details — ${CATS[l.cat].label}</p>'],
+  ['<dt>Yaklaşık ağırlık</dt>', '<dt>Approx. size</dt>'],
+  ['<dt>GitHub yıldızı</dt>', '<dt>GitHub stars</dt>'],
+  ['<dt>İlk sürüm</dt>', '<dt>First release</dt>'],
+  ['<dt>Lisans</dt><dd>${l.lic}</dd>', '<dt>Licence</dt><dd>${l.lic}</dd>'],
+  ['<p class="sec">Ne yapar — eksen adına tıklayın</p>', '<p class="sec">What it does — click an axis name</p>'],
+  ['<p class="sec">Benzer kütüphaneler</p>', '<p class="sec">Similar libraries</p>'],
+  ['&#8646; karşılaştırmaya ekle</button>', '&#8646; add to comparison</button>'],
+  ['const DEFAULT_NOTE = "Bir kümenin üzerine gelin. Aynı işi farklı katmanlarda yapan kütüphaneler manzarada yan yana düşer.";', 'const DEFAULT_NOTE = "Hover over a cluster. Libraries that do the same job on different layers land side by side on the map.";'],
+  ['`↺ Elle taşınan ${pinned.size} kartı geri al`', '`↺ Put back the ${pinned.size} card(s) moved by hand`'],
+  ['<u>${members.length} kütüphane</u>', '<u>${members.length} libraries</u>'],
+  ['const GESTURE = { tone:"Sesi başlat" };', 'const GESTURE = { tone:"Start sound" };'],
+  ['gate.textContent="başlıyor…";', 'gate.textContent="starting…";'],
+  ['gate.textContent="\\u25B6 tekrar dene";', 'gate.textContent="\\u25B6 try again";'],
+  ['hint.textContent="sürükle";', 'hint.textContent="drag";'],
+  ['["ege","marmara","akdeniz","iç anadolu"]', '["north","south","east","west"]'],
+  ['&#8592; önceki</button>', '&#8592; previous</button>'],
+  ['sonraki &#8594;</button>', 'next &#8594;</button>'],
+  ['>kapat</button>', '>close</button>'],
+  ['<span>tur</span>', '<span>tour</span>'],
+  ['<u>yüksek</u>', '<u>high</u>'],
+  ['<u>düşük</u>', '<u>low</u>'],
+  ['"en yüksek":"örnek"', '"highest":"examples"'],
+  ['"en düşük"', '"lowest"'],
+  ['Eksenler — kartlardaki çubuklar ne anlatıyor', 'Axes — what the bars on the cards mean'],
+  ['aria-label="Yakınlaştır"', 'aria-label="Zoom in"'],
+  ['aria-label="Uzaklaştır"', 'aria-label="Zoom out"'],
+  ['aria-label="Tümünü sığdır" title="Tüm manzarayı sığdır"', 'aria-label="Fit all" title="Fit the whole map"'],
+  ['>manzara özeti<', '>overview<'],
+  ['aria-label="Manzara özeti — tıklayın ya da sürükleyin"', 'aria-label="Overview — click or drag"'],
+];
+function english(html) {
+  for (const [a, b, all] of EN_UI) {
+    if (!html.includes(a)) throw new Error(`EN target not found: ${a.slice(0, 70)}`);
+    html = all ? html.split(a).join(b) : html.replace(a, b);
+  }
+  return html.replace("<title>Etkileşim Atlası</title>", '<title>Interaction Atlas</title>\n<script src="/preview/atlas-ui/en.js"></script>');
 }
 
 const VARIANTS = [
@@ -91,13 +208,19 @@ const VARIANTS = [
   { id: "b5", mode: "drawer", title: "B5 · Kompakt", css: ["b", "b5"] },
   { id: "b6", mode: "drawer", title: "B6 · Kâğıt bant", css: ["b", "b6"] },
 ];
-for (const v of VARIANTS) {
+// B2, the chosen direction, is built in both languages: b2.html in English (the default),
+// b2-tr.html in Turkish, each linking to the other. The other variants stay Turkish.
+const PAGES = VARIANTS.flatMap((v) => v.id === "b2"
+  ? [{ ...v, lang: "en", file: "b2", alt: "b2-tr.html" }, { ...v, lang: "tr", file: "b2-tr", alt: "b2.html" }]
+  : [{ ...v, lang: "tr", file: v.id }]);
+for (const v of PAGES) {
   let html = shared(SRC, v.mode);
-  html = html.replace("<title>Etkileşim Atlası</title>", `<title>Atlas · ${v.title}</title>\n<meta name="robots" content="noindex">`);
+  if (v.lang === "en") html = english(html);
+  html = html.replace(/<title>[^<]*<\/title>/, `<title>Atlas · ${v.title}${v.lang === "en" ? " · EN" : ""}</title>\n<meta name="robots" content="noindex">`);
   const links = (v.css || [v.id]).map((c) => `<link rel="stylesheet" href="/preview/atlas-ui/${c}.css">`).join("\n");
-  const inject = `\n<link rel="stylesheet" href="/preview/atlas-ui/ui.css">\n${links}\n<script src="/preview/atlas-ui/ui.js" data-mode="${v.mode}" data-variant="${v.id}"></script>\n`;
+  const inject = `\n<link rel="stylesheet" href="/preview/atlas-ui/ui.css">\n${links}\n<script src="/preview/atlas-ui/ui.js" data-mode="${v.mode}" data-variant="${v.id}"${v.alt ? ` data-alt="${v.alt}"` : ""}></script>\n`;
   const at = html.lastIndexOf("</body>");
   html = at >= 0 ? html.slice(0, at) + inject + html.slice(at) : html + inject;
-  writeFileSync(join(here, `${v.id}.html`), html);
-  console.log(`${v.id}.html  ${(html.length / 1024).toFixed(1)} kB  (${v.title})`);
+  writeFileSync(join(here, `${v.file}.html`), html);
+  console.log(`${v.file}.html  ${(html.length / 1024).toFixed(1)} kB  (${v.title}, ${v.lang})`);
 }
