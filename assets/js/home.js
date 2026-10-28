@@ -1,11 +1,11 @@
-import { loadCatalog, escapeHtml } from "./catalog.js?v=260afc3e71";
-import { mountSearch } from "./search-box.js?v=edf842560a";
-import { mountNamesWall } from "./names-wall.js?v=bb3daff2a1";
-import { mountFocus } from "./focus.js?v=26769f0659";
-import { mountBelow } from "./home-below.js?v=b279d09666";
-import { t, href } from "./i18n.js?v=137ec0cac8";
-import "./theme.js?v=b9429d0964";
-import "./lang.js?v=61d7a584bf";
+import { loadCatalog, escapeHtml } from "./catalog.js?v=2d38ee3fe9";
+import { mountSearch } from "./search-box.js?v=f16dd2b06f";
+import { mountNamesWall } from "./names-wall.js?v=736153637d";
+import { mountFocus } from "./focus.js?v=de1a826d9c";
+import { mountBelow } from "./home-below.js?v=bc160427fb";
+import { t, href } from "./i18n.js?v=f87d481c3f";
+import "./theme.js?v=78b07b7bd1";
+import "./lang.js?v=d6b9267e72";
 
 // Home: the name wall over the question and the search. Typing turns the matching projects
 // into a drum of names (↑ ↓ or the wheel turn it, Enter opens the one in front); a plain

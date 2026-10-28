@@ -1,7 +1,7 @@
-import { mountIndexPage } from "./index-page.js?v=256b0aad3b";
-import { href } from "./i18n.js?v=137ec0cac8";
-import "./theme.js?v=b9429d0964";
-import "./lang.js?v=61d7a584bf";
+import { mountIndexPage } from "./index-page.js?v=e4633fe974";
+import { href } from "./i18n.js?v=f87d481c3f";
+import "./theme.js?v=78b07b7bd1";
+import "./lang.js?v=d6b9267e72";
 
 document.getElementById("year").textContent = new Date().getFullYear();
 mountIndexPage(document.getElementById("index"));

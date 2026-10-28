@@ -101,7 +101,7 @@ const STRINGS = {
     latestPaper: "Latest paper",
     bench: "On the bench",
     aboutLink: "About →",
-    colophon: "Set in Geist & Instrument Serif · Made by hand in İzmir",
+    colophon: "Set in Geist & Instrument Serif · Made in İzmir, together with Claude & ChatGPT",
     openSource: "Open source on",
     nf: {
       title: "Not found · Mert Seven",
@@ -178,7 +178,7 @@ const STRINGS = {
     latestPaper: "Son yayın",
     bench: "Tezgâhta",
     aboutLink: "Hakkında →",
-    colophon: "Geist ve Instrument Serif ile dizildi · İzmir'de elle yapıldı",
+    colophon: "Geist ve Instrument Serif ile dizildi · İzmir'de Claude ve ChatGPT ile birlikte yapıldı",
     openSource: "Açık kaynak:",
     nf: {
       title: "Bulunamadı · Mert Seven",
