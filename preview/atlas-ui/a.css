@@ -1,0 +1,18 @@
+/* A · the same rail, in the order it is used: search on top and always there, the clusters
+   tighter, the tour folding away, the museum as a card, the long notes in a sheet. */
+
+.ui-sticky{position:sticky;top:-22px;z-index:3;margin:0 -20px;padding:12px 20px 14px;background:var(--rail);border-bottom:1px solid var(--rail-line)}
+.ui-sticky .block__head{margin-bottom:-2px}
+#legend{flex-direction:row;flex-wrap:wrap;gap:4px}
+#legend .cat{display:inline-flex;gap:6px;padding:3px 8px;border:1px solid var(--rail-line);border-radius:999px}
+#legend .cat b{font-size:12px;white-space:nowrap}
+#legend .cat u{font-size:9.5px}
+#catNote{min-height:0;margin-top:2px}
+.ui-tour summary{cursor:pointer;list-style:none}
+.ui-tour summary::-webkit-details-marker{display:none}
+.ui-tour summary b::after{content:" ▾";font-size:9px}
+.ui-tour:not([open]) summary b::after{content:" ▸"}
+.ui-foot{display:flex;justify-content:space-between;align-items:center;margin-top:-6px}
+@media (max-width:900px){
+  .ui-sticky{top:calc(-58px - env(safe-area-inset-top));margin:0 -16px;padding:10px 16px 12px}
+}

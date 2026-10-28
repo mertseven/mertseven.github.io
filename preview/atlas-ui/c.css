@@ -1,0 +1,31 @@
+/* C · the map is the whole page; search, tools, the museum and the selected card's sheet
+   float over it as panels, the way a map application works. */
+
+.app{grid-template-columns:1fr!important}
+.rail,.railtog,.railveil{display:none!important}
+.ui-float{position:absolute;left:16px;top:16px;z-index:12;width:340px;display:flex;flex-direction:column;gap:10px;
+  padding:14px;background:var(--rail);border:1px solid var(--rail-line);border-radius:6px;box-shadow:var(--shadow)}
+.ui-brand{display:grid;line-height:1.1}
+.ui-brand b{font-family:var(--f-disp);font-weight:800;font-size:22px;letter-spacing:-.02em}
+.ui-brand span{font-family:var(--f-mono);font-size:10px;color:var(--ui-faint);margin-top:4px}
+.ui-float .ui-results{margin:-4px 0 0;box-shadow:none}
+.ui-row{display:flex;flex-wrap:wrap;align-items:center;gap:6px}
+.ui-row #onlyLive{padding:6px 10px}
+.ui-row .ui-howbtn{margin-left:auto}
+.stage>.ui-museum{position:absolute;left:16px;bottom:52px;z-index:9;width:340px;box-shadow:var(--shadow)}
+.ui-kp{position:absolute;right:62px;top:16px;bottom:170px;z-index:12;width:360px;border-radius:7px;box-shadow:var(--shadow)}
+.card[data-sel] .sheet{display:none}
+.callout{left:calc(50% - 200px)!important}
+@media (max-width:900px){
+  .ui-float{left:10px;right:10px;top:calc(10px + env(safe-area-inset-top));width:auto;padding:10px;gap:8px}
+  .ui-brand span{display:none}
+  .ui-row{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}
+  .ui-row>*{flex:none}
+  .ui-row .ui-poppanel{position:fixed;left:10px;right:10px;width:auto;top:auto}
+  .stage>.ui-museum{left:10px;right:auto;bottom:48px;width:auto;padding:8px 12px!important}
+  .stage>.ui-museum span{display:none}
+  .stage>.ui-museum b{grid-column:auto;font-size:15px}
+  .zoombar{top:auto;bottom:48px;right:10px}
+  .callout{left:10px!important;right:10px;width:auto!important}
+  .ui-kp{position:fixed;top:auto;bottom:0;left:0;right:0;width:auto;border-radius:14px 14px 0 0}
+}

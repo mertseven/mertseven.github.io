@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="tr" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Atlas İyileştirme</title>
+  <meta name="robots" content="noindex">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500&family=Geist+Mono:wght@400&display=swap">
+  <link rel="stylesheet" href="/assets/css/tokens.css">
+  <link rel="stylesheet" href="/assets/css/base.css">
+  <link rel="stylesheet" href="/preview/salon.css">
+  <style>
+    .au { max-width: 1280px; margin: 0 auto; padding: var(--s-6) var(--gutter) var(--s-8); display: grid; gap: var(--s-7); }
+    .au h2 { margin: 0 0 var(--s-3); font-size: var(--text-lg); font-weight: var(--weight-medium); }
+    .au-shared ul { margin: 0; padding-left: 1.1em; display: grid; gap: 6px; color: var(--ink-2); font-size: var(--text-sm); line-height: 1.5; columns: 2; column-gap: var(--s-6); }
+    .au-shared li { break-inside: avoid; margin-bottom: 6px; }
+    .au-shared b { color: var(--ink); font-weight: var(--weight-medium); }
+    .au-var { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: var(--s-5); align-items: start; padding-top: var(--s-6); border-top: 1px solid var(--line); }
+    .au-shot { position: relative; aspect-ratio: 1440 / 900; overflow: hidden; border: 1px solid var(--line-strong); background: #1d1d1c; }
+    .au-shot iframe { position: absolute; left: 0; top: 0; width: 1440px; height: 900px; border: 0; transform-origin: 0 0; pointer-events: none; }
+    .au-txt { display: grid; gap: var(--s-3); }
+    .au-txt h3 { margin: 0; font-size: 1.6rem; font-weight: var(--weight-medium); letter-spacing: -0.02em; }
+    .au-txt p { margin: 0; color: var(--ink-2); line-height: 1.55; }
+    .au-pc { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s-4); font-size: var(--text-sm); color: var(--ink-2); }
+    .au-pc ul { margin: 4px 0 0; padding-left: 1em; display: grid; gap: 4px; }
+    .au-acts { display: flex; flex-wrap: wrap; gap: 10px; }
+    .au-acts a { padding: 8px 14px; border: 1px solid var(--ink); border-radius: 999px; font-size: var(--text-sm); }
+    .au-acts a.is-main { background: var(--ink); color: var(--paper); }
+    @media (max-width: 860px) { .au-var { grid-template-columns: 1fr; } .au-shared ul { columns: 1; } .au-pc { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <header class="bar">
+    <div class="bar-top">
+      <h1>Etkileşim Atlası <span>· aynı dil, düzenlenmiş arayüz</span></h1>
+      <a class="label" href="/etkilesim-atlas.html">bugünkü atlas ↗</a>
+    </div>
+    <p class="about">Atlasın görsel dili olduğu gibi duruyor. Üç alternatif de gerçek atlasın kendisi: aynı kod, üstüne birkaç yama ve bir arayüz katmanı. Aşağıdaki küçük resimler canlı; asıl deneme için “aç”a basın, telefonda da açabilirsiniz.</p>
+  </header>
+
+  <main class="au">
+    <section class="au-shared">
+      <h2>Üçünde de ortak olanlar</h2>
+      <ul>
+        <li><b>Hızlı açılış.</b> Harita her ziyarette yeniden hesaplanmıyor; derlemede bir kez çözülüp sayfaya gömülü. Bu bilgisayarda sayfanın hazır olması ~0,9 sn'den ~0,3 sn'ye indi; telefonda fark daha büyük olur.</li>
+        <li><b>Bütün haritayla açılış.</b> İlk ekran yarım kartlar değil, kümeleriyle bütün harita.</li>
+        <li><b>Künye görünür.</b> Bir kartı seçince ya kart künyesiyle birlikte ekrana sığıyor ya da künye bir panelde açılıyor; ekrandan taşmıyor.</li>
+        <li><b>Paylaşılabilir adres.</b> Seçilen kütüphane adres çubuğunda: <code>#d3</code>, <code>#leaflet</code>. Bağlantıyla açılınca doğrudan oraya gidiyor.</li>
+        <li><b>Sonuç listesi.</b> Arama kutusunun altında bulunanlar listeleniyor; Enter ilkine gidiyor, oklarla seçiliyor, <kbd>/</kbd> aramaya atlıyor.</li>
+        <li><b>Daha sade sözler.</b> “t-SNE gömülümü”, “gerçekten çalışanlar”, “manzarayı yeniden ser” yerine düz Türkçe; teknik notlar “Nasıl okunur?” paneline taşındı.</li>
+        <li><b>Müze bir giriş.</b> Soluk bir düğme değil, ne olduğunu söyleyen bir kart.</li>
+        <li><b>Telefonda alttan açılan künye.</b> Künye kartın altına değil, ekranın altından açılan bir sayfaya çıkıyor; sayaç onu örtmüyor.</li>
+        <li><b>Küçük düzeltmeler.</b> Küme adları birbirinden daha geniş aralıkla duruyor, “ölçek 0.82×” sayacı kalktı, müze bölüm notlarına Türkçe harfler döndü, canlı demosu olmayan kütüphanede bunu söyleyen bir satır var.</li>
+      </ul>
+    </section>
+
+    <section class="au-var">
+      <div class="au-shot"><iframe src="/preview/atlas-ui/a.html" title="A · Düzenli ray" tabindex="-1"></iframe></div>
+      <div class="au-txt">
+        <h3>A · Düzenli ray</h3>
+        <p>Bugünkü sol ray kalıyor ama kullanım sırasına diziliyor: en üstte hep görünen arama ve sonuçları, altında kümeler etiket olarak, sonra katlanabilen tur, müze kartı ve “Nasıl okunur?”. Künye kartın altında kalıyor; seçince kart ve künye birlikte sığacak ölçeğe iniliyor.</p>
+        <div class="au-pc"><div><b>Artısı</b><ul><li>En az değişiklik, alışılmış düzen</li><li>Künye kartla bütün, atlasın kendi dili</li></ul></div><div><b>Eksisi</b><ul><li>Ray 282 px yer kaplamaya devam ediyor</li><li>Uzun künyede kart küçük kalıyor</li></ul></div></div>
+        <p class="au-acts"><a class="is-main" href="/preview/atlas-ui/a.html">Aç</a><a href="/preview/atlas-ui/a.html#d3">D3.js seçili aç</a></p>
+      </div>
+    </section>
+
+    <section class="au-var">
+      <div class="au-shot"><iframe src="/preview/atlas-ui/b.html#leaflet" title="B · Üst çubuk ve çekmece" tabindex="-1"></iframe></div>
+      <div class="au-txt">
+        <h3>B · Üst çubuk ve çekmece</h3>
+        <p>Ray kalkıyor; ince bir üst çubukta ad, arama, kümeler ve tur açılır menü olarak, canlı demolar, müze ve “Nasıl okunur?”. Harita bütün genişliği alıyor. Bir kart seçince künyesi sağdan bir çekmecede açılıyor, kart haritada yerinde kalıyor.</p>
+        <div class="au-pc"><div><b>Artısı</b><ul><li>Haritaya en çok yer</li><li>Künye her zaman aynı yerde, uzun da olsa rahat okunuyor</li></ul></div><div><b>Eksisi</b><ul><li>Kümeler ve tur bir tık arkada</li><li>Künye karttan ayrılıyor</li></ul></div></div>
+        <p class="au-acts"><a class="is-main" href="/preview/atlas-ui/b.html">Aç</a><a href="/preview/atlas-ui/b.html#leaflet">Leaflet seçili aç</a></p>
+      </div>
+    </section>
+
+    <section class="au-var">
+      <div class="au-shot"><iframe src="/preview/atlas-ui/c.html#leaflet" title="C · Yüzen paneller" tabindex="-1"></iframe></div>
+      <div class="au-txt">
+        <h3>C · Yüzen paneller</h3>
+        <p>Harita sayfanın tamamı; bir harita uygulaması gibi her şey üstünde yüzüyor. Sol üstte ad, arama ve küçük düğmeler; sol altta müze kartı; künye sağda yüzen bir kart. Telefonda üstte arama paneli, altta künye sayfası.</p>
+        <div class="au-pc"><div><b>Artısı</b><ul><li>En sürükleyici, harita her şeyin önünde</li><li>Telefonla masaüstü aynı mantıkta</li></ul></div><div><b>Eksisi</b><ul><li>Paneller haritanın bir kısmını örtüyor</li><li>Kalabalık bir anda dağınık görünebilir</li></ul></div></div>
+        <p class="au-acts"><a class="is-main" href="/preview/atlas-ui/c.html">Aç</a><a href="/preview/atlas-ui/c.html#leaflet">Leaflet seçili aç</a></p>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // Each thumbnail is the real page at 1440×900, scaled to its box.
+    const fit = () => document.querySelectorAll(".au-shot").forEach((s) => { s.querySelector("iframe").style.transform = `scale(${s.clientWidth / 1440})`; });
+    new ResizeObserver(fit).observe(document.body); fit();
+  </script>
+</body>
+</html>
