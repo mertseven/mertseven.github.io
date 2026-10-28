@@ -77,6 +77,10 @@ export async function mountNamesWall(host, projects, { onSelect } = {}) {
   const reduce = matchMedia("(prefers-reduced-motion: reduce)");
   const no = (p) => String(projects.indexOf(p) + 1).padStart(2, "0");
 
+  // The constants above, unless a page sets window.NAMES_WALL (the phone previews do).
+  // fill: as many rows as the height takes, rather than ROWS in the middle of it.
+  const O = { rows: ROWS, gap: GAP_EM, curveDeg: CURVE_DEG, curveDepth: CURVE_DEPTH, fill: false, ...(window.NAMES_WALL || {}) };
+
   // ——— At rest: curved rows ———
   const curve = document.createElement("div");
   curve.className = "curve";
@@ -85,9 +89,20 @@ export async function mountNamesWall(host, projects, { onSelect } = {}) {
   curve.append(field);
   host.append(curve);
 
+  let nRows = O.rows;
+  if (O.fill) {
+    const probe = document.createElement("a");
+    probe.className = "cn";
+    probe.innerHTML = dual("Ag");
+    field.append(probe);
+    // A curved wall brings the names at its edges toward you, larger: leave them room.
+    const room = O.curveDepth ? 0.82 : 0.96;
+    nRows = Math.max(O.rows, Math.floor((H * room) / (probe.offsetHeight * 1.05)));
+    probe.remove();
+  }
   const rows = [];
-  for (let r = 0; r < ROWS; r++) {
-    const list = projects.filter((_, i) => i % ROWS === r);
+  for (let r = 0; r < nRows; r++) {
+    const list = projects.filter((_, i) => i % nRows === r);
     const row = { y: 0, dir: r % 2 ? -1 : 1, speed: SPEEDS[r % 2], offset: r * 137, loop: 0, items: [] };
     let x = 0;
     // Repeat the row until it is wide enough to wrap past both ends of the curve.
@@ -104,14 +119,14 @@ export async function mountNamesWall(host, projects, { onSelect } = {}) {
         const w = el.offsetWidth;
         const em = parseFloat(getComputedStyle(el).fontSize);
         row.items.push({ el, base: x, w, vis: true });
-        x += w + GAP_EM * em;
+        x += w + O.gap * em;
       }
     } while (x < W * 1.7);
     row.loop = x;
     rows.push(row);
   }
   const lineH = rows[0].items[0].el.offsetHeight * 1.05;
-  const top = (H - ROWS * lineH) / 2;
+  const top = (H - nRows * lineH) / 2;
   rows.forEach((row, r) => { row.y = top + r * lineH; });
 
   const place = () => {
@@ -124,7 +139,7 @@ export async function mountNamesWall(host, projects, { onSelect } = {}) {
         const vis = Math.abs(u) <= EDGE_U;
         if (vis !== it.vis) { it.el.style.visibility = vis ? "" : "hidden"; it.vis = vis; }
         if (!vis) continue;
-        it.el.style.transform = `translate3d(${x.toFixed(1)}px, ${row.y.toFixed(1)}px, ${(CURVE_DEPTH * u * u).toFixed(1)}px) rotateY(${(-CURVE_DEG * u).toFixed(2)}deg)`;
+        it.el.style.transform = `translate3d(${x.toFixed(1)}px, ${row.y.toFixed(1)}px, ${(O.curveDepth * u * u).toFixed(1)}px) rotateY(${(-O.curveDeg * u).toFixed(2)}deg)`;
       }
     }
   };

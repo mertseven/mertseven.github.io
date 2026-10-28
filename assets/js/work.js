@@ -1,4 +1,4 @@
-import { mountIndexPage } from "./index-page.js?v=7c049d968a";
+import { mountIndexPage } from "./index-page.js?v=d4c899e32e";
 import { href } from "./i18n.js?v=137ec0cac8";
 import "./theme.js?v=b9429d0964";
 import "./lang.js?v=61d7a584bf";

@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="tr" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Telefon Duvarı</title>
+  <meta name="robots" content="noindex">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500&family=Geist+Mono:wght@400&display=swap">
+  <link rel="stylesheet" href="/assets/css/tokens.css">
+  <link rel="stylesheet" href="/assets/css/base.css">
+  <link rel="stylesheet" href="/preview/salon.css">
+  <style>
+    .hp { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: var(--s-6) var(--s-5); padding: var(--s-6) var(--gutter) var(--s-8); }
+    .hp figure { margin: 0; display: grid; gap: 12px; justify-items: center; }
+    .phone { position: relative; width: 248px; height: 537px; overflow: hidden; border-radius: 30px; box-shadow: 0 0 0 8px #1b1b1b, 0 20px 50px rgba(0, 0, 0, 0.25); background: #111; }
+    .phone iframe { position: absolute; left: 0; top: 0; width: 375px; height: 812px; border: 0; transform: scale(0.6613); transform-origin: 0 0; }
+    .hp figcaption { display: grid; gap: 4px; max-width: 280px; text-align: center; }
+    .hp figcaption b { font-size: var(--text-md); font-weight: var(--weight-medium); }
+    .hp figcaption span { font-size: var(--text-sm); line-height: 1.5; color: var(--ink-2); }
+    .hp figcaption a { font-size: var(--text-sm); text-decoration: underline; text-underline-offset: 3px; }
+  </style>
+</head>
+<body>
+  <header class="bar">
+    <div class="bar-top">
+      <h1>Ana sayfa, telefonda <span>· kayan ad duvarının dört ayarı</span></h1>
+      <a class="label" href="/">ana sayfa ↗</a>
+    </div>
+    <p class="about">Her çerçeve ana sayfanın kendisi, 375×812'de. Yalnız ad duvarının ayarları değişiyor: satır sayısı, yazı boyu, adlar arası açıklık ve kavis. Bugün duvar 551 px yüksek ama adlar yalnız ortadaki ~170 px'i kaplıyor. Gerçek telefonda denemek için altındaki bağlantıyı aç.</p>
+  </header>
+  <main class="hp">
+    <figure><div class="phone"><iframe src="/preview/home-phone/a.html" title="A · Bugünkü"></iframe></div>
+      <figcaption><b>A · Bugünkü</b><span>Dört satır, 32 px, kavisli. Üstte ve altta geniş boşluk; satırda bir buçuk ad.</span><a href="/preview/home-phone/a.html">telefonda aç</a></figcaption></figure>
+    <figure><div class="phone"><iframe src="/preview/home-phone/b.html" title="B · Dolu satırlar"></iframe></div>
+      <figcaption><b>B · Dolu satırlar</b><span>Yazı ve kavis aynı; satırlar bütün yüksekliği dolduruyor. En az değişiklik.</span><a href="/preview/home-phone/b.html">telefonda aç</a></figcaption></figure>
+    <figure><div class="phone"><iframe src="/preview/home-phone/c.html" title="C · Küçük ve sık"></iframe></div>
+      <figcaption><b>C · Küçük ve sık</b><span>24 px, adlar arası açıklık daraldı, kavis yumuşadı. Satırda iki üç ad görünüyor.</span><a href="/preview/home-phone/c.html">telefonda aç</a></figcaption></figure>
+    <figure><div class="phone"><iframe src="/preview/home-phone/d.html" title="D · Düz ve sık"></iframe></div>
+      <figcaption><b>D · Düz ve sık</b><span>26 px, kavis yok, dar açıklık. Dar ekranda kavis adları kenarlarda ayırıyordu; burada düz bir doku.</span><a href="/preview/home-phone/d.html">telefonda aç</a></figcaption></figure>
+  </main>
+</body>
+</html>
