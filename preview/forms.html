@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="tr" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bulutun Biçimleri</title>
+  <meta name="robots" content="noindex">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,400;1,9..40,500&family=Geist:wght@400;500&family=Geist+Mono:wght@400&display=swap">
+  <link rel="stylesheet" href="/assets/css/tokens.css">
+  <link rel="stylesheet" href="/assets/css/base.css">
+  <link rel="stylesheet" href="/preview/salon.css">
+  <link rel="stylesheet" href="/preview/topo.css">
+</head>
+<body class="tp-page" data-set="./forms.js">
+  <header class="bar">
+    <div class="bar-top">
+      <h1>Nokta bulutu <span>· kutunun dışında yirmi biçim</span></h1>
+      <a class="label" href="/preview/tensor.html">yirmi üslup ↗</a>
+    </div>
+    <p class="about">Kutu yalnız bir kap; aynı veri başka biçimlere de girebilir. Her kütüphane hâlâ aynı üç şeyi taşıyor: t-SNE haritasındaki yeri, yılı ve kümesi. Her biçim bunların uzayda neye dönüşeceğine kendisi karar veriyor: küre, silindir, ada, sarmal, kabarcık… Çizim üslubu hepsinde aynı, yalnız biçim değişiyor. Birine tıkla: büyük açılır, üzerine gelince kütüphanenin adı çıkar, sürükleyince döner.</p>
+  </header>
+
+  <main class="tp-grid" id="grid"></main>
+
+  <dialog class="tv" id="view" aria-label="Büyük harita">
+    <div class="tv-head">
+      <p class="tv-title"></p>
+      <div class="tv-acts"><button type="button" class="tv-prev" aria-label="Önceki">←</button><button type="button" class="tv-next" aria-label="Sonraki">→</button><button type="button" class="tv-close" aria-label="Kapat">×</button></div>
+    </div>
+    <div class="tv-stage"><canvas class="tv-base"></canvas><canvas class="tv-top"></canvas><p class="tv-tip" hidden></p></div>
+    <p class="tv-note"></p>
+  </dialog>
+
+  <script type="module" src="/preview/topo-page.js"></script>
+</body>
+</html>
