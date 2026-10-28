@@ -28,10 +28,12 @@ function createTerrain(THREE, plan, opts = {}) {
   const ss = (a, b, v) => { const t = Math.max(0, Math.min(1, (v - a) / (b - a))); return t * t * (3 - 2 * t); };
 
   const coast = smoothClosed(plan.coast);
+  const coasts = [coast].concat((plan.coasts || []).map((c) => smoothClosed(c))); // coasts: ana adanın yanındaki ek adacıkların kıyıları
   const zones = plan.zones.map((z) => ({ kind: z.kind, poly: smoothClosed(z.poly, 8), src: z }));
   function base(x, z) {
-    let d = 1e9; for (let i = 0; i < coast.length; i++) d = Math.min(d, segDist(x, z, coast[i], coast[(i + 1) % coast.length]));
-    if (!inPoly(coast, x, z)) return { h: -Math.min(1, d / 2.4), d: -d };
+    let d = 1e9, inside = false;
+    coasts.forEach((c) => { for (let i = 0; i < c.length; i++) d = Math.min(d, segDist(x, z, c[i], c[(i + 1) % c.length])); if (inPoly(c, x, z)) inside = true; });
+    if (!inside) return { h: -Math.min(1, d / 2.4), d: -d };
     let h = 0.12 + ss(0, 2.4, d) * 0.45;
     plan.hills.forEach((hl) => { const r2 = (x - hl.at[0]) ** 2 + (z - hl.at[1]) ** 2, s = hl.r / 2; h += hl.h * Math.exp(-r2 / (2 * s * s)) * ss(0, 1.6, d); });
     return { h, d };
@@ -46,7 +48,7 @@ function createTerrain(THREE, plan, opts = {}) {
   const heightAt = (x, z) => heightRaw(x, z).h * VS;
 
   // ---- arazi ağı ----
-  const xs = coast.map((p) => p[0]), zs = coast.map((p) => p[1]);
+  const allPts = coasts.flat(), xs = allPts.map((p) => p[0]), zs = allPts.map((p) => p[1]);
   const B = { x0: Math.min(...xs) - 3, x1: Math.max(...xs) + 3, z0: Math.min(...zs) - 3, z1: Math.max(...zs) + 3 };
   const G = opts.grid || 0.25, nx = Math.ceil((B.x1 - B.x0) / G) + 1, nz = Math.ceil((B.z1 - B.z0) / G) + 1;
   const pos = new Float32Array(nx * nz * 3), colr = new Float32Array(nx * nz * 3), idx = [];
@@ -94,5 +96,5 @@ function createTerrain(THREE, plan, opts = {}) {
     group.add(m);
   });
 
-  return { group, heightAt, inside: (x, z) => inPoly(coast, x, z), bounds: B, coast, zones, sea: SEA, smoothOpen, depthTex };
+  return { group, heightAt, inside: (x, z) => coasts.some((c) => inPoly(c, x, z)), bounds: B, coast, zones, sea: SEA, smoothOpen, depthTex };
 }

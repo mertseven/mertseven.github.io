@@ -1,0 +1,398 @@
+// Takımada · ada: Pazarlık Adacığı (Pazarlık Tezgâhı, Nihat Türkan). Kaynak: adalar/pazarlik-adacigi.json (file:// için .js kopyası)
+// Yerel koordinatlar; ada-c2/oyun.js bunu ana adanın güneyine [2,16] kaydırıp birleştirir ve iskeleden köprü kurar.
+window.KUTUPHANE = window.KUTUPHANE || {};
+window.KUTUPHANE.adalar = window.KUTUPHANE.adalar || {};
+window.KUTUPHANE.adalar["plan.pazarlik"] = {
+ "id": "plan.pazarlik",
+ "name": "Pazarlık Adacığı",
+ "idea": "Ana adanın iskelesinden bir köprüyle varılan küçük ada: Rıza Kaptan'ın tezgâhı kumsalda, arkada iki balıkçı evi. Köprü ve yerleşim oyun.js içinde birleştirilir (island: [2,16]).",
+ "why": [
+  "Pazarlık Tezgâhı (Nihat Türkan) kendi küçük mekânında durur; ana adanın sekiz premise mekânıyla karışmaz.",
+  "Ada küçük olduğu için iskele, tezgâh ve kumsal tek bakışta görünür.",
+  "Kaptanın tezgâhı ana adaya dönük kıyıdadır; iki ada birbirini görür."
+ ],
+ "coast": [
+  [
+   -5.6,
+   0.4
+  ],
+  [
+   -4.8,
+   -3.2
+  ],
+  [
+   -1.6,
+   -5
+  ],
+  [
+   2.6,
+   -4.6
+  ],
+  [
+   5.4,
+   -1.8
+  ],
+  [
+   5.6,
+   1.8
+  ],
+  [
+   3.4,
+   4.6
+  ],
+  [
+   -0.6,
+   5.2
+  ],
+  [
+   -4,
+   3.8
+  ]
+ ],
+ "hills": [
+  {
+   "at": [
+    -1.6,
+    -1.6
+   ],
+   "r": 2.4,
+   "h": 1.1,
+   "name": "Arka Tepe"
+  }
+ ],
+ "zones": [
+  {
+   "kind": "sand",
+   "name": "Tezgâh Kumsalı",
+   "poly": [
+    [
+     1,
+     -0.6
+    ],
+    [
+     3.8,
+     -0.6
+    ],
+    [
+     3.8,
+     2.2
+    ],
+    [
+     1,
+     2.2
+    ]
+   ]
+  },
+  {
+   "kind": "village",
+   "name": "Balıkçı Evleri",
+   "poly": [
+    [
+     -4,
+     -0.6
+    ],
+    [
+     -1.2,
+     -2.4
+    ],
+    [
+     0.6,
+     -0.4
+    ],
+    [
+     -1.8,
+     1.8
+    ]
+   ]
+  },
+  {
+   "kind": "forest",
+   "name": "Arka Koru",
+   "poly": [
+    [
+     -3,
+     -3.6
+    ],
+    [
+     0.4,
+     -4
+    ],
+    [
+     1,
+     -2.4
+    ],
+    [
+     -2.4,
+     -2
+    ]
+   ],
+   "trees": 9
+  }
+ ],
+ "paths": [
+  {
+   "kind": "path",
+   "pts": [
+    [
+     3.0,
+     -3.3
+    ],
+    [
+     2.8,
+     -1.0
+    ],
+    [
+     2.4,
+     0.6
+    ]
+   ]
+  },
+  {
+   "kind": "path",
+   "pts": [
+    [
+     2.4,
+     0.6
+    ],
+    [
+     -0.4,
+     0.2
+    ],
+    [
+     -1.8,
+     -0.2
+    ]
+   ]
+  }
+ ],
+ "places": {
+  "pz": {
+   "at": [
+    2.4,
+    0.6
+   ],
+   "rot": 0
+  }
+ },
+ "short": "PZ",
+ "items": [
+  {
+   "kind": "house",
+   "at": [
+    -2.8,
+    -0.4
+   ],
+   "rot": 0.5,
+   "v": 0
+  },
+  {
+   "kind": "house",
+   "at": [
+    -0.4,
+    -1.4
+   ],
+   "rot": -0.3,
+   "v": 3
+  },
+  {
+   "kind": "boat",
+   "at": [
+    6.2,
+    3.2
+   ],
+   "rot": 0.4
+  },
+  {
+   "kind": "boat",
+   "at": [
+    5.4,
+    5.2
+   ],
+   "rot": -0.6
+  },
+  {
+   "kind": "rock",
+   "at": [
+    4.8,
+    -2.4
+   ],
+   "s": 0.5
+  },
+  {
+   "kind": "rock",
+   "at": [
+    -5,
+    2
+   ],
+   "s": 0.6
+  },
+  {
+   "kind": "tree",
+   "at": [
+    -1.899,
+    -3.528
+   ],
+   "rot": 4.036,
+   "h": 1.251,
+   "cone": false,
+   "pat": [
+    "fur",
+    [
+     "ink",
+     "paper"
+    ]
+   ]
+  },
+  {
+   "kind": "tree",
+   "at": [
+    -1.019,
+    -2.163
+   ],
+   "rot": 1.331,
+   "h": 1.26,
+   "cone": true,
+   "pat": [
+    "diag",
+    [
+     "green",
+     "ink"
+    ]
+   ]
+  },
+  {
+   "kind": "tree",
+   "at": [
+    -2.692,
+    -3.036
+   ],
+   "rot": 5.126,
+   "h": 1.287,
+   "cone": true,
+   "pat": [
+    "diag",
+    [
+     "green",
+     "ink"
+    ]
+   ]
+  },
+  {
+   "kind": "tree",
+   "at": [
+    -1.038,
+    -3.086
+   ],
+   "rot": 6.053,
+   "h": 1.233,
+   "cone": false,
+   "pat": [
+    "fur",
+    [
+     "ink",
+     "paper"
+    ]
+   ]
+  },
+  {
+   "kind": "tree",
+   "at": [
+    -1.575,
+    -2.827
+   ],
+   "rot": 3.54,
+   "h": 1.592,
+   "cone": false,
+   "pat": [
+    "diag",
+    [
+     "green",
+     "ink"
+    ]
+   ]
+  },
+  {
+   "kind": "tree",
+   "at": [
+    -1.023,
+    -2.65
+   ],
+   "rot": 2.309,
+   "h": 1.583,
+   "cone": true,
+   "pat": [
+    "diag",
+    [
+     "green",
+     "ink"
+    ]
+   ]
+  },
+  {
+   "kind": "tree",
+   "at": [
+    -0.895,
+    -2.906
+   ],
+   "rot": 3.297,
+   "h": 1.744,
+   "cone": true,
+   "pat": [
+    "fur",
+    [
+     "ink",
+     "paper"
+    ]
+   ]
+  },
+  {
+   "kind": "tree",
+   "at": [
+    -1.771,
+    -3.353
+   ],
+   "rot": 1.115,
+   "h": 1.746,
+   "cone": true,
+   "pat": [
+    "fur",
+    [
+     "ink",
+     "paper"
+    ]
+   ]
+  },
+  {
+   "kind": "tree",
+   "at": [
+    -1.214,
+    -2.225
+   ],
+   "rot": 4.523,
+   "h": 1.402,
+   "cone": false,
+   "pat": [
+    "diag",
+    [
+     "green",
+     "ink"
+    ]
+   ]
+  },
+  {
+   "kind": "lamp",
+   "at": [
+    4.4,
+    -1.4
+   ]
+  },
+  {
+   "kind": "lamp",
+   "at": [
+    1.8,
+    -0.2
+   ]
+  }
+ ],
+ "version": 2
+};

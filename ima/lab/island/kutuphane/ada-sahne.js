@@ -188,10 +188,11 @@ function createIslandKit(THREE, { parts, look, yapi }) {
     Object.assign(isl, { seat, addItem, removeItem, relight, itemY: (it) => itemY(it, terrain), items: () => entries.map((e) => e.it) });
     (plan.items || bakeItems(plan, terrain)).forEach((it) => addItem(JSON.parse(JSON.stringify(it))));
 
+    const SH = plan.coasts ? 30 : 20; // gölge kutusu: ek adacık varsa geniş
     const hemi = new THREE.HemisphereLight(0xffffff, 0xe0e0e0, 2.1); day.add(hemi);
-    const sun = new THREE.DirectionalLight(0xffffff, 1.3); sun.castShadow = true; Object.assign(sun.shadow.camera, { left: -20, right: 20, top: 20, bottom: -20, near: 1, far: 120 }); sun.shadow.mapSize.set(2048, 2048); sun.shadow.bias = -0.0004; day.add(sun, sun.target);
+    const sun = new THREE.DirectionalLight(0xffffff, 1.3); sun.castShadow = true; Object.assign(sun.shadow.camera, { left: -SH, right: SH, top: SH, bottom: -SH, near: 1, far: 120 }); sun.shadow.mapSize.set(2048, 2048); sun.shadow.bias = -0.0004; day.add(sun, sun.target);
     night.add(new THREE.HemisphereLight(0xffffff, 0x888888, 0.35));
-    const moon = new THREE.DirectionalLight(0xffffff, 0.9); moon.castShadow = true; Object.assign(moon.shadow.camera, { left: -20, right: 20, top: 20, bottom: -20, near: 1, far: 120 }); moon.shadow.mapSize.set(2048, 2048); night.add(moon, moon.target);
+    const moon = new THREE.DirectionalLight(0xffffff, 0.9); moon.castShadow = true; Object.assign(moon.shadow.camera, { left: -SH, right: SH, top: SH, bottom: -SH, near: 1, far: 120 }); moon.shadow.mapSize.set(2048, 2048); night.add(moon, moon.target);
     relight();
     const hub = places.find((p) => p.key === 'hub'), lampPos = hub.pos.clone().add(new THREE.Vector3(0, 3.62, 0));
     const beam = new THREE.SpotLight(0xffffff, 60, 30, 0.16, 0.45, 1.0); beam.position.copy(lampPos); beam.castShadow = true; beam.shadow.mapSize.set(1024, 1024); beam.shadow.bias = -0.0006; beam.shadow.camera.near = 0.5; night.add(beam, beam.target);

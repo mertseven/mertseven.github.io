@@ -21,7 +21,8 @@ function startC2(THREE) {
     avatar: null, walking: false, near: null, selected: null, inGame: false
   };
   const HREF = { '01': '../vaatler/01-agency/index.html', '02': '../vaatler/02-reciprocity/index.html', '03': '../vaatler/03-feedback/index.html', '05': '../vaatler/05-possibility/index.html',
-                 '06': '../vaatler/06-context/index.html', '07': '../vaatler/07-emergence/index.html', '08': '../vaatler/08-intervention/index.html' };
+                 '06': '../vaatler/06-context/index.html', '07': '../vaatler/07-emergence/index.html', '08': '../vaatler/08-intervention/index.html',
+                 pz: '../../experiments/02b-pazarlik-tezgahi/index.html' };
   const KEYS = ['01', '02', '03', '04', '05', '06', '07', '08'];
   const placesToggle = document.getElementById('placesToggle'), placesPanel = document.getElementById('placesPanel');
   function setPlaces(open) {
@@ -58,7 +59,20 @@ function startC2(THREE) {
   // Ada verisi: ?draft=1 → atölyenin tarayıcı taslağı; yoksa atölyenin kaydettiği ada (adalar/*.js); yoksa plan kütüphanesi
   const planId = params.get('plan') || 'plan.c2';
   const draft = params.get('draft') ? store.get('atolye-taslak:' + planId, null) : null;
-  const PLAN = draft || (LIB.adalar && LIB.adalar[planId]) || LIB.adaPlanlari.find((p) => p.id === planId);
+  const BASE_PLAN = draft || (LIB.adalar && LIB.adalar[planId]) || LIB.adaPlanlari.find((p) => p.id === planId);
+  // Pazarlık Adacığı (öğrenci işi): ana adanın güneyine kaydırılıp aynı araziye eklenir; köprü aşağıda kurulur. ?islet=0 ile kapanır.
+  const ISLET_AT = [2, 16], ISLET = !draft && planId === 'plan.c2' && params.get('islet') !== '0' && BASE_PLAN.items && LIB.adalar && LIB.adalar['plan.pazarlik'];
+  function joinIslet(base, sm, o) {
+    const mv = (p) => [Math.round((p[0] + o[0]) * 1000) / 1000, Math.round((p[1] + o[1]) * 1000) / 1000], plan = JSON.parse(JSON.stringify(base));
+    plan.coasts = (plan.coasts || []).concat([sm.coast.map(mv)]);
+    plan.hills = plan.hills.concat(sm.hills.map((h) => Object.assign({}, h, { at: mv(h.at) })));
+    plan.zones = plan.zones.concat(sm.zones.map((z) => Object.assign({}, z, { poly: z.poly.map(mv) })));
+    plan.paths = plan.paths.concat(sm.paths.map((p) => Object.assign({}, p, { pts: p.pts.map(mv) })));
+    Object.entries(sm.places).forEach(([k, p]) => { plan.places[k] = Object.assign({}, p, { at: mv(p.at) }); });
+    plan.items = plan.items.concat(sm.items.map((i) => Object.assign({}, i, { at: mv(i.at) })));
+    return plan;
+  }
+  const PLAN = ISLET ? joinIslet(BASE_PLAN, LIB.adalar['plan.pazarlik'], ISLET_AT) : BASE_PLAN;
   const isl = kit.build(PLAN, ST.palette);
   const scene = isl.scene, C = isl.C, T = isl.terrain;
   const S = Object.assign({}, look.DEFAULTS, { t: ST.thresholds.slice(), time: ui.mode,
@@ -78,7 +92,22 @@ function startC2(THREE) {
   const PIER_RECTS = [[0, 0.9, 1.1, 2.8], [0, -1.6, 4.4, 3.0]]; // [x, z, w, d] yerel
   const deckY = pier.pos.y + 0.43;
   const pv = new THREE.Vector3();
-  function onPier(x, z) { pv.set(x, deckY, z).applyMatrix4(pierInv); return PIER_RECTS.some(([cx, cz, w, d]) => Math.abs(pv.x - cx) < w / 2 && Math.abs(pv.z - cz) < d / 2); }
+  // köprü: iskelenin açık ucundan (yerel z = 2.3) aynı doğrultuda adacığa uzanır
+  const BRIDGE = ISLET ? (() => {
+    const ry = pier.s.root.rotation.y, tip = pier.s.root.localToWorld(new THREE.Vector3(0, 0, 2.3)), L = 5.8, W = 1.1;
+    return { ry, L, W, cos: Math.cos(ry), sin: Math.sin(ry), x: tip.x + Math.sin(ry) * L / 2, z: tip.z + Math.cos(ry) * L / 2 };
+  })() : null;
+  function onBridge(x, z) { if (!BRIDGE) return false; const dx = x - BRIDGE.x, dz = z - BRIDGE.z, lx = BRIDGE.cos * dx - BRIDGE.sin * dz, lz = BRIDGE.sin * dx + BRIDGE.cos * dz; return Math.abs(lx) < BRIDGE.W / 2 && Math.abs(lz) < BRIDGE.L / 2; }
+  function onPier(x, z) { if (onBridge(x, z)) return true; pv.set(x, deckY, z).applyMatrix4(pierInv); return PIER_RECTS.some(([cx, cz, w, d]) => Math.abs(pv.x - cx) < w / 2 && Math.abs(pv.z - cz) < d / 2); }
+  if (BRIDGE) {
+    const n = Math.round(BRIDGE.L / 0.8) + 1, post = { type: 'cyl', r: 0.06, h: 0.8, at: [0, 0.3, 0], paint: { color: 'ink' } };
+    const b = yapi.build({ id: 'filler.bridge', parts: [
+      { type: 'box', size: [BRIDGE.W, 0.1, BRIDGE.L], at: [0, 0.38, 0], paint: { pattern: 'planks', colors: ['wood', 'ink'], repeat: [1, Math.round(BRIDGE.L)] } },
+      { type: 'row', count: n, step: [0, 0, 0.8], at: [-BRIDGE.W / 2, 0, -BRIDGE.L / 2 + 0.1], part: post },
+      { type: 'row', count: n, step: [0, 0, 0.8], at: [BRIDGE.W / 2, 0, -BRIDGE.L / 2 + 0.1], part: post } ] }, C, () => null);
+    b.root.position.set(BRIDGE.x, pier.pos.y, BRIDGE.z); b.root.rotation.y = BRIDGE.ry;
+    isl.root.add(b.root); isl.anims.push(...b.anims); look.patchObject(b.root);
+  }
   // engeller: evler, fener, saat kulesi, sera, istasyon kulübesi
   const colliders = isl.entries.filter((e) => e.it.kind === 'house').map((e) => ({ x: e.it.at[0], z: e.it.at[1], r: 0.62 }));
   isl.entries.filter((e) => e.it.kind === 'lamp' || e.it.kind === 'tree').forEach((e) => colliders.push({ x: e.it.at[0], z: e.it.at[1], r: e.it.kind === 'lamp' ? 0.18 : 0.22 })); // lamba ve ağaç gövdesinin içinden geçilmesin
@@ -116,7 +145,8 @@ function startC2(THREE) {
   // ---- Kamera ----
   const cam = new THREE.OrthographicCamera(-1, 1, 1, -1, 0.1, 300);
   const PITCH = 0.72, GAME_PITCH = 1.25, HALF = 7.4, OVER = 0.62;
-  const look3 = { x: -0.5, y: 0.6, z: 0.8, tx: -0.5, ty: 0.6, tz: 0.8, zoom: OVER, tzoom: OVER, pitch: PITCH, tpitch: PITCH, shift: 0, tshift: 0 };
+  const OVC = ISLET ? [-0.5, 0.6, 6.6] : [-0.5, 0.6, 0.8], OVZ = ISLET ? 0.44 : OVER; // genel bakış: adacık varsa kadraj güneye kayar
+  const look3 = { x: OVC[0], y: OVC[1], z: OVC[2], tx: OVC[0], ty: OVC[1], tz: OVC[2], zoom: OVZ, tzoom: OVZ, pitch: PITCH, tpitch: PITCH, shift: 0, tshift: 0 };
   // 3. şahıs kamera (varsayılan: stil view.walkCamera · ?cam=tp|iso &fov=45 &tpd=5 &tph=2.4 &yaw=derece &clean=1). Yürürken gezginin arkasından, perspektifle bakar.
   const TP = params.has('cam') ? params.get('cam') === 'tp' : (ST.view && ST.view.walkCamera) === 'tp'; // yürürken 3. şahıs; genel bakış (Esc) kuş bakışı
   const tpCam = new THREE.PerspectiveCamera(Number(params.get('fov') || 45), 1, 0.1, 300);
@@ -172,18 +202,20 @@ function startC2(THREE) {
   // ---- Arayüz ----
   const pinsEl = document.getElementById('pins'), listEl = document.getElementById('list'), placeEl = document.getElementById('place'), enterEl = document.getElementById('enter');
   const pins = {}, rows = {};
-  KEYS.concat(['hub']).forEach((key) => {
+  const PINKEYS = KEYS.concat(['hub', 'pz']), EXTRA = (key) => key === 'hub' || key === 'pz'; // pz: Pazarlık Adacığı (öğrenci işi), 8 mekânlık sayıma girmez
+  PINKEYS.forEach((key) => {
     const p = P[key]; if (!p) return;
     const pin = document.createElement('button'); pin.type = 'button'; pin.className = 'pin';
-    pin.innerHTML = (key === 'hub' ? '★' : key) + '<span class="name">' + p.rec.name.toUpperCase() + '</span>';
-    pin.setAttribute('aria-label', (key === 'hub' ? '' : key + ' · ') + p.rec.name);
+    pin.innerHTML = (key === 'hub' ? '★' : key === 'pz' ? '₺' : key) + '<span class="name">' + p.rec.name.toUpperCase() + '</span>';
+    pin.setAttribute('aria-label', (EXTRA(key) ? '' : key + ' · ') + p.rec.name);
     pin.addEventListener('click', () => select(key)); pinsEl.append(pin); pins[key] = pin;
     if (key === 'hub') return;
     const li = document.createElement('li'), b = document.createElement('button');
-    b.type = 'button'; b.innerHTML = '<span>' + key + ' ' + p.rec.name + '</span><i class="dot"></i>';
+    b.type = 'button'; b.innerHTML = '<span>' + (key === 'pz' ? '₺' : key) + ' ' + p.rec.name + '</span><i class="dot"></i>';
     b.addEventListener('click', () => { select(key); if (matchMedia('(max-width: 900px)').matches) setPlaces(false); }); li.append(b); listEl.append(li); rows[key] = b;
   });
   function renderList() {
+    if (rows.pz) { rows.pz.classList.toggle('active', ui.selected === 'pz'); if (ui.selected === 'pz') rows.pz.setAttribute('aria-current', 'location'); else rows.pz.removeAttribute('aria-current'); }
     KEYS.forEach((key) => { const on = ui.lit.includes(key); rows[key].classList.toggle('off', !on); rows[key].classList.toggle('active', ui.selected === key); rows[key].querySelector('.dot').classList.toggle('on', on); pins[key].classList.toggle('lit', on); });
     document.getElementById('meter').innerHTML = KEYS.map((k) => '<i class="' + (ui.lit.includes(k) ? 'on' : '') + '"></i>').join('');
     document.getElementById('litCount').textContent = ui.lit.length + ' / 8 VISITED';
@@ -193,10 +225,10 @@ function startC2(THREE) {
   }
   function showCard(key) {
     const r = P[key].rec; ui.selected = key;
-    document.getElementById('placeKicker').textContent = key === 'hub' ? 'THE HUB' : 'PREMISE ' + key + ' · ' + r.premise.toUpperCase();
+    document.getElementById('placeKicker').textContent = key === 'hub' ? 'THE HUB' : key === 'pz' ? 'STUDENT ISLET · ' + r.premise.toUpperCase() : 'PREMISE ' + key + ' · ' + r.premise.toUpperCase();
     document.getElementById('placeTitle').textContent = r.name;
     document.getElementById('placePromise').textContent = '“' + r.promise + '”';
-    document.getElementById('placeGame').innerHTML = r.game ? 'game: <b>' + r.game + '</b>' + (shell.has(key) ? ' · plays here' : '') : ui.lit.length + ' of 8 places visited';
+    document.getElementById('placeGame').innerHTML = r.game ? 'game: <b>' + r.game + '</b>' + (shell.has(key) ? ' · plays here' : r.credit ? ' · by ' + r.credit : '') : ui.lit.length + ' of 8 places visited';
     enterEl.style.display = key === 'hub' ? 'none' : '';
     enterEl.href = '?game=' + key;
     placeEl.hidden = false; renderList();
@@ -205,7 +237,7 @@ function startC2(THREE) {
 
   // ---- Kurallar ----
   function select(key) { if (ui.avatar) overview(); const p = P[key]; Object.assign(look3, { tx: p.pos.x, ty: p.pos.y + 0.8, tz: p.pos.z, tzoom: 1.7 }); showCard(key); }
-  function overview() { clearMovement(); ui.walking = false; ui.near = null; ui.tzk = 1; Object.assign(look3, { tx: -0.5, ty: 0.6, tz: 0.8, tzoom: OVER }); hideCard(); }
+  function overview() { clearMovement(); ui.walking = false; ui.near = null; ui.tzk = 1; Object.assign(look3, { tx: OVC[0], ty: OVC[1], tz: OVC[2], tzoom: OVZ }); hideCard(); }
   function startWalking(at) {
     if (ui.walking && ui.avatar && !at) return;
     if (!ui.avatar || at) {
@@ -224,6 +256,7 @@ function startC2(THREE) {
   }
   function enter() {
     if (!ui.selected || ui.selected === 'hub') return;
+    if (ui.selected === 'pz') { location.href = HREF.pz; return; }
     if (!ui.lit.includes(ui.selected)) ui.lit.push(ui.selected);
     store.set('ada-lit', ui.lit);
     if (shell.has(ui.selected)) { startGame(ui.selected); return; }
@@ -363,7 +396,7 @@ function startC2(THREE) {
     look.render(out, scene, activeCam(), new THREE.Color(ui.mode === 'night' ? C.ink : C.paper), S, DPR, Q);
     if (!document.getElementById('retryLoad').hidden) return;
     document.getElementById('loadStatus').hidden = true;
-    const pinOrder = KEYS.concat(['hub']).sort((a, b) => Number(b === ui.selected) - Number(a === ui.selected));
+    const pinOrder = [...PINKEYS].sort((a, b) => Number(b === ui.selected) - Number(a === ui.selected));
     // Önce tüm ölçümleri oku, sonra konumları yaz: her etikette yeniden yerleşim hesaplatma.
     pinOrder.forEach((key) => { if (pins[key]) { pins[key].hidden = !!ui.inGame; pins[key].classList.toggle('hot', ui.selected === key); } });
     const sizes = Object.fromEntries(pinOrder.map((key) => [key, pins[key] ? [pins[key].offsetWidth, pins[key].offsetHeight] : [0, 0]]));
