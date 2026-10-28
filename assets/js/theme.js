@@ -1,4 +1,4 @@
-import { t } from "./i18n.js?v=7d31a14007";
+import { t } from "./i18n.js?v=bed860ddb2";
 
 // Light/dark switch shared by every page.
 //

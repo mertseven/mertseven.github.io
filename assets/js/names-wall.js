@@ -1,5 +1,5 @@
-import { escapeHtml } from "./catalog.js?v=749998b479";
-import { t, kindName } from "./i18n.js?v=7d31a14007";
+import { escapeHtml } from "./catalog.js?v=4e6a7d9ffe";
+import { t, kindName } from "./i18n.js?v=bed860ddb2";
 
 // The home page's name wall. At rest every project's name, with its mark, drifts in rows
 // bent like a cinema screen. Asked something, the names behind blur and the matches stand
@@ -258,7 +258,10 @@ export async function mountNamesWall(host, projects, { onSelect } = {}) {
     if (!drag || e.pointerId !== drag.id) return;
     const dy = e.clientY - drag.y;
     if (!drag.moved && Math.abs(dy) < 6) return;
-    if (!drag.moved) { drag.moved = true; drum.setPointerCapture(e.pointerId); }
+    if (!drag.moved) {
+      drag.moved = true;
+      try { drum.setPointerCapture(e.pointerId); } catch {} // a pointer already gone keeps no capture
+    }
     const dt = Math.max(1, e.timeStamp - drag.t);
     const next = Math.max(0, Math.min(dn.length - 1, drag.from - dy / drag.row));
     drag.v = 0.7 * drag.v + 0.3 * ((next - target) / dt); // names per ms

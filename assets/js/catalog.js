@@ -1,4 +1,4 @@
-import { TOPIC_TR, KIND_TR } from "./i18n.js?v=7d31a14007";
+import { TOPIC_TR, KIND_TR } from "./i18n.js?v=bed860ddb2";
 
 // Loads assets/data/catalog.json once and searches it.
 // One flat list of entries so projects and publications rank against each other.

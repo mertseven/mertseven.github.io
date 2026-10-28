@@ -1,5 +1,5 @@
-import { loadCatalog, search, highlight, escapeHtml } from "./catalog.js?v=749998b479";
-import { t, href } from "./i18n.js?v=7d31a14007";
+import { loadCatalog, search, highlight, escapeHtml } from "./catalog.js?v=4e6a7d9ffe";
+import { t, href } from "./i18n.js?v=bed860ddb2";
 
 // The search box shared by the home page and /search/: the question sized to the bar,
 // rotating hints, the count line, live results, keyboard control and ?q= in the URL.
@@ -43,7 +43,6 @@ export function mountSearch({ onQuery, onHint, panelUp = false, panel: usePanel 
   const ready = loadCatalog()
     .then((c) => {
       entries = c.entries;
-      writeBeneath(entries);
       startHints();
       if (input.value) render();
       return c;
@@ -51,21 +50,6 @@ export function mountSearch({ onQuery, onHint, panelUp = false, panel: usePanel 
     .catch(() => {
       if (list) list.innerHTML = `<li class="results-empty">${t.noLoad(href("/work/"))}</li>`;
     });
-
-  // "28 projects · 9 papers · 2 writings beneath the surface", counted from the catalog.
-  function writeBeneath(all) {
-    if (!beneath) return;
-    const n = (type) => all.filter((e) => e.type === type).length;
-    // The number set in mono, the word after it as the language counts it.
-    const part = (count, say, to) => {
-      const [num, ...word] = say(count).split(" ");
-      return `<a href="${href(to)}"><span class="mono">${num}</span> ${word.join(" ")}</a>`;
-    };
-    beneath.innerHTML = [
-      part(n("Project"), t.projects, "/work/"),
-      part(n("Research"), t.papers, "/research/"),
-    ].join('<span class="sep" aria-hidden="true">·</span>') + ` <span>${t.beneath}</span>`;
-  }
 
   // Rotating hints inside the empty box: one word at a time, each a search that finds
   // something. With the box empty, Enter searches the word on show.

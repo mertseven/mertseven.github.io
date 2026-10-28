@@ -1,11 +1,11 @@
-import { loadCatalog, escapeHtml } from "./catalog.js?v=749998b479";
-import { mountSearch } from "./search-box.js?v=e184dd5591";
-import { mountNamesWall } from "./names-wall.js?v=7c2f41b225";
-import { mountFocus } from "./focus.js?v=83ed1b4fbd";
-import { mountBelow } from "./home-below.js?v=e2f98a9575";
-import { t, href } from "./i18n.js?v=7d31a14007";
-import "./theme.js?v=93e79f6375";
-import "./lang.js?v=487e9aa150";
+import { loadCatalog, escapeHtml } from "./catalog.js?v=4e6a7d9ffe";
+import { mountSearch } from "./search-box.js?v=b8574b08de";
+import { mountNamesWall } from "./names-wall.js?v=2dd63364b6";
+import { mountFocus } from "./focus.js?v=0e5050d297";
+import { mountBelow } from "./home-below.js?v=946b21670e";
+import { t, href } from "./i18n.js?v=bed860ddb2";
+import "./theme.js?v=b1a8b8e960";
+import "./lang.js?v=33bbb878c3";
 
 // Home: the name wall over the question and the search. Typing turns the matching projects
 // into a drum of names (↑ ↓ or the wheel turn it, Enter opens the one in front); a plain
@@ -20,9 +20,8 @@ const projectIds = (results) => new Set(results.filter((e) => e.type === "Projec
 let names = null;     // the wall, once its fonts are in
 let focus = null;     // the project card
 let last = { q: "", ids: null, hint: null }; // what arrived before the wall was ready
-let baseBeneath = ""; // the resting count line, restored when the box is cleared
 
-const { input, beneath, ready } = mountSearch({
+const { input, beneath } = mountSearch({
   panel: false,
   onQuery(q, results) {
     const ids = q ? projectIds(results) : null;
@@ -36,13 +35,11 @@ const { input, beneath, ready } = mountSearch({
     names?.hint(last.hint);
   },
 });
-ready.then(() => { baseBeneath = beneath.innerHTML; if (last.q) writeBeneath(last.q, null); });
-
-// Under the box: the count while typing, the resting line otherwise.
+// Under the box: the count while typing, nothing otherwise.
 function writeBeneath(q, results) {
   if (!beneath) return;
   if (!q) {
-    if (baseBeneath) beneath.innerHTML = baseBeneath;
+    beneath.innerHTML = "";
     return;
   }
   if (!results) return;

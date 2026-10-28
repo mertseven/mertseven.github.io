@@ -1,7 +1,7 @@
-import { loadCatalog, escapeHtml } from "./catalog.js?v=749998b479";
-import { mark } from "./names-wall.js?v=7c2f41b225";
-import { mountFocus } from "./focus.js?v=83ed1b4fbd";
-import { t, lang, href, kindName, topicName } from "./i18n.js?v=7d31a14007";
+import { loadCatalog, escapeHtml } from "./catalog.js?v=4e6a7d9ffe";
+import { mark } from "./names-wall.js?v=2dd63364b6";
+import { mountFocus } from "./focus.js?v=0e5050d297";
+import { t, lang, href, kindName, topicName } from "./i18n.js?v=bed860ddb2";
 
 // /work/: the catalogue. Projects in three chapters, one row each — number, mark, title,
 // collection, topics, tools — under a sentence that filters them ("Show teaching projects

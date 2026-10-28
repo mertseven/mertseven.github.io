@@ -1,7 +1,7 @@
-import { loadCatalog, escapeHtml } from "./catalog.js?v=749998b479";
-import { t } from "./i18n.js?v=7d31a14007";
-import "./theme.js?v=93e79f6375";
-import "./lang.js?v=487e9aa150";
+import { loadCatalog, escapeHtml } from "./catalog.js?v=4e6a7d9ffe";
+import { t } from "./i18n.js?v=bed860ddb2";
+import "./theme.js?v=b1a8b8e960";
+import "./lang.js?v=33bbb878c3";
 
 // /research/: every paper open, one after another, as one long read. An index on the
 // left stays in place and marks the paper being read; a title in it scrolls there, and
