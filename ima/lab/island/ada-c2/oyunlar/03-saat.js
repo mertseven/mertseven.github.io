@@ -5,6 +5,7 @@ window.OYUNLAR['03'] = {
   key: '03', title: 'Mini Sequencer', premise: 'Feedback', premiseText: 'The system’s state must be understandable.', promise: 'Design the feedback loop, not the outcome.',
   source: 'Song Maker — Chrome Music Lab (2018)',
   caption: 'The hand tells you where the music is now.', hint: 'click the clock face · space = play / stop · X clear · C code · B island',
+  touch: [{ label: 'PLAY / STOP', code: 'Space' }, { label: 'CLEAR', code: 'KeyX', key: 'x' }],
   anat: ['click · space', 'toggle() · tick()', 'grid[7][8]', 'pegs · hand · bell'], hot: 2,
   hud: [['BPM', 'bpm'], ['STEP', 'step'], ['PEGS', 'pegs', 'ghosts']],
   design: { bpm: 110, showPlayhead: true, previewOnClick: true, showStatus: true, pingPong: false },

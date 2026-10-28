@@ -17,7 +17,7 @@ function startC2(THREE) {
   const ui = {
     mode: params.get('mode') || store.get('ada-mode', 'day'),
     lit: params.has('lit') ? params.get('lit').split(',').filter(Boolean) : store.get('ada-lit', []),
-    yaw: 0.55, targetYaw: 0.55, zk: 1, tzk: 1, // zk: fare tekerleği yakınlaştırması (çarpan)
+    yaw: 0.55, targetYaw: 0.55, zk: 1, tzk: 1, tilt: 0, // zk: fare tekerleği yakınlaştırması (çarpan) · tilt: dokunarak eğim (3. şahıs)
     avatar: null, walking: false, near: null, selected: null, inGame: false
   };
   const HREF = { '01': '../vaatler/01-agency/index.html', '02': '../vaatler/02-reciprocity/index.html', '03': '../vaatler/03-feedback/index.html', '05': '../vaatler/05-possibility/index.html',
@@ -176,14 +176,14 @@ function startC2(THREE) {
       tpCam.aspect = out.clientWidth / Math.max(1, out.clientHeight);
       // önce istenen açı; arada engel varsa kamera yükselerek engelin üstünden bakmayı dener (yay kolu), olmazsa engelin önüne gelir
       tgt.set(a.x, a.y + 0.7, a.z);
-      const base = Math.atan2(TPH - 0.7, TPD);
-      let best = camTick++ % 3 && camBest && Math.abs(camBest.yaw - ui.yaw) < 0.05 ? camBest : null; // engel ışınları 3 karede bir
+      const base = Math.atan2(TPH - 0.7, TPD) + ui.tilt;
+      let best = camTick++ % 3 && camBest && Math.abs(camBest.yaw - ui.yaw) < 0.05 && camBest.tilt === ui.tilt ? camBest : null; // engel ışınları 3 karede bir
       if (!best) for (let k = 0; k < 5 && !(best && best.free >= best.len - 0.01); k++) {
         const el = Math.min(1.35, base + k * 0.22), dir = new THREE.Vector3(Math.sin(ui.yaw) * Math.cos(el), Math.sin(el), Math.cos(ui.yaw) * Math.cos(el));
         camRay.set(tgt, dir); camRay.far = d;
         const hit = camRay.intersectObjects(getColliders(), false).find((h) => h.object.visible);
         const free = hit ? Math.max(1.8, hit.distance - 0.3) : d;
-        if (!best || free > best.free + 0.4) best = { dir, free, len: d, yaw: ui.yaw };
+        if (!best || free > best.free + 0.4) best = { dir, free, len: d, yaw: ui.yaw, tilt: ui.tilt };
       }
       camBest = best;
       cdir.lerp(best.dir, cdir.lengthSq() ? 0.15 : 1).normalize();
@@ -329,19 +329,62 @@ function startC2(THREE) {
   document.getElementById('zoomOut').addEventListener('click', () => { ui.tzk = Math.max(0.6, ui.tzk / 1.2); });
   function clearMovement() {
     held.clear();
-    document.querySelectorAll('[data-walk]').forEach((b) => b.setAttribute('aria-pressed', 'false'));
+    touches.forEach((p, id) => { if (p.role === 'move') touches.delete(id); });
+    stick.on = false; stickEl.hidden = true;
   }
-  document.querySelectorAll('[data-walk]').forEach((b) => {
-    b.setAttribute('aria-pressed', 'false');
-    b.addEventListener('pointerdown', (e) => {
-      if (ui.inGame) return; e.preventDefault(); startWalking();
-      b.setPointerCapture(e.pointerId); held.add(b.dataset.walk); b.setAttribute('aria-pressed', 'true');
-    });
-    const release = () => { held.delete(b.dataset.walk); b.setAttribute('aria-pressed', 'false'); };
-    b.addEventListener('pointerup', release); b.addEventListener('pointercancel', release); b.addEventListener('lostpointercapture', release);
-    b.addEventListener('keydown', (e) => { if (e.code === 'Space' || e.key === 'Enter') { e.preventDefault(); startWalking(); held.add(b.dataset.walk); } });
-    b.addEventListener('keyup', release); b.addEventListener('blur', release);
+
+  // ---- Dokunmatik: ekran ikiye bölünür (Sky gibi) ----
+  // Yatayda sol yarı yürür, sağ yarı bakar; dikeyde alt üçte bir yürür, üstü bakar.
+  // Yürüyen parmak değdiği yerde bir çubuk açar: itildiği kadar hızlı yürür. Bakan parmak
+  // yana sürükleyince kamerayı döndürür, aşağı-yukarı eğer; iki parmak yakınlaştırır.
+  // Rol parmak değdiği anda belirlenir; parmak kalkana dek değişmez. Oyunda bu katman kapalı.
+  const touches = new Map(); // pointerId → { role: 'move' | 'look', x0, y0, x, y }
+  const stick = { on: false, x: 0, y: 0, mag: 0 }, STICK_R = 52;
+  const stickEl = document.getElementById('stick'), knobEl = stickEl.querySelector('i');
+  const zoneOf = (x, y) => (innerWidth > innerHeight ? x < innerWidth / 2 : y > innerHeight * 2 / 3) ? 'move' : 'look';
+  let pinch = 0;
+  const lookers = () => [...touches.values()].filter((p) => p.role === 'look');
+  out.addEventListener('pointerdown', (e) => {
+    if (e.pointerType !== 'touch' || ui.inGame) return;
+    const role = zoneOf(e.clientX, e.clientY);
+    if (role === 'move' && [...touches.values()].some((p) => p.role === 'move')) return; // bir yürüyen parmak yeter
+    touches.set(e.pointerId, { role, x0: e.clientX, y0: e.clientY, x: e.clientX, y: e.clientY });
+    try { out.setPointerCapture(e.pointerId); } catch {}
+    if (role === 'move') { startWalking(); stick.on = true; stickEl.style.left = e.clientX + 'px'; stickEl.style.top = e.clientY + 'px'; knobEl.style.translate = '0 0'; stickEl.hidden = false; }
+    const l = lookers(); if (l.length === 2) pinch = Math.hypot(l[0].x - l[1].x, l[0].y - l[1].y);
+    hideTouchHint();
   });
+  out.addEventListener('pointermove', (e) => {
+    const p = touches.get(e.pointerId); if (!p) return;
+    const dx = e.clientX - p.x, dy = e.clientY - p.y; p.x = e.clientX; p.y = e.clientY;
+    if (p.role === 'move') {
+      let sx = p.x - p.x0, sy = p.y - p.y0; const d = Math.hypot(sx, sy);
+      if (d > STICK_R) { sx *= STICK_R / d; sy *= STICK_R / d; }
+      knobEl.style.translate = sx + 'px ' + sy + 'px';
+      stick.mag = Math.min(1, d / STICK_R); stick.x = sx / STICK_R; stick.y = -sy / STICK_R;
+      return;
+    }
+    const l = lookers();
+    if (l.length >= 2) { // iki parmak: yakınlaştır
+      const d = Math.hypot(l[0].x - l[1].x, l[0].y - l[1].y);
+      if (pinch > 0) ui.tzk = Math.max(0.6, Math.min(3.2, ui.tzk * d / pinch));
+      pinch = d; return;
+    }
+    ui.targetYaw -= dx * 0.009;
+    ui.tilt = Math.max(-0.3, Math.min(0.55, ui.tilt + dy * 0.004));
+  });
+  const lift = (e) => {
+    const p = touches.get(e.pointerId); if (!p) return;
+    touches.delete(e.pointerId);
+    if (p.role === 'move') { stick.on = false; stick.mag = 0; stickEl.hidden = true; }
+    pinch = 0;
+  };
+  out.addEventListener('pointerup', lift); out.addEventListener('pointercancel', lift); out.addEventListener('lostpointercapture', lift);
+  // İlk açılışta iki bölge birkaç saniye gösterilir; biri kullanılınca ya da süre dolunca bir daha çıkmaz.
+  const hintEl = document.getElementById('touchHint');
+  function hideTouchHint() { if (hintEl.hidden) return; hintEl.classList.add('gone'); setTimeout(() => { hintEl.hidden = true; }, 600); store.set('ada-touch-hint', true); }
+  if (matchMedia('(pointer: coarse)').matches && !store.get('ada-touch-hint', false)) { hintEl.hidden = false; setTimeout(hideTouchHint, 6000); }
+
   addEventListener('blur', clearMovement);
   document.addEventListener('visibilitychange', () => { if (document.hidden) clearMovement(); });
   document.querySelectorAll('.mode button').forEach((b) => b.addEventListener('click', () => setMode(b.dataset.mode)));
@@ -351,10 +394,12 @@ function startC2(THREE) {
   function walk(dt) {
     const a = ui.avatar; let sx = 0, sy = 0;
     held.forEach((k) => { sx += MOVE[k][0]; sy += MOVE[k][1]; });
+    let pace = 1;
+    if (stick.on && stick.mag > 0.15) { sx = stick.x; sy = stick.y; pace = Math.max(0.35, stick.mag); } // çubuk: itildiği kadar hızlı
     if (sx || sy) {
       const vc = activeCam(); right.setFromMatrixColumn(vc.matrixWorld, 0).setY(0).normalize(); up.setFromMatrixColumn(vc.matrixWorld, 1).setY(0).normalize();
       let vx = right.x * sx + up.x * sy, vz = right.z * sx + up.z * sy; const len = Math.hypot(vx, vz); vx /= len; vz /= len;
-      const sp = 2.8 * dt;
+      const sp = 2.8 * pace * dt;
       if (walkable(a.x + vx * sp, a.z)) a.x += vx * sp;
       if (walkable(a.x, a.z + vz * sp)) a.z += vz * sp;
       a.face = Math.atan2(vx, vz); a.step += dt;

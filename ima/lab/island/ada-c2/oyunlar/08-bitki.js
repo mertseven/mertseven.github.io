@@ -5,6 +5,7 @@ window.OYUNLAR['08'] = {
   key: '08', title: 'Shhh Plant', premise: 'Intervention', premiseText: 'Interactive systems act on the world, not just represent it.', promise: 'Prototype possible futures.',
   source: 'The Fun Theory — Volkswagen & DDB (2009) · Hello Lamp Post — PAN Studio (2013)',
   caption: 'Shhh. Something is listening to the room.', hint: 'hold space = noise · R restart · C code · B island',
+  touch: [{ label: 'HOLD = NOISE', code: 'Space', hold: true }, { label: 'RESTART', code: 'KeyR', key: 'r' }],
   anat: ['microphone · space', 'level > threshold', 'growth · streak', 'branches · bloom'], hot: 2,
   hud: [['GROWN', 'grown'], ['ROOM NOISE', 'noise', 'ghosts'], ['STREAK', 'streak']],
   design: { mode: 'quiet', goalSeconds: 60, threshold: 0.25, sensitivity: 4, penalty: 0.15, forgiveness: 2, spread: 0.5 },

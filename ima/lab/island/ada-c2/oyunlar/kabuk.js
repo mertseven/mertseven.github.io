@@ -6,8 +6,9 @@
 //   { key, title, sub, premise, promise, source, caption, hint, anat: [girdi, kural, durum, çıktı], hot,
 //     hud: [[etiket, id, sınıf?]], design: {…}, knobs: [{ key, step, min, max, note } | { key, type: 'bool' } | { key, type: 'choice', options }],
 //     code: [satır html…] (kuralın kısa hâli), tasks: […], question, overlay: { title, text, cta, choices? },
-//     view: { at: [x, y, z] (yerel), zoom, pitch, yaw? }, ownsKeys?, make(ctx) → oyun }
-// Oyun: { start(), stop(), begin(e?), frame(t, dt), pointer(type, e), key(e, down) → true, hud() → { id: değer }, rule(), caption(), status(), knob(key) }
+//     view: { at: [x, y, z] (yerel), zoom, pitch, yaw? }, ownsKeys?, touch?: [{ label, code, key?, hold? }], make(ctx) → oyun }
+//   touch: dokunmatikte tuşların yerine geçen düğmeler (boşluk gibi); oyun touch() ile kendisi de verebilir.
+// Oyun: { start(), stop(), begin(e?), frame(t, dt), pointer(type, e), key(e, down) → true, hud() → { id: değer }, rule(), caption(), status(), knob(key), touch()? }
 // ctx: kabuğun oyuna verdiği araçlar (aşağıda, makeCtx).
 
 window.OYUNLAR = window.OYUNLAR || {};
@@ -160,6 +161,30 @@ function createGameShell(THREE, env) {
     if (!cur) return; const { spec, game } = cur;
     if (game.rule) $('anatRule').textContent = game.rule();
     $('gameCaption').textContent = game.caption ? game.caption() : spec.caption;
+    renderTouch();
+  }
+  // Dokunmatik düğmeler: basınca tuş inmiş, bırakınca kalkmış sayılır (hold: basılı tutulan tuş)
+  let touchSig = '';
+  function renderTouch() {
+    const list = (cur.game.touch ? cur.game.touch() : cur.spec.touch) || [], sig = JSON.stringify(list);
+    if (sig === touchSig) return; touchSig = sig;
+    const box = $('gTouch'); box.innerHTML = '';
+    list.forEach((it) => {
+      const b = document.createElement('button'); b.type = 'button'; b.className = 'btn'; b.textContent = it.label;
+      if (it.hold || it.on !== undefined) b.setAttribute('aria-pressed', String(!!it.on));
+      const up = () => { if (!b._down) return; b._down = false; if (it.hold) { b.setAttribute('aria-pressed', 'false'); pressKey(it, false); } };
+      b.addEventListener('pointerdown', (e) => { e.preventDefault(); b._down = true; try { b.setPointerCapture(e.pointerId); } catch {} if (it.hold) b.setAttribute('aria-pressed', 'true'); pressKey(it, true); });
+      b.addEventListener('pointerup', up); b.addEventListener('pointercancel', up); b.addEventListener('lostpointercapture', up);
+      b.addEventListener('click', (e) => { if (e.detail === 0) { pressKey(it, true); if (it.hold) setTimeout(() => pressKey(it, false), 400); } }); // klavyeyle basılan düğme
+      box.append(b);
+    });
+  }
+  function pressKey(it, down) {
+    if (!inGame() || !cur.game.key) return;
+    const e = { code: it.code, key: it.key ?? ' ', repeat: false, shiftKey: false, ctrlKey: false, metaKey: false, altKey: false, target: document.body, preventDefault() {} };
+    if (!cur.game.key(e, down) || !down) return;
+    cur.ctx.audio(); if (!playing && !(cur.overlay && cur.overlay.choices)) { setPlaying(true); if (cur.game.begin) cur.game.begin(); }
+    renderTexts();
   }
   function showOverlay(o) {
     $('ovKick').textContent = (o.kick || ('PREMISE ' + cur.spec.key + ' · ' + cur.spec.premise)).toUpperCase();
@@ -234,7 +259,7 @@ function createGameShell(THREE, env) {
     manualPause = false; gameTime = performance.now() / 1000; last = gameTime;
     const spec = window.OYUNLAR[key];
     if (!made[key]) { const ctx = makeCtx(spec); const game = spec.make(ctx); made[key] = { spec, ctx, game }; ctx.patch(); }
-    cur = made[key]; cur.overlay = null;
+    cur = made[key]; cur.overlay = null; touchSig = '';
     fillDom(spec);
     cur.ctx.group.visible = true;
     document.body.classList.add('ingame'); document.body.dataset.game = key;

@@ -5,6 +5,7 @@ window.OYUNLAR['07'] = {
   key: '07', title: 'Boundary Lines', premise: 'Emergence', premiseText: 'Experience cannot be fully predetermined.', promise: 'Design conditions, not outcomes.',
   source: 'Boundary Functions — Scott Snibbe (1998)',
   caption: 'Nobody drew these lines.', hint: 'click = add a person · drag = move · double-click = remove · space = scatter · X clear · C code · B island',
+  touch: [{ label: 'SCATTER', code: 'Space' }, { label: 'CLEAR', code: 'KeyX', key: 'x' }],
   anat: ['pointerdown · drag', 'nearest(person)', 'people[ ]', 'lines · %'], hot: 1,
   hud: [['PEOPLE', 'nPeople'], ['LARGEST', 'largest', 'ghosts'], ['REPEL', 'repel']],
   design: { minPeople: 2, wander: 0.3, repel: 0.4, personalSpace: 0.9, showShare: true, maxPeople: 24 },

@@ -113,6 +113,7 @@ window.OYUNLAR['05'] = {
         vs.forEach((v, i) => ctx.tag(n++, (i + 1) + ' ' + v, new THREE.Vector3(X0 + (i + 0.5) * W / vs.length, Y0 + H + 0.2, Z), v === tool, 0));
         ctx.tagsFrom(n);
       },
+      touch: () => verbs().map((v, i) => ({ label: (i + 1) + ' ' + v.toUpperCase(), code: 'Digit' + (i + 1), key: String(i + 1), on: v === tool })), // araçlar: 1–5 tuşlarının yerine
       hud() { const imp = ALL.filter((v) => !D[v]); return { verb: D[tool] ? tool : '—', grains, impossible: imp.length ? imp.join(', ') : 'nothing' }; },
       rule: () => D.sandSinks ? 'sand falls · sinks in water' : 'sand falls · floats on water',
       status: () => 'verbs: ' + verbs().join(', ') + ' · grains: ' + grains,

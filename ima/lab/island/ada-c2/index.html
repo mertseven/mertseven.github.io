@@ -66,7 +66,7 @@
     <details id="controlsHelp">
       <summary>CONTROLS</summary>
       <div class="controls-popover">
-      <p class="island-only">WASD / arrows: walk · Q / E: rotate · wheel: zoom · 1–8: select a place · Enter: enter · N: day/night · Esc: overview. On touchscreens, use the direction pad below.</p>
+      <p class="island-only">WASD / arrows: walk · Q / E: rotate · wheel: zoom · 1–8: select a place · Enter: enter · N: day/night · Esc: overview. On touchscreens: drag on the walking side to walk (left half, or the bottom third upright), drag anywhere else to look, pinch to zoom.</p>
       <p class="game-only" id="gHint"></p>
     <nav class="island-actions island-only" aria-label="Island camera">
       <button class="btn" id="findMe" type="button">FIND ME</button>
@@ -79,12 +79,9 @@
       </div>
     </details>
   </footer>
-  <nav class="touch-pad island-only" aria-label="Walk controls">
-    <button data-walk="arrowup" type="button" aria-label="Walk forward">↑</button>
-    <button data-walk="arrowleft" type="button" aria-label="Walk left">←</button>
-    <button data-walk="arrowdown" type="button" aria-label="Walk backward">↓</button>
-    <button data-walk="arrowright" type="button" aria-label="Walk right">→</button>
-  </nav>
+  <!-- Dokunmatik: yürüyen parmağın çubuğu ve ilk açılışta iki bölgenin ipucu (oyun.js) -->
+  <div class="stick" id="stick" hidden aria-hidden="true"><i></i></div>
+  <div class="touch-hint island-only" id="touchHint" hidden aria-hidden="true"><span class="th-look"><b>DRAG TO LOOK · PINCH TO ZOOM</b></span><span class="th-move"><b>DRAG TO WALK</b></span></div>
 
   <!-- ===== Oyun katmanı: sekiz oyun aynı kabukla (oyunlar/kabuk.js); içerik oyunun tarifinden dolar ===== -->
   <div id="tags" class="game-only"></div>
@@ -122,6 +119,7 @@
     <div class="title"><button class="close" type="button" aria-label="Close notes">×</button><span id="notesName">README.md</span></div>
     <div class="body" id="notesBody"></div>
   </section>
+  <div class="game-touch game-only" id="gTouch" role="group" aria-label="Game buttons"></div>
   <div class="card anat game-only" id="gAnat"></div>
   <div class="toast" id="toast"></div>
 

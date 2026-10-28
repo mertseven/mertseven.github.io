@@ -22,6 +22,7 @@ window.OYUNLAR['01'] = {
   overlay: { title: 'Key Orchestra', text: 'Every key on your keyboard has a musician standing on it. Press a key, or click one. Space switches agency: single · group · full.', cta: 'PRESS ANY KEY' },
   view: { at: [0, 0.55, 0.05], zoom: 2.9, pitch: 0.92 },
   ownsKeys: true,
+  touch: [{ label: 'AGENCY', code: 'Space' }], // dokunmatik: müzisyenlere dokunulur; boşluk = bu düğme
 
   make(ctx) {
     const { THREE, D, C, group } = ctx;
