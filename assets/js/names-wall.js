@@ -104,8 +104,12 @@ export async function mountNamesWall(host, projects, { onSelect } = {}) {
     probe.remove();
   }
   const rows = [];
+  const n = projects.length;
   for (let r = 0; r < nRows; r++) {
-    const list = projects.filter((_, i) => i % nRows === r);
+    // Projects are dealt across the rows; with more rows than projects each row carries all
+    // of them, turned a few places, so no row is empty (an empty row would never fill below).
+    const list = nRows <= n ? projects.filter((_, i) => i % nRows === r) : projects.map((_, i) => projects[(i + r * 4) % n]);
+    if (!list.length) continue;
     const row = { y: 0, dir: r % 2 ? -1 : 1, speed: SPEEDS[r % 2], offset: r * 137, loop: 0, items: [] };
     let x = 0;
     // Repeat the row until it is wide enough to wrap past both ends of the curve.
