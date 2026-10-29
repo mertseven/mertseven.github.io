@@ -1,0 +1,144 @@
+/* Giriş sayfası — LAB / MAP.
+   Ekran ikiye bölünmüş iki afiş. Bütün tipografi afişin kendi boyutuna bağlı
+   (container query birimleri). LAB ve MAP sözcükleri değişken fontların
+   genişlik eksenini (wdth) kullanır: yarı genişleyince harfler açılır,
+   daralınca sıkışır — bkz. giris.js fitWords(). */
+:root{
+  --paper:#f4f3ef; --paper-2:#eceae4; --table:#e4e2dc;
+  --ink:#141412; --ink-2:#4a4a45; --muted:#77776f;
+  --blue:#2346d0; --yellow:#f2c52c; --petrol:#286375;
+  --serif:'Fraunces',Georgia,serif;
+  --sans:'DM Sans',Arial,sans-serif;
+  --mono:'IBM Plex Mono',ui-monospace,monospace;
+  --grot:'Anton',Impact,'Arial Narrow',sans-serif;
+  --vserif:'Roboto Serif','Fraunces',Georgia,serif;     /* wdth 50–150 */
+  --vgrot:'Roboto Flex','Arial Narrow',sans-serif;       /* wdth 25–151 */
+  --hand:'Caveat','Segoe Print','Comic Sans MS',cursive;
+  --gut:clamp(12px,1.7vw,26px);
+  --strip:0px;
+  --grain:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  color-scheme:light;
+}
+*,*::before,*::after{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--paper);color:var(--ink);font:400 14px/1.5 var(--sans);
+  -webkit-font-smoothing:antialiased;min-height:100svh}
+button{font:inherit;color:inherit;cursor:pointer}
+
+/* ================= iskelet ================= */
+.entry{display:flex;height:calc(100svh - var(--strip))}
+.slot{position:relative;flex:1 1 0;min-width:0;transition:flex-grow .75s cubic-bezier(.2,.8,.2,1)}
+
+.poster{position:absolute;inset:0;display:block;overflow:hidden;color:var(--ink);text-decoration:none;
+  background-color:var(--paper);container-type:size;
+  --u:min(1cqi,.74cqh);   /* afişin "birimi": dar ya da basık afişte de oran korunur */}
+/* Kâğıt dokusu arka plan katmanında. Üstte mix-blend-mode ile durduğunda
+   WebGL tuvalinin üstünde karışmıyor, kürenin çevresinde açık bir kutu kalıyordu. */
+.poster{--veil:rgba(244,243,239,.8);background-image:linear-gradient(var(--veil),var(--veil)),var(--grain);
+  background-blend-mode:normal,multiply}
+.poster:focus-visible{outline:3px solid var(--blue);outline-offset:-7px}
+.poster>*{position:absolute;margin:0}
+
+.p-cta{bottom:2.3%;left:4.2%;font:500 calc(var(--u)*1.45)/1 var(--mono);
+  letter-spacing:.06em;text-transform:uppercase;padding-bottom:.35em;
+  background:linear-gradient(currentColor,currentColor) 0 100%/0% 1.5px no-repeat;
+  transition:background-size .45s cubic-bezier(.2,.8,.2,1)}
+.p-cta b{font-weight:500;display:inline-block;transition:transform .45s cubic-bezier(.2,.8,.2,1)}
+.poster:hover .p-cta,.poster:focus-visible .p-cta{background-size:100% 1.5px}
+.poster:hover .p-cta b,.poster:focus-visible .p-cta b{transform:translate(.15em,-.15em)}
+.hand{font-family:var(--hand);font-weight:600}
+
+/* ================= LAB — krom küre ================= */
+.p-logo{top:3.1%;left:4.2%;width:calc(var(--u)*4.4);height:auto}
+.p-logo--map{width:calc(var(--u)*3)}
+.lab-kicker{top:calc(3.1% + var(--u)*5);left:4.2%;font:400 calc(var(--u)*2.75)/1.07 var(--serif);letter-spacing:-.01em}
+.lab-note{top:3.2%;right:5.5%;color:var(--blue);font-size:calc(var(--u)*6.4);line-height:.84;
+  transform:rotate(-9deg);transform-origin:100% 0;z-index:3;
+  transition:transform .6s cubic-bezier(.2,.8,.2,1)}
+.poster:hover .lab-note{transform:rotate(-12deg) translateY(-2%)}
+.sphere{left:50%;top:13.5%;width:calc(var(--u)*66);aspect-ratio:1;translate:-50% 0}
+.sphere canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+/* Gri tonlama canvas'ta değil dokularda yapılıyor: CSS filtresi saydam
+   tuvalin çevresinde, kâğıt dokusuyla çarpışan açık bir kutu bırakıyordu. */
+.sphere__fallback{position:absolute;inset:6% 6% 10%;border-radius:50%;
+  background:radial-gradient(circle at 36% 30%,#fff 0 6%,#bdbdb8 22%,#55554f 58%,#1d1d1b 76%,#8d8d88 94%)}
+.sphere[data-ready] .sphere__fallback{display:none}
+.lab-title{left:3.6%;bottom:12%;font:400 27cqh/.76 var(--vserif);font-optical-sizing:auto;
+  letter-spacing:-.035em;white-space:nowrap}
+.lab-title span{letter-spacing:0}
+.lab-sub{left:4.2%;bottom:6.2%;font:400 calc(var(--u)*2.25)/1.22 var(--serif)}
+.lab-side{right:4.2%;bottom:6.2%;font:400 calc(var(--u)*1.65)/1.32 var(--sans);text-align:right}
+
+/* ================= MAP — yırtık kolaj ================= */
+.poster--map{background-color:var(--paper-2);--veil:rgba(234,232,226,.8)}
+.map-list{top:2.9%;right:4.2%;font:700 calc(var(--u)*1.7)/1.06 var(--sans);text-transform:uppercase;letter-spacing:.01em;z-index:3}
+.collage{top:8.6%;left:0;right:0;height:41%}
+.scrap{position:absolute;left:-5%;right:-5%;filter:drop-shadow(0 3px 3px rgba(0,0,0,.3));
+  transition:transform .8s cubic-bezier(.2,.8,.2,1)}
+.scrap>*{position:absolute;inset:0}
+.scrap__rim{background:#fbfaf5}
+.scrap canvas{width:100%;height:100%;display:block}
+.scrap--1{top:-2%;height:47%;transform:rotate(-1.3deg)}
+.scrap--2{top:31%;height:40%;transform:rotate(.9deg);z-index:1}
+.scrap--3{top:58%;height:46%;transform:rotate(-.7deg);z-index:2}
+.poster--map:hover .scrap--1{transform:rotate(-2.1deg) translate(-1.2%,-3%)}
+.poster--map:hover .scrap--2{transform:rotate(1.9deg) translate(1.4%,1%)}
+.poster--map:hover .scrap--3{transform:rotate(-1.4deg) translate(-.6%,5%)}
+
+.tape{right:3.4%;top:45.5%;z-index:5;width:calc(var(--u)*23);padding:calc(var(--u)*1.5) calc(var(--u)*2.3);
+  background:var(--yellow);transform:rotate(-6.5deg);
+  font-size:calc(var(--u)*3.25);line-height:.98;color:var(--ink);
+  clip-path:polygon(2% 4%,6% 0,14% 5%,22% 1%,40% 4%,58% 0,74% 3%,90% 0,97% 4%,100% 12%,97% 26%,100% 41%,96% 57%,100% 74%,97% 90%,93% 100%,78% 96%,60% 100%,42% 97%,24% 100%,8% 96%,2% 100%,3% 84%,0 66%,3% 48%,0 30%,3% 16%);
+  transition:transform .6s cubic-bezier(.2,.8,.2,1)}
+.poster--map:hover .tape{transform:rotate(-3.5deg) translateY(-6%)}
+.map-title{left:2.8%;bottom:11.4%;font:1000 35cqh/.76 var(--vgrot);font-optical-sizing:auto;
+  letter-spacing:-.01em;white-space:nowrap}
+/* fitWords() ölçene kadar sözcük görünmesin: yanlış genişlikte bir kare yanıp sönmesin */
+.vfit:not([data-fit-ready]){visibility:hidden}
+.map-name{left:4.2%;bottom:6.2%;font:500 calc(var(--u)*2.15)/1.2 var(--sans)}
+.map-name small{display:block;font:400 calc(var(--u)*1.65)/1.3 var(--serif);color:var(--ink-2)}
+.map-side{right:4.2%;bottom:6.2%;font:400 calc(var(--u)*1.75)/1.3 var(--serif);text-align:right}
+
+/* ================= alt şerit ================= */
+
+/* ================= bölünme ================= */
+.slot--map{border-left:1.5px solid var(--ink)}
+.slot:hover{flex-grow:1.4}
+
+/* ================= telefon: alt alta ================= */
+@media (max-width:760px){
+  .entry{flex-direction:column;height:auto}
+  .slot{flex:none;height:min(92svh,150vw)}
+  .slot:hover{flex-grow:0}
+  .slot--map{border-left:0;border-top:1.5px solid var(--ink)}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{transition:none!important}
+}
+
+/* ================= geçiş (gecis.js) ================= */
+.gecis{position:fixed;inset:0;z-index:50;background:var(--paper);opacity:0;transition:opacity .45s ease}
+.gecis.on{opacity:1}
+.gecis.flash{background:#fffef8;transition:opacity .45s ease,background-color .35s ease}
+.gecis canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.gecis__skip{position:absolute;right:16px;bottom:14px;z-index:2;font:500 11px/1 var(--mono);letter-spacing:.08em;
+  text-transform:uppercase;color:var(--muted);opacity:0;transition:opacity .4s .6s}
+.gecis.on .gecis__skip{opacity:.8}
+.gecis--map .gecis__skip{color:#9a988f}
+/* LAB: tuval ilk karede tam ekran; küre sayfadaki yerinden büyür (gecis.js) */
+.sphere.sphere--loose{position:fixed;z-index:51;translate:none;margin:0;aspect-ratio:auto;pointer-events:none}
+/* MAP: kolajın şeritleri kalkar, arazi gelir */
+.gecis-map .collage{transform:translateY(-14%) scale(1.06);opacity:0;transition:transform .5s cubic-bezier(.6,0,.2,1),opacity .4s ease}
+.in-gecis{overflow:hidden}
+
+/* ================= gece: koyu; işaret edilen yarı aydınlanır ================= */
+body{--paper:#151513;--paper-2:#1b1b19;--ink:#f1efe8;--ink-2:#b9b7ae;--muted:#8b8a83;color-scheme:dark}
+.poster{--veil:rgba(21,21,19,.86)}
+.poster--map{--veil:rgba(27,27,25,.86)}
+.lab-note{color:#7f9cff}
+.tape{color:#141412}
+.slot--lab .p-logo{filter:invert(1) hue-rotate(180deg) brightness(1.3)}
+.p-logo--map rect:first-child{stroke:#5b5a55;stroke-width:1.5} /* koyu zeminde siyah kare kaybolmasın */
+.slot .poster>*:not(.sphere):not(.collage){transition:opacity .5s}
+.entry:hover .slot:not(:hover) .poster>*{opacity:.38}
+.entry:hover .slot:not(:hover) .sphere,.entry:hover .slot:not(:hover) .collage{opacity:.5;transition:opacity .5s}

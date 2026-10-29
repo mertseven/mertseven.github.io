@@ -71,18 +71,18 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://mertseven.com/about/"/>
   </url>
   <url>
-    <loc>https://mertseven.com/etkilesim-atlas.html</loc>
+    <loc>https://mertseven.com/ima/map.html</loc>
     <lastmod>2026-10-28</lastmod>
-    <xhtml:link rel="alternate" hreflang="en" href="https://mertseven.com/etkilesim-atlas.html"/>
-    <xhtml:link rel="alternate" hreflang="tr" href="https://mertseven.com/tr/etkilesim-atlas.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://mertseven.com/etkilesim-atlas.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mertseven.com/ima/map.html"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://mertseven.com/tr/ima/map.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mertseven.com/ima/map.html"/>
   </url>
   <url>
-    <loc>https://mertseven.com/tr/etkilesim-atlas.html</loc>
+    <loc>https://mertseven.com/tr/ima/map.html</loc>
     <lastmod>2026-10-28</lastmod>
-    <xhtml:link rel="alternate" hreflang="en" href="https://mertseven.com/etkilesim-atlas.html"/>
-    <xhtml:link rel="alternate" hreflang="tr" href="https://mertseven.com/tr/etkilesim-atlas.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://mertseven.com/etkilesim-atlas.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mertseven.com/ima/map.html"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://mertseven.com/tr/ima/map.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mertseven.com/ima/map.html"/>
   </url>
   <url><loc>https://mertseven.com/jstudio/</loc></url>
   <url><loc>https://mertseven.com/networkcanvas/</loc></url>
@@ -90,6 +90,7 @@
   <url><loc>https://mertseven.com/digijournalism/</loc></url>
   <url><loc>https://mertseven.com/kafka/</loc></url>
   <url><loc>https://mertseven.com/socrates/socrates.html</loc></url>
+  <url><loc>https://mertseven.com/ima/</loc></url>
   <url><loc>https://mertseven.com/ima/lab/</loc></url>
   <url><loc>https://mertseven.com/grad-projects/</loc></url>
 </urlset>

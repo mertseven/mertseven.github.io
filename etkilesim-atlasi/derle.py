@@ -4,10 +4,11 @@ Etkileşim Atlası — derleyici
 
 src/ altındaki parçaları sırayla birleştirir ve üç çıktı üretir:
 
-  ../etkilesim-atlas.html     YAYINLANAN dosya, İngilizce (varsayılan). Deponun kökünde
-                              durur; GitHub Pages onu mertseven.com/etkilesim-atlas
-                              adresinden sunuyor.
-  ../tr/etkilesim-atlas.html  Aynı atlasın Türkçesi; sitenin geri kalanı gibi /tr/ altında.
+  ../ima/map.html             YAYINLANAN dosya, İngilizce (varsayılan). IMA'nın MAP'i:
+                              mertseven.com/ima/map (LAB'ın yanında, /ima/ girişinden).
+  ../tr/ima/map.html          Aynı atlasın Türkçesi; sitenin geri kalanı gibi /tr/ altında.
+                              Eski adresler (/etkilesim-atlas.html, /tr/etkilesim-atlas.html)
+                              buraya yönlendiren küçük sayfalar olarak duruyor.
   etkilesim-atlasi.html       Yalnız IIFE parçası (doctype/head yok). Söz dizimi
                               kontrolü için tutuluyor; .gitignore ile git'in dışında.
 
@@ -69,13 +70,13 @@ def build_yerlesim(state):
 
 # Dile göre değişen her şey burada.
 LANGS = {
-    "en": dict(out=os.path.join(os.path.dirname(HERE), "etkilesim-atlas.html"),
-               lang="en", base="", alt="tr/etkilesim-atlas.html", path="etkilesim-atlas.html", locale="en_US",
+    "en": dict(out=os.path.join(os.path.dirname(HERE), "ima", "map.html"),
+               lang="en", base="../", alt="../tr/ima/map.html", path="ima/map.html", locale="en_US",
                title="Interaction Atlas",
                desc="The {n_lib} JavaScript libraries that make interactive media possible, and {n_proj} journalism works made with them.",
                nos_p="This atlas runs entirely in the browser and needs JavaScript."),
-    "tr": dict(out=os.path.join(os.path.dirname(HERE), "tr", "etkilesim-atlas.html"),
-               lang="tr", base="../", alt="../etkilesim-atlas.html", path="tr/etkilesim-atlas.html", locale="tr_TR",
+    "tr": dict(out=os.path.join(os.path.dirname(HERE), "tr", "ima", "map.html"),
+               lang="tr", base="../../", alt="../../ima/map.html", path="tr/ima/map.html", locale="tr_TR",
                title="Etkileşim Atlası",
                desc="İnteraktif medyayı mümkün kılan {n_lib} JavaScript kütüphanesi ve onlarla yapılmış {n_proj} gazetecilik işi.",
                nos_p="Bu atlas tamamen tarayıcıda çalışır ve JavaScript gerektirir."),
@@ -194,7 +195,7 @@ def build_standalone(fragment, n_lib, n_proj, L):
     desc = L["desc"].format(n_lib=n_lib, n_proj=n_proj)
     nos = NOSCRIPT.format(title=L["title"], nos_p=L["nos_p"])
     # Sayfa diğer dilini data-alt'ta tutar (dil düğmesi oraya gider); data-base, /tr/
-    # altındaki sayfanın atlas-varlik/ gibi kök klasörlere ulaşması için.
+    # sayfanın (ima/ ya da tr/ima/ altında) atlas-varlik/ gibi kök klasörlere ulaşması için.
     return f"""<!doctype html>
 <html lang="{L["lang"]}" data-alt="{L["alt"]}"{base}>
 <head>
@@ -222,8 +223,8 @@ def build_standalone(fragment, n_lib, n_proj, L):
 <meta property="og:image" content="{SITE}images/webcard.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="{SITE}images/webcard.png">
-<link rel="alternate" hreflang="en" href="{SITE}etkilesim-atlas.html">
-<link rel="alternate" hreflang="tr" href="{SITE}tr/etkilesim-atlas.html">
+<link rel="alternate" hreflang="en" href="{SITE}ima/map.html">
+<link rel="alternate" hreflang="tr" href="{SITE}tr/ima/map.html">
 <link rel="icon" href="{FAVICON}">
 {banner}
 {head_part}

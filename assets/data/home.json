@@ -3,9 +3,9 @@
   "picks": ["jstudio", "networkcanvas", "socrates", "kafka"],
   "now": {
     "teaching": {
-      "project": "ima-lab",
-      "en": { "title": "Interactive Media Applications", "line": "Eight playable experiments on agency, feedback and emergence, this term at Yaşar." },
-      "tr": { "title": "Interactive Media Applications", "line": "Bu dönem Yaşar'da: faillik, geri bildirim ve beliriş üzerine sekiz oynanabilir deney." }
+      "project": "ima",
+      "en": { "title": "Interactive Media Applications", "line": "A lab of eight playable experiments and a map of 162 libraries, this term at Yaşar." },
+      "tr": { "title": "Interactive Media Applications", "line": "Bu dönem Yaşar'da: sekiz oynanabilir deneyli bir laboratuvar ve 162 kütüphanelik bir harita." }
     },
     "making": "etkilesim-atlasi"
   }

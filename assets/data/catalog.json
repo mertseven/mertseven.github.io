@@ -94,8 +94,23 @@
       ]
     },
     {
+      "id": "ima",
+      "title": "Interactive Media Applications",
+      "url": "/ima/",
+      "kind": "Teaching",
+      "summary": "The course's front door: a lab of eight playable experiments and a map of the libraries behind interactive media.",
+      "topics": [
+        "Interaction",
+        "Education"
+      ],
+      "stack": [
+        "Three.js",
+        "JavaScript"
+      ]
+    },
+    {
       "id": "ima-lab",
-      "title": "Interactive Media Applications Lab",
+      "title": "IMA Lab",
       "url": "/ima/lab/",
       "kind": "Teaching",
       "summary": "A course lab of eight playable experiments on agency, feedback, emergence and other qualities of interaction.",
@@ -111,8 +126,8 @@
     },
     {
       "id": "etkilesim-atlasi",
-      "title": "Interaction Atlas",
-      "url": "/etkilesim-atlas.html",
+      "title": "IMA Map",
+      "url": "/ima/map.html",
       "kind": "Teaching",
       "summary": "An atlas of 162 JavaScript libraries behind interactive media and 118 journalism works made with them.",
       "topics": [

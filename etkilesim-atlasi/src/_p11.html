@@ -191,9 +191,13 @@
 .rail,.railtog,.railveil{display:none!important}
 .ui-top{grid-column:1/-1;display:grid;grid-template-columns:auto minmax(220px,380px) minmax(0,1fr);align-items:center;gap:22px;
   padding:10px 18px;background:var(--rail);border-bottom:1px solid var(--rail-line);z-index:20}
-.ui-brand{display:grid;line-height:1.1}
+.ui-brand{display:grid;grid-template-columns:auto auto;column-gap:10px;align-items:center;justify-content:start;line-height:1.1}
+.ui-brand svg{grid-row:1/3;width:32px;height:32px}
+.ui-brand-sq{fill:var(--ui-ink)}
+.ui-brand-dots{fill:var(--rail)}
 .ui-brand b{font-family:var(--f-disp);font-weight:800;font-size:21px;letter-spacing:-.02em}
-.ui-brand span{font-family:var(--f-mono);font-size:10px;color:var(--ui-faint);margin-top:3px}
+.ui-brand a{font-family:var(--f-mono);font-size:10px;color:var(--ui-faint);margin-top:3px;text-decoration:none}
+.ui-brand a:hover{color:var(--ui-ink);text-decoration:underline}
 .ui-searchwrap{position:relative}
 .ui-searchwrap .ui-results{position:absolute;left:0;right:0;top:calc(100% + 6px);margin:0;z-index:40}
 .ui-tools{display:flex;align-items:center;gap:8px;justify-content:flex-end;flex-wrap:wrap}
@@ -208,7 +212,7 @@
 @media (max-width:900px){
   .app{grid-template-columns:1fr!important}
   .ui-top{grid-template-columns:1fr;gap:8px;padding:10px 12px}
-  .ui-brand{display:flex;align-items:baseline;gap:10px}
+  .ui-brand svg{width:28px;height:28px}
   .ui-tools{justify-content:flex-start;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}
   .ui-tools>*{flex:none}
   .ui-tools .ui-poppanel{position:fixed;left:12px;right:12px;top:auto;width:auto}
@@ -225,7 +229,7 @@
 .ui-catrow .cat u{font-size:9.5px}
 .ui-catrow #catNote{flex:1;min-width:0;min-height:0;margin:0;padding:0;border:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:11.5px}
 @media (max-width:1240px){.ui-catrow #catNote{display:none}}
-@media (max-width:900px){.ui-top{grid-template-columns:1fr}.ui-brand{min-width:0}.ui-brand span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.ui-catrow{margin:0 -12px -10px;padding:8px 12px}}
+@media (max-width:900px){.ui-top{grid-template-columns:1fr}.ui-brand{min-width:0}.ui-brand a{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.ui-catrow{margin:0 -12px -10px;padding:8px 12px}}
 /* The ribbon folds away; a button in the bar brings it back. */
 .ui-ribbon-hide{flex:none;margin-left:auto;font-size:11.5px;color:var(--ui-muted);padding:3px 6px;border-radius:3px}
 .ui-ribbon-hide:hover{color:var(--ui-ink);background:var(--ui-field)}
@@ -255,7 +259,7 @@
   const LOC = EN ? "en" : "tr";
   const STR = {
     tr: {
-      name: "Etkileşim Atlası", eyebrow: `${N} kütüphane · ${K} küme · ${LIVE} canlı demo`, counts: `${N} kütüphane · ${LIVE} canlı`,
+      name: "Etkileşim Atlası", eyebrow: `${N} kütüphane · ${K} küme · ${LIVE} canlı demo`,
       intro: "İnteraktif medyayı mümkün kılan JavaScript kütüphaneleri. Birbirine benzeyenler yan yana duruyor; renk kümeyi, ▶ işareti kartın içinde çalışan bir demoyu gösteriyor.",
       onlyLive: "▶ Canlı demosu olanlar", axes: "Kartlardaki çubuklar ne anlatıyor?", search: "Kütüphane, konu ya da teknik ara…",
       museum: "Müze", museumLine: "Bu kütüphanelerle yapılmış 118 gazetecilik işi, bir binanın içinde.", enter: "Gir →",
@@ -285,7 +289,7 @@
       year: "Yıl", license: "Lisans", size: "Boyut", stars: "GitHub", kb: (k) => (k >= 1000 ? `${(k / 1000).toFixed(1)} MB` : `${k} kB`),
     },
     en: {
-      name: "Interaction Atlas", eyebrow: `${N} libraries · ${K} clusters · ${LIVE} live demos`, counts: `${N} libraries · ${LIVE} live`,
+      name: "Interaction Atlas", eyebrow: `${N} libraries · ${K} clusters · ${LIVE} live demos`,
       intro: "The JavaScript libraries that make interactive media possible. Similar ones sit side by side; colour shows the cluster, and ▶ marks a card where a live demo runs.",
       onlyLive: "▶ With live demos", axes: "What do the bars on the cards mean?", search: "Search a library, topic or technique…",
       museum: "Museum", museumLine: "118 journalism works made with these libraries, inside a building.", enter: "Enter →",
@@ -540,7 +544,8 @@
   {
     const el = (tag, cls, html = "") => { const e = document.createElement(tag); e.className = cls; e.innerHTML = html; return e; };
     const top = el("header", "ui-top");
-    const brand = el("div", "ui-brand", `<b>${t("name")}</b><span>${t("counts")}</span>`);
+    // Atlasın işareti (favicon'u) adın solunda; altında dersin adı, IMA giriş sayfasına döner.
+    const brand = el("div", "ui-brand", `<svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="6" class="ui-brand-sq"/><g class="ui-brand-dots"><rect x="6" y="6" width="7" height="7" rx="1.5"/><rect x="19" y="6" width="7" height="7" rx="1.5"/><rect x="6" y="19" width="7" height="7" rx="1.5"/><rect x="19" y="19" width="7" height="7" rx="1.5"/></g></svg><b>${t("name")}</b><a href="/ima/">Interactive Media Applications</a>`);
     const sw = el("div", "ui-searchwrap"); sw.append(search, results);
     const tools = el("div", "ui-tools");
     const legend = $("#legend"), catNote = $("#catNote"), tour = $("#tour"), live = $("#onlyLive");
