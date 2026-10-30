@@ -84,6 +84,20 @@
     <xhtml:link rel="alternate" hreflang="tr" href="https://mertseven.com/tr/ima/map.html"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://mertseven.com/ima/map.html"/>
   </url>
+  <url>
+    <loc>https://mertseven.com/ima/museum.html</loc>
+    <lastmod>2026-10-28</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mertseven.com/ima/museum.html"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://mertseven.com/tr/ima/museum.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mertseven.com/ima/museum.html"/>
+  </url>
+  <url>
+    <loc>https://mertseven.com/tr/ima/museum.html</loc>
+    <lastmod>2026-10-28</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mertseven.com/ima/museum.html"/>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://mertseven.com/tr/ima/museum.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mertseven.com/ima/museum.html"/>
+  </url>
   <url><loc>https://mertseven.com/jstudio/</loc></url>
   <url><loc>https://mertseven.com/networkcanvas/</loc></url>
   <url><loc>https://mertseven.com/philosophical-networks/</loc></url>

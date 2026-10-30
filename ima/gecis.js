@@ -446,6 +446,14 @@ document.querySelectorAll('.poster').forEach((a) => {
     (a.classList.contains('poster--lab') ? intoSphere : overMountains)(a.href);
   });
 });
+/* MAP'in köşesindeki "Museum" aynı dağların üstünden geçer, ama müzeye iner. */
+document.querySelectorAll('.map-list a').forEach((a) => {
+  a.addEventListener('pointerenter', () => { prefetch(a.href); dataReady.then(buildField); }, { once: true });
+  a.addEventListener('click', (e) => {
+    if(reduced || run || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    e.preventDefault(); prefetch(a.href); overMountains(a.href);
+  });
+});
 /* Geri tuşuyla gelindiyse (sayfa önbellekten döndü) yarım kalan geçişi kaldır. */
 addEventListener('pageshow', (e) => { if(e.persisted && run) run.reset(); });
 window.gecis = { intoSphere, overMountains };

@@ -9,6 +9,9 @@ src/ altındaki parçaları sırayla birleştirir ve üç çıktı üretir:
   ../tr/ima/map.html          Aynı atlasın Türkçesi; sitenin geri kalanı gibi /tr/ altında.
                               Eski adresler (/etkilesim-atlas.html, /tr/etkilesim-atlas.html)
                               buraya yönlendiren küçük sayfalar olarak duruyor.
+  ../ima/museum.html          Müze, kendi adresinde: aynı parçalardan, açılışta müzeye girer
+  ../tr/ima/museum.html       (html'de data-page="museum"). Harita ile müze arasında gidip
+                              gelmek sayfa değiştirir; kod ortak kalır.
   etkilesim-atlasi.html       Yalnız IIFE parçası (doctype/head yok). Söz dizimi
                               kontrolü için tutuluyor; .gitignore ile git'in dışında.
 
@@ -81,6 +84,19 @@ LANGS = {
                desc="İnteraktif medyayı mümkün kılan {n_lib} JavaScript kütüphanesi ve onlarla yapılmış {n_proj} gazetecilik işi.",
                nos_p="Bu atlas tamamen tarayıcıda çalışır ve JavaScript gerektirir."),
 }
+for _L in LANGS.values(): _L["page"] = "map"
+# Müze sayfaları: haritanınkilerle aynı, yalnız adres, başlık ve tanım değişir.
+MUSEUM = {
+    "en": dict(title="Museum · Interaction Atlas",
+               desc="{n_proj} journalism works made with these libraries, inside a walkable building."),
+    "tr": dict(title="Müze · Etkileşim Atlası",
+               desc="Bu kütüphanelerle yapılmış {n_proj} gazetecilik işi, gezilebilir bir binanın içinde."),
+}
+def museum_of(key):
+    L = dict(LANGS[key], **MUSEUM[key], page="museum")
+    for k in ("out", "alt", "path"):
+        L[k] = L[k].replace("map.html", "museum.html")
+    return L
 SITE = "https://mertseven.com/"
 
 def english(frag):
@@ -192,12 +208,14 @@ def build_standalone(fragment, n_lib, n_proj, L):
   Derlenme: {today}
 -->"""
     base = f' data-base="{L["base"]}"' if L["base"] else ""
+    head_part = re.sub(r"<title>.*?</title>", lambda m: "<title>" + L["title"] + "</title>", head_part, count=1)
+    en_path = L["path"].replace("tr/", "", 1)
     desc = L["desc"].format(n_lib=n_lib, n_proj=n_proj)
     nos = NOSCRIPT.format(title=L["title"], nos_p=L["nos_p"])
     # Sayfa diğer dilini data-alt'ta tutar (dil düğmesi oraya gider); data-base, /tr/
     # sayfanın (ima/ ya da tr/ima/ altında) atlas-varlik/ gibi kök klasörlere ulaşması için.
     return f"""<!doctype html>
-<html lang="{L["lang"]}" data-alt="{L["alt"]}"{base}>
+<html lang="{L["lang"]}" data-alt="{L["alt"]}" data-page="{L["page"]}"{base}>
 <head>
 <meta charset="utf-8">
 <!-- Google tag (gtag.js): sitenin geri kalanıyla aynı ölçüm -->
@@ -223,8 +241,8 @@ def build_standalone(fragment, n_lib, n_proj, L):
 <meta property="og:image" content="{SITE}images/webcard.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="{SITE}images/webcard.png">
-<link rel="alternate" hreflang="en" href="{SITE}ima/map.html">
-<link rel="alternate" hreflang="tr" href="{SITE}tr/ima/map.html">
+<link rel="alternate" hreflang="en" href="{SITE}{en_path}">
+<link rel="alternate" hreflang="tr" href="{SITE}tr/{en_path}">
 <link rel="icon" href="{FAVICON}">
 {banner}
 {head_part}
@@ -249,10 +267,12 @@ def main():
     a = os.path.join(HERE, "etkilesim-atlasi.html")
     io.open(a, "w", encoding="utf-8", newline="\n").write(frag)
     en_frag, n_en = english(frag)
+    outs = []
     for key, f in (("en", en_frag), ("tr", frag)):
-        L = LANGS[key]
-        os.makedirs(os.path.dirname(L["out"]), exist_ok=True)
-        io.open(L["out"], "w", encoding="utf-8", newline="\n").write(build_standalone(f, n_lib, n_proj, L))
+        for L in (LANGS[key], museum_of(key)):
+            os.makedirs(os.path.dirname(L["out"]), exist_ok=True)
+            io.open(L["out"], "w", encoding="utf-8", newline="\n").write(build_standalone(f, n_lib, n_proj, L))
+            outs.append((key, L["out"]))
 
     # Sağlık kontrolü: yalnız satır başındaki dış IIFE işaretleri sayılır, arayüz katmanından
     # (kendi kapsamı var) önce. Demoların içindeki "(function tick(){...})();" gibi iç IIFE'ler sayılmaz.
@@ -268,8 +288,7 @@ def main():
     print("yerlesim  : %s" % state.get("yerlesim", "?"))
     print("ingilizce : %d arayuz sozu degisti OK" % n_en)
     print("parca     : %-34s %6.1f kB" % (os.path.basename(a), os.path.getsize(a)/1024))
-    for key in ("en", "tr"):
-        out = LANGS[key]["out"]
+    for key, out in outs:
         rel = os.path.relpath(out, HERE).replace(os.sep, "/")
         print("YAYIN %s  : %-34s %6.1f kB" % (key, rel, os.path.getsize(out)/1024))
     print()

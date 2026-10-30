@@ -129,11 +129,12 @@
       "title": "IMA Map",
       "url": "/ima/map.html",
       "kind": "Teaching",
-      "summary": "An atlas of 162 JavaScript libraries behind interactive media and 118 journalism works made with them.",
+      "summary": "An atlas of 162 JavaScript libraries behind interactive media, and a walkable museum of 118 journalism works made with them.",
       "topics": [
         "Journalism",
         "Interaction",
-        "Data"
+        "Data",
+        "Exhibition"
       ],
       "stack": [
         "JavaScript",

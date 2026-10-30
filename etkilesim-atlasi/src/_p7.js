@@ -1243,7 +1243,7 @@ function onKey(e,down){
       /* Escape fareyi bıraktı — müzeden ÇIKARMAZ. Çıkmak için bir daha bas. */
       if(document.pointerLockElement) document.exitPointerLock();
     }
-    else exitMuseum();
+    else leaveMuseum();
   }
   if(["KeyW","KeyA","KeyS","KeyD","ArrowUp","ArrowDown","ArrowLeft","ArrowRight","Space"].includes(e.code)) e.preventDefault();
 }
@@ -1535,7 +1535,10 @@ document.getElementById("mpX").addEventListener("click",closePanel);
 pmodal.addEventListener("click",e=>{
   if(e.target===pmodal) return closeModal();
   const b=e.target.closest("[data-lib]");
-  if(b){ closeModal(); exitMuseum(); goTo(+b.dataset.lib); }
+  if(!b) return;
+  /* Müze sayfasında kütüphane haritada, kendi adresiyle açılır. */
+  if(PAGE==="museum"){ location.href="map.html#"+window.atlas.slug(LIBS[+b.dataset.lib].name); return; }
+  closeModal(); exitMuseum(); goTo(+b.dataset.lib);
 });
 
 /* ================= döngü ================= */
@@ -1728,6 +1731,7 @@ function mFullscreen(on){
 for(const evt of ["fullscreenchange","webkitfullscreenchange"])
   document.addEventListener(evt, ()=>{ if(museumOn && mRend) mResize(); });
 
+const PAGE=document.documentElement.dataset.page||"map";
 function enterMuseum(){
   if(museumOn) return;
   /* Hareketin içinde, beklemeden. Yalnız dokunmatikte kendiliğinden:
@@ -1771,8 +1775,18 @@ function exitMuseum(){
   closeModal(); closePanel(); closeGuide();
   museumEl.hidden=true;
 }
-document.getElementById("enterMuseum").addEventListener("click",enterMuseum);
-document.getElementById("mExit").addEventListener("click",exitMuseum);
+/* Harita ile müze ayrı sayfalar (ima/map.html, ima/museum.html), kod ortak: html'deki
+   data-page hangisi olduğunu söyler. Haritada "Müzeye gir" müze sayfasına gider; müzede
+   "Haritaya dön" (ya da Escape) haritaya döner. Müze sayfası açılır açılmaz müzeye girer. */
+function leaveMuseum(){
+  if(PAGE==="museum") location.href="map.html";
+  else exitMuseum();
+}
+document.getElementById("enterMuseum").addEventListener("click",()=>{
+  if(PAGE==="museum") enterMuseum(); else location.href="museum.html";
+});
+document.getElementById("mExit").addEventListener("click",leaveMuseum);
+if(PAGE==="museum") enterMuseum();
 mFullEl.addEventListener("click",()=>mFullscreen());
 window.atlas.mFull=(on)=>{ mFullscreen(on); return {destekleniyor:fsSupported(), acik:fsOn()}; };
 addEventListener("resize",()=>{ if(museumOn && mRend) mResize(); });
