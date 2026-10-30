@@ -7473,5 +7473,170 @@ window.atlas.mStats=()=>({floors:floors.length, ramps:ramps.length,
 })();
 </script>
 
+<style>
+/* —— liste görünümü —— */
+.ui-view{display:inline-flex;border:1px solid var(--rail-line);border-radius:3px;overflow:hidden;background:var(--ui-field)}
+.ui-view button{padding:6px 12px;font-size:12.5px;font-weight:500;color:var(--ui-muted)}
+.ui-view button+button{border-left:1px solid var(--rail-line)}
+.ui-view button:hover{color:var(--ui-ink)}
+.ui-view button[aria-pressed="true"]{background:var(--ui-ink);color:var(--rail)}
+.ui-list{position:absolute;inset:0;z-index:12;display:flex;flex-direction:column;background:var(--rail)}
+.ui-list[hidden]{display:none}
+.ui-list-scroll{flex:1;min-height:0;overflow:auto;overscroll-behavior:contain}
+.ui-list-head,.ui-row{display:grid;grid-template-columns:minmax(150px,1.1fr) minmax(0,2.6fr) minmax(104px,.8fr) 52px 70px 62px 40px;align-items:center;column-gap:16px;padding:0 18px}
+.ui-list-head{position:sticky;top:0;z-index:2;background:var(--rail);border-bottom:1px solid var(--rail-line);font-family:var(--f-mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ui-faint)}
+.ui-list-head button,.ui-list-head span{padding:11px 0;text-align:left;text-transform:inherit;letter-spacing:inherit;font:inherit;color:inherit}
+.ui-list-head button:hover{color:var(--ui-ink)}
+.ui-list-head button[data-dir]{color:var(--ui-ink)}
+.ui-list-head button[data-dir="1"]::after{content:" ↑"}
+.ui-list-head button[data-dir="-1"]::after{content:" ↓"}
+.ui-list-head .num{text-align:right}
+.ui-list ol{list-style:none;margin:0;padding:0}
+.ui-row{position:relative;min-height:46px;border-bottom:1px solid var(--rail-line)}
+.ui-row:hover{background:var(--ui-field)}
+.ui-row[aria-current="true"]{background:var(--ui-field);box-shadow:inset 3px 0 0 var(--c)}
+.ui-row-name{display:flex;align-items:center;gap:9px;min-width:0;text-align:left;font-weight:600;font-size:14px;padding:11px 0}
+.ui-row-name::after{content:"";position:absolute;inset:0}
+.ui-row-name i{flex:none;width:9px;height:9px;border-radius:50%;background:var(--c)}
+.ui-row-name b{font:inherit;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ui-row-name u{flex:none;text-decoration:none;font-size:9.5px;color:var(--ui-faint)}
+.ui-row-tag{margin:0;font-size:12.5px;line-height:1.4;color:var(--ui-ink-2);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;padding:6px 0}
+.ui-row-cat{font-size:12px;color:var(--ui-muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ui-row-n{font-family:var(--f-mono);font-size:11.5px;color:var(--ui-muted);text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.ui-row-cmp{position:relative;z-index:1;justify-self:end;display:grid;place-items:center;width:26px;height:26px;border:1.5px solid var(--ui-faint);border-radius:4px;font-size:13px;line-height:1;color:var(--ui-muted)}
+.ui-row-cmp:hover{border-color:var(--ui-ink);color:var(--ui-ink)}
+.ui-row-cmp[aria-pressed="true"]{background:var(--slot);border-color:var(--slot);color:#fff}
+.ui-grp{position:sticky;top:37px;z-index:1;display:flex;align-items:baseline;gap:10px;padding:9px 18px;background:var(--ui-field);border-bottom:1px solid var(--rail-line);font-size:13px}
+.ui-grp i{align-self:center;width:9px;height:9px;border-radius:50%;background:var(--c)}
+.ui-grp b{font-family:var(--f-disp);font-weight:800;font-size:15px;letter-spacing:-.01em}
+.ui-grp u{text-decoration:none;font-family:var(--f-mono);font-size:10.5px;color:var(--ui-faint)}
+.ui-grp span{min-width:0;color:var(--ui-muted);font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ui-list-none{padding:48px 18px;text-align:center;color:var(--ui-muted)}
+.ui-list-count{padding:10px 18px 14px;font-family:var(--f-mono);font-size:10.5px;color:var(--ui-faint)}
+.app[data-list] .zoombar,.app[data-list] .mini,.app[data-list] .minilabel,.app[data-list] .hud,.app[data-list] .callout{display:none}
+@media (max-width:900px){
+  .ui-list-head{display:none}
+  .ui-row{grid-template-columns:minmax(0,1fr) 26px;grid-template-areas:"name cmp" "tag tag" "meta meta";padding:6px 12px 10px;row-gap:0}
+  .ui-row-name{grid-area:name;padding:8px 0 2px}
+  .ui-row-tag{grid-area:tag;padding:0 0 4px;font-size:12px}
+  .ui-row-cmp{grid-area:cmp}
+  .ui-row-cat,.ui-row-n{display:none}
+  .ui-row-meta{grid-area:meta;display:block;font-family:var(--f-mono);font-size:10.5px;color:var(--ui-faint)}
+  .ui-grp{top:0;padding:8px 12px}
+  .ui-grp span{display:none}
+  .ui-list-count{padding:10px 12px 90px}
+}
+@media (min-width:901px){.ui-row-meta{display:none}}
+</style>
+<script>
+// Liste görünümü: haritadaki bütün kütüphaneler tek tabloda. Harita ile aynı süzgeçleri (küme
+// şeridi, arama, canlı demo) kullanır; satıra tıklamak künye çekmecesini açar, ⇄ karşılaştırmaya ekler.
+(() => {
+  if (document.documentElement.dataset.page === "museum") return;
+  const A = window.atlas, tools = document.querySelector(".ui-tools"), stage = document.getElementById("stage"), app = document.getElementById("app");
+  if (!A || !tools || !stage) return;
+  const EN = document.documentElement.lang === "en", LOC = EN ? "en" : "tr";
+  const S = EN
+    ? { map: "Map", list: "List", name: "Library", tag: "What it does", cat: "Cluster", year: "Year", size: "Size", stars: "GitHub", none: "Nothing found.",
+        count: (n, N) => (n === N ? `${N} libraries` : `${n} of ${N} libraries`), cmp: "Add to / remove from comparison", view: "View", live: "▶ live" }
+    : { map: "Harita", list: "Liste", name: "Kütüphane", tag: "Ne yapar", cat: "Küme", year: "Yıl", size: "Boyut", stars: "GitHub", none: "Hiçbir şey bulunamadı.",
+        count: (n, N) => (n === N ? `${N} kütüphane` : `${N} kütüphaneden ${n}`), cmp: "Karşılaştırmaya ekle / çıkar", view: "Görünüm", live: "▶ canlı" };
+  const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
+  const SLOT = ["#E4572E", "#2E7DD7", "#169E86"];
+  const CATS = Object.keys(A.CATS), N = A.LIBS.length;
+  const kb = (k) => (k >= 1000 ? `${(k / 1000).toFixed(1)} MB` : `${k} kB`);
+  // Her sütunun ilk tıklamadaki yönü: ad A→Z, yıl yeniden eskiye, boyut hafiften ağıra, yıldız çoktan aza.
+  const SORTS = {
+    cat: { first: 1, cmp: (a, b) => CATS.indexOf(a.cat) - CATS.indexOf(b.cat) },
+    name: { first: 1, cmp: (a, b) => a.name.localeCompare(b.name, LOC, { sensitivity: "base" }) },
+    year: { first: -1, cmp: (a, b) => a.year - b.year },
+    kb: { first: 1, cmp: (a, b) => a.kb - b.kb },
+    stars: { first: -1, cmp: (a, b) => a.stars - b.stars },
+  };
+  let key = "cat", dir = 1, open = false;
+
+  const seg = document.createElement("div");
+  seg.className = "ui-view"; seg.setAttribute("role", "group"); seg.setAttribute("aria-label", S.view);
+  seg.innerHTML = `<button type="button" data-v="map" aria-pressed="true">${S.map}</button><button type="button" data-v="list" aria-pressed="false">${S.list}</button>`;
+  tools.prepend(seg);
+
+  const box = document.createElement("section");
+  box.className = "ui-list"; box.hidden = true; box.setAttribute("aria-label", S.list);
+  box.innerHTML = `<div class="ui-list-scroll"><div class="ui-list-head" role="row">
+      <button type="button" data-s="name">${S.name}</button><span>${S.tag}</span><button type="button" data-s="cat">${S.cat}</button>
+      <button type="button" class="num" data-s="year">${S.year}</button><button type="button" class="num" data-s="kb">${S.size}</button><button type="button" class="num" data-s="stars">${S.stars}</button><span></span>
+    </div><div class="ui-list-body"></div><p class="ui-list-count"></p></div>`;
+  stage.appendChild(box);
+  ["pointerdown", "click", "dblclick", "wheel", "touchstart"].forEach((ev) => box.addEventListener(ev, (e) => e.stopPropagation(), { passive: true }));
+  const scroller = box.firstElementChild, body = box.querySelector(".ui-list-body"), count = box.querySelector(".ui-list-count");
+
+  function row(l) {
+    const slot = A.compare.indexOf(l.i), live = !!A.DEMO_OF[l.name];
+    return `<li class="ui-row" style="--c:var(--cat-${l.cat});--slot:${slot >= 0 ? SLOT[slot] : "transparent"}" ${A.sel === l.i ? 'aria-current="true"' : ""}>
+      <button type="button" class="ui-row-name" data-go="${l.i}"><i></i><b>${esc(l.name)}</b>${live ? `<u title="${S.live}">▶</u>` : ""}</button>
+      <p class="ui-row-tag">${esc(l.tag)}</p>
+      <span class="ui-row-cat">${esc(A.CATS[l.cat].label)}</span>
+      <span class="ui-row-n">${l.year}</span><span class="ui-row-n">${kb(l.kb)}</span><span class="ui-row-n">~${l.stars}k</span>
+      <span class="ui-row-meta">${esc(A.CATS[l.cat].label)} · ${l.year} · ${kb(l.kb)} · ~${l.stars}k</span>
+      <button type="button" class="ui-row-cmp" data-cmp="${l.i}" aria-pressed="${slot >= 0}" aria-label="${S.cmp}" title="${S.cmp}">⇄</button>
+    </li>`;
+  }
+  function render() {
+    const shown = A.LIBS.filter((l) => !A.cards[l.i].el.hasAttribute("data-off"));
+    const s = SORTS[key];
+    shown.sort((a, b) => dir * s.cmp(a, b) || a.name.localeCompare(b.name, LOC, { sensitivity: "base" }));
+    let html = "";
+    if (key === "cat") {
+      let last = null, n = 0;
+      const total = {}; shown.forEach((l) => (total[l.cat] = (total[l.cat] || 0) + 1));
+      shown.forEach((l) => {
+        if (l.cat !== last) {
+          if (last) html += "</ol>";
+          last = l.cat;
+          html += `<div class="ui-grp" style="--c:var(--cat-${l.cat})"><i></i><b>${esc(A.CATS[l.cat].label)}</b><u>${total[l.cat]}</u><span>${esc(A.CATS[l.cat].note)}</span></div><ol>`;
+        }
+        html += row(l); n++;
+      });
+      if (last) html += "</ol>";
+    } else if (shown.length) html = `<ol>${shown.map(row).join("")}</ol>`;
+    body.innerHTML = shown.length ? html : `<p class="ui-list-none">${S.none}</p>`;
+    count.textContent = S.count(shown.length, N);
+    box.querySelectorAll("[data-s]").forEach((b) => (b.dataset.s === key ? b.dataset.dir = dir : b.removeAttribute("data-dir")));
+  }
+  const draw = () => { if (!open) return; const y = scroller.scrollTop; render(); scroller.scrollTop = y; };
+
+  function setView(list) {
+    open = list; box.hidden = !list;
+    list ? app.setAttribute("data-list", "") : app.removeAttribute("data-list");
+    seg.querySelectorAll("button").forEach((b) => b.setAttribute("aria-pressed", String((b.dataset.v === "list") === list)));
+    try { localStorage.setItem("atlas-gorunum", list ? "list" : "map"); } catch {}
+    if (list) { render(); scroller.scrollTop = 0; document.getElementById("q").blur(); }
+  }
+  seg.addEventListener("click", (e) => { const b = e.target.closest("button"); if (b) setView(b.dataset.v === "list"); });
+
+  box.addEventListener("click", (e) => {
+    const h = e.target.closest("[data-s]");
+    if (h) { const k = h.dataset.s; if (k === key) dir = -dir; else { key = k; dir = SORTS[k].first; } return draw(); }
+    const c = e.target.closest("[data-cmp]");
+    if (c) { const i = +c.dataset.cmp; A.compare.includes(i) ? A.removeCompare(i) : A.addCompare(i); return; }
+    const g = e.target.closest("[data-go]");
+    if (g) A.goTo(+g.dataset.go);
+  });
+
+  // Süzgeçleri ana betik kendi dinleyicilerinde uyguluyor; bunlar onlardan sonra çalışıyor.
+  const refresh = () => draw();
+  document.getElementById("q").addEventListener("input", refresh);
+  document.getElementById("legend").addEventListener("click", refresh);
+  document.getElementById("onlyLive").addEventListener("click", refresh);
+  addEventListener("atlas:select", refresh);
+  addEventListener("atlas:deselect", refresh);
+  addEventListener("atlas:compare", refresh);
+
+  let start = false;
+  try { start = localStorage.getItem("atlas-gorunum") === "list" && !location.hash; } catch {}
+  if (start) setView(true);
+})();
+</script>
+
 </body>
 </html>
