@@ -2,7 +2,6 @@ import { loadCatalog, escapeHtml } from "./catalog.js?v=4e6a7d9ffe";
 import { mountSearch } from "./search-box.js?v=b8574b08de";
 import { mountNamesWall } from "./names-wall.js?v=2dd63364b6";
 import { mountFocus } from "./focus.js?v=0e5050d297";
-import { mountBelow } from "./home-below.js?v=946b21670e";
 import { t, href } from "./i18n.js?v=bed860ddb2";
 import "./theme.js?v=b1a8b8e960";
 import "./lang.js?v=33bbb878c3";
@@ -10,8 +9,7 @@ import "./lang.js?v=33bbb878c3";
 // Home: the name wall over the question and the search. Typing turns the matching projects
 // into a drum of names (↑ ↓ or the wheel turn it, Enter opens the one in front); a plain
 // click on any name opens its project card. Papers that match are counted under the box,
-// with a way to the full results on /search/. Below the first screen the page goes on as a
-// magazine (home-below.js).
+// with a way to the full results on /search/. Below the first screen the page ends there.
 
 document.getElementById("year").textContent = new Date().getFullYear();
 
@@ -107,7 +105,6 @@ loadCatalog()
   .then(async ({ projects, publications }) => {
     // The card opens from a name, not a tile: there is no frame to fly from or back to.
     focus = mountFocus(projects, { hold() {}, tileFor: () => null });
-    mountBelow(document.getElementById("below"), { projects, publications, focus });
     names = await mountNamesWall(document.getElementById("names"), projects, {
       onSelect: (i) => focus.open(i),
     });
