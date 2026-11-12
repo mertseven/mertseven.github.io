@@ -71,20 +71,26 @@ img, svg, canvas { display: block; }
   letter-spacing: var(--tracking-tight);
 }
 
-/* Placeholder mark until the logo lands: a single cell of the ocean grid. */
+/* The mark: the seventh vessel, an upright capsule with a ring cut into it. */
 .wordmark-mark {
-  width: 14px;
-  height: 14px;
-  border: 1px solid var(--ink);
-  border-radius: 3px;
+  width: 11px;
+  height: 16px;
+  background: var(--ink);
+  border-radius: 999px;
   position: relative;
+  flex: none;
 }
 .wordmark-mark::after {
   content: "";
   position: absolute;
-  inset: 3px;
-  background: var(--ink);
-  border-radius: 1px;
+  top: 50%;
+  left: 50%;
+  width: 8px;
+  height: 8px;
+  box-sizing: border-box;
+  border: 1.4px solid var(--paper);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .site-nav {
